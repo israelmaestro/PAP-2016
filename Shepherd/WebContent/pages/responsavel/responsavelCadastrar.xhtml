@@ -1,0 +1,254 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html	xmlns='http://www.w3.org/1999/xhtml'
+		xmlns:b='http://bootsfaces.net/ui'
+		xmlns:f='http://java.sun.com/jsf/core'
+		xmlns:h='http://java.sun.com/jsf/html'
+		xmlns:p='http://primefaces.org/ui'
+		xmlns:pm='http://primefaces.org/mobile'
+		xmlns:pt='http://xmlns.jcp.org/jsf/passthrough'
+		xmlns:ui='http://java.sun.com/jsf/facelets'
+		>
+
+	<ui:composition template='/META-INF/resources/bootsfaces/jsfTemplate.xhtml'>
+<!-- 		<script type='text/javascript' src='/SCO/js/scripts.js'></script> -->
+		
+		<ui:define name='tituloPagina'>SCO > Novo Responsável</ui:define>
+		<ui:define name='tituloPrincipal'>
+			<i class='fa fa-users fa-fw' />
+					Novo Responsável
+				</ui:define>
+		<ui:define name='tituloSecundario'>home > responsáveis > cadastrar</ui:define>
+	
+		<ui:define name='botoesAcao'>
+			<a href='./responsavelListar.jsf' >
+				<i class='fa fa-arrow-left fa-fw' style='margin-right: 8px'/>
+			</a>
+			<p:commandButton action='#{responsavelBean.cadastrar()}'
+				value='Cadastrar' update='@form' />
+			<p:button value='limpar' onclick='reset' update='@form'/>
+		</ui:define>
+
+		<ui:define name='conteudo'>
+
+			<p:outputLabel>
+				<h3>
+					Informações pessoais
+				</h3>
+			</p:outputLabel>
+
+			<h:panelGrid 	columns='3'
+							style='	width: auto;
+									min-width: 400px'>
+				<p:outputLabel value='Nome' />
+				<p:inputText id='nome' value='#{responsavelBean.pessoa.nome}'/>
+				<p:message for='nome' />
+
+				<p:outputLabel value='Sobrenome' />
+				<p:inputText	id='sobrenome'
+								value='#{responsavelBean.pessoa.sobrenome}' />
+				<p:message for='sobrenome' />
+
+				<p:outputLabel value='Nascimento' />
+				<p:calendar	id='dataNasc'
+							locale='pt'
+							value='#{responsavelBean.pessoa.dataNasc}'
+							mask='99/99/9999'
+							yearRange='1900:'
+							navigator='true'
+							pattern='dd/MM/yyyy'
+							align='center'
+							showOn='button' />
+				<p:message for='dataNasc' />
+
+				<p:outputLabel value='CPF' />
+				<p:inputMask	id='cpf'
+								mask='99999999999'
+								value='#{responsavelBean.pessoa.cpf}'
+								required='true'
+								requiredMessage='"CPF" obrigatório'
+								/>
+				<p:message for='cpf' />
+
+				<p:outputLabel value='RG' />
+				<p:inputMask	id='rg'
+								value='#{responsavelBean.pessoa.rg}'
+								maxlength='9'
+								required='true'
+								requiredMessage='"RG" obrigatório'
+								/>
+				<p:message for='rg' />
+
+				<p:outputLabel value='Sexo' />
+				<p:selectOneRadio id='sexo' value='#{responsavelBean.pessoa.sexo}'>
+					<f:selectItem itemValue='M' itemLabel='Masculino' />
+					<f:selectItem itemValue='F' itemLabel='Feminino' />
+				</p:selectOneRadio>
+				<p:message for='sexo' />
+
+				<p:outputLabel value='Necessidades Especiais' />
+				<p:selectCheckboxMenu	label='Selecione'
+										id='nespecial'
+										value='#{responsavelBean.pessoa.nEspeciais}'
+										converter='omnifaces.SelectItemsConverter'
+										filter='true'
+										filterMatchMode='contains'
+										
+										>
+					<f:selectItems	value='#{nEspecialBean.listar()}' var='nespecial'
+									itemLabel='#{nespecial.nome}'
+									itemValue='#{nespecial}' />
+				</p:selectCheckboxMenu>
+				<p:message for='nespecial' />
+
+				<p:outputLabel value='Remédios' />
+				<p:selectCheckboxMenu	label='Selecione'
+										id='remedio'
+										value='#{responsavelBean.pessoa.remedios}'
+										converter='omnifaces.SelectItemsConverter'
+										filter='true'
+										filterMatchMode='contains'
+										>
+					<f:selectItems	value='#{remedioBean.listar()}' var='remedio'
+									itemLabel='#{remedio.nome} (#{remedio.principioAtivo})'
+									itemValue='#{remedio}' />
+				</p:selectCheckboxMenu>
+				<p:message for='remedio' />
+			</h:panelGrid>
+
+			<p:outputLabel>
+				<br/>
+				<h3>
+					Informações de Endereço
+				</h3>
+
+			</p:outputLabel>
+
+			<h:panelGrid columns='3' id='endereco'>
+
+				<p:outputLabel value='CEP' />
+				<p:inputMask	id='cep'
+								mask='99999-999'
+								value='#{responsavelBean.pessoa.cep}'
+								onblur="atualizacep(this.value)"/>
+				<p:message for='cep' />
+
+				<p:outputLabel value='Endereço' />
+				<p:inputTextarea	id='logradouro'
+									name='logradouro'
+									value='#{responsavelBean.pessoa.logradouro}'
+									required='true'
+									requiredMessage='Endereço obrigatório'
+									/>
+				<p:message for='logradouro' />
+
+				<p:outputLabel value='Número' />
+				<p:inputMask	id='numero'
+								value='#{responsavelBean.pessoa.numero}'
+								onkeypress='if(event.which != 13 &amp; (event.which &lt; 48 || event.which &gt; 57)) return false;'
+								required='true'
+								requiredMessage='Número obrigatório'
+								/>
+				<p:message for='numero' />
+
+				<p:outputLabel value='Complemento' />
+				<p:inputMask	id='complemento'
+								value='#{responsavelBean.pessoa.complemento}' />
+				<p:message for='complemento' />
+
+				<p:outputLabel value='Bairro' />
+				<p:inputMask	id='bairro'
+								value='#{responsavelBean.pessoa.bairro}' />
+				<p:message for='bairro' />
+
+				<p:outputLabel value='Cidade' />
+				<p:inputMask	id='cidade'
+								value='#{responsavelBean.pessoa.cidade}' />
+				<p:message for='cidade' />
+
+				<p:outputLabel value='Estado' />
+				<p:inputMask	id='uf'
+								value='#{responsavelBean.pessoa.estado}' />
+				<p:message for='uf' />
+			</h:panelGrid>
+
+			<p:outputLabel>
+				<br/>
+				<h3>
+					Informações de Contato
+				</h3>
+			</p:outputLabel>
+
+			<h:panelGrid columns='3'>
+				<p:outputLabel value='Telefone (principal)' />
+				<h:panelGrid columns='3'>
+					<p:inputMask 	id='telefoneDdd1'
+									mask='99'
+									value='#{responsavelBean.pessoa.telefoneDdd1}'
+									placeholder='DDD'
+									required='true'
+									requiredMessage='"DDD" Obrigatório'
+									/>
+
+					<p:inputMask	id='telefoneNumero1'
+									mask='99999999?9'
+									value='#{responsavelBean.pessoa.telefoneNumero1}'
+									placeholder='Número'
+									required='true'
+									requiredMessage='"Número" Obrigatório'
+									/>
+
+					<p:inputMask	id='telefoneFalarCom1'
+									value='#{responsavelBean.pessoa.telefoneFalarCom1}'
+									placeholder='Falar Com'
+									required='true'
+									requiredMessage='"Falar Com" Obrigatório'
+									/>
+				</h:panelGrid>
+
+				<h:panelGrid columns='3'>
+					<p:message for='telefoneDdd1' />
+					<p:message for='telefoneNumero1' />
+					<p:message for='telefoneFalarCom1' />
+				</h:panelGrid>
+
+					<p:outputLabel value='Telefone (opcional)' />
+					<h:panelGrid columns='3'>
+						<p:inputMask 	id='telefoneDdd2'
+										onkeypress='if(event.which != 13 &amp; (event.which &lt; 48 || event.which &gt; 57)) return false;'
+										value='#{responsavelBean.pessoa.telefoneDdd2}'
+										maxlength='2'
+										placeholder='DDD'
+										/>
+
+						<p:inputMask	id='telefoneNumero2'
+										onkeypress='if(event.which != 13 &amp; (event.which &lt; 48 || event.which &gt; 57)) return false;'
+										value='#{responsavelBean.pessoa.telefoneNumero2}'
+										maxlength='9'
+										placeholder='Número'
+										/>
+
+						<p:inputMask	id='telefoneFalarCom2'
+										value='#{responsavelBean.pessoa.telefoneFalarCom2}'
+										placeholder='Falar Com'
+										/>
+					</h:panelGrid>
+
+					<h:panelGrid columns='3'>
+						<p:message for='telefoneDdd2' />
+						<p:message for='telefoneNumero2' />
+						<p:message for='telefoneFalarCom2' />
+					</h:panelGrid>
+			</h:panelGrid>
+
+			<h:panelGrid columns='3'>
+				<p:outputLabel value='Email (principal)' />
+				<p:inputText id='email1' value='#{responsavelBean.pessoa.email1}' />
+				<p:message for='email1' />
+
+				<p:outputLabel value='Email (opcional)' />
+				<p:inputText id='email2' value='#{responsavelBean.pessoa.email2}' />
+				<p:message for='email2' />
+			</h:panelGrid>
+		</ui:define>
+	</ui:composition>
+</html>

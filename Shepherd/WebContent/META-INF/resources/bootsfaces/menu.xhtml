@@ -1,0 +1,97 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html	xmlns='http://www.w3.org/1999/xhtml'
+		xmlns:b='http://bootsfaces.net/ui'
+		xmlns:f='http://java.sun.com/jsf/core'
+		xmlns:h='http://java.sun.com/jsf/html'
+		xmlns:p='http://primefaces.org/ui'
+		xmlns:pm='http://primefaces.org/mobile'
+		xmlns:pt='http://xmlns.jcp.org/jsf/passthrough'
+		xmlns:ui='http://java.sun.com/jsf/facelets'
+		>
+	<ui:composition>
+			<b:dropMenu	value='Frentes'
+						iconAwesome='fa fa-puzzle-piece'
+						style='	width: 100%;'
+						>
+				<b:navLink	value='Listar'
+							href='/Shepherd/pages/frente/frenteListar.jsf'
+							iconAwesome='fa fa-list fa-fw'
+							/>
+				<b:navLink	value='Nova'
+							href='/Shepherd/pages/frente/frenteCadastrar.jsf'
+							iconAwesome='fa fa-plus fa-fw'
+							/>
+			</b:dropMenu>
+			<b:dropMenu	value='Membros'
+						iconAwesome='fa fa-group'
+						style='	width: 100%;'
+						>
+				<b:navLink	value='Listar Membros'
+							href='/Shepherd/pages/membro/membroListar.jsf'
+							iconAwesome='fa fa-list fa-fw'
+							/>
+				<b:navLink	value='Novo Membro'
+							href='/Shepherd/pages/membro/membroCadastrar.jsf'
+							iconAwesome='fa fa-plus fa-fw'
+							/>
+			</b:dropMenu>
+			<b:dropMenu	value='Necess. Especiais'
+						iconAwesome='fa fa-wheelchair'
+						style='	width: 100%;'
+						>
+				<b:navLink	value='Listar'
+							href='/Shepherd/pages/nespecial/nEspecialListar.jsf'
+							iconAwesome='fa fa-list fa-fw'
+							/>
+				<b:navLink	value='Nova'
+							href='/Shepherd/pages/nespecial/nEspecialCadastrar.jsf'
+							iconAwesome='fa fa-plus fa-fw'
+							/>
+			</b:dropMenu>
+			<b:dropMenu	value='Perfis'
+						iconAwesome='fa-tags fa-fw'
+						style='	width: 100%;'
+						>
+				<b:navLink	value='Listar'
+							href='/Shepherd/pages/perfil/perfilListar.jsf'
+							iconAwesome='fa fa-list fa-fw'
+							/>
+				<b:navLink	value='Novo'
+							href='/Shepherd/pages/perfil/perfilCadastrar.jsf'
+							iconAwesome='fa fa-plus fa-fw'
+							/>
+			</b:dropMenu>
+			<b:dropMenu	value='Remédios'
+						iconAwesome='fa fa-medkit fa-fw'
+						style='	width: 100%;'
+						>
+				<b:navLink	value='Listar'
+							href='/Shepherd/pages/remedio/remedioListar.jsf'
+							iconAwesome='fa fa-list fa-fw'
+							/>
+				<b:navLink	value='Cadastrar'
+							href='/Shepherd/pages/remedio/remedioCadastrar.jsf'
+							iconAwesome='fa fa-plus fa-fw'
+							/>
+			</b:dropMenu>
+			<b:dropMenu	value='Usuários'
+						iconAwesome='fa fa-user-secret fa-fw'
+						style='	width: 100%;'
+						>
+				<b:navLink	value='Listar'
+							href='/Shepherd/pages/usuario/usuarioListar.jsf'
+							iconAwesome='fa fa-list fa-fw'
+							/>
+				<b:navLink	value='Cadastrar'
+							href='/Shepherd/pages/usuario/usuarioCadastrar.jsf'
+							iconAwesome='fa fa-plus fa-fw'
+							/>
+			</b:dropMenu>
+			<b:navLink	value='Sair'
+						href='#'
+						iconAwesome='fa fa-sign-out fa-fw'
+						style='	width: 100%;'
+						/>
+	</ui:composition>
+</html>

@@ -1,0 +1,195 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html	xmlns='http://www.w3.org/1999/xhtml'
+		xmlns:b='http://bootsfaces.net/ui'
+		xmlns:f='http://java.sun.com/jsf/core'
+		xmlns:h='http://java.sun.com/jsf/html'
+		xmlns:p='http://primefaces.org/ui'
+		xmlns:pm='http://primefaces.org/mobile'
+		xmlns:pt='http://xmlns.jcp.org/jsf/passthrough'
+		xmlns:ui='http://java.sun.com/jsf/facelets'
+		>
+	<h:head>
+		<meta charset='utf-8' />
+		<meta http-equiv='X-UA-Compatible' content='IE=edge' />
+		<meta name='viewport' content='width=device-width, initial-scale=1' />
+		<meta name='description' content='X Conami' />
+		<meta name='author' content='Israel Oliveira Santos' />
+		<meta http-equiv='pragma' content='no-cache' />
+		<link rel='icon' href='#{facesContext.externalContext.requestContextPath}/images/favicon.ico' type='image/x-icon' />
+		<link	rel='stylesheet'
+				href='#{facesContext.externalContext.requestContextPath}/META-INF/resources/font-awesome-4.3.0/css/font-awesome.css'
+				/>
+		<link	rel='stylesheet'
+				href='#{facesContext.externalContext.requestContextPath}/css/primeFacesTheme.css?ln=primefaces-bootstrap'
+				/>
+		<link	rel='stylesheet'
+				href='#{facesContext.externalContext.requestContextPath}/css/bootstrap-multiselect.css'
+				/>
+		<link	rel="stylesheet"
+				href="https://cdn.rawgit.com/AndreaLombardo/BootSideMenu/master/css/BootSideMenu.css"
+				/>
+		<script	src="https://cdn.rawgit.com/AndreaLombardo/BootSideMenu/master/js/BootSideMenu.js"></script>
+	
+		<script type="text/javascript">
+			$(document).ready(function(){
+				$('#sidebar').BootSideMenu({side:"left", autoClose:true});
+			});
+		</script>
+
+
+		<script type='text/javascript' src='/Shepherd/js/bootstrap-confirmation.js'></script>
+		<script type='text/javascript' src='/Shepherd/js/scripts.js'></script>
+		<title>
+			<ui:insert name='tituloPagina'>
+				Altere o título da página
+			</ui:insert>
+		</title>
+	</h:head>
+	<h:body style='	background-color: #333333;
+					margin: 0px;
+					padding: 0px;
+					'
+			>
+
+		<b:navBar	id='topo'
+					fixed='top'
+					brand='Shepherd'
+					brandImg='#{facesContext.externalContext.requestContextPath}/images/shepherdIcon.svg'
+					brandHref='/Shepherd/home.jsf'
+					inverse='true'
+					fluid='true'
+					style='	margin-bottom: 0px;
+							color: #FFFFFF;
+							box-shadow: 0px 5px 20px #000000;
+							border-radius: 0px;
+							width: 100%;
+							'
+					>
+<!--
+-->
+			
+			<b:container class='visible-xs'>
+				<b:navbarLinks>
+					<ui:include src='./menu.xhtml'/>
+				</b:navbarLinks>
+			</b:container>
+		</b:navBar>
+
+
+		<b:container	style='	background-color: #FFFFFF;
+								margin-top: 0px;
+								box-shadow: 0px 0px 20px #000000;
+								border-radius: 4px;
+								padding: 0px;
+								padding-bottom: 1%;
+								'
+						fluid='true'
+						>
+			<div	id='sidebar'
+					class='hidden-xs'
+					style='	margin-top: 56px;
+							border-radius: 4px;
+							background-color: #000000;
+							'
+					>
+				<div	class='user'
+						style='	text-align: center;
+								'
+						>
+					<img	src="http://image.priceprice.k-img.com/ph/images/common/face_japan_01.gif"
+							alt="Esempio" class="img-thumbnail"
+							style='	margin: 4px;'
+							/>
+					
+					<br/>
+					
+					<a	href='' target=''
+						class='navbar-link'
+						>
+						Usuário Logado
+					</a>
+				</div>
+				<b:navbarLinks style='width: 100%;'>
+					<ui:include	src='./menu.xhtml'/>
+				</b:navbarLinks>
+			</div>
+
+			<b:column	col-lg='12'
+						col-md='12'
+						col-sm='12'
+						col-xs='12'
+						>
+				<br/><br/><br/><br/>
+				
+				<h:form id='form' style=''>
+					<div id='mensagens'>
+						<ui:insert name='mensagens' id='globalMessages'>
+							<b:messages	id='globalMessages'
+										globalOnly='true'
+										autoUpdate='true'
+										closable='true'
+										/>
+						</ui:insert>
+					</div>
+					<b:container	id='conteudoTopo'
+									style='	width: 100%;
+											padding: 5px;
+											'
+									>
+						<h1	style='	margin-top: 0px'>
+							<ui:insert name='tituloPrincipal'>
+								Título Principal
+							</ui:insert>
+						</h1>
+						<p	style='	color: #666666;
+									font-style: italic;
+									font-size: 1.25em;'
+									>
+							<ui:insert	name='tituloSecundario'
+										>
+								Título secundário miniaturizado
+							</ui:insert>
+						</p>
+					</b:container>
+					<b:container	class='barraAcoes'
+									style='	background-color: #CCCCCC;
+											width: 100%;
+											padding: 5px;
+											margin: 0px;
+											border-radius: 4px;
+											'
+									>
+						<ui:insert	name='botoesAcao'>
+							Aqui ficam os botões
+						</ui:insert>
+					</b:container>
+					<b:container	id='principal'
+									style='	width: 100%;
+											width: 100%;
+											padding: 5px;
+											margin-top: 5px;
+											margin-bottom: 5px;
+											'
+									>
+						<ui:insert name='conteudo'>
+							Espaço para os formulários
+						</ui:insert>
+					</b:container>
+					<b:container	class='barraAcoes'
+									style='	background-color: #CCCCCC;
+											width: 100%;
+											padding: 5px;
+											margin: 0px;
+											border-radius: 4px;
+											'
+									>
+						<ui:insert name='botoesAcao'>
+							Aqui ficam os botões
+						</ui:insert>
+					</b:container>
+				</h:form>
+			</b:column>
+		</b:container>
+	</h:body>
+</html>

@@ -1,0 +1,109 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html	xmlns='http://www.w3.org/1999/xhtml'
+		xmlns:b='http://bootsfaces.net/ui'
+		xmlns:f='http://java.sun.com/jsf/core'
+		xmlns:h='http://java.sun.com/jsf/html'
+		xmlns:p='http://primefaces.org/ui'
+		xmlns:pm='http://primefaces.org/mobile'
+		xmlns:pt='http://xmlns.jcp.org/jsf/passthrough'
+		xmlns:ui='http://java.sun.com/jsf/facelets'
+		>
+
+	<ui:composition template='/META-INF/resources/bootsfaces/jsfTemplate.xhtml'>
+	
+			<ui:define name='tituloPagina'>Shepherd > Nova Necessidade Especial</ui:define>
+			<ui:define name='tituloPrincipal'>
+				<i class='fa fa-wheelchair fa-fw' />
+				Nova Necessidade Especial
+			</ui:define>
+			<ui:define name='tituloSecundario'>
+				home > necessidades especiais > nova
+			</ui:define>
+			
+			<ui:define name='botoesAcao'>
+				<b:buttonGroup>
+					<b:button	value=''
+								onclick='location.href = "./nEspecialListar.jsf"'
+								iconAwesome='fa fa-arrow-left fa-fw'
+								/>
+					<b:commandButton	action='#{nEspecialBean.cadastrar()}'
+										iconAwesome='fa fa-check fa-fw'
+										update='@form'
+										/>
+					<b:button	value=''
+								iconAwesome='fa fa-eraser fa-fw'
+								onclick='location.href = "./nEspecialCadastrar.jsf"'/>
+				</b:buttonGroup>
+			</ui:define>
+			
+			<ui:define name='conteudo'>
+				
+				<h:outputText value='Nome' style='font-weight: bold;'/>
+				<b:row>
+					<b:column span='6'>
+						<b:inputText	id='nome'
+										required='true'
+										requiredMessage='Campo obrigatório'
+										value='#{nEspecialBean.NEspecial.nome}'
+										placeholder='Nome'
+										/>
+					</b:column>
+					<b:column	span='6'>
+						<p:message for='nome'/>
+					</b:column>
+				</b:row><br/>
+				
+				<h:outputText value='Tipo' style='font-weight: bold;'/>
+				<b:row>
+					<b:column span='6'>
+						<b:inputText	id='tipo'
+										value='#{nEspecialBean.NEspecial.tipo}'
+										autocomplete='true'
+										placeholder='Tipo'
+										label='Tipo'
+										/>
+					</b:column>
+					<b:column span='6'>
+						<p:message for='tipo' />
+					</b:column>
+				</b:row><br/>
+				
+				<h:outputText value='Descrição' style='font-weight: bold;'/>
+				<b:row>
+					<b:column span='6'>
+						<b:inputTextarea	id='descricao'
+											value='#{nEspecialBean.NEspecial.descricao}'
+											maxlength='255'
+											placeholder='Descrição'
+											/>
+					</b:column>
+					<b:column span='6'>
+						<p:message for='descricao' />
+					</b:column>
+				</b:row><br/>
+				
+				<b:row>
+					<b:column span='1'>
+						<b:selectBooleanCheckbox	id='restricao'
+													title='Restrição'
+													label='Restrição'
+													value='#{nEspecialBean.NEspecial.restricao}'
+													style=' margin: 0px;
+															padding: 0px;
+															text-align: left;
+															'
+													/>
+					</b:column>
+					<b:column span='11'>
+						<p:message for='restricao' />
+					</b:column>
+				</b:row>
+				
+						
+						
+				<b:panelGrid columns='3' colSpans='12'>
+	
+				</b:panelGrid>
+			</ui:define>
+	</ui:composition>
+</html>

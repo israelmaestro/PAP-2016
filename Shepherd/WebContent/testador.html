@@ -1,0 +1,46 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <title></title>
+    <script>
+    function atualizacep(cep){
+      cep = cep.replace(/\D/g,"")
+      url="http://cep.correiocontrol.com.br/"+cep+".js"
+      s=document.createElement('script')
+      s.setAttribute('charset','utf-8')
+      s.src=url
+      document.querySelector('head').appendChild(s)
+    }
+
+    function correiocontrolcep(valor){
+      if (valor.erro) {
+        alert('Cep não encontrado');
+        return;
+      };
+      document.getElementById('logradouro').value=valor.logradouro
+      document.getElementById('bairro').value=valor.bairro
+      document.getElementById('localidade').value=valor.localidade
+      document.getElementById('uf').value=valor.uf
+    }
+
+    </script>
+  </head>
+  <body>
+  <h1>Busca de cep do Correio Control</h1>
+  <label>CEP</label>
+  <input id="cep" onblur="atualizacep(this.value)" />
+  <label>Logradouro</label>
+  <input id="logradouro" />
+  <label>Bairro</label>
+  <input id="bairro" />
+  <label>Cidade</label>
+  <input id="localidade" />
+  <label>UF</label>
+  <input id="uf" />
+  <p>
+  <a href="http://avisobrasil.com.br/api-de-consulta-de-cep/">Voltar para a página de documentação</a>
+  </p>
+  </body>
+</html>
