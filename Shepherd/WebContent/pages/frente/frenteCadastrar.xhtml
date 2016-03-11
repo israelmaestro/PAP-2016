@@ -1,0 +1,184 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html	xmlns='http://www.w3.org/1999/xhtml'
+		xmlns:b='http://bootsfaces.net/ui'
+		xmlns:f='http://java.sun.com/jsf/core'
+		xmlns:h='http://java.sun.com/jsf/html'
+		xmlns:p='http://primefaces.org/ui'
+		xmlns:pm='http://primefaces.org/mobile'
+		xmlns:pt='http://xmlns.jcp.org/jsf/passthrough'
+		xmlns:ui='http://java.sun.com/jsf/facelets'
+		>
+
+	<ui:composition template='/META-INF/resources/bootsfaces/jsfTemplate.xhtml'>
+	
+			<ui:define name='tituloPagina'>Shepherd > Nova Frente</ui:define>
+			<ui:define name='tituloPrincipal'>
+				<b:iconAwesome name='fa fa-puzzle-piece fa-fw'/>
+				<br class='visible-xs'/>
+				Nova Frente
+			</ui:define>
+			<ui:define name='tituloSecundario'>
+				home > frentes > nova
+			</ui:define>
+			
+			<ui:define name='botoesAcao'>
+				<b:buttonGroup>
+					<b:button	value=''
+								onclick='location.href = "./frenteListar.jsf"'
+								iconAwesome='fa fa-arrow-left fa-fw'
+								/>
+					<b:commandButton	action='#{frenteBean.cadastrar()}'
+										iconAwesome='fa fa-check fa-fw'
+										/>
+					<b:button	value=''
+								iconAwesome='fa fa-eraser fa-fw'
+								onclick='location.href = "./frenteCadastrar.jsf"'/>
+				</b:buttonGroup>
+			</ui:define>
+			
+			<ui:define name='conteudo'>
+				<h:outputText	value='Nome *'
+								style='	font-weight: bold;'
+								/>
+				<b:row>
+					<b:column span='6'>
+						<b:inputText 	id='nome'
+										required='true'
+										requiredMessage='Campo obrigatório'
+										value='#{frenteBean.frente.nome}'
+										placeholder='Nome'
+										/>
+					</b:column>
+					<b:column span='6'>
+						<b:message for='nome'/>
+					</b:column>
+				</b:row>
+				
+				<br/>
+				
+				<h:outputText	value='Descrição *'
+								style='	font-weight: bold'
+								/>
+				<b:row>
+					<b:column span='6'>
+						<b:inputTextarea	id='descricao'
+											required='true'
+											requiredMessage='Campo obrigatório'
+											value='#{frenteBean.frente.descricao}'
+											maxlength='255'
+											placeholder='Descrição'
+											/>
+					</b:column>
+					<b:column span='6'>
+						<b:message for='descricao' />
+					</b:column>
+				</b:row>
+				
+				<br/>
+				
+				<b:row>
+					<b:column span='6'>
+						<b:selectMultiMenu 	id='frenteLideres'
+											label='Líderes'
+											value='#{frenteBean.frente.lideres}'
+											required='true'
+											requiredMessage='Selecione pelo menos um líder'
+											converter='omnifaces.SelectItemsConverter'
+											enableFiltering='true'
+											filterPlaceholder='Procurar'
+											nonSelectedText='Selecione'
+											nSelectedText='Líderes Selecionados'
+											numberDisplayed='1'
+											disableIfEmpty='true'
+											allSelectedText='Todos os membros'
+											>
+							<f:selectItems	value='#{remedioBean.listar()}' var='frenteLideres'
+											itemLabel='#{frenteLideres.nome} #{frenteLideres.nome}'
+											/>
+						</b:selectMultiMenu>
+					</b:column>
+					
+					<b:column span='6'>
+						<b:message for='frenteLideres' />
+					</b:column>
+				</b:row>
+				
+				<br/><br/>
+				
+				<b:row>
+					<b:column span='3'>
+						<h:outputLabel	for='isCell'
+										value='Tipo de Frente'
+										style='	margin-bottom: 0px;
+												padding: 0px;'
+										/>
+						<b:switch	id='isCell'
+									binding='#{showCellList}'
+									value='#{frenteBean.frente.cell}'
+									offText="Operacional"
+									onText="Célula"
+									onColor='danger'
+									offColor='primary'
+									style='	margin-top: 0px;'
+									>
+							<f:ajax event="change" render="@form" />
+						</b:switch>
+						
+						<br/>
+					
+					</b:column>
+					
+					<b:column span='3' rendered="#{showCellList.value}">
+						<b:selectMultiMenu 	id='frenteCelulas'
+											label='Células'
+											value='#{frenteBean.frente.celulas}'
+											required='true'
+											requiredMessage='Selecione pelo menos uma célula'
+											converter='omnifaces.SelectItemsConverter'
+											enableFiltering='true'
+											filterPlaceholder='Procurar'
+											nonSelectedText='Selecione'
+											nSelectedText='Células Selecionadas'
+											numberDisplayed='1'
+											disableIfEmpty='true'
+											allSelectedText='Todas as células'
+											fieldSize='lg'
+											>
+							<f:selectItems	value='#{remedioBean.listar()}' var='frenteCelulas'
+											itemLabel='#{frenteCelulas.nome}'
+											/>
+						</b:selectMultiMenu>
+					</b:column>
+					<b:column span='6' rendered="#{showCellList.value}">
+						<b:message for='frenteCelulas' />
+					</b:column>
+					
+					<b:column span='3' rendered="#{!showCellList.value}">
+						<b:selectMultiMenu 	id='frenteParticipantes'
+											label='Participantes'
+											value='#{frenteBean.frente.celulas}'
+											required='true'
+											requiredMessage='Selecione pelo menos um participante'
+											converter='omnifaces.SelectItemsConverter'
+											enableFiltering='true'
+											filterPlaceholder='Procurar'
+											nonSelectedText='Selecione'
+											nSelectedText='Participantes Selecionados'
+											numberDisplayed='1'
+											disableIfEmpty='true'
+											allSelectedText='Todas os membros'
+											fieldSize='lg'
+											>
+							<f:selectItems	value='#{remedioBean.listar()}' var='frenteParticipantes'
+											itemLabel='#{frenteParticipantes.nome}'
+											/>
+						</b:selectMultiMenu>
+					</b:column>
+					<b:column span='6' rendered="#{!showCellList.value}">
+						<b:message for='frenteParticipantes' />
+					</b:column>
+				</b:row>
+			</ui:define>
+	</ui:composition>
+
+</html>

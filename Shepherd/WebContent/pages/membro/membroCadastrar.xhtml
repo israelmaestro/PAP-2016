@@ -1,0 +1,1597 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html	xmlns='http://www.w3.org/1999/xhtml'
+		xmlns:b='http://bootsfaces.net/ui'
+		xmlns:f='http://java.sun.com/jsf/core'
+		xmlns:h='http://java.sun.com/jsf/html'
+		xmlns:p='http://primefaces.org/ui'
+		xmlns:pm='http://primefaces.org/mobile'
+		xmlns:pt='http://xmlns.jcp.org/jsf/passthrough'
+		xmlns:ui='http://java.sun.com/jsf/facelets'
+		>
+
+	<ui:composition template='/META-INF/resources/bootsfaces/jsfTemplate.xhtml'>
+	
+			<ui:define name='tituloPagina'>Shepherd > Novo Membro</ui:define>
+			<ui:define name='tituloPrincipal'>
+				<b:iconAwesome name='fa fa-user-plus fa-fw'/>
+				<br class='visible-xs'/>
+				Novo Membro
+			</ui:define>
+			<ui:define name='tituloSecundario'>
+				home > membros > novo
+			</ui:define>
+			
+			<ui:define name='botoesAcao'>
+				<b:buttonGroup>
+					<b:button	value=''
+								onclick='location.href = "./membroListar.jsf"'
+								iconAwesome='fa fa-arrow-left fa-fw'
+								/>
+					<b:commandButton	action='#{membroBean.cadastrar()}'
+										iconAwesome='fa fa-check fa-fw'
+										/>
+					<b:button	value=''
+								iconAwesome='fa fa-eraser fa-fw'
+								onclick='location.href = "./membroCadastrar.jsf"'/>
+				</b:buttonGroup>
+			</ui:define>
+			
+			<ui:define name='conteudo'>
+				<b:row>
+					<b:column	col-lg='10'
+								col-md='10'
+								col-sm='10'
+								col-xs='12'
+								>
+						<h3>
+							<b:iconAwesome name="fa fa-fw fa-user"/>
+							Dados pessoais
+						</h3>
+					</b:column>
+					
+					<b:column	col-lg='2'
+								col-md='2'
+								col-sm='2'
+								col-xs='6'
+								>
+						<br class='visible-xs'/>
+						
+						<table	style='	width: 100%;
+										text-align: left;
+										line-height: 0px;
+										margin:0px;
+										margin-left: 16px;
+										padding: 0px;
+										'
+								>
+							<tr>
+								<td	style='	line-height: 1px;
+											color: #0033FF;'
+									>
+									<b:iconAwesome	name='fa-wheelchair'
+													tooltip='Necesidades Especiais'
+													onclick='alert("Selecione esta opção caso o membro possua alguma necessidade especial.")'
+													/>
+									<b:selectBooleanCheckbox	id='neCheckBox'
+																binding='#{showNeMenu}'
+																>
+										<f:ajax event='change' render='@form' />
+									</b:selectBooleanCheckbox>
+								</td>
+								<td	style='	line-height: 1px;
+											color: #990000;'
+									>
+									<b:iconAwesome	name='fa-medkit'
+													tooltip='Medicamentos'
+													onclick='alert("Selecione esta opção caso o membro utilize algum medicamento.")'
+													/>
+									<b:selectBooleanCheckbox	id='remedyCheckBox'
+																binding='#{showRemedyMenu}'
+																>
+										<f:ajax event='change' render='@form' />
+									</b:selectBooleanCheckbox>
+								</td>
+								<td	style='	line-height: 1px;
+											color: #FF3333;'
+									>
+									<b:iconAwesome	name='fa-heart'
+													tooltip='Casado / Não-casado'
+													onclick='alert("Selecione esta opção caso o membro seja casado.")'
+													/>
+									<b:selectBooleanCheckbox	id='relationshipCheckBox'
+																binding='#{showMateInfo}'
+																value='#{membroBean.membro.married}'
+																>
+										<f:ajax event='change' render='@form' />
+									</b:selectBooleanCheckbox>
+								</td>
+							</tr>
+						</table>
+						
+						<br class='visible-xs' style='line-height: 100%;'/>
+					</b:column>
+				</b:row>
+				
+				<br class='hidden-xs' />
+				
+				<div	style='	margin-left: 15px;
+								margin-right: 15px;
+								padding-left: 0px;
+								'
+						>
+					<b:row	>
+						<b:container	style='	margin: 0px;
+												padding: 0px;
+												width: 100%;
+												'
+										>
+							<b:column	col-lg='3'
+										col-md='3'
+										col-sm='6'
+										col-xs='12'
+										>
+								<h:outputLabel	for='nome'
+												value='Nome'
+												/>
+								<b:inputText 	id='nome'
+												required='true'
+												requiredMessage='Campo obrigatório'
+												value='#{membroBean.membro.nome}'
+												placeholder='Nome'
+												/>
+								<b:message for='nome'/>
+								<br/>
+							</b:column>
+							
+							<b:column	col-lg='3'
+										col-md='3'
+										col-sm='6'
+										col-xs='12'
+										>
+								<h:outputLabel	for='sobrenome'
+												value='Sobrenome'
+												/>
+								<b:inputText 	id='sobrenome'
+												required='true'
+												requiredMessage='Campo obrigatório'
+												value='#{membroBean.membro.sobrenome}'
+												placeholder='Sobrenome'
+												/>
+								<b:message for='sobrenome'/>
+								<br/>
+							</b:column>
+							
+							<b:column	col-lg='3'
+										col-md='4'
+										col-sm='6'
+										col-xs='12'
+										>
+								<h:outputLabel for='dataNasc' value='Data de Nascimento'/>
+								<b:datepicker 	id='dataNasc'
+												placeholder='DD/MM/AAAA'
+												value='#{membroBean.membro.dataNasc}'
+												/>
+								<b:message for='dataNasc' />
+								<br/>
+							</b:column>
+							
+							<b:column	col-lg='3'
+										col-md='2'
+										col-sm='6'
+										col-xs='12'
+										style='	line-height: 0px;
+												margin-bottom: 0px;
+												'
+										>
+								<h:outputLabel	for='sexo'
+												value='Sexo'
+												style='	line-height: 0px;
+														margin-bottom: 0px;
+														'
+												>
+									<b:iconAwesome	name='fa-question-circle'
+													for='sexo'
+													tooltip='Selecione o sexo: Masculino (♂) ou Feminino (♀)'
+													tooltipDelayHide='3000'
+													onclick='alert("Selecione o sexo:\n Masculino (♂)\n Feminino (♀)")'
+													style='	margin-left: 4px;'
+													/>
+								</h:outputLabel>
+								<b:switch	id='sexo'
+											binding='#{sexo}'
+											value='#{membroBean.membro.sexo}'
+											offText='♀'
+											onText='♂'
+											onColor='primary'
+											offColor='danger'
+											style='	'
+											/>
+								<b:message for='sexo'/>
+								<br style='	line-height: 100%;'/>
+							</b:column>
+						</b:container>
+						
+						<b:container	style='	margin: 0px;
+												padding: 0px;
+												width: 100%;
+												'
+										>
+							<b:column	col-lg='3'
+										col-md='3'
+										col-sm='6'
+										col-xs='12'
+										>
+								<h:outputLabel	for='rg'
+												value='RG'
+												/>
+								<b:inputText 	id='rg'
+												value='#{membroBean.membro.rg}'
+												placeholder='RG'
+												maxlength='9'
+												/>
+								<b:message for='rg'/>
+								<br/>
+							</b:column>
+							
+							<b:column	col-lg='3'
+										col-md='3'
+										col-sm='6'
+										col-xs='12'
+										>
+								<h:outputLabel	for='cpf'
+												value='CPF'
+												/>
+								<b:inputText	id='cpf'
+												onkeypress='return teclaNumerica(event.keyCode)'
+												maxlength='11'
+												value='#{membroBean.membro.cpf}'
+												placeholder='CPF'
+												/>
+								<b:message for='cpf'/>
+								<br/>
+							</b:column>
+							
+							<b:column	col-lg='3'
+										col-md='3'
+										col-sm='6'
+										col-xs='12'
+										rendered='#{showNeMenu.value}'
+										>
+								<b:selectMultiMenu 	id='nEspecial'
+													label='Necessidades Especiais'
+													value='#{membroBean.membro.nEspeciais}'
+													converter='omnifaces.SelectItemsConverter'
+													enableFiltering='true'
+													filterPlaceholder='Procurar'
+													nonSelectedText='Selecione'
+													nSelectedText='NE’s selecionadas'
+													numberDisplayed='1'
+													disableIfEmpty='true'
+													allSelectedText='Todas'
+													fieldSize='lg'
+													style='max-width: 90%'
+													>
+									<f:selectItems	value='#{nEspecialBean.listar()}'
+													var='nEspecial'
+													itemLabel='#{nEspecial.nome}'
+													itemDescription='#{nEspecial.descricao}'
+													/>
+								</b:selectMultiMenu>
+								<br/><br/>
+							</b:column>
+
+							<b:column	col-lg='3'
+										col-md='3'
+										col-sm='6'
+										col-xs='12'
+										rendered='#{showRemedyMenu.value}'
+										>
+								<b:selectMultiMenu 	id='remedio'
+													label='Remédios'
+													value='#{membroBean.membro.remedios}'
+													converter='omnifaces.SelectItemsConverter'
+													enableFiltering='true'
+													filterPlaceholder='Procurar'
+													nonSelectedText='Selecione'
+													nSelectedText='Remédios selecionados'
+													numberDisplayed='1'
+													disableIfEmpty='true'
+													allSelectedText='Todos'
+													fieldSize='lg'
+													style='max-width: 50%'
+													>
+									<f:selectItems	value='#{remedioBean.listar()}'
+													var='remedio'
+													itemLabel='#{remedio.nome}'
+													itemDescription='#{remedio.principioAtivo}'
+													/>
+								</b:selectMultiMenu>
+								<br/><br/>
+							</b:column>
+						</b:container>
+						
+						<b:container	style='	border-top: solid;
+												width: 100%;
+												border-color: #CCCCCC;
+												margin: 0px;
+												padding: 0px;
+												'>
+							<h3>
+								<b:iconAwesome name="fa fa-fw fa-sitemap"/>
+								Família
+							</h3>
+							
+							<br/>
+							<b:column	col-lg='4'
+										col-md='4'
+										col-sm='6'
+										col-xs='12'
+										>
+								<b:selectOneMenu	id='membroPai'
+													label='Pai'
+													value='#{membroBean.membro.pai}'
+													converter='omnifaces.SelectItemsConverter'
+													enableFiltering='true'
+													filterPlaceholder='Procurar'
+													nonSelectedText='Selecione'
+													disableIfEmpty='true'
+													>
+									<f:selectItem itemLabel='Selecione'/>
+									<f:selectItems	value='#{membroBean.listar()}' var='membroPai'
+													itemLabel='#{membroPai.nome} #{membroPai.sobrenome}'
+													/>
+								</b:selectOneMenu>
+								<b:message for='membroPai'/>
+								<br/>
+							</b:column>
+							
+							<b:column	col-lg='4'
+										col-md='4'
+										col-sm='6'
+										col-xs='12'
+										>
+								<b:selectOneMenu	id='membroMae'
+													label='Mãe'
+													converter='omnifaces.SelectItemsConverter'
+													enableFiltering='true'
+													filterPlaceholder='Procurar'
+													nonSelectedText='Selecione'
+													disableIfEmpty='true'
+													>
+									<f:selectItem itemLabel='Selecione'/>
+									<f:selectItems	value='#{membroBean.listar()}' var='membroMae'
+													itemLabel='#{membroMae.nome} #{membroMae.sobrenome}'
+													/>
+								</b:selectOneMenu>
+								<b:message for='membroMae'/>
+								<br/>
+							</b:column>
+							
+							<b:column	col-lg='4'
+										col-md='4'
+										col-sm='6'
+										col-xs='12'
+										>
+								<b:selectMultiMenu 	id='irmaos'
+													label='Irmão(s)'
+													value='#{membroBean.membro.irmaos}'
+													enableFiltering='true'
+													filterPlaceholder='Procurar'
+													converter='omnifaces.SelectItemsConverter'
+													nonSelectedText='Selecione'
+													nSelectedText='Pessoas selecionadas'
+													numberDisplayed='1'
+													disableIfEmpty='true'
+													allSelectedText='Todos'
+													fieldSize='lg'
+													style='	width: 100%;'
+													>
+									<f:selectItems	value='#{membroBean.listar()}' var='membrsIrmaos'
+													itemLabel='#{membrsIrmaos.nome} #{membrsIrmaos.sobrenome}'
+													/>
+								</b:selectMultiMenu>
+								<br/><br/>
+							</b:column>
+						</b:container>
+						
+						<b:container	style='	width: 100%;
+												margin: 0px;
+												padding: 0px;
+												'
+										rendered='#{showMateInfo.value}'
+										>
+							<b:column	col-lg='4'
+										col-md='4'
+										col-sm='6'
+										col-xs='12'
+										>
+								<b:selectOneMenu	id='membroConjuge'
+													value='#{membroBean.membro.conjuge}'
+													label='Cônjuge'
+													converter='omnifaces.SelectItemsConverter'
+													enableFiltering='true'
+													filterPlaceholder='Procurar'
+													nonSelectedText='Selecione'
+													disableIfEmpty='true'
+													>
+									<f:selectItem itemLabel='Selecione'/>
+									<f:selectItems	value='#{membroBean.listar()}' var='membroConjuge'
+													itemLabel='#{membroConjuge.nome} #{membroConjuge.sobrenome}'
+													/>
+								</b:selectOneMenu>
+								<b:message for='membroConjuge'/>
+								<br/>
+							</b:column>
+							
+							<b:column	col-lg='4'
+										col-md='4'
+										col-sm='6'
+										col-xs='12'
+										>
+								<h:outputLabel for='dataCasamento' value='Data do Casamento'/>
+								<b:datepicker 	id='dataCasamento'
+												placeholder='DD/MM/AAAA'
+												value='#{membroBean.membro.dataCasamento}'
+												/>
+								<b:message for='dataCasamento' />
+								<br/>
+							</b:column>
+						</b:container>
+						
+						<b:container	style='	border-top: solid;
+												width: 100%;
+												border-color: #CCCCCC;
+												margin: 0px;
+												padding: 0px;
+												'>
+							<table>
+								<tr>
+									<td	style='	vertical-align: bottom;'>
+										<h3>
+											<b:iconAwesome name="fa fa-fw fa-map-marker"/>
+											Endereço
+										</h3>
+									</td>
+									<td	style='	vertical-align: bottom;'>
+										<b:switch	binding='#{showGpsForm}'
+													value='#{membroBean.membro.gpsAddress}'
+													offText='Postal'
+													onText='GPS'
+													onColor='danger'
+													offColor='primary'
+													switchsize='mini'
+													>
+											<f:ajax event='change' render='@form' />
+										</b:switch>
+									</td>
+								</tr>
+							</table>
+						</b:container>
+						
+						<br/>
+						
+						<b:container	rendered='#{showGpsForm.value}'
+										style='	width: 100%;
+												margin: 0px;
+												padding: 0px;
+												'
+										>
+							<b:column	col-lg='4'
+										col-md='4'
+										col-sm='6'
+										col-xs='12'
+										>
+								<h:outputLabel	for='gpsAddress'
+												value='Coordenadas de GPS'
+												/>
+								<b:inputText	id='gpsAddress'
+												value='#{membroBean.membro.logradouro}'
+												placeholder='Digite as coordenadas do GPS'
+												/>
+								<b:message for='gpsAddress'/>
+								<br/>
+							</b:column>
+						</b:container>
+						
+						<b:container	rendered='#{!showGpsForm.value}'
+										style='	width: 100%;
+												margin: 0px;
+												padding: 0px;
+												'
+										>
+							<b:column	col-lg='3'
+										col-md='3'
+										col-sm='3'
+										col-xs='12'
+										>
+								<h:outputLabel value='CEP' for='cep'/>
+								<b:iconAwesome	name='fa-question-circle'
+												tooltip='Caso o sistema encontre o CEP digitado, os campos de endereço serão preenchidos automaticamente.'
+												onclick='alert("Caso o sistema encontre o CEP digitado, os campos de endereço serão preenchidos automaticamente.")'
+												style='	margin-left: 4px;'
+												/>
+								<b:inputText	id='cep'
+												binding='#{cep}'
+												maxlength='8'
+												onkeypress='return teclaNumerica(event.keyCode)'
+												value='#{membroBean.membro.cep}'
+												placeholder='Digite o CEP'
+												onblur='if(this.value != "") atualizacep(this.value)'
+												style='	background-color: #FFFFCC;'
+												/>
+								<p:message for='cep' />
+								<br/>
+							</b:column>
+							
+							<b:column	col-lg='6'
+										col-md='6'
+										col-sm='9'
+										col-xs='12'
+										>
+								<h:outputLabel value='Endereço' for='logradouro'/>
+								<b:inputText	id='logradouro'
+												name='logradouro'
+												value='#{membroBean.membro.logradouro}'
+												placeholder='Digite o nome da rua, avenida, etc.'
+												class='hidden-xs'
+												/>
+								<b:inputTextarea	id='logradouro2'
+													name='logradouro'
+													value='#{membroBean.membro.logradouro}'
+													required='true'
+													requiredMessage='Endereço obrigatório'
+													placeholder='Digite o nome da rua, avenida, etc.'
+													class='visible-xs'
+													/>
+								<b:message for='logradouro' />
+								<br/>
+							</b:column>
+							
+							<b:column	col-lg='1'
+										col-md='1'
+										col-sm='2'
+										col-xs='5'
+										>
+								<h:outputLabel value='№' for='numero'/>
+								<b:inputText	id='numero'
+												value='#{membroBean.membro.numero}'
+												onkeypress='return teclaNumerica(event.keyCode)'
+												maxlength='5'
+												placeholder='№'
+												/>
+								<b:message for='numero' />
+								<br/>
+							</b:column>
+							
+							<b:column	col-lg='2'
+										col-md='2'
+										col-sm='4'
+										col-xs='7'
+										>
+								<h:outputLabel value='Complemento' for='complemento'/>
+								<b:inputText	id='complemento'
+												value='#{membroBean.membro.complemento}'
+												placeholder='Complemento'
+												/>
+								<b:message for='complemento' />
+								<br/>
+							</b:column>
+							
+							<b:column	col-lg='3'
+										col-md='3'
+										col-sm='6'
+										col-xs='12'
+										>
+								<h:outputLabel value='Bairro' for='bairro'/>
+								<b:inputText	id='bairro'
+												value='#{membroBean.membro.bairro}'
+												placeholder='Bairro'
+												/>
+								<b:message for='bairro' />
+								<br/>
+							</b:column>
+							
+							<b:column	col-lg='4'
+										col-md='4'
+										col-sm='6'
+										col-xs='12'
+										>
+								<h:outputLabel value='Cidade' for='cidade'/>
+								<b:inputText	id='cidade'
+												value='#{membroBean.membro.cidade}'
+												placeholder='Cidade'
+												/>
+								<b:message for='cidade' />
+								<br/>
+							</b:column>
+							
+							<b:column	col-lg='1'
+										col-md='1'
+										col-sm='2'
+										col-xs='4'
+										>
+								<h:outputLabel value='UF' for='uf'/>
+								<b:inputText	id='uf'
+												maxlength='2'
+												value='#{membroBean.membro.estado}'
+												placeholder='UF'
+												/>
+								<p:message for='uf' />
+								<br/>
+							</b:column>
+							
+							<b:column	col-lg='4'
+										col-md='4'
+										col-sm='4'
+										col-xs='12'
+										>
+								<h:outputLabel value='País' for='pais'/>
+								<b:inputText	id='pais'
+												value='#{membroBean.membro.pais}'
+												placeholder='País'
+												/>
+								<p:message for='pais' />
+								<br/>
+							</b:column>
+						</b:container>
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						<b:container	style='	border-top: solid;
+												width: 100%;
+												border-color: #CCCCCC;
+												margin: 0px;
+												padding: 0px;
+												'>
+							<h3>
+								<b:iconAwesome name="fa fa-fw fa-phone fa-"/>
+								Contato
+							</h3>
+							
+							<br/>
+							
+							<b:container	style='	width: 100%;
+													margin: 0px;
+													padding: 0px;
+													'>
+								<b:column	col-lg='4'
+											col-md='4'
+											col-sm='5'
+											col-xs='12'
+											>
+									<h:outputLabel value='Telefone (principal)' for='telefone1'/>
+									<table	id='telefone1'
+											style='	width: 100%'
+											>
+										<tr>
+											<td	style='	width: 40%;'>
+												<b:inputText	id='ddi1'
+																maxlength='4'
+																value='#{membroBean.membro.telefoneDdi1}'
+																placeholder='DDI'
+																onkeypress='return teclaNumerica(event.keyCode)'
+																>
+													<f:facet name='prepend'>
+														<b:iconAwesome name='fa fa-plus'/>
+													</f:facet>
+												</b:inputText>
+												<p:message for='ddi1' />
+											</td>
+											
+											<td	style='	width: 60%;'>
+												<b:inputText	id='numero1'
+																maxlength='11'
+																value='#{membroBean.membro.telefoneNumero1}'
+																placeholder='DDD + Número'
+																onkeypress='return teclaNumerica(event.keyCode)'
+																/>
+												<p:message for='numero1' />
+											</td>
+										</tr>
+									</table>								
+								</b:column>
+								
+								<b:column	col-lg='3'
+											col-md='3'
+											col-sm='3'
+											col-xs='12'
+											>
+									<h:outputLabel value='Tipo' for='telefoneTipo1' class='hidden-xs'/>
+									<b:inputText	id='telefoneTipo1'
+													value='#{membroBean.membro.telefoneTipo1}'
+													placeholder='Tipo de Telefone'
+													/>
+									<p:message for='telefoneTipo1' />
+									<br/>
+								</b:column>
+							</b:container>
+							
+							<b:container	style='	width: 100%;
+													margin: 0px;
+													padding: 0px;
+													'>
+								<b:column	col-lg='4'
+											col-md='4'
+											col-sm='5'
+											col-xs='12'
+											>
+									<h:outputLabel value='Telefone (opcional 1)' for='telefone2'/>
+									<table	id='telefone2'
+											style='	width: 100%'
+											>
+										<tr>
+											<td	style='	width: 40%;'>
+												<b:inputText	id='ddi2'
+																maxlength='4'
+																value='#{membroBean.membro.telefoneDdi2}'
+																placeholder='DDI'
+																onkeypress='return teclaNumerica(event.keyCode)'
+																>
+													<f:facet name='prepend'>
+														<b:iconAwesome name='fa fa-plus'/>
+													</f:facet>
+												</b:inputText>
+												<p:message for='ddi2' />
+											</td>
+											
+											<td	style='	width: 60%;'>
+												<b:inputText	id='numero2'
+																maxlength='11'
+																value='#{membroBean.membro.telefoneNumero2}'
+																placeholder='DDD + Número'
+																onkeypress='return teclaNumerica(event.keyCode)'
+																/>
+												<p:message for='numero2' />
+											</td>
+										</tr>
+									</table>								
+								</b:column>
+								
+								<b:column	col-lg='3'
+											col-md='3'
+											col-sm='3'
+											col-xs='12'
+											>
+									<h:outputLabel value='Tipo' for='telefoneTipo2' class='hidden-xs'/>
+									<b:inputText	id='telefoneTipo2'
+													value='#{membroBean.membro.telefoneTipo2}'
+													placeholder='Tipo de Telefone'
+													/>
+									<p:message for='telefoneTipo2' />
+									<br/>
+								</b:column>
+							</b:container>
+						</b:container>
+						
+						<b:container	style='	width: 100%;
+													margin: 0px;
+													padding: 0px;
+													'>
+							<b:column	col-lg='4'
+										col-md='4'
+										col-sm='5'
+										col-xs='12'
+										>
+								<h:outputLabel value='Telefone (opcional 2)' for='telefone3'/>
+								<table	id='telefone3'
+										style='	width: 100%'
+										>
+									<tr>
+										<td	style='	width: 40%;'>
+											<b:inputText	id='ddi3'
+															maxlength='4'
+															value='#{membroBean.membro.telefoneDdi3}'
+															placeholder='DDI'
+															onkeypress='return teclaNumerica(event.keyCode)'
+															>
+												<f:facet name='prepend'>
+													<b:iconAwesome name='fa fa-plus'/>
+												</f:facet>
+											</b:inputText>
+											<p:message for='ddi3' />
+										</td>
+										
+										<td	style='	width: 60%;'>
+											<b:inputText	id='numero3'
+															maxlength='11'
+															value='#{membroBean.membro.telefoneNumero3}'
+															placeholder='DDD + Número'
+															onkeypress='return teclaNumerica(event.keyCode)'
+															/>
+											<p:message for='numero3' />
+										</td>
+									</tr>
+								</table>
+							</b:column>
+								
+							<b:column	col-lg='3'
+										col-md='3'
+										col-sm='3'
+										col-xs='12'
+										>
+								<h:outputLabel value='Tipo' for='telefoneTipo3' class='hidden-xs'/>
+								<b:inputText	id='telefoneTipo3'
+												value='#{membroBean.membro.telefoneTipo3}'
+												placeholder='Tipo de Telefone'
+												/>
+								<p:message for='telefoneTipo3' />
+								<br/>
+							</b:column>
+						</b:container>
+						
+						<b:container	style='	width: 100%;
+												margin: 0px;
+												padding: 0px;
+												'>
+							<b:column	col-lg='6'
+										col-md='6'
+										col-sm='6'
+										col-xs='12'
+										>
+								<h:outputLabel value='E-mail (principal)' for='email1'/>
+								<b:inputText	id='email1'
+												value='#{membroBean.membro.email1}'
+												placeholder='E-Mail'
+												/>
+								<b:message for='email1' />
+								<br/>
+							</b:column>
+							
+							<b:column	col-lg='6'
+										col-md='6'
+										col-sm='6'
+										col-xs='12'
+										>
+								<h:outputLabel value='E-mail (opcional)' for='email2'/>
+								<b:inputText	id='email2'
+												value='#{membroBean.membro.email1}'
+												placeholder='E-Mail'
+												/>
+								<b:message for='email2' />
+								<br/>
+							</b:column>
+						</b:container>
+						
+						<b:container	style='	border-top: solid;
+												width: 100%;
+												border-color: #CCCCCC;
+												margin: 0px;
+												padding: 0px;
+												'>
+							<b:column	col-lg='2'
+										col-md='3'
+										col-sm='5'
+										col-xs='12'
+										style='	margin-left: 0px;
+												padding: 0px;
+												'
+										>
+								<h3>
+									<b:iconAwesome name="fa fa-fw fa-users"/>
+									Membresia
+								</h3>
+							</b:column>
+							
+							<b:column	col-lg='10'
+										col-md='9'
+										col-sm='7'
+										col-xs='12'
+										style='	margin-top: 12px;
+												margin-left: -4px;
+												padding: 0px;
+												'
+										>
+								<b:switch	id='isDirecotyMember'
+											binding='#{showDirecotyForm}'
+											value='#{membroBean.membro.membro.directoryMember}'
+											offText='Normal'
+											onText='Diretoria'
+											onColor='danger'
+											offColor='primary'
+											switchsize='mini'
+											>
+									<f:ajax event='change' render='@form' />
+								</b:switch>
+								<br/>
+							</b:column>
+						
+							<b:container	style='	width: 100%;
+													margin: 0px;
+													margin-left: -4px;
+													padding: 0px;
+													'
+											>
+								<b:column	col-lg='3'
+											col-md='3'
+											col-sm='4'
+											col-xs='12'
+											>
+									<h:outputLabel for='memberSince' value='Membro Desde'/>
+									<b:datepicker 	id='memberSince'
+													placeholder='DD/MM/AAAA'
+													value='#{membroBean.membro.membro.dataEntrada}'
+													/>
+									<b:message for='memberSince' />
+									<br/>
+								</b:column>
+								
+								<b:column	col-lg='2'
+											col-md='2'
+											col-sm='3'
+											col-xs='12'
+											style='	line-height: 5%;
+													margin-top: 10px;
+													'
+											rendered='#{!showPresidentForm.value}'
+											>
+									<h:outputLabel	for='memberStatus'
+													value='Status'
+													/>
+									<b:switch	id='memberStatus'
+												binding='#{memberStatus}'
+												value='#{membroBean.membro.ativo}'
+												offText='Atual'
+												onText='Ex'
+												onColor='danger'
+												offColor='primary'
+												inverse='true'
+												>
+										<f:ajax event='change' render='@form' />
+									</b:switch>
+									<b:message for='memberStatus'/>
+									<br style='	line-height: 100%;'/>
+								</b:column>
+								
+								<b:column	col-lg='3'
+											col-md='3'
+											col-sm='4'
+											col-xs='12'
+											rendered='#{memberStatus.value}'
+											>
+									<h:outputLabel for='memberOut' value='Desligamento'/>
+									<b:datepicker 	id='memberOut'
+													placeholder='DD/MM/AAAA'
+													value='#{membroBean.membro.membro.dataSaida}'
+													/>
+									<b:message for='memberOut' />
+									<br/>
+								</b:column>
+								
+								<b:column	rendered='#{!showPresidentForm.value}'
+											col-lg='3'
+											col-md='3'
+											col-sm='6'
+											col-xs='12'
+											>
+									<b:selectOneMenu	id='membroCelula'
+														value='#{membroBean.membro.membro.celula}'
+														label='Célula'
+														required='true'
+														requiredMessage='Campo obrigatório'
+														converter='omnifaces.SelectItemsConverter'
+														enableFiltering='true'
+														filterPlaceholder='Procurar'
+														nonSelectedText='Selecione'
+														disableIfEmpty='true'
+														>
+										<f:selectItem itemLabel='Selecione'/>
+										<f:selectItems	value='#{remedioBean.listar()}' var='membroCelula'
+														itemLabel='#{membroCelula.nome}'
+														/>
+									</b:selectOneMenu>
+									<b:message for='membroCelula'/>
+									<br/>
+								</b:column>
+							</b:container>
+							
+							<b:container	style='	width: 100%;
+													margin: 0px;
+													padding: 0px;
+													'
+											>
+								<b:column	col-lg='2'
+											col-md='2'
+											col-sm='3'
+											col-xs='6'
+											style='	line-height: 5%;
+													margin-top: 10px;
+													margin-right: -16px;
+													'
+											>
+									<b:switch	id='isLeader'
+												binding='#{showLeaderForm}'
+												label='Líder de Célula'
+												value='#{membroBean.membro.membro.leader}'
+												offText='Não'
+												onText='Sim'
+												onColor='danger'
+												offColor='primary'
+												onchange='setTrainee(#{!showLeaderForm.value})'
+												style='	margin-left: -16px;'
+												>
+										<f:ajax event='change' render='@form' />
+									</b:switch>
+									<br style='	line-height: 100%;'/>
+								</b:column>
+								
+								<b:container	style='	width: 100%;
+														margin: 0px;
+														padding: 0px;
+														'
+												rendered='#{!showLeaderForm.value}'
+												>
+									<b:column	col-lg='2'
+												col-md='2'
+												col-sm='2'
+												col-xs='6'
+												style='	line-height: 5%;
+														margin-top: 10px;
+														margin-right: 16px;
+														'
+												>
+										<b:switch	id='isTrainee'
+													label='Co-líder'
+													binding='#{traineeForm}'
+													value='#{membroBean.membro.membro.trainee}'
+													offText='Não'
+													onText='Sim'
+													onColor='danger'
+													offColor='primary'
+													>
+											<f:ajax event='change' render='@form' />
+										</b:switch>
+										<br style='	line-height: 100%;'/>
+									</b:column>
+									
+									<b:container	style='	width: 100%;
+														margin: 0px;
+														padding: 0px;
+														'
+													rendered='#{traineeForm.value}'
+													>
+										<b:column	col-lg='3'
+													col-md='3'
+													col-sm='4'
+													col-xs='12'
+													>
+											<h:outputLabel for='traineeSince' value='Co-líder Desde'/>
+											<b:datepicker 	id='traineeSince'
+															placeholder='DD/MM/AAAA'
+															value='#{membroBean.membro.membro.dataColiderancaEntrada}'
+															/>
+											<b:message for='traineeSince' />
+											<br/>
+										</b:column>
+
+										<b:column	col-lg='2'
+													col-md='2'
+													col-sm='2'
+													col-xs='6'
+													style='	line-height: 5%;
+															margin-top: 10px;
+															'
+													>
+											<b:switch	id='traineeStatus'
+														label='Status'
+														binding='#{traineeStatus}'
+														value=''
+														offText='Atual'
+														onText='Ex'
+														onColor='danger'
+														offColor='primary'
+														inverse='true'
+														>
+												<f:ajax event='change' render='@form' />
+											</b:switch>
+											<br style='	line-height: 100%;'/>
+										</b:column>
+
+										<b:container	style='	width: 100%;
+																margin: 0px;
+																padding: 0px;
+																'
+														rendered='#{traineeStatus.value}'
+														>
+											<b:column	col-lg='3'
+														col-md='3'
+														col-sm='4'
+														col-xs='12'
+														>
+												<h:outputLabel for='traineeOut' value='Co-líder Até'/>
+												<b:datepicker 	id='traineeOut'
+																placeholder='DD/MM/AAAA'
+																value='#{membroBean.membro.membro.dataColiderancaSaida}'
+																/>
+												<b:message for='traineeOut' />
+												<br/>
+											</b:column>
+										</b:container>
+									</b:container>
+								</b:container>
+							</b:container>
+						</b:container>
+					</b:row>
+				</div>
+				
+				<b:container	rendered='#{showLeaderForm.value}'
+								style='	border-top: solid;
+										width: 100%;
+										border-color: #CCCCCC;
+										margin: 0px;
+										padding: 0px;
+										'
+								>
+					<h3>
+						<b:iconAwesome name="fa fa-fw fa-thumbs-up"/>
+						Liderança
+					</h3>
+					<br/>
+					
+					<b:row>
+						<b:column	col-lg='3'
+									col-md='3'
+									col-sm='4'
+									col-xs='12'
+									>
+							<h:outputLabel for='leaderSince' value='Data da posse'/>
+							<b:datepicker 	id='leaderSince'
+											placeholder='DD/MM/AAAA'
+											value='#{membroBean.membro.membro.lider.dataPosse}'
+											/>
+							<b:message for='leaderSince' />
+							<br/>
+						</b:column>
+						
+						<b:column	col-lg='2'
+									col-md='2'
+									col-sm='3'
+									col-xs='12'
+									style='	line-height: 5%;
+											margin-top: 10px;
+											'
+									>
+							<h:outputLabel	for='leaderStatus'
+											value='Status'
+											/>
+							<b:switch	id='leaderStatus'
+										binding='#{leaderStatus}'
+										value='#'
+										offText='Atual'
+										onText='Ex'
+										onColor='danger'
+										offColor='primary'
+										inverse='true'
+										>
+								<f:ajax event='change' render='@form' />
+							</b:switch>
+							<b:message for='leaderStatus'/>
+							<br style='	line-height: 100%;'/>
+						</b:column>
+						
+						<b:column	col-lg='3'
+									col-md='3'
+									col-sm='4'
+									col-xs='12'
+									rendered='#{leaderStatus.value}'
+									>
+							<h:outputLabel for='leaderOut' value='Data da entrega'/>
+							<b:datepicker 	id='leaderOut'
+											placeholder='DD/MM/AAAA'
+											value='#{membroBean.membro.membro.lider.dataEntrega}'
+											/>
+							<b:message for='leaderOut' />
+							<br/>
+						</b:column>
+						
+						<b:column	col-lg='3'
+									col-md='3'
+									col-sm='6'
+									col-xs='12'
+									>
+							<b:selectOneMenu	id='liderCelula'
+												value='#{membroBean.membro.membro.lider.celula}'
+												label='Célula liderada'
+												required='true'
+												requiredMessage='Campo obrigatório'
+												converter='omnifaces.SelectItemsConverter'
+												enableFiltering='true'
+												filterPlaceholder='Procurar'
+												nonSelectedText='Selecione'
+												disableIfEmpty='true'
+												>
+								<f:selectItem itemLabel='Selecione'/>
+								<f:selectItems	value='#{remedioBean.listar()}' var='liderCelula'
+												itemLabel='#{liderCelula.nome}'
+												/>
+							</b:selectOneMenu>
+							<b:message for='liderCelula'/>
+							<br/>
+						</b:column>
+						
+						<b:column	col-lg='12'
+									col-md='12'
+									col-sm='3'
+									col-xs='12'
+									style='	line-height: 5%;
+											margin-top: 10px;
+											'
+									>
+							<b:switch	id='isCoordinator'
+										binding='#{showCoordinatorForm}'
+										label='Coordenador'
+										value='#{membroBean.membro.membro.lider.coordinator}'
+										offText='Não'
+										onText='Sim'
+										onColor='danger'
+										offColor='primary'
+										style='	margin-top: 0px;'
+										>
+								<f:ajax event='change' render='@form' />
+							</b:switch>
+							<br/>
+						</b:column>
+					</b:row>
+
+					<br/>
+
+					<b:container	rendered='#{showCoordinatorForm.value}'
+									style='	border-top: solid;
+											width: 100%;
+											border-color: #CCCCCC;
+											margin: 0px;
+											padding: 0px;
+											'
+									>
+						<h3>
+							<b:iconAwesome name="fa fa-fw fa-hand-o-right"/>
+							Coordenação
+						</h3>
+						
+						<b:row>
+							<b:column span='12'>
+								<b:switch	id='isPriest'
+											binding='#{showPriestForm}'
+											label='Ministro'
+											value='#{membroBean.membro.membro.lider.coordenador.priest}'
+											offText='Não'
+											onText='Sim'
+											onColor='danger'
+											offColor='primary'
+											style='	margin-top: 0px;'
+											>
+									<f:ajax event='change' render='@form' />
+								</b:switch>
+							</b:column>
+						</b:row>
+
+						<b:container	rendered='#{showPriestForm.value}'
+										style='	border-top: solid;
+												border-color: #CCCCCC;
+												width: 100%;
+												margin: 0px;
+												padding: 0px;
+												'
+										>
+							<h3>
+								<b:iconAwesome name="fa fa-fw fa-info-circle"/>
+								Ministério
+							</h3>
+							
+							<b:row>
+								<b:column span='2'>
+									<b:switch	id='isConsagrated'
+												label='Ordenado'
+												binding='#{showConsagratedForm}'
+												value='#{membroBean.membro.membro.lider.coordenador.ministro.consagrated}'
+												offText='Não'
+												onText='Sim'
+												onColor='danger'
+												offColor='primary'
+												style='	margin-top: 0px;'
+												>
+										<f:ajax event='change' render='@form' />
+									</b:switch>
+									<br/>
+								</b:column>
+									
+								<b:container	rendered='#{showConsagratedForm.value}'
+												style='	width: 100%;
+														margin: 0px;
+														padding: 0px;
+														'
+												>
+									<b:column	span='3'>
+										<h:outputLabel for='dataOrdenacao' value='Data da Ordenação'/>
+										<b:datepicker 	id='dataOrdenacao'
+														placeholder='Ordenado em'
+														value='#{membroBean.membro.membro.lider.coordenador.ministro.dataOrdenacao}'
+														/>
+										<b:message for='dataOrdenacao' />
+										<br/>
+									</b:column>
+								</b:container>
+								
+								<b:container	rendered='#{showConsagratedForm.value}'
+												style='	width: 100%;
+														margin: 0px;
+														padding: 0px;
+														'
+												>
+									<b:column span='2'>
+										<b:switch	id='specific'
+													label='Ministério Específico'
+													binding='#{showConSpecificForm}'
+													value='#{membroBean.membro.membro.lider.coordenador.ministro.minEspecifico}'
+													offText='Não'
+													onText='Sim'
+													onColor='danger'
+													offColor='primary'
+													style='	margin-top: 0px;'
+													>
+											<f:ajax event='change' render='@form' />
+										</b:switch>
+										<br/>
+									</b:column>
+									
+									<b:container	rendered='#{showConSpecificForm.value}'
+													style='	width: 100%;
+															margin: 0px;
+															padding: 0px;
+															'
+													>
+										<b:column span='3'>
+											<h:outputLabel for='dataOrdenacaoEspecifica' value='Data da Ordenação específica'/>
+											<b:datepicker 	id='dataOrdenacaoEspecifica'
+															placeholder='Ordenado em'
+															value='#{membroBean.membro.membro.lider.coordenador.ministro.dataOrdenacaoEspecifica}'
+															/>
+											<b:message for='dataOrdenacaoEspecifica' />
+											<br/>
+										</b:column>
+										
+										<b:column span='3'>
+											<b:selectMultiMenu 	id='ministerio'
+																label='Ministério(s)'
+																value='#{membroBean.membro.membro.lider.coordenador.ministro.ministerios}'
+																required='true'
+																requiredMessage='Selecione pelo menos 1 dos 5 ministérios'
+																converter='omnifaces.SelectItemsConverter'
+																nonSelectedText='Selecione'
+																nSelectedText='Ministérios selecionados'
+																numberDisplayed='1'
+																disableIfEmpty='true'
+																allSelectedText='Todos'
+																fieldSize='lg'
+																>
+												<f:selectItem	itemLabel='Apostólico'
+																itemValue='Apostólico'
+																/>
+												<f:selectItem	itemLabel='Profético'
+																itemValue='Profético'
+																/>
+												<f:selectItem	itemLabel='Evangelístico'
+																itemValue='Evangelístico'
+																/>
+												<f:selectItem	itemLabel='Pastoral'
+																itemValue='Pastoral'
+																/>
+												<f:selectItem	itemLabel='Ensino'
+																itemValue='Ensino'
+																/>
+											</b:selectMultiMenu>
+											<br/><br/>
+										</b:column>
+									</b:container>
+								</b:container>
+							</b:row>
+							
+							<b:row>
+								<b:column span='2'>
+									<b:switch	id='isPresident'
+												label='Presidente'
+												binding='#{showPresidentForm}'
+												value='#{membroBean.membro.membro.lider.coordenador.ministro.president}'
+												offText='Não'
+												onText='Sim'
+												onColor='danger'
+												offColor='primary'
+												style='	margin-top: 0px;'
+												>
+										<f:ajax event='change' render='@form' />
+									</b:switch>
+									<br/>
+								</b:column>
+								
+								<b:container	rendered='#{showPresidentForm.value}'
+												style='	width: 100%;
+														margin: 0px;
+														padding: 0px;
+														'
+												>
+									<b:column span='3'>
+										<h:outputLabel for='dataPresInicio' value='Data da posse'/>
+										<b:datepicker 	id='dataPresInicio'
+														placeholder='Início'
+														value='#{membroBean.membro.membro.lider.coordenador.ministro.dataPresidentePosse}'
+														/>
+										<b:message for='dataPresInicio' />
+										<br/>
+									</b:column>
+									<b:column span='2'>
+										<b:switch	id='actualEx'
+													binding='#{showEndDate}'
+													label='Status'
+													value='#'
+													offText='Atual'
+													onText='Ex'
+													onColor='danger'
+													offColor='primary'
+													style='	margin-top: 0px;'
+													inverse='true'
+													>
+											<f:ajax event='change' render='@form' />
+										</b:switch>
+										<br/>
+									</b:column>
+
+									<b:container	rendered='#{showEndDate.value}'
+													style='	width: 100%;
+															margin: 0px;
+															padding: 0px;
+															'
+													>
+										<b:column span='3'>
+											<h:outputLabel for='dataPresFim' value='Data da entrega'/>
+											<b:datepicker	id='dataPresFim'
+															placeholder='Fim'
+															value='#{membroBean.membro.membro.lider.coordenador.ministro.dataPresidenteEntrega}'
+															/>
+											<b:message for='dataPresFim' />
+										</b:column>
+									</b:container>
+								</b:container>
+							</b:row>
+						</b:container>
+					</b:container>
+				</b:container>
+				
+				<b:container	rendered='#{showDirecotyForm.value}'
+								style='	width: 100%;
+										margin: 0px;
+										padding: 0px;
+										border-top: solid;
+										border-color: #CCCCCC;
+										'
+								>
+					<h3>
+						<b:iconAwesome name="fa fa-fw fa-legal"/>
+						Diretoria
+					</h3>
+					
+					<br/>
+					
+					<b:row>
+						<b:column	col-lg='3'
+									col-md='3'
+									col-sm='4'
+									col-xs='12'
+									>
+							<b:selectMultiMenu 	id='cargoDiretoria'
+												label='Cargo(s)'
+												value='#{membroBean.membro.membro.diretoriaCargo}'
+												required='true'
+												requiredMessage='Selecione pelo menos 1 cargo'
+												converter='omnifaces.SelectItemsConverter'
+												nonSelectedText='Selecione'
+												nSelectedText='Cargos selecionados'
+												numberDisplayed='1'
+												disableIfEmpty='true'
+												allSelectedText='Todos'
+												fieldSize='lg'
+												>
+								<f:selectItem	itemLabel='Presidente'
+												itemValue='Presidente'
+												/>
+								<f:selectItem	itemLabel='Vice-Presidente'
+												itemValue='Vice-Presidente'
+												/>
+								<f:selectItem	itemLabel='1º Tesoureiro'
+												itemValue='1º Tesoureiro'
+												/>
+								<f:selectItem	itemLabel='2º Tesoureiro'
+												itemValue='2º Tesoureiro'
+												/>
+								<f:selectItem	itemLabel='1º Secretário'
+												itemValue='1º Secretário'
+												/>
+								<f:selectItem	itemLabel='2º Secretário'
+												itemValue='2º Secretário'
+												/>
+								<f:selectItem	itemLabel='Presidente (Conselho Fiscal)'
+												itemValue='Presidente (Conselho Fiscal)'
+												/>
+								<f:selectItem	itemLabel='1º Membro (Diretoria)'
+												itemValue='1º Membro (Diretoria)'
+												/>
+								<f:selectItem	itemLabel='2º Membro (Diretoria)'
+												itemValue='2º Membro (Diretoria)'
+												/>
+								<f:selectItem	itemLabel='3º Membro (Assembléia)'
+												itemValue='3º Membro (Assembléia)'
+												/>
+								<f:selectItem	itemLabel='4º Membro (Assembléia)'
+												itemValue='4º Membro (Assembléia)'
+												/>
+							</b:selectMultiMenu>
+							<br/><br/>
+						</b:column>
+						
+						<b:column	col-lg='3'
+									col-md='3'
+									col-sm='4'
+									col-xs='12'
+									>
+							<h:outputLabel for='dataDiretoriaEntrada' value='Data da entrada'/>
+							<b:datepicker 	id='dataDiretoriaEntrada'
+											placeholder='DD/MM/AAAA'
+											value='#{membroBean.membro.membro.dataDiretoriaEntrada}'
+											/>
+							<b:message for='dataDiretoriaEntrada' />
+							<br/>
+						</b:column>
+						
+						<b:column	col-lg='2'
+									col-md='2'
+									col-sm='4'
+									col-xs='12'
+									style='	line-height: 5%;
+											margin-top: 10px;
+											'
+									>
+							<b:switch	id='directoryStatus'
+										binding='#{directoryStatus}'
+										label='Status'
+										offText='Atual'
+										onText='Ex'
+										onColor='danger'
+										offColor='primary'
+										style='	margin-top: 0px;'
+										inverse='true'
+										>
+								<f:ajax event='change' render='@form' />
+							</b:switch>
+							<br style='	line-height: 100%;'/>
+						</b:column>
+
+						<b:container	rendered='#{directoryStatus.value}'
+										style='	width: 100%;
+												margin: 0px;
+												padding: 0px;
+												'
+										>
+							<b:column	col-lg='3'
+										col-md='3'
+										col-sm='4'
+										col-xs='12'
+										>
+								<h:outputLabel for='dataDiretoriaSaida' value='Data da saída'/>
+								<b:datepicker	id='dataDiretoriaSaida'
+												placeholder='DD/MM/AAAA'
+												value='#{membroBean.membro.membro.dataDiretoriaSaida}'
+												/>
+								<b:message for='dataDiretoriaSaida' />
+								<br/>
+							</b:column>
+						</b:container>
+					</b:row>
+				</b:container>
+			</ui:define>
+	</ui:composition>
+
+</html>

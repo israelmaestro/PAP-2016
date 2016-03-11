@@ -1,0 +1,109 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html	xmlns='http://www.w3.org/1999/xhtml'
+		xmlns:b='http://bootsfaces.net/ui'
+		xmlns:f='http://java.sun.com/jsf/core'
+		xmlns:h='http://java.sun.com/jsf/html'
+		xmlns:p='http://primefaces.org/ui'
+		xmlns:pm='http://primefaces.org/mobile'
+		xmlns:pt='http://xmlns.jcp.org/jsf/passthrough'
+		xmlns:ui='http://java.sun.com/jsf/facelets'
+		>
+
+	<ui:composition template='/META-INF/resources/bootsfaces/jsfTemplate.xhtml'>
+	
+			<ui:define name='tituloPagina'>SCO > Novo Remédio</ui:define>
+			<ui:define name='tituloPrincipal'>
+				<i class='fa fa-medkit fa-fw' />
+				Novo Remédio
+			</ui:define>
+			<ui:define name='tituloSecundario'>home > remédios > novo</ui:define>
+			
+			<ui:define name='botoesAcao'>
+				<b:buttonGroup>
+					<b:button	value=''
+								onclick='location.href = "./remedioListar.jsf"'
+								iconAwesome='fa fa-arrow-left fa-fw'
+								/>
+					<b:commandButton	action='#{remedioBean.cadastrar()}'
+										iconAwesome='fa fa-check fa-fw'
+										/>
+					<b:button	value=''
+								iconAwesome='fa fa-eraser fa-fw'
+								onclick='location.href = "./remedioCadastrar.jsf"'/>
+				</b:buttonGroup>
+			</ui:define>
+			
+			<ui:define name='conteudo'>
+				
+				<h:outputText value='Nome' style='font-weight: bold'/>
+				<b:row>
+					<b:column span='6'>
+						<b:inputText 	id='nome'
+										value='#{remedioBean.remedio.nome}'
+										placeholder='Nome'
+										/>
+					</b:column>
+					<b:column span='6'>
+						<p:message for='nome'/>
+					</b:column>
+				</b:row><br/>
+				
+				<h:outputText value='Princípio ativo' style='font-weight: bold'/>
+				<h:outputText	value='*'
+								style='	color: #CC0000;
+										font-weight: bold;'
+								/>
+				<b:row>
+					<b:column span='6'>
+						<b:inputText 	id='principioAtivo'
+										required='true'
+										requiredMessage='Campo obrigatório'
+										value='#{remedioBean.remedio.principioAtivo}'
+										autocomplete='true'
+										placeHolder='Princípio ativo'
+										/>
+					</b:column>
+					<b:column span='6'>
+						<p:message for='principioAtivo'/>
+					</b:column>
+				</b:row><br/>
+				
+				<h:outputText value='Descrição' style='font-weight: bold'/>
+				<b:row>
+					<b:column span='6'>
+						<b:inputTextarea	id='descricao'
+											value='#{remedioBean.remedio.descricao}'
+											maxlength='255'
+											placeholder='Descrição'
+											/>
+					</b:column>
+					<b:column span='6'>
+						<p:message for='descricao' />
+					</b:column>
+				</b:row><br/>
+				
+				<b:row>
+					<b:column span='6'>
+						<b:selectOneMenu	id='remedioTarja'
+											label='Tarja'
+											value='#{remedioBean.remedio.tarja}'
+											>
+							<f:selectItem	itemLabel='Sem tarja'
+											itemValue=''
+											/>
+							<f:selectItem	itemLabel='Vermelha'
+											itemValue='#FF0000'
+											/>
+							<f:selectItem	itemLabel='Preta'
+											itemValue='#000000'
+											/>
+						</b:selectOneMenu>
+					</b:column>
+					
+					<b:column span='6'>
+					</b:column>
+				</b:row>
+			</ui:define>
+	</ui:composition>
+
+</html>

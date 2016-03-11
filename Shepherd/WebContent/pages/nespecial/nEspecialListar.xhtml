@@ -1,0 +1,121 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html	xmlns='http://www.w3.org/1999/xhtml'
+		xmlns:b='http://bootsfaces.net/ui'
+		xmlns:f='http://java.sun.com/jsf/core'
+		xmlns:h='http://java.sun.com/jsf/html'
+		xmlns:p='http://primefaces.org/ui'
+		xmlns:pm='http://primefaces.org/mobile'
+		xmlns:pt='http://xmlns.jcp.org/jsf/passthrough'
+		xmlns:ui='http://java.sun.com/jsf/facelets'
+		>
+
+	<ui:composition template='/META-INF/resources/bootsfaces/jsfTemplate.xhtml'>
+	
+			<ui:define name='tituloPagina'>Shepherd > Lista de Necessidades Especiais</ui:define>
+			<ui:define name='tituloPrincipal'>
+				<i class='fa fa-wheelchair fa-fw' />
+				Lista de Necessidades Especiais
+			</ui:define>
+			<ui:define name='tituloSecundario'>home > necessidades nspeciais > listar</ui:define>
+			
+			<ui:define name='botoesAcao'>
+				<b:buttonGroup>
+					<b:commandButton	value=''
+										action='./nEspecialCadastrar.jsf'
+										iconAwesome='fa fa-plus fa-fw'
+										update='@form'/>
+				</b:buttonGroup>
+			</ui:define>
+			
+			<ui:define name='conteudo'>
+				<p:dataTable	id='nEspecialLista'
+								value='#{nEspecialBean.listar()}'
+								var='nEspecial'
+								update='nEspecialLista'
+								emptyMessage='Nenhuma necessidade especial encontrada.'
+								style='font-size: 110%;'
+								>
+					
+					<p:column	headerText='Nome'
+								filterBy='#{nEspecial.nome}'
+								filterMatchMode='contains'
+								priority='1'
+								>
+						<center>
+							<h:outputText value='#{nEspecial.nome}'/>
+						</center>
+					</p:column>
+					
+					<p:column	headerText='Descrição'
+								filterBy='#{nEspecial.descricao}'
+								filterMatchMode='contains'
+								priority='2'
+								>
+						<center>
+							<h:outputText value='#{nEspecial.descricao}'/>
+						</center>
+					</p:column>
+					
+					<p:column	headerText='Restritiva'
+								priority='3'
+								>
+						<center>
+							<h:outputText value='#{nEspecial.restricao ? "Sim" : "Não"}'/>
+						</center>
+					</p:column>
+					
+					<p:column	headerText='Opções'
+								priority='1'
+								>
+						<center>
+							<p:commandButton	update='nEspecialLista'
+												onclick='alert("ALTERAÇÃO AINDA NÃO IMPLEMENTADA!")'
+												icon='fa fa-fw fa-pencil'
+												style='	color: #009900;
+														width: auto;
+														height: auto;
+														'
+												/>
+							<p:commandButton	update='nEspecialLista'
+												action='#{nEspecialBean.excluir(nEspecial)}'
+												icon='fa fa-fw fa-trash'
+												style='	color: #cc0000;
+														width: auto;
+														height: auto;
+														'
+												>
+								<p:confirm	header='Excluir'
+											message='Excluir a necessidade especial “#{nEspecial.nome})”?'
+											icon='null'
+											style='	font-size: 200%;
+													'
+											/>
+							</p:commandButton>
+						</center>
+						
+						<p:confirmDialog	global='true'
+											closable='false'
+											>
+							<center>
+								<p:commandButton	styleClass='ui-confirmdialog-yes'
+													icon='fa fa-fw fa-check'
+													update='nEspecialLista'
+													style='	font-size: 150%;
+															color: #CC0000;
+															'
+													/>
+								<p:commandButton	styleClass='ui-confirmdialog-no'
+													icon='fa fa-fw fa-close'
+													update='nEspecialLista'
+													style='	font-size: 150%;
+															color: #0000CC;
+															'
+													/>
+							</center>
+						</p:confirmDialog>
+					</p:column>
+				</p:dataTable>
+			</ui:define>
+	</ui:composition>
+
+</html>
