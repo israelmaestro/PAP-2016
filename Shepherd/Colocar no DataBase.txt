@@ -1,0 +1,52 @@
+Frentes
+=======
+
+	Integração
+	Responsável pela recepção de novos membros
+	Célula
+
+	Jovens
+	Responsável pelos membros solteiros com idade a partir de 17 anos
+	Célula
+	
+	Música
+	Responsável pela música nos cultos e eventos
+	Operacional
+	
+	Teatro
+	Responsável pelas peças teatrais
+	Operacional
+
+Necessidades Especiais
+======================
+
+	Cadeirante
+	Necessita de rampas de acesso
+	Sim
+
+	Cegueira
+	Não enxerga
+	Sim
+
+Remédios
+========
+
+	Aspirina 500
+	Ácido Acetilsalicílico 500mg
+	Analgésico
+
+	Cataflan
+	Diclofenaco Potássico 50mg 
+	Antiinflamatório
+	
+	Novalgina 1g
+	Dipirona Sódica 1000mg
+	Analgésico
+	
+	Rivotril
+	Clonazepam 2mg 
+	Antidepressivo
+	
+	Tylenol 500mg
+	Paracetamol 500mg
+	Analgésico
