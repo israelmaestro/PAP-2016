@@ -26,6 +26,18 @@
 		<link	rel='stylesheet'
 				href='#{facesContext.externalContext.requestContextPath}/css/bootstrap-multiselect.css'
 				/>
+		<link	rel="stylesheet"
+				href="https://cdn.rawgit.com/AndreaLombardo/BootSideMenu/master/css/BootSideMenu.css"
+				/>
+		<script	src="https://cdn.rawgit.com/AndreaLombardo/BootSideMenu/master/js/BootSideMenu.js"></script>
+	
+		<script type="text/javascript">
+			$(document).ready(function(){
+				$('#sidebar').BootSideMenu({side:"left", autoClose:true});
+			});
+		</script>
+
+
 		<script type='text/javascript' src='/Shepherd/js/bootstrap-confirmation.js'></script>
 		<script type='text/javascript' src='/Shepherd/js/scripts.js'></script>
 		<title>
@@ -34,81 +46,126 @@
 			</ui:insert>
 		</title>
 	</h:head>
-	<h:body style='background-color: #333333;'>
+	<h:body style='	background-color: #333333;
+					margin: 0px;
+					padding: 0px;
+					'
+			>
+
 		<b:navBar	id='topo'
 					fixed='top'
 					brand='Shepherd'
 					brandImg='#{facesContext.externalContext.requestContextPath}/images/shepherdIcon.svg'
 					brandHref='/Shepherd/home.jsf'
 					inverse='true'
+					fluid='true'
 					style='	margin-bottom: 0px;
+							color: #FFFFFF;
 							box-shadow: 0px 5px 20px #000000;
 							border-radius: 0px;
 							width: 100%;
 							'
 					>
-			<b:container class='visible-sm'>
-				<b:navbarLinks>
-					<b:dropMenu	value=''
-								iconAwesome='fa fa-bars'
-								>
-						<ui:include	src='./menu.xhtml'/>
-					</b:dropMenu>
-				</b:navbarLinks>
-			</b:container>
+<!--
+-->
 			
-			<b:container class='hidden-sm'>
+			<b:container class='visible-xs'>
 				<b:navbarLinks>
 					<ui:include src='./menu.xhtml'/>
 				</b:navbarLinks>
 			</b:container>
 		</b:navBar>
+
+
 		<b:container	style='	background-color: #FFFFFF;
 								margin-top: 0px;
-								box-shadow: 0px 0px 40px #000000;
-								border-radius: 0px;
+								box-shadow: 0px 0px 20px #000000;
+								border-radius: 4px;
+								padding: 0px;
+								padding-bottom: 1%;
+								'
+						fluid='true'
+						>
+			<div	id='sidebar'
+					class='hidden-xs'
+					style='	margin-top: 56px;
+							border-radius: 4px;
+							background-color: #000000;
+							'
+					>
+				<div	class='user'
+						style='	text-align: center;
 								'
 						>
-			<h:form id='form'>
-				<div id='mensagens'>
-					<br/><br/><br/>
-					<ui:insert name='mensagens' id='globalMessages'>
-						<b:messages	id='globalMessages'
-									globalOnly='true'
-									autoUpdate='true'
-									closable='true'
-									/>
-					</ui:insert>
+					<img	src="http://image.priceprice.k-img.com/ph/images/common/face_japan_01.gif"
+							alt="Esempio" class="img-thumbnail"
+							style='	margin: 4px;'
+							/>
+					
+					<br/>
+					
+					<a	href='' target=''
+						class='navbar-link'
+						>
+						Usuário Logado
+					</a>
 				</div>
-				<b:container id='conteudoTopo' >
-					<h1>
-						<ui:insert name='tituloPrincipal'>
-							Título Principal
-						</ui:insert>
-					</h1>
-					<p	style='	color: #666666;
-								font-style: italic;'
-								>
-						<ui:insert	name='tituloSecundario'
-									>
-							Título secundário miniaturizado
-						</ui:insert>
-					</p>
-				</b:container>
+				<b:navbarLinks style='width: 100%;'>
+					<ui:include	src='./menu.xhtml'/>
+				</b:navbarLinks>
+			</div>
 
-				<b:container	id='principal'
-								style='	width: 100%;
-										width: 100%;
-										padding: 5px;
-										margin-top: 5px;
-										margin-bottom: 5px;
-										'
-								>
-					<ui:insert name='conteudo'>
-						Espaço para os formulários
-					</ui:insert>
-				</b:container>
-			</h:form>
+			<b:column	col-lg='12'
+						col-md='12'
+						col-sm='12'
+						col-xs='12'
+						>
+				<br/><br/><br/><br/>
+				
+				<h:form id='form' style=''>
+					<div id='mensagens'>
+						<ui:insert name='mensagens' id='globalMessages'>
+							<b:messages	id='globalMessages'
+										globalOnly='true'
+										autoUpdate='true'
+										closable='true'
+										/>
+						</ui:insert>
+					</div>
+					<b:container	id='conteudoTopo'
+									style='	width: 100%;
+											padding: 5px;
+											'
+									>
+						<h1	style='	margin-top: 0px'>
+							<ui:insert name='tituloPrincipal'>
+								Título Principal
+							</ui:insert>
+						</h1>
+						<p	style='	color: #666666;
+									font-style: italic;
+									font-size: 1.25em;'
+									>
+							<ui:insert	name='tituloSecundario'
+										>
+								Título secundário miniaturizado
+							</ui:insert>
+						</p>
+					</b:container>
+					<b:container	id='principal'
+									style='	width: 100%;
+											width: 100%;
+											padding: 5px;
+											margin-top: 5px;
+											margin-bottom: 5px;
+											'
+									>
+						<ui:insert name='conteudo'>
+							Espaço para os formulários
+						</ui:insert>
+					</b:container>
+				</h:form>
+			</b:column>
 		</b:container>
 	</h:body>
 </html>
