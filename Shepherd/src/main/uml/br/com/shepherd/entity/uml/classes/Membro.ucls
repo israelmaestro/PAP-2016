@@ -1,0 +1,486 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<class-diagram version="1.1.9" icons="true" automaticImage="PNG" always-add-relationships="false" generalizations="true" 
+  realizations="true" associations="true" dependencies="true" nesting-relationships="true" router="FAN">  
+  <class id="1" language="java" name="br.com.shepherd.entity.Pessoa" project="Shepherd" 
+    file="/Shepherd/src/main/java/br/com/shepherd/entity/Pessoa.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="390" y="241"/>    
+    <display autosize="true" stereotype="false" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </class>  
+  <class id="2" language="java" name="br.com.shepherd.entity.Membro" project="Shepherd" 
+    file="/Shepherd/src/main/java/br/com/shepherd/entity/Membro.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="738" y="141"/>    
+    <display autosize="true" stereotype="false" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </class>  
+  <class id="3" language="java" name="br.com.shepherd.entity.Remedio" project="Shepherd" 
+    file="/Shepherd/src/main/java/br/com/shepherd/entity/Remedio.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="219" y="-11"/>    
+    <display autosize="true" stereotype="false" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </class>  
+  <class id="4" language="java" name="br.com.shepherd.entity.NEspecial" project="Shepherd" 
+    file="/Shepherd/src/main/java/br/com/shepherd/entity/NEspecial.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="136" y="241"/>    
+    <display autosize="true" stereotype="false" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </class>  
+  <class id="5" language="java" name="br.com.shepherd.entity.Usuario" project="Shepherd" 
+    file="/Shepherd/src/main/java/br/com/shepherd/entity/Usuario.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="605" y="-173"/>    
+    <display autosize="true" stereotype="false" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </class>  
+  <class id="6" language="java" name="br.com.shepherd.entity.Frente" project="Shepherd" 
+    file="/Shepherd/src/main/java/br/com/shepherd/entity/Frente.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1049" y="-178"/>    
+    <display autosize="true" stereotype="false" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </class>  
+  <class id="7" language="java" name="br.com.shepherd.entity.Lider" project="Shepherd" 
+    file="/Shepherd/src/main/java/br/com/shepherd/entity/Lider.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="738" y="426"/>    
+    <display autosize="true" stereotype="false" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </class>  
+  <class id="8" language="java" name="br.com.shepherd.entity.Celula" project="Shepherd" 
+    file="/Shepherd/src/main/java/br/com/shepherd/entity/Celula.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1049" y="141"/>    
+    <display autosize="true" stereotype="false" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </class>  
+  <class id="9" language="java" name="br.com.shepherd.entity.Sede" project="Shepherd" 
+    file="/Shepherd/src/main/java/br/com/shepherd/entity/Sede.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1376" y="141"/>    
+    <display autosize="true" stereotype="false" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </class>  
+  <class id="10" language="java" name="br.com.shepherd.entity.Coordenador" project="Shepherd" 
+    file="/Shepherd/src/main/java/br/com/shepherd/entity/Coordenador.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1049" y="426"/>    
+    <display autosize="true" stereotype="false" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </class>  
+  <class id="11" language="java" name="br.com.shepherd.entity.Ministro" project="Shepherd" 
+    file="/Shepherd/src/main/java/br/com/shepherd/entity/Ministro.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1376" y="426"/>    
+    <display autosize="true" stereotype="false" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </class>  
+  <class id="12" language="java" name="br.com.shepherd.entity.Perfil" project="Shepherd" 
+    file="/Shepherd/src/main/java/br/com/shepherd/entity/Perfil.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="345" y="-173"/>    
+    <display autosize="true" stereotype="false" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </class>  
+  <association id="13">    
+    <end type="SOURCE" refId="1" navigable="false">      
+      <attribute id="14" name="irmaos">        
+        <position height="18" width="40" x="464" y="515"/>      
+      </attribute>      
+      <multiplicity id="15" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="1" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="16">    
+    <bendpoint x="739" y="-178"/>    
+    <end type="SOURCE" refId="2" navigable="false">      
+      <attribute id="17" name="frentes">        
+        <position height="18" width="43" x="920" y="-197"/>      
+      </attribute>      
+      <multiplicity id="18" minimum="0" maximum="2147483647">        
+        <position height="16" width="21" x="962" y="-195"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="6" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="19">    
+    <bendpoint x="439" y="590"/>    
+    <bendpoint x="516" y="590"/>    
+    <bendpoint x="516" y="510"/>    
+    <end type="SOURCE" refId="1" navigable="false">      
+      <attribute id="20" name="mae">        
+        <position height="18" width="28" x="465" y="393"/>      
+      </attribute>      
+      <multiplicity id="21" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="1" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="22">    
+    <end type="SOURCE" refId="1" navigable="true">      
+      <attribute id="23" name="remedios">        
+        <position height="18" width="52" x="200" y="66"/>      
+      </attribute>      
+      <multiplicity id="24" minimum="0" maximum="2147483647">        
+        <position height="16" width="21" x="255" y="67"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="3" navigable="true">      
+      <attribute id="25" name="pessoas">        
+        <position height="18" width="50" x="245" y="132"/>      
+      </attribute>      
+      <multiplicity id="26" minimum="0" maximum="2147483647">        
+        <position height="16" width="21" x="295" y="134"/>      
+      </multiplicity>    
+    </end>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="27">    
+    <end type="SOURCE" refId="1" navigable="true">      
+      <attribute id="28" name="nEspeciais">        
+        <position height="18" width="60" x="203" y="223"/>      
+      </attribute>      
+      <multiplicity id="29" minimum="0" maximum="2147483647">        
+        <position height="16" width="21" x="203" y="242"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="4" navigable="true">      
+      <attribute id="30" name="pessoas">        
+        <position height="18" width="50" x="270" y="243"/>      
+      </attribute>      
+      <multiplicity id="31" minimum="0" maximum="2147483647">        
+        <position height="16" width="21" x="297" y="224"/>      
+      </multiplicity>    
+    </end>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="32">    
+    <end type="SOURCE" refId="8" navigable="true">      
+      <attribute id="33" name="frente">        
+        <position height="18" width="37" x="1012" y="-114"/>      
+      </attribute>      
+      <multiplicity id="34" minimum="0" maximum="1">        
+        <position height="16" width="23" x="1050" y="-112"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="6" navigable="true">      
+      <attribute id="35" name="celulas">        
+        <position height="18" width="42" x="1052" y="75"/>      
+      </attribute>      
+      <multiplicity id="36" minimum="0" maximum="2147483647">        
+        <position height="16" width="21" x="1027" y="76"/>      
+      </multiplicity>    
+    </end>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="37">    
+    <end type="SOURCE" refId="10" navigable="true">      
+      <attribute id="38" name="ministro">        
+        <position height="18" width="45" x="1242" y="409"/>      
+      </attribute>      
+      <multiplicity id="39" minimum="0" maximum="1">        
+        <position height="16" width="23" x="1264" y="426"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="11" navigable="true">      
+      <attribute id="40" name="coordenador">        
+        <position height="18" width="70" x="1115" y="426"/>      
+      </attribute>      
+      <multiplicity id="41" minimum="0" maximum="1">        
+        <position height="16" width="23" x="1115" y="411"/>      
+      </multiplicity>    
+    </end>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="42">    
+    <bendpoint x="958" y="-72"/>    
+    <bendpoint x="919" y="46"/>    
+    <end type="SOURCE" refId="6" navigable="false">      
+      <attribute id="43" name="lideres">        
+        <position height="18" width="40" x="845" y="96"/>      
+      </attribute>      
+      <multiplicity id="44" minimum="0" maximum="2147483647">        
+        <position height="16" width="21" x="824" y="98"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="2" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="45">    
+    <end type="SOURCE" refId="10" navigable="true">      
+      <attribute id="46" name="lider">        
+        <position height="18" width="28" x="804" y="409"/>      
+      </attribute>      
+      <multiplicity id="47" minimum="0" maximum="1">        
+        <position height="16" width="23" x="804" y="427"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="7" navigable="true">      
+      <attribute id="48" name="coordenador">        
+        <position height="18" width="70" x="914" y="427"/>      
+      </attribute>      
+      <multiplicity id="49" minimum="0" maximum="1">        
+        <position height="16" width="23" x="961" y="410"/>      
+      </multiplicity>    
+    </end>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="50">    
+    <end type="SOURCE" refId="8" navigable="true">      
+      <attribute id="51" name="coordenador">        
+        <position height="18" width="70" x="980" y="342"/>      
+      </attribute>      
+      <multiplicity id="52" minimum="0" maximum="1">        
+        <position height="16" width="23" x="1051" y="344"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="10" navigable="true">      
+      <attribute id="53" name="celulas">        
+        <position height="18" width="42" x="1050" y="188"/>      
+      </attribute>      
+      <multiplicity id="54" minimum="0" maximum="2147483647">        
+        <position height="16" width="21" x="1028" y="189"/>      
+      </multiplicity>    
+    </end>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="55">    
+    <end type="SOURCE" refId="2" navigable="true">      
+      <attribute id="56" name="celula">        
+        <position height="18" width="36" x="948" y="124"/>      
+      </attribute>      
+      <multiplicity id="57" minimum="0" maximum="1">        
+        <position height="16" width="23" x="961" y="142"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="8" navigable="true">      
+      <attribute id="58" name="membros">        
+        <position height="18" width="52" x="821" y="142"/>      
+      </attribute>      
+      <multiplicity id="59" minimum="0" maximum="2147483647">        
+        <position height="16" width="21" x="823" y="126"/>      
+      </multiplicity>    
+    </end>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="60">    
+    <end type="SOURCE" refId="2" navigable="true">      
+      <attribute id="61" name="usuario">        
+        <position height="18" width="44" x="585" y="-127"/>      
+      </attribute>      
+      <multiplicity id="62" minimum="0" maximum="1">        
+        <position height="16" width="23" x="631" y="-126"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="5" navigable="true">      
+      <attribute id="63" name="membro"/>      
+      <multiplicity id="64" minimum="0" maximum="1"/>    
+    </end>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="65">    
+    <end type="SOURCE" refId="5" navigable="true">      
+      <attribute id="66" name="perfil">        
+        <position height="18" width="32" x="421" y="-190"/>      
+      </attribute>      
+      <multiplicity id="67" minimum="0" maximum="1">        
+        <position height="16" width="23" x="421" y="-173"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="12" navigable="true">      
+      <attribute id="68" name="usuarios">        
+        <position height="18" width="50" x="491" y="-173"/>      
+      </attribute>      
+      <multiplicity id="69" minimum="0" maximum="2147483647">        
+        <position height="16" width="21" x="520" y="-188"/>      
+      </multiplicity>    
+    </end>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="70">    
+    <bendpoint x="753" y="-23"/>    
+    <end type="SOURCE" refId="2" navigable="false">      
+      <attribute id="71" name="frentesLideradas">        
+        <position height="18" width="91" x="872" y="-160"/>      
+      </attribute>      
+      <multiplicity id="72" minimum="0" maximum="2147483647">        
+        <position height="16" width="21" x="963" y="-159"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="6" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="73">    
+    <bendpoint x="416" y="612"/>    
+    <bendpoint x="561" y="612"/>    
+    <bendpoint x="561" y="350"/>    
+    <end type="SOURCE" refId="1" navigable="false">      
+      <attribute id="74" name="conjuge">        
+        <position height="18" width="46" x="461" y="270"/>      
+      </attribute>      
+      <multiplicity id="75" minimum="0" maximum="1">        
+        <position height="16" width="23" x="479" y="285"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="1" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="76">    
+    <bendpoint x="916" y="-76"/>    
+    <end type="SOURCE" refId="6" navigable="false">      
+      <attribute id="77" name="participantes">        
+        <position height="18" width="70" x="837" y="23"/>      
+      </attribute>      
+      <multiplicity id="78" minimum="0" maximum="2147483647">        
+        <position height="16" width="21" x="822" y="39"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="2" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="79">    
+    <end type="SOURCE" refId="7" navigable="true">      
+      <attribute id="80" name="celula">        
+        <position height="18" width="36" x="949" y="179"/>      
+      </attribute>      
+      <multiplicity id="81" minimum="0" maximum="1">        
+        <position height="16" width="23" x="955" y="194"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="8" navigable="true">      
+      <attribute id="82" name="lideres">        
+        <position height="18" width="40" x="805" y="361"/>      
+      </attribute>      
+      <multiplicity id="83" minimum="0" maximum="2147483647">        
+        <position height="16" width="21" x="795" y="344"/>      
+      </multiplicity>    
+    </end>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="84">    
+    <end type="SOURCE" refId="2" navigable="true">      
+      <attribute id="85" name="lider">        
+        <position height="18" width="28" x="710" y="341"/>      
+      </attribute>      
+      <multiplicity id="86" minimum="0" maximum="1">        
+        <position height="16" width="23" x="738" y="342"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="7" navigable="true">      
+      <attribute id="87" name="membro">        
+        <position height="18" width="46" x="739" y="287"/>      
+      </attribute>      
+      <multiplicity id="88" minimum="0" maximum="1">        
+        <position height="16" width="23" x="715" y="288"/>      
+      </multiplicity>    
+    </end>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="89">    
+    <bendpoint x="428" y="600"/>    
+    <bendpoint x="539" y="600"/>    
+    <bendpoint x="539" y="434"/>    
+    <end type="SOURCE" refId="1" navigable="false">      
+      <attribute id="90" name="pai">        
+        <position height="18" width="22" x="461" y="316"/>      
+      </attribute>      
+      <multiplicity id="91" minimum="0" maximum="1">        
+        <position height="16" width="23" x="473" y="331"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="1" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="92">    
+    <end type="SOURCE" refId="11" navigable="true">      
+      <attribute id="93" name="sedes">        
+        <position height="18" width="38" x="1338" y="233"/>      
+      </attribute>      
+      <multiplicity id="94" minimum="0" maximum="2147483647">        
+        <position height="16" width="21" x="1377" y="234"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="9" navigable="true">      
+      <attribute id="95" name="presidentes">        
+        <position height="18" width="65" x="1378" y="279"/>      
+      </attribute>      
+      <multiplicity id="96" minimum="0" maximum="2147483647">        
+        <position height="16" width="21" x="1354" y="280"/>      
+      </multiplicity>    
+    </end>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="97">    
+    <end type="SOURCE" refId="9" navigable="true">      
+      <attribute id="98" name="celulas">        
+        <position height="18" width="42" x="1115" y="124"/>      
+      </attribute>      
+      <multiplicity id="99" minimum="0" maximum="2147483647">        
+        <position height="16" width="21" x="1116" y="143"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="8" navigable="true">      
+      <attribute id="100" name="sede">        
+        <position height="18" width="32" x="1275" y="141"/>      
+      </attribute>      
+      <multiplicity id="101" minimum="0" maximum="1">        
+        <position height="16" width="23" x="1283" y="126"/>      
+      </multiplicity>    
+    </end>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="102">    
+    <end type="SOURCE" refId="1" navigable="true">      
+      <attribute id="103" name="membro">        
+        <position height="18" width="46" x="608" y="149"/>      
+      </attribute>      
+      <multiplicity id="104" minimum="0" maximum="1">        
+        <position height="16" width="23" x="632" y="171"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="2" navigable="true">      
+      <attribute id="105" name="pessoa">        
+        <position height="18" width="44" x="461" y="221"/>      
+      </attribute>      
+      <multiplicity id="106" minimum="0" maximum="1">        
+        <position height="16" width="23" x="460" y="200"/>      
+      </multiplicity>    
+    </end>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <classifier-display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+    sort-features="false" accessors="true" visibility="true">    
+    <attributes public="true" package="true" protected="true" private="true" static="true"/>    
+    <operations public="false" package="false" protected="false" private="false" static="false"/>  
+  </classifier-display>  
+  <association-display labels="true" multiplicity="true"/>
+</class-diagram>
