@@ -16,7 +16,7 @@ import javax.validation.constraints.NotNull;
 @Entity
 @Table(uniqueConstraints = {
 								@UniqueConstraint(columnNames = {
-																	"nome"
+																	"nome", "sede"
 								})
 })
 public class Celula implements Serializable{
@@ -44,6 +44,10 @@ public class Celula implements Serializable{
 	@NotNull
 	@OneToOne(fetch = FetchType.EAGER)
 	private Frente				frente;
+
+	@NotNull
+	@OneToOne(fetch = FetchType.EAGER)
+	private Sede				sede;
 
 	public Celula(){
 	}

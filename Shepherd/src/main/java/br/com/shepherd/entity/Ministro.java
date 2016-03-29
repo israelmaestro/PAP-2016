@@ -2,12 +2,14 @@ package br.com.shepherd.entity;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -43,6 +45,11 @@ public class Ministro implements Serializable{
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date				dataOrdenacaoEspecifica;
 
+	/*
+	 * TODO: Resolver o caso do ministro presidente. Ele pode ser presidente de
+	 * mais de uma sede? Caso sim, se ele deixa de ser presidente, deixa de ser
+	 * de todas?
+	 */
 	private String[]			ministerios;
 
 	@Column(columnDefinition = "timestamp")
@@ -52,6 +59,9 @@ public class Ministro implements Serializable{
 	@Column(columnDefinition = "timestamp")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date				dataPresidenteEntrega;
+
+	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "presidentes")
+	private List<Sede>			sedes;
 
 	// Flags
 	private boolean				isPresident			= false;
@@ -153,6 +163,14 @@ public class Ministro implements Serializable{
 
 	public void setDataPresidenteEntrega(Date pDataPresidenteEntrega){
 		dataPresidenteEntrega = pDataPresidenteEntrega;
+	}
+
+	public List<Sede> getSedes(){
+		return sedes;
+	}
+
+	public void setSedes(List<Sede> pSedes){
+		sedes = pSedes;
 	}
 
 	public boolean isPresident(){
