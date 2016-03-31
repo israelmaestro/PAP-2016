@@ -14,11 +14,15 @@ import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 
 @Entity
-@Table(uniqueConstraints = {
-								@UniqueConstraint(columnNames = {
+@Table
+		/* 
+		 	(uniqueConstraints = {
+		 						@UniqueConstraint(columnNames = {
 																	"nome", "sede"
-								})
+								}) 
 })
+  */
+
 public class Celula implements Serializable{
 	private static final long	serialVersionUID	= -7390302449224224794L;
 
@@ -26,7 +30,7 @@ public class Celula implements Serializable{
 	@GeneratedValue
 	private Integer				id;
 
-	// Dados da célula
+	// Dados da cï¿½lula
 	@NotNull
 	private String				nome;
 
