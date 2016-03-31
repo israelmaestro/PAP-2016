@@ -24,7 +24,7 @@ public class Membro implements Serializable{
 	@GeneratedValue
 	private Integer				id;
 
-	// Informações gerais
+	// Informaï¿½ï¿½es gerais
 	@OneToOne(fetch = FetchType.EAGER)
 	private Celula				celula;
 
@@ -36,7 +36,7 @@ public class Membro implements Serializable{
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date				dataSaida;
 
-	// Informações pessoais do membro
+	// Informaï¿½ï¿½es pessoais do membro
 	@NotNull
 	@OneToOne(fetch = FetchType.EAGER)
 	private Pessoa				pessoa;
@@ -51,12 +51,12 @@ public class Membro implements Serializable{
 	@NotNull
 	private boolean				isProjectLeader		= false;
 
-	@NotNull
+	@NotNull // TODO: Continuar a partir daqui
 	private boolean				isUser				= false;
 
 	private boolean				isDirectoryMember	= false;
 
-	// Atribuições
+	// Atribuiï¿½ï¿½es
 	@ManyToMany(fetch = FetchType.EAGER)
 	private List<Frente>		frentes;
 
