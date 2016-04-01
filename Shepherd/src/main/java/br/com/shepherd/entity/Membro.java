@@ -51,7 +51,7 @@ public class Membro implements Serializable{
 	@NotNull
 	private boolean				isProjectLeader		= false;
 
-	@NotNull // TODO: Continuar a partir daqui
+	@NotNull // TODO: Continuar a partir daqui.
 	private boolean				isUser				= false;
 
 	private boolean				isDirectoryMember	= false;
