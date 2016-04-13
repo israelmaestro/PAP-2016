@@ -266,35 +266,6 @@
 								</b:selectMultiMenu>
 								<br/><br/>
 							</b:column>
-
-							<b:column	col-lg='3'
-										col-md='3'
-										col-sm='6'
-										col-xs='12'
-										rendered='#{showRemedyMenu.value}'
-										>
-								<b:selectMultiMenu 	id='remedio'
-													label='Remédios'
-													value='#{membroBean.membro.remedios}'
-													converter='omnifaces.SelectItemsConverter'
-													enableFiltering='true'
-													filterPlaceholder='Procurar'
-													nonSelectedText='Selecione'
-													nSelectedText='Remédios selecionados'
-													numberDisplayed='1'
-													disableIfEmpty='true'
-													allSelectedText='Todos'
-													fieldSize='lg'
-													style='max-width: 50%'
-													>
-									<f:selectItems	value='#{remedioBean.listar()}'
-													var='remedio'
-													itemLabel='#{remedio.nome}'
-													itemDescription='#{remedio.principioAtivo}'
-													/>
-								</b:selectMultiMenu>
-								<br/><br/>
-							</b:column>
 						</b:container>
 						
 						<b:container	style='	border-top: solid;
