@@ -61,9 +61,6 @@ public class Pessoa implements Serializable{
 	@ManyToMany(fetch = FetchType.EAGER)
 	private List<NEspecial>		nEspeciais;
 
-	@ManyToMany(fetch = FetchType.EAGER)
-	private List<Remedio>		remedios;
-
 	// Informações de endereço
 	@Column(length = 8)
 	private String				cep;
@@ -243,14 +240,6 @@ public class Pessoa implements Serializable{
 
 	public void setnEspeciais(List<NEspecial> pNEspeciais){
 		nEspeciais = pNEspeciais;
-	}
-
-	public List<Remedio> getRemedios(){
-		return remedios;
-	}
-
-	public void setRemedios(List<Remedio> pRemedios){
-		remedios = pRemedios;
 	}
 
 	public String getCep(){
