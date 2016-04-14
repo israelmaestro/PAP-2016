@@ -2,6 +2,7 @@
 <!DOCTYPE html>
 <html	xmlns='http://www.w3.org/1999/xhtml'
 		xmlns:b='http://bootsfaces.net/ui'
+		xmlns:btr='http://butterfaces.larmic.de/components'
 		xmlns:f='http://java.sun.com/jsf/core'
 		xmlns:h='http://java.sun.com/jsf/html'
 		xmlns:p='http://primefaces.org/ui'
@@ -59,6 +60,19 @@
 							/>
 				<b:navLink	value='Novo Perfil'
 							href='/Shepherd/pages/perfil/perfilCadastrar.jsf'
+							iconAwesome='fa fa-plus fa-fw'
+							/>
+			</b:dropMenu>
+			<b:dropMenu	value='Sedes'
+						iconAwesome='fa-university fa-fw'
+						style='	width: 100%;'
+						>
+				<b:navLink	value='Listar Sedes'
+							href='/Shepherd/pages/sede/sedeListar.jsf'
+							iconAwesome='fa fa-list fa-fw'
+							/>
+				<b:navLink	value='Nova Sede'
+							href='/Shepherd/pages/sede/sedeCadastrar.jsf'
 							iconAwesome='fa fa-plus fa-fw'
 							/>
 			</b:dropMenu>

@@ -2,6 +2,7 @@
 <!DOCTYPE html>
 <html	xmlns='http://www.w3.org/1999/xhtml'
 		xmlns:b='http://bootsfaces.net/ui'
+		xmlns:btr='http://butterfaces.larmic.de/components'
 		xmlns:f='http://java.sun.com/jsf/core'
 		xmlns:h='http://java.sun.com/jsf/html'
 		xmlns:p='http://primefaces.org/ui'
@@ -16,20 +17,20 @@
 		<meta name='description' content='X Conami' />
 		<meta name='author' content='Israel Oliveira Santos' />
 		<meta http-equiv='pragma' content='no-cache' />
-		<link rel='icon' href='#{facesContext.externalContext.requestContextPath}/images/favicon.ico' type='image/x-icon' />
+		<link rel='icon' href='#{facesContext.externalContext.requestContextPath}/resources/genericImages/favicon.ico' type='image/x-icon' />
 		<link	rel='stylesheet'
-				href='#{facesContext.externalContext.requestContextPath}/META-INF/resources/font-awesome-4.3.0/css/font-awesome.css'
+				href='#{facesContext.externalContext.requestContextPath}/resources/font-awesome-4.3.0/css/font-awesome.css'
 				/>
 		<link	rel='stylesheet'
-				href='#{facesContext.externalContext.requestContextPath}/css/primeFacesTheme.css?ln=primefaces-bootstrap'
+				href='#{facesContext.externalContext.requestContextPath}/resources/primefaces-bootstrap/theme.css'
 				/>
 		<link	rel='stylesheet'
-				href='#{facesContext.externalContext.requestContextPath}/css/bootstrap-multiselect.css'
+				href='#{facesContext.externalContext.requestContextPath}/resources/bootstrap/css/bootstrap-multiselect.css'
 				/>
 		<link	rel="stylesheet"
-				href="https://cdn.rawgit.com/AndreaLombardo/BootSideMenu/master/css/BootSideMenu.css"
+				href="#{facesContext.externalContext.requestContextPath}/resources/bootstrap/css/BootSideMenu.css"
 				/>
-		<script	src="https://cdn.rawgit.com/AndreaLombardo/BootSideMenu/master/js/BootSideMenu.js"></script>
+		<script	src="#{facesContext.externalContext.requestContextPath}/resources/bootstrap/js/BootSideMenu.js"></script>
 	
 		<script type="text/javascript">
 			$(document).ready(function(){
@@ -38,8 +39,8 @@
 		</script>
 
 
-		<script type='text/javascript' src='/Shepherd/js/bootstrap-confirmation.js'></script>
-		<script type='text/javascript' src='/Shepherd/js/scripts.js'></script>
+		<script type='text/javascript' src='#{facesContext.externalContext.requestContextPath}/resources/bootstrap/js/bootstrap-confirmation.js'></script>
+		<script type='text/javascript' src='#{facesContext.externalContext.requestContextPath}/resources/js/scripts.js'></script>
 		<title>
 			<ui:insert name='tituloPagina'>
 				Altere o título da página
@@ -55,8 +56,8 @@
 		<b:navBar	id='topo'
 					fixed='top'
 					brand='Shepherd'
-					brandImg='#{facesContext.externalContext.requestContextPath}/images/shepherdIcon.svg'
-					brandHref='/Shepherd/home.jsf'
+					brandImg='#{facesContext.externalContext.requestContextPath}/resources/genericImages/shepherdIcon.svg'
+					brandHref='#{facesContext.externalContext.requestContextPath}/home.jsf'
 					inverse='true'
 					fluid='true'
 					style='	margin-bottom: 0px;

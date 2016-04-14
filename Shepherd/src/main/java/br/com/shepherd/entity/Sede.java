@@ -9,13 +9,16 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
+
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.URL;
 
 @Entity
 @Table(uniqueConstraints = { @UniqueConstraint(columnNames = { "nome", "cnpj" }) })
@@ -40,8 +43,51 @@ public class Sede implements Serializable{
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "sede")
 	private List<Celula>		celulas;
 
-	@ManyToMany(fetch = FetchType.EAGER)
-	private List<Ministro>		presidentes;
+	@OneToOne(fetch = FetchType.EAGER)
+	private Ministro			presidente;
+
+
+	// Informações de endereço
+	@Column(length = 8)
+	private String				cep;
+
+	private String				logradouro;
+
+	@Column(length = 5)
+	private Integer				numero;
+
+	private String				complemento;
+
+	private String				bairro;
+
+	private String				cidade;
+
+	@Column(length = 2)
+	private String				estado;
+
+	private String				pais;
+
+	// Informações de contato
+	@Column(length = 4)
+	private String				telefoneDdi1;
+
+	@Column(length = 9)
+	private String				telefoneNumero1;
+
+	private String				telefoneTipo1;
+
+	@Email
+	private String				email1;
+
+	@URL
+	private String				paginaWeb;
+
+	@URL
+	private String				perfilRedeSocial;
+
+	// TODO: Lista de correspondências (cartas)
+
+	// TODO: Lista de assembleias gerais
 
 	// Flags
 	@NotNull
@@ -100,28 +146,140 @@ public class Sede implements Serializable{
 		cnpj = pCnpj;
 	}
 
-	public List<Celula> getCelulas(){
-		return celulas;
-	}
-
-	public List<Ministro> getMinistros(){
-		return presidentes;
-	}
-
-	public void setMinistros(List<Ministro> pMinistros){
-		presidentes = pMinistros;
-	}
-
-	public void setCelulas(List<Celula> pCelulas){
-		celulas = pCelulas;
-	}
-
 	public Date getDataFundacao(){
 		return dataFundacao;
 	}
 
 	public void setDataFundacao(Date pDataFundacao){
 		dataFundacao = pDataFundacao;
+	}
+
+	public List<Celula> getCelulas(){
+		return celulas;
+	}
+
+	public void setCelulas(List<Celula> pCelulas){
+		celulas = pCelulas;
+	}
+
+	public Ministro getPresidente(){
+		return presidente;
+	}
+
+	public void setPresidente(Ministro pPresidente){
+		presidente = pPresidente;
+	}
+
+	public String getCep(){
+		return cep;
+	}
+
+	public void setCep(String pCep){
+		cep = pCep;
+	}
+
+	public String getLogradouro(){
+		return logradouro;
+	}
+
+	public void setLogradouro(String pLogradouro){
+		logradouro = pLogradouro;
+	}
+
+	public Integer getNumero(){
+		return numero;
+	}
+
+	public void setNumero(Integer pNumero){
+		numero = pNumero;
+	}
+
+	public String getComplemento(){
+		return complemento;
+	}
+
+	public void setComplemento(String pComplemento){
+		complemento = pComplemento;
+	}
+
+	public String getBairro(){
+		return bairro;
+	}
+
+	public void setBairro(String pBairro){
+		bairro = pBairro;
+	}
+
+	public String getCidade(){
+		return cidade;
+	}
+
+	public void setCidade(String pCidade){
+		cidade = pCidade;
+	}
+
+	public String getEstado(){
+		return estado;
+	}
+
+	public void setEstado(String pEstado){
+		estado = pEstado;
+	}
+
+	public String getPais(){
+		return pais;
+	}
+
+	public void setPais(String pPais){
+		pais = pPais;
+	}
+
+	public String getTelefoneDdi1(){
+		return telefoneDdi1;
+	}
+
+	public void setTelefoneDdi1(String pTelefoneDdi1){
+		telefoneDdi1 = pTelefoneDdi1;
+	}
+
+	public String getTelefoneNumero1(){
+		return telefoneNumero1;
+	}
+
+	public void setTelefoneNumero1(String pTelefoneNumero1){
+		telefoneNumero1 = pTelefoneNumero1;
+	}
+
+	public String getTelefoneTipo1(){
+		return telefoneTipo1;
+	}
+
+	public void setTelefoneTipo1(String pTelefoneTipo1){
+		telefoneTipo1 = pTelefoneTipo1;
+	}
+
+	public String getEmail1(){
+		return email1;
+	}
+
+	public void setEmail1(String pEmail1){
+		email1 = pEmail1;
+	}
+
+	public String getPaginaWeb(){
+		return paginaWeb;
+	}
+
+	public void setPaginaWeb(String pPaginaWeb){
+		paginaWeb = pPaginaWeb;
+	}
+
+	public String getPerfilRedeSocial(){
+		return perfilRedeSocial;
+	}
+
+	public void setPerfilRedeSocial(String pPerfilRedeSocial){
+		perfilRedeSocial = pPerfilRedeSocial;
 	}
 
 	public boolean isMainChurch(){

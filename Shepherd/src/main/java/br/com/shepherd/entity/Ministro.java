@@ -9,7 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -60,7 +60,7 @@ public class Ministro implements Serializable{
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date				dataPresidenteEntrega;
 
-	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "presidentes")
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "presidente")
 	private List<Sede>			sedes;
 
 	// Flags
