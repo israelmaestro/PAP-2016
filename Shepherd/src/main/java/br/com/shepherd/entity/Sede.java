@@ -71,7 +71,7 @@ public class Sede implements Serializable{
 	@Column(length = 4)
 	private String				telefoneDdi1;
 
-	@Column(length = 9)
+	@Column(length = 11)
 	private String				telefoneNumero1;
 
 	private String				telefoneTipo1;

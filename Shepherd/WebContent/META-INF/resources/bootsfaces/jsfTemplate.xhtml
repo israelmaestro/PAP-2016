@@ -41,6 +41,7 @@
 
 		<script type='text/javascript' src='#{facesContext.externalContext.requestContextPath}/resources/bootstrap/js/bootstrap-confirmation.js'></script>
 		<script type='text/javascript' src='#{facesContext.externalContext.requestContextPath}/resources/js/scripts.js'></script>
+		<script type='text/javascript' src='#{facesContext.externalContext.requestContextPath}/resources/js/viaCep.js'></script>
 		<title>
 			<ui:insert name='tituloPagina'>
 				Altere o título da página
@@ -121,10 +122,17 @@
 						col-sm='12'
 						col-xs='12'
 						>
-				<br/><br/><br/><br/>
+				<br/><br/><br/>
 				
 				<h:form id='form' style=''>
 					<div id='mensagens'>
+						<ui:insert name='mensagensCampos' id='fieldMessages'>
+							<b:messages	id='fieldMessages'
+										globalOnly='true'
+										autoUpdate='true'
+										closable='true'
+										/>
+						</ui:insert>
 						<ui:insert name='mensagens' id='globalMessages'>
 							<b:messages	id='globalMessages'
 										globalOnly='true'
