@@ -53,6 +53,10 @@ public class SedeBean implements Serializable{
 		return sedeService.listar();
 	}
 
+	public List<Sede> listarMaes(){
+		return sedeService.listarMaes();
+	}
+
 	public void excluir(Sede pSede){
 		sedeService.excluir(pSede);
 

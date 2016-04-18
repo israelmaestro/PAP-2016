@@ -10,6 +10,13 @@ import javax.persistence.Query;
 
 import br.com.shepherd.entity.Sede;
 
+/**
+ * Realiza serviços diversos para a entidade Sede.
+ *
+ * @author Israel
+ *
+ * @methods cadastrar, alterar, excluir
+ */
 @Stateless
 public class SedeService{
 
@@ -28,33 +35,130 @@ public class SedeService{
 	 */
 	public Sede cadastrar(Sede pSede) throws Exception{
 
-		// TODO: Aplicar regras para preenchimento de endereço
-		// Logradouro:
-		// Obrigatório quando CEP preenchido
-		//
-		// Número/Cidade/País:
-		// Obrigatório quando CEP preenchido
-		// OU quando Logradouro não é endereço de GPS
+		Sede existente = null;
 
-		// TODO: Aplicar regras para valores padrão
-		// isMainChurch = false
-		// isActive = true
-		// Campos em branco recebem null
+		// TODO: Resolver: Assembleias Gerais, Correspondências
+		// TODO: Resolver listas de telefones e emails
+		// TODO: Criar regras para sedes filhas. obrigatório selecionar sede mãe
 
-		if(null == pSede.getNome()
-			|| pSede.getNome()
-					.equals("")){
+		// Consistir dados
+		if(null == pSede.getNome() || pSede.getNome().equals("")){
+			// Campo Nome obrigatório
 			throw new Exception("O cadastro possui campos obrigatórios não preenchidos!");
 		}
 
+		if(null == pSede.getTelefoneDdi1()|| pSede.getTelefoneDdi1().equals("")
+			|| null == pSede.getTelefoneNumero1()
+			|| pSede.getTelefoneNumero1().equals("")
+			|| null == pSede.getTelefoneTipo1()
+			|| pSede.getTelefoneTipo1().equals("")){
+			// Campo Telefone1 obrigatório
+			throw new Exception("O cadastro possui campos obrigatórios não preenchidos!");
+		}
+
+		if(null == pSede.getEmail1() || pSede.getEmail1().equals("")){
+			// Campo Email1 obrigatório
+			throw new Exception("O cadastro possui campos obrigatórios não preenchidos!");
+		}
+
+		// Atribuir valores padrão
 		if(null == pSede.getCnpj() || pSede.getCnpj().equals("")){
 			pSede.setCnpj(null);
+		} else{
+			existente = buscaCriterio("Sede", "cnpj", pSede.getCnpj());
+
+			if(existente != null){
+				// Validar chave única para CNPJ
+				throw new Exception("O CNPJ “" + pSede.getCnpj() + "” já existe no cadastro!");
+			}
+		}
+
+		if(null == pSede.getDataFundacao() || pSede.getDataFundacao().toString().equals("")){
+			pSede.setDataFundacao(null);
+		}
+
+		if(null == pSede.getCelulas() || pSede.getCelulas().toString().equals("")){
+			pSede.setCelulas(null);
+		}
+
+		if(null == pSede.getPresidente() || pSede.getPresidente().toString().equals("")){
+			pSede.setPresidente(null);
+		}
+
+		if(null == pSede.getPaginaWeb() || pSede.getPaginaWeb().equals("")){
+			pSede.setPaginaWeb(null);
+		}
+
+		if(null == pSede.getPerfilRedeSocial() || pSede.getPerfilRedeSocial().equals("")){
+			pSede.setPerfilRedeSocial(null);
+		}
+
+		if(pSede.isMainChurch()){
+			pSede.setSedeMae(null);
+		} else{
+			if(null == pSede.getSedeMae() || pSede.getSedeMae().toString().equals("")){
+				// Sede filha não possui Sede Mãe
+				throw new Exception("Nenhuma Sede-Mãe selecionada! Obrigatório para Sede-Filha!");
+			}
 		}
 
 		pSede.setAtiva(true);
+		if(null == pSede.getCep() || pSede.getCep().equals("")){
+			if(pSede.isGpsAddress()){
+				if(null == pSede.getLogradouro() || pSede.getLogradouro().equals("")){
+					// Logradouro é campo obrigatório, caso seja endereço de GPS
+					throw new Exception("Coordenadas de GPS: Campo obrigatório!");
+				}
+			} else{
+				pSede.setCep(null);
 
-		Sede existente = buscaCriterio("Sede", "nome", pSede.getNome(), "cnpj",
-										pSede.getCnpj());
+				if(null == pSede.getLogradouro() || pSede.getLogradouro().equals("")){
+					pSede.setLogradouro(null);
+				}
+
+				if(null == pSede.getNumero() || pSede.getNumero().equals("")){
+					pSede.setNumero(null);
+				}
+
+				if(null == pSede.getComplemento() || pSede.getComplemento().equals("")){
+					pSede.setComplemento(null);
+				}
+
+				if(null == pSede.getBairro() || pSede.getBairro().equals("")){
+					pSede.setBairro(null);
+				}
+
+				if(null == pSede.getCidade() || pSede.getCidade().equals("")){
+					pSede.setCidade(null);
+				}
+
+				if(null == pSede.getEstado() || pSede.getEstado().equals("")){
+					pSede.setEstado(null);
+				}
+
+				if(null == pSede.getPais() || pSede.getPais().equals("")){
+					pSede.setPais(null);
+				}
+			}
+		} else{
+			if(null == pSede.getLogradouro() || pSede.getLogradouro().equals("")){
+				// Logradouro é campo obrigatório, caso haja CEP
+				throw new Exception("Endereço: Campo obrigatório quando há CEP!");
+			}
+
+			if(null == pSede.getNumero() || pSede.getNumero().equals("")){
+				// Logradouro é campo obrigatório, caso haja CEP
+				throw new Exception("Número: Campo obrigatório quando há CEP!");
+			}
+
+			if(null == pSede.getCidade() || pSede.getCidade().equals("")){
+				// Logradouro é campo obrigatório, caso haja CEP
+				throw new Exception("Cidade: Campo obrigatório quando há CEP!");
+			}
+		}
+
+		// Verificar se a sede já existe
+		existente = buscaCriterio("Sede", "nome", pSede.getNome(), "cnpj", pSede.getCnpj());
 
 		if(existente == null){
 			entityManager.persist(pSede);
@@ -78,6 +182,14 @@ public class SedeService{
 	@SuppressWarnings("unchecked")
 	public List<Sede> listar(){
 		return entityManager.createQuery("FROM Sede dbSede " + "ORDER BY dbSede.nome")
+							.getResultList();
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<Sede> listarMaes(){
+		return entityManager.createQuery("FROM Sede dbSede"
+											+ " WHERE dbSede.isMainChurch IS TRUE"
+											+ " ORDER BY dbSede.nome")
 							.getResultList();
 	}
 
@@ -126,8 +238,8 @@ public class SedeService{
 	 * @param pValor2
 	 * @return
 	 */
-	public Sede buscaCriterio(	String pTabela, String pCampo1, String pValor1,
-								String pCampo2, String pValor2){
+	public Sede buscaCriterio(	String pTabela, String pCampo1, String pValor1, String pCampo2,
+								String pValor2){
 		Query query = entityManager.createQuery("FROM "+ pTabela
 												+ " db"
 												+ pTabela

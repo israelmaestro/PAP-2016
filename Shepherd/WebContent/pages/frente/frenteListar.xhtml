@@ -34,11 +34,8 @@
 							var='frente'
 							update='frenteLista'
 							emptyMessage='Nenhuma frente encontrada.'
-							style='font-size: 110%;'
 							>
 				<p:column	headerText='Nome'
-							filterBy='#{frente.nome}'
-							filterMatchMode='contains'
 							priority='1'
 							>
 					<center>
@@ -47,8 +44,6 @@
 				</p:column>
 				
 				<p:column	headerText='Descrição'
-							filterBy='#{frente.nome}'
-							filterMatchMode='contains'
 							priority='3'
 							>
 					<center>
@@ -57,7 +52,6 @@
 				</p:column>
 				
 				<p:column	headerText='Tipo'
-							sortBy='#{frente.descricao}'
 							priority='2'
 							>
 					<center>
@@ -69,6 +63,11 @@
 							priority='1'
 							>
 					<center>
+						<p:commandButton	update='@form'
+											onclick='alert("Visualização AINDA NÃO IMPLEMENTADA!")'
+											icon='fa fa-fw fa-eye'
+											alt='Visualizar'
+											/>
 						<p:commandButton	update='@form'
 											onclick='alert("ALTERAÇÃO AINDA NÃO IMPLEMENTADA!")'
 											icon='fa fa-fw fa-pencil'
@@ -86,8 +85,6 @@
 							<p:confirm	header='Excluir'
 										message='Excluir a frente “#{frente.nome}”?'
 										icon='null'
-										style='	font-size: 200%;
-												'
 										/>
 						</p:commandButton>
 					</center>
@@ -98,14 +95,12 @@
 						<center>
 							<p:commandButton	styleClass='ui-confirmdialog-yes'
 												icon='fa fa-fw fa-check'
-												style='	font-size: 150%;
-														color: #CC0000;
+												style='	color: #CC0000;
 														'
 												/>
 							<p:commandButton	styleClass='ui-confirmdialog-no'
 												icon='fa fa-fw fa-close'
-												style='	font-size: 150%;
-														color: #0000CC;
+												style='	color: #0000CC;
 														'
 												/>
 						</center>

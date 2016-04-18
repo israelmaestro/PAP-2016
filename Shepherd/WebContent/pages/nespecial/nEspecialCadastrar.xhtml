@@ -12,6 +12,12 @@
 
 	<ui:composition template='/META-INF/resources/bootsfaces/jsfTemplate.xhtml'>
 	
+			<ui:define name='mensagensCampos'>
+				<p:message for='nome'/>
+				<p:message for='tipo'/>
+				<p:message for='descricao'/>
+				<br/>
+			</ui:define>
 			<ui:define name='tituloPagina'>Shepherd > Nova Necessidade Especial</ui:define>
 			<ui:define name='tituloPrincipal'>
 				<i class='fa fa-wheelchair fa-fw' />
@@ -27,10 +33,11 @@
 								onclick='location.href = "./nEspecialListar.jsf"'
 								iconAwesome='fa fa-arrow-left fa-fw'
 								/>
-					<b:commandButton	action='#{nEspecialBean.cadastrar()}'
-										iconAwesome='fa fa-check fa-fw'
-										update='@form'
-										/>
+					<btr:commandLink	action='#{nEspecialBean.cadastrar()}'
+										styleClass='btn btn-default'
+										>
+						<b:iconAwesome name='fa fa-check fa-fw'/>
+					</btr:commandLink>
 					<b:button	value=''
 								iconAwesome='fa fa-eraser fa-fw'
 								onclick='location.href = "./nEspecialCadastrar.jsf"'/>
@@ -38,25 +45,51 @@
 			</ui:define>
 			
 			<ui:define name='conteudo'>
-				
-				<h:outputText value='Nome' style='font-weight: bold;'/>
 				<b:row>
-					<b:column span='6'>
+					<b:column	col-lg='12'
+								col-md='12'
+								col-sm='12'
+								col-xs='12'
+								style='	margin: 0px;
+										padding: 0px;
+										'
+								>
+						<b:switch	value='#{nEspecialBean.NEspecial.restricao}'
+									offText='Outra'
+									onText='Deficiência'
+									onColor='danger'
+									offColor='primary'
+									switchsize='mini'
+									style='	margin-top: 0px;
+											margin-bottom: 0px;
+											'
+									/>
+					</b:column>
+				</b:row>
+				<b:row>
+					<b:column	col-lg='6'
+								col-md='6'
+								col-sm='6'
+								col-xs='12'
+								>
+						<br/>
+						<h:outputLabel	for='nome'
+										value='Nome'/>
 						<b:inputText	id='nome'
 										required='true'
-										requiredMessage='Campo obrigatório'
+										requiredMessage='Nome: Campo obrigatório'
 										value='#{nEspecialBean.NEspecial.nome}'
 										placeholder='Nome'
 										/>
 					</b:column>
-					<b:column	span='6'>
-						<p:message for='nome'/>
-					</b:column>
-				</b:row><br/>
-				
-				<h:outputText value='Tipo' style='font-weight: bold;'/>
-				<b:row>
-					<b:column span='6'>
+					<b:column	col-lg='6'
+								col-md='6'
+								col-sm='6'
+								col-xs='12'
+								>
+						<br/>
+						<h:outputLabel	for='tipo'
+										value='Tipo'/>
 						<b:inputText	id='tipo'
 										value='#{nEspecialBean.NEspecial.tipo}'
 										autocomplete='true'
@@ -64,47 +97,24 @@
 										label='Tipo'
 										/>
 					</b:column>
-					<b:column span='6'>
-						<p:message for='tipo' />
-					</b:column>
-				</b:row><br/>
+				</b:row>
 				
-				<h:outputText value='Descrição' style='font-weight: bold;'/>
 				<b:row>
-					<b:column span='6'>
+					<b:column	col-lg='12'
+								col-md='12'
+								col-sm='12'
+								col-xs='12'
+								>
+						<br/>
+						<h:outputLabel	for='descricao'
+										value='Descrição'/>
 						<b:inputTextarea	id='descricao'
 											value='#{nEspecialBean.NEspecial.descricao}'
 											maxlength='255'
 											placeholder='Descrição'
 											/>
 					</b:column>
-					<b:column span='6'>
-						<p:message for='descricao' />
-					</b:column>
-				</b:row><br/>
-				
-				<b:row>
-					<b:column span='1'>
-						<b:selectBooleanCheckbox	id='restricao'
-													title='Restrição'
-													label='Restrição'
-													value='#{nEspecialBean.NEspecial.restricao}'
-													style=' margin: 0px;
-															padding: 0px;
-															text-align: left;
-															'
-													/>
-					</b:column>
-					<b:column span='11'>
-						<p:message for='restricao' />
-					</b:column>
 				</b:row>
-				
-						
-						
-				<b:panelGrid columns='3' colSpans='12'>
-	
-				</b:panelGrid>
 			</ui:define>
 	</ui:composition>
 </html>

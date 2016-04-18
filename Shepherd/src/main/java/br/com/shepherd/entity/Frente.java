@@ -44,6 +44,13 @@ public class Frente implements Serializable{
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "frente")
 	private List<Celula>		celulas;
 
+	// TODO: Refazer o formulário para ficar com os mesmos padrões que o
+	// formulário de Sede, incluindo os campo novos
+
+	private Integer				idadeInicio;
+
+	private Integer				idadeFim;
+
 	// Flags
 	@NotNull
 	private boolean				isCell				= false;
@@ -118,6 +125,22 @@ public class Frente implements Serializable{
 
 	public void setCelulas(List<Celula> pCelulas){
 		celulas = pCelulas;
+	}
+
+	public Integer getIdadeInicio(){
+		return idadeInicio;
+	}
+
+	public void setIdadeInicio(Integer pIdadeInicio){
+		idadeInicio = pIdadeInicio;
+	}
+
+	public Integer getIdadeFim(){
+		return idadeFim;
+	}
+
+	public void setIdadeFim(Integer pIdadeFim){
+		idadeFim = pIdadeFim;
 	}
 
 	public boolean isCell(){

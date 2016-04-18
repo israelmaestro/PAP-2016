@@ -13,11 +13,13 @@
 	<ui:composition template='/META-INF/resources/bootsfaces/jsfTemplate.xhtml'>
 	
 			<ui:define name='mensagensCampos'>
-				<b:message for='nome'/><b:message for='cnpj'/>
+				<b:message for='nome'/>
+				<b:message for='cnpj'/>
 				<b:message for='presidente'/>
 				<b:message for='dataFuncacao' />
 				<b:message for='celulas' />
-				<b:message for='paginaWeb' />
+				<b:message for='sedeMae' />
+				<b:message for='paginaWeb'/>
 				<b:message for='perfilRedeSocial' />
 				<b:message for='gpsAddress'/>
 				<b:message for='cep' />
@@ -32,6 +34,7 @@
 				<b:message for='numero1' />
 				<b:message for='telefoneTipo1'/>
 				<b:message for='email1' />
+				<b:message for='comentarios' />
 				<br/>
 			</ui:define>
 			<ui:define name='tituloPagina'>Shepherd > Nova Sede</ui:define>
@@ -86,13 +89,16 @@
 												'
 										>
 										<b:switch	value='#{sedeBean.sede.mainChurch}'
-													label='Igreja Tipo'
+													binding='#{mainChurch}'
+													label='Sede Tipo'
 													offText='Filha'
 													onText='Mãe'
 													onColor='danger'
 													offColor='primary'
 													switchsize='mini'
-													/>
+													>
+											<f:ajax event='change' render='@form' />
+										</b:switch>
 									</td>
 								</tr>
 							</table>
@@ -147,14 +153,13 @@
 										>
 								<br/>
 								<b:selectOneMenu	id='presidente'
-													label='Presidente'
+													label='Presidente (===ARRUMAR LISTA===)'
 													value='#{sedeBean.sede.presidente}'
 													converter='omnifaces.SelectItemsConverter'
 													enableFiltering='true'
 													filterPlaceholder='Procurar'
 													nonSelectedText='Selecione'
 													disableIfEmpty='true'
-													
 													>
 									<f:selectItem itemLabel='Selecione' itemDisabled='true'/>
 									<f:selectItems	value='#{membroBean.listar()}' var='presidente'
@@ -186,7 +191,7 @@
 									>
 							<br/>
 							<b:selectMultiMenu 	id='celulas'
-												label='Células'
+												label='Células (===ARRUMAR LISTA===)'
 												value='#{sedeBean.sede.celulas}'
 												converter='omnifaces.SelectItemsConverter'
 												enableFiltering='true'
@@ -205,6 +210,29 @@
 												itemDescription='#{nEspecial.descricao}'
 												/>
 							</b:selectMultiMenu>
+						</b:column>
+						
+						<b:column	col-lg='3'
+									col-md='3'
+									col-sm='6'
+									col-xs='12'
+									rendered='#{!mainChurch.value}'
+									>
+							<br/>
+							<b:selectOneMenu	id='sedeMae'
+												label='Sede-Mãe'
+												value='#{sedeBean.sede.sedeMae}'
+												converter='omnifaces.SelectItemsConverter'
+												enableFiltering='true'
+												filterPlaceholder='Procurar'
+												nonSelectedText='Selecione'
+												disableIfEmpty='true'
+												>
+								<f:selectItem itemLabel='Selecione' itemDisabled='true'/>
+								<f:selectItems	value='#{sedeBean.listarMaes()}' var='sedeMae'
+												itemLabel='#{sedeMae.nome}'
+												/>
+							</b:selectOneMenu>
 						</b:column>
 						
 						<b:column	col-lg='3'
@@ -289,11 +317,13 @@
 										>
 								<br/>
 								<h:outputLabel	for='gpsAddress'
-												value='Coordenadas de GPS'
+												value='Coordenadas de GPS*'
 												/>
 								<b:inputText	id='gpsAddress'
 												value='#{sedeBean.sede.logradouro}'
 												placeholder='Digite as coordenadas do GPS'
+												requiered='true'
+												requiredMessage='Coordenadas de GPS: Campo obrigatório!'
 												/>
 							</b:column>
 						</b:container>
@@ -444,7 +474,7 @@
 									'>
 							<h3>
 								<b:iconAwesome name="fa fa-fw fa-phone"/>
-								Contato
+								Contato (===RESOLVER LISTAS===)
 							</h3>
 					</b:row>
 
@@ -522,6 +552,34 @@
 											required='true'
 											requiredMessage='E-mail (principal): Campo obrigatório!'
 											/>
+						</b:column>
+					</b:row>
+
+					<br/>
+
+					<b:row	style='	border-top: solid;
+									width: 100%;
+									border-color: #CCCCCC;
+									margin: 0px;
+									padding: 0px;
+									'><h3>
+								<b:iconAwesome name="fa fa-fw fa-sticky-note-o"/>
+								Comentários
+							</h3>
+					</b:row>
+
+					<b:row>
+						<b:column	col-lg='12'
+									col-md='12'
+									col-sm='12'
+									col-xs='12'
+									style='	margin: 0px;'
+									>
+							<b:inputTextarea	id='comentarios'
+												value='#{sedeBean.sede.comentarios}'
+												maxlength='1000'
+												placeholder='Digite os comentários aqui.'
+												/>
 						</b:column>
 					</b:row>
 				</div>

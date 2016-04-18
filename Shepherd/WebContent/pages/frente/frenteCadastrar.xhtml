@@ -12,6 +12,17 @@
 
 	<ui:composition template='/META-INF/resources/bootsfaces/jsfTemplate.xhtml'>
 	
+			<ui:define name='mensagensCampos'>
+				<b:message for='nome'/>
+				<b:message for='frenteLideres' />
+				<b:message for='frenteCelulas' />
+				<b:message for='frenteParticipantes' />
+				<b:message for='idadeInicial' />
+				<b:message for='idadeFinal' />
+				<b:message for='descricao' />
+				<br/>
+			</ui:define>
+	
 			<ui:define name='tituloPagina'>Shepherd > Nova Frente</ui:define>
 			<ui:define name='tituloPrincipal'>
 				<b:iconAwesome name='fa fa-puzzle-piece fa-fw'/>
@@ -28,14 +39,11 @@
 								onclick='location.href = "./frenteListar.jsf"'
 								iconAwesome='fa fa-arrow-left fa-fw'
 								/>
-					<b:commandButton	action='#{frenteBean.cadastrar()}'
-										iconAwesome='fa fa-check fa-fw'
-										/>
-<!-- 					<btr:commandLink	action='#{frenteBean.cadastrar()}' -->
-<!-- 										styleClass='btn btn-default' -->
-<!-- 										> -->
-<!-- 						<b:iconAwesome name='fa fa-check fa-fw'/> -->
-<!-- 					</btr:commandLink> -->
+					<btr:commandLink	action='#{frenteBean.cadastrar()}'
+										styleClass='btn btn-default'
+										>
+						<b:iconAwesome name='fa fa-check fa-fw'/>
+					</btr:commandLink>
 					<b:button	value=''
 								iconAwesome='fa fa-eraser fa-fw'
 								onclick='location.href = "./frenteCadastrar.jsf"'/>
@@ -43,52 +51,59 @@
 			</ui:define>
 			
 			<ui:define name='conteudo'>
-				<h:outputText	value='Nome *'
-								style='	font-weight: bold;'
-								/>
 				<b:row>
-					<b:column span='6'>
+					<b:column	col-lg='12'
+								col-md='12'
+								col-sm='12'
+								col-xs='12'
+								style='	margin: 0px;
+										padding: 0px;
+										'
+								>
+						<b:switch	value='#{frenteBean.frente.cell}'
+									binding='#{showCellList}'
+									offText='Operacional'
+									onText='Célula'
+									onColor='danger'
+									offColor='primary'
+									switchsize='mini'
+									style='	margin-top: 0px;
+											margin-bottom: 0px;
+											'
+									>
+							<f:ajax event='change' render='@form' />
+						</b:switch>
+					</b:column>
+				</b:row>
+				<b:row>
+					<b:column	col-lg='3'
+								col-md='3'
+								col-sm='6'
+								col-xs='12'
+								>
+						<br/>
+						<h:outputLabel	for='nome'
+										value='Nome*'
+										/>
 						<b:inputText 	id='nome'
 										required='true'
-										requiredMessage='Campo obrigatório'
+										requiredMessage='Nome: Campo obrigatório'
 										value='#{frenteBean.frente.nome}'
 										placeholder='Nome'
+										style='	background-color: #FFFFCC;'
 										/>
 					</b:column>
-					<b:column span='6'>
-						<b:message for='nome'/>
-					</b:column>
-				</b:row>
-				
-				<br/>
-				
-				<h:outputText	value='Descrição *'
-								style='	font-weight: bold'
-								/>
-				<b:row>
-					<b:column span='6'>
-						<b:inputTextarea	id='descricao'
-											required='true'
-											requiredMessage='Campo obrigatório'
-											value='#{frenteBean.frente.descricao}'
-											maxlength='255'
-											placeholder='Descrição'
-											/>
-					</b:column>
-					<b:column span='6'>
-						<b:message for='descricao' />
-					</b:column>
-				</b:row>
-				
-				<br/>
-				
-				<b:row>
-					<b:column span='6'>
+					<b:column	col-lg='3'
+								col-md='3'
+								col-sm='6'
+								col-xs='12'
+								>
+						<br/>
 						<b:selectMultiMenu 	id='frenteLideres'
 											label='Líderes'
 											value='#{frenteBean.frente.lideres}'
 											required='true'
-											requiredMessage='Selecione pelo menos um líder'
+											requiredMessage='Líderes: Selecione pelo menos um líder'
 											converter='omnifaces.SelectItemsConverter'
 											enableFiltering='true'
 											filterPlaceholder='Procurar'
@@ -103,43 +118,18 @@
 											/>
 						</b:selectMultiMenu>
 					</b:column>
-					
-					<b:column span='6'>
-						<b:message for='frenteLideres' />
-					</b:column>
-				</b:row>
-				
-				<br/><br/>
-				
-				<b:row>
-					<b:column span='3'>
-						<h:outputLabel	for='isCell'
-										value='Tipo de Frente'
-										style='	margin-bottom: 0px;
-												padding: 0px;'
-										/>
-						<b:switch	id='isCell'
-									binding='#{showCellList}'
-									value='#{frenteBean.frente.cell}'
-									offText="Operacional"
-									onText="Célula"
-									onColor='danger'
-									offColor='primary'
-									style='	margin-top: 0px;'
-									>
-							<f:ajax event="change" render="@form" />
-						</b:switch>
-						
+					<b:column	col-lg='3'
+								col-md='3'
+								col-sm='6'
+								col-xs='12'
+								rendered='#{showCellList.value}'
+								>
 						<br/>
-					
-					</b:column>
-					
-					<b:column span='3' rendered="#{showCellList.value}">
 						<b:selectMultiMenu 	id='frenteCelulas'
 											label='Células'
 											value='#{frenteBean.frente.celulas}'
 											required='true'
-											requiredMessage='Selecione pelo menos uma célula'
+											requiredMessage='Células: Selecione pelo menos uma célula'
 											converter='omnifaces.SelectItemsConverter'
 											enableFiltering='true'
 											filterPlaceholder='Procurar'
@@ -155,16 +145,18 @@
 											/>
 						</b:selectMultiMenu>
 					</b:column>
-					<b:column span='6' rendered="#{showCellList.value}">
-						<b:message for='frenteCelulas' />
-					</b:column>
-					
-					<b:column span='3' rendered="#{!showCellList.value}">
+					<b:column	col-lg='3'
+								col-md='3'
+								col-sm='6'
+								col-xs='12'
+								rendered='#{!showCellList.value}'
+								>
+						<br/>
 						<b:selectMultiMenu 	id='frenteParticipantes'
 											label='Participantes'
 											value='#{frenteBean.frente.celulas}'
 											required='true'
-											requiredMessage='Selecione pelo menos um participante'
+											requiredMessage='Participantes: Selecione pelo menos um participante'
 											converter='omnifaces.SelectItemsConverter'
 											enableFiltering='true'
 											filterPlaceholder='Procurar'
@@ -180,8 +172,77 @@
 											/>
 						</b:selectMultiMenu>
 					</b:column>
-					<b:column span='6' rendered="#{!showCellList.value}">
-						<b:message for='frenteParticipantes' />
+					<b:column	col-lg='3'
+								col-md='3'
+								col-sm='6'
+								col-xs='12'
+								>
+						<br/>
+						<h:outputLabel	value='Faixa Etária'
+										/>
+						<table	cellspacing='2'
+								style='	width: 100%;
+										'
+								>
+							<tr>
+								<td style='	width: 50%;
+											padding-right: 10px;
+											'
+									>
+									<b:inputText	id='idadeInicial'
+													maxlength='2'
+													value='#{frenteBean.frente.idadeInicio}'
+													placeholder='De'
+													onkeypress='return teclaNumerica(event.keyCode)'
+													style='	text-align: center;
+															'
+													>
+										<f:facet name='append'>
+											<h:outputText value='ano(s)' />
+										</f:facet>
+									</b:inputText>
+								</td>
+								<td style='	width: 50%;
+											padding-left: 10px;
+											'
+									>
+									<b:inputText	id='idadeFinal'
+													maxlength='2'
+													value='#{frenteBean.frente.idadeFim}'
+													placeholder='Até'
+													onkeypress='return teclaNumerica(event.keyCode)'
+													style='	text-align: center;
+															'
+													>
+										<f:facet name='append'>
+											<h:outputText value='ano(s)' />
+										</f:facet>
+									</b:inputText>
+								</td>
+							</tr>
+						</table>
+					</b:column>
+				</b:row>
+				
+				
+				<b:row>
+					<b:column	col-lg='12'
+								col-md='12'
+								col-sm='12'
+								col-xs='12'
+								>
+						<br/>
+						<h:outputLabel	for='descricao'
+										value='Descrição*'
+										/>
+						<b:inputTextarea	id='descricao'
+											required='true'
+											requiredMessage='Descrição: Campo obrigatório'
+											value='#{frenteBean.frente.descricao}'
+											maxlength='255'
+											placeholder='Descrição'
+											style='	background-color: #FFFFCC;'
+											/>
 					</b:column>
 				</b:row>
 			</ui:define>

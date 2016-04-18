@@ -11,112 +11,104 @@
 		>
 
 	<ui:composition template='/META-INF/resources/bootsfaces/jsfTemplate.xhtml'>
-	
-			<ui:define name='tituloPagina'>Shepherd > Lista de Necessidades Especiais</ui:define>
-			<ui:define name='tituloPrincipal'>
-				<i class='fa fa-wheelchair fa-fw' />
-				Lista de Necessidades Especiais
-			</ui:define>
-			<ui:define name='tituloSecundario'>home > necessidades nspeciais > listar</ui:define>
-			
-			<ui:define name='botoesAcao'>
-				<b:buttonGroup>
-					<b:commandButton	value=''
-										action='./nEspecialCadastrar.jsf'
-										iconAwesome='fa fa-plus fa-fw'
-										update='@form'/>
-				</b:buttonGroup>
-			</ui:define>
-			
-			<ui:define name='conteudo'>
-				<p:dataTable	id='nEspecialLista'
-								value='#{nEspecialBean.listar()}'
-								var='nEspecial'
-								update='nEspecialLista'
-								emptyMessage='Nenhuma necessidade especial encontrada.'
-								style='font-size: 110%;'
-								>
-					
-					<p:column	headerText='Nome'
-								filterBy='#{nEspecial.nome}'
-								filterMatchMode='contains'
-								priority='1'
-								>
-						<center>
-							<h:outputText value='#{nEspecial.nome}'/>
-						</center>
-					</p:column>
-					
-					<p:column	headerText='Descrição'
-								filterBy='#{nEspecial.descricao}'
-								filterMatchMode='contains'
-								priority='2'
-								>
-						<center>
-							<h:outputText value='#{nEspecial.descricao}'/>
-						</center>
-					</p:column>
-					
-					<p:column	headerText='Restritiva'
-								priority='3'
-								>
-						<center>
-							<h:outputText value='#{nEspecial.restricao ? "Sim" : "Não"}'/>
-						</center>
-					</p:column>
-					
-					<p:column	headerText='Opções'
-								priority='1'
-								>
-						<center>
-							<p:commandButton	update='nEspecialLista'
-												onclick='alert("ALTERAÇÃO AINDA NÃO IMPLEMENTADA!")'
-												icon='fa fa-fw fa-pencil'
-												style='	color: #009900;
-														width: auto;
-														height: auto;
-														'
-												/>
-							<p:commandButton	update='nEspecialLista'
-												action='#{nEspecialBean.excluir(nEspecial)}'
-												icon='fa fa-fw fa-trash'
-												style='	color: #cc0000;
-														width: auto;
-														height: auto;
-														'
-												>
-								<p:confirm	header='Excluir'
-											message='Excluir a necessidade especial “#{nEspecial.nome})”?'
-											icon='null'
-											style='	font-size: 200%;
+		<ui:define name='tituloPagina'>Shepherd > Lista de Necessidades Especiais</ui:define>
+		<ui:define name='tituloPrincipal'>
+			<b:iconAwesome name='fa fa-wheelchair fa-fw'/>
+			<br class='visible-xs'/>
+			Lista de Necessidades Especiais
+		</ui:define>
+		<ui:define name='tituloSecundario'>home > necessidades especiais > listar</ui:define>
+		
+		<ui:define name='botoesAcao'>
+			<b:buttonGroup>
+				<b:button	value=''
+							onclick='location.href = "./nEspecialCadastrar.jsf"'
+							iconAwesome='fa fa-plus fa-fw'
+							/>
+			</b:buttonGroup>
+		</ui:define>
+		
+		<ui:define name='conteudo'>
+			<p:dataTable	id='nEspecialLista'
+							value='#{nEspecialBean.listar()}'
+							var='nEspecial'
+							update='nEspecialLista'
+							emptyMessage='Nenhuma necessidade especial encontrada.'
+							>
+				<p:column	headerText='Nome'
+							filterBy='#{nEspecial.nome}'
+							filterMatchMode='contains'
+							priority='1'
+							>
+					<center>
+						<h:outputText value='#{nEspecial.nome}'/>
+					</center>
+				</p:column>
+				
+				<p:column	headerText='Descrição'
+							priority='2'
+							>
+					<center>
+						<h:outputText value='#{nEspecial.descricao}'/>
+					</center>
+				</p:column>
+				
+				<p:column	headerText='Deficiência'
+							priority='3'
+							>
+					<center>
+						<h:outputText value='#{nEspecial.restricao ? "Sim" : "Não"}'/>
+					</center>
+				</p:column>
+				
+				<p:column	headerText='Opções'
+							priority='1'
+							>
+					<center>
+						<p:commandButton	update='@form'
+											onclick='alert("Visualização AINDA NÃO IMPLEMENTADA!")'
+											icon='fa fa-fw fa-eye'
+											alt='Visualizar'
+											/>
+						<p:commandButton	update='nEspecialLista'
+											onclick='alert("ALTERAÇÃO AINDA NÃO IMPLEMENTADA!")'
+											icon='fa fa-fw fa-pencil'
+											style='	color: #009900;
 													'
 											/>
-							</p:commandButton>
-						</center>
-						
-						<p:confirmDialog	global='true'
-											closable='false'
+						<p:commandButton	update='nEspecialLista'
+											action='#{nEspecialBean.excluir(nEspecial)}'
+											icon='fa fa-fw fa-trash'
+											style='	color: #cc0000;
+													'
 											>
-							<center>
-								<p:commandButton	styleClass='ui-confirmdialog-yes'
-													icon='fa fa-fw fa-check'
-													update='nEspecialLista'
-													style='	font-size: 150%;
-															color: #CC0000;
-															'
-													/>
-								<p:commandButton	styleClass='ui-confirmdialog-no'
-													icon='fa fa-fw fa-close'
-													update='nEspecialLista'
-													style='	font-size: 150%;
-															color: #0000CC;
-															'
-													/>
-							</center>
-						</p:confirmDialog>
-					</p:column>
-				</p:dataTable>
-			</ui:define>
+							<p:confirm	header='Excluir'
+										message='Excluir a necessidade especial “#{nEspecial.nome})”?'
+										icon='null'
+										/>
+						</p:commandButton>
+					</center>
+					
+					<p:confirmDialog	global='true'
+										closable='false'
+										>
+						<center>
+							<p:commandButton	styleClass='ui-confirmdialog-yes'
+												icon='fa fa-fw fa-check'
+												update='nEspecialLista'
+												style='	color: #CC0000;
+														'
+												/>
+							<p:commandButton	styleClass='ui-confirmdialog-no'
+												icon='fa fa-fw fa-close'
+												update='nEspecialLista'
+												style='	color: #0000CC;
+														'
+												/>
+						</center>
+					</p:confirmDialog>
+				</p:column>
+			</p:dataTable>
+		</ui:define>
 	</ui:composition>
-
 </html>

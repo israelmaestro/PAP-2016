@@ -34,7 +34,6 @@
 							var='sede'
 							update='sedeLista'
 							emptyMessage='Nenhuma sede encontrada.'
-							style='font-size: 110%;'
 							>
 				<p:column	headerText='Nome'
 							priority='1'
@@ -44,19 +43,19 @@
 					</center>
 				</p:column>
 				
-				<p:column	headerText='CNPJ'
+				<p:column	headerText='Presidente'
 							priority='3'
 							>
 					<center>
-						<h:outputText value='#{sede.cnpj}'/>
+						<h:outputText value='#{sede.presidente == null ? "NENHUM(A)" : sede.presidente}'/>
 					</center>
 				</p:column>
 				
-				<p:column	headerText='Página da Web'
+				<p:column	headerText='Tipo de Célula'
 							priority='2'
 							>
 					<center>
-						<h:outputText value='#{sede.paginaWeb}'/>
+						<h:outputText value='#{sede.mainChurch == true ? "Mãe" : "Filha"}'/>
 					</center>
 				</p:column>
 				
@@ -98,14 +97,12 @@
 						<center>
 							<p:commandButton	styleClass='ui-confirmdialog-yes'
 												icon='fa fa-fw fa-check'
-												style='	font-size: 150%;
-														color: #CC0000;
+												style='	color: #CC0000;
 														'
 												/>
 							<p:commandButton	styleClass='ui-confirmdialog-no'
 												icon='fa fa-fw fa-close'
-												style='	font-size: 150%;
-														color: #0000CC;
+												style='	color: #0000CC;
 														'
 												/>
 						</center>

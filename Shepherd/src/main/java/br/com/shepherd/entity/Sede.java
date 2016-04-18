@@ -44,8 +44,10 @@ public class Sede implements Serializable{
 	private List<Celula>		celulas;
 
 	@OneToOne(fetch = FetchType.EAGER)
-	private Ministro			presidente;
+	private Pessoa				presidente;
 
+	@OneToOne(fetch = FetchType.EAGER)
+	private Sede				sedeMae;
 
 	// Informações de endereço
 	@Column(length = 8)
@@ -84,6 +86,9 @@ public class Sede implements Serializable{
 
 	@URL
 	private String				perfilRedeSocial;
+
+	@Column(length = 1000)
+	private String				comentarios;
 
 	// TODO: Lista de correspondências (cartas)
 
@@ -162,12 +167,20 @@ public class Sede implements Serializable{
 		celulas = pCelulas;
 	}
 
-	public Ministro getPresidente(){
+	public Pessoa getPresidente(){
 		return presidente;
 	}
 
-	public void setPresidente(Ministro pPresidente){
+	public void setPresidente(Pessoa pPresidente){
 		presidente = pPresidente;
+	}
+
+	public Sede getSedeMae(){
+		return sedeMae;
+	}
+
+	public void setSedeMae(Sede pSedeMae){
+		sedeMae = pSedeMae;
 	}
 
 	public String getCep(){
@@ -280,6 +293,14 @@ public class Sede implements Serializable{
 
 	public void setPerfilRedeSocial(String pPerfilRedeSocial){
 		perfilRedeSocial = pPerfilRedeSocial;
+	}
+
+	public String getComentarios(){
+		return comentarios;
+	}
+
+	public void setComentarios(String pComentarios){
+		comentarios = pComentarios;
 	}
 
 	public boolean isMainChurch(){
