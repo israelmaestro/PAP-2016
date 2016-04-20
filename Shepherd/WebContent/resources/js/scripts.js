@@ -21,3 +21,7 @@ function teclaNumerica(x){
 		return false;
 	}
 }
+
+function preencherEndereco(cep){
+	document.getElementById("input_form:cep").value = cep;
+}

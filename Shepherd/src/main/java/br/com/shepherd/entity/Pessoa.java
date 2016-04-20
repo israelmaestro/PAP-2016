@@ -58,7 +58,7 @@ public class Pessoa implements Serializable{
 	@NotNull
 	private boolean				sexo;
 
-	@ManyToMany(fetch = FetchType.EAGER)
+	@ManyToMany(fetch = FetchType.LAZY)
 	private List<NEspecial>		nEspeciais;
 
 	// Informações de endereço
@@ -129,16 +129,16 @@ public class Pessoa implements Serializable{
 	private boolean				isGpsAddress		= false;
 
 	// Informações de parentesco
-	@OneToOne(fetch = FetchType.EAGER)
+	@OneToOne(fetch = FetchType.LAZY)
 	private Pessoa				pai;
 
-	@OneToOne(fetch = FetchType.EAGER)
+	@OneToOne(fetch = FetchType.LAZY)
 	private Pessoa				mae;
 
-	@OneToMany(fetch = FetchType.EAGER)
+	@OneToMany(fetch = FetchType.LAZY)
 	private List<Pessoa>		irmaos;
 
-	@OneToOne(fetch = FetchType.EAGER)
+	@OneToOne(fetch = FetchType.LAZY)
 	private Pessoa				conjuge;
 
 	@Column(columnDefinition = "timestamp")
@@ -146,10 +146,10 @@ public class Pessoa implements Serializable{
 	private Date				dataCasamento;
 
 	// Informações eclesiásticas
-	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Membro				membro;
 
-	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Visitante			visitante;
 
 	// Construtor e afins

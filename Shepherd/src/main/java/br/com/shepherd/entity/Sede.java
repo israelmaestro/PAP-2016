@@ -46,7 +46,7 @@ public class Sede implements Serializable{
 	@OneToOne(fetch = FetchType.EAGER)
 	private Pessoa				presidente;
 
-	@OneToOne(fetch = FetchType.EAGER)
+	@OneToOne(fetch = FetchType.LAZY)
 	private Sede				sedeMae;
 
 	// Informações de endereço

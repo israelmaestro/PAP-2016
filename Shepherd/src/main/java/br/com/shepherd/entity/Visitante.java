@@ -2,12 +2,14 @@ package br.com.shepherd.entity;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -28,13 +30,19 @@ public class Visitante implements Serializable{
 
 	// Informações pessoais do visitante
 	@NotNull
-	@OneToOne(fetch = FetchType.EAGER)
+	@OneToOne(fetch = FetchType.LAZY)
 	private Pessoa				pessoa;
 
 	// Informações do cadastrante
 	@NotNull
-	@OneToOne(fetch = FetchType.EAGER)
+	@OneToOne(fetch = FetchType.LAZY)
 	private Membro				membroCadastrante;
+
+	@OneToOne(fetch = FetchType.LAZY)
+	private Celula				celula;
+
+	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "visitantesComparecidos")
+	private List<CelulaReuniao>	reunioesComparecidas;
 
 	// TODO: Criar visitação
 

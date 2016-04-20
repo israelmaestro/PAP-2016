@@ -33,7 +33,7 @@ public class Usuario implements Serializable{
 	private Perfil				perfil;
 
 	@NotNull
-	@OneToOne(fetch = FetchType.EAGER)
+	@OneToOne(fetch = FetchType.LAZY)
 	private Membro				membro;
 
 	public Usuario(){

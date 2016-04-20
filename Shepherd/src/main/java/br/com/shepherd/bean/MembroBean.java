@@ -8,6 +8,9 @@ import javax.enterprise.context.RequestScoped;
 import javax.faces.bean.ManagedProperty;
 import javax.inject.Named;
 
+import br.com.shepherd.entity.Coordenador;
+import br.com.shepherd.entity.Lider;
+import br.com.shepherd.entity.Ministro;
 import br.com.shepherd.entity.Pessoa;
 import br.com.shepherd.service.MembroService;
 import br.com.shepherd.service.util.JSFUtil;
@@ -52,6 +55,18 @@ public class MembroBean implements Serializable{
 
 	public List<Pessoa> listar(){
 		return membroService.listar();
+	}
+
+	public List<Lider> listarLideres(){
+		return membroService.listarLideres();
+	}
+
+	public List<Coordenador> listarCoordenadores(){
+		return membroService.listarCoordenadores();
+	}
+
+	public List<Ministro> listarPresidentes(){
+		return membroService.listarPresidentes();
 	}
 
 	public void excluir(Pessoa pPessoa){

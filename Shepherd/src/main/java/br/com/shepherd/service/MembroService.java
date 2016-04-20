@@ -9,6 +9,9 @@ import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
+import br.com.shepherd.entity.Coordenador;
+import br.com.shepherd.entity.Lider;
+import br.com.shepherd.entity.Ministro;
 import br.com.shepherd.entity.Pessoa;
 import br.com.shepherd.service.util.JSFUtil;
 
@@ -148,9 +151,24 @@ public class MembroService{
 	@SuppressWarnings("unchecked")
 	public List<Pessoa> listar(){
 		return entityManager.createQuery("FROM Pessoa dbPessoa "
-											// + " WHERE dbPessoa.ismember =
-											// true "
+											+ "WHERE dbPessoa.isMember = true "
 											+ "ORDER BY dbPessoa.nome")
+							.getResultList();
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<Lider> listarLideres(){
+		return entityManager.createQuery("FROM Lider dbLider ").getResultList();
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<Coordenador> listarCoordenadores(){
+		return entityManager.createQuery("FROM Coordenador dbCoordenador ").getResultList();
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<Ministro> listarPresidentes(){
+		return entityManager.createQuery("FROM Ministro dbMinistro WHERE dbMinistro.isPresident = true")
 							.getResultList();
 	}
 

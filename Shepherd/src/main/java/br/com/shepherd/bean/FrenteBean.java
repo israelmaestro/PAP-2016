@@ -53,6 +53,10 @@ public class FrenteBean implements Serializable{
 		return frenteService.listar();
 	}
 
+	public List<Frente> listarTipoCelula(){
+		return frenteService.listarTipoCelula();
+	}
+
 	public void excluir(Frente pFrente){
 		frenteService.excluir(pFrente);
 

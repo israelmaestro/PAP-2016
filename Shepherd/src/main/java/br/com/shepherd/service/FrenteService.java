@@ -48,6 +48,14 @@ public class FrenteService{
 							.getResultList();
 	}
 
+	@SuppressWarnings("unchecked")
+	public List<Frente> listarTipoCelula(){
+		return entityManager.createQuery("FROM Frente dbFrente "
+											+ "WHERE dbFrente.isCell is TRUE "
+											+ "ORDER BY dbFrente.nome")
+							.getResultList();
+	}
+
 	public void excluir(Frente pFrente){
 		pFrente = entityManager.merge(pFrente);
 		entityManager.remove(pFrente);

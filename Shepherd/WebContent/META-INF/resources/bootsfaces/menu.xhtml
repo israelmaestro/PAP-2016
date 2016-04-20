@@ -11,6 +11,19 @@
 		xmlns:ui='http://java.sun.com/jsf/facelets'
 		>
 	<ui:composition>
+			<b:dropMenu	value='Células'
+						iconAwesome='fa fa-sitemap'
+						style='	width: 100%;'
+						>
+				<b:navLink	value='Listar Células'
+							href='/Shepherd/pages/celula/celulaListar.jsf'
+							iconAwesome='fa fa-list fa-fw'
+							/>
+				<b:navLink	value='Nova Célula'
+							href='/Shepherd/pages/celula/celulaCadastrar.jsf'
+							iconAwesome='fa fa-plus fa-fw'
+							/>
+			</b:dropMenu>
 			<b:dropMenu	value='Frentes'
 						iconAwesome='fa fa-puzzle-piece'
 						style='	width: 100%;'

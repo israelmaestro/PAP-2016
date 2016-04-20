@@ -24,9 +24,12 @@ public class Membro implements Serializable{
 	@GeneratedValue
 	private Integer				id;
 
-	// Informaï¿½ï¿½es gerais
-	@OneToOne(fetch = FetchType.EAGER)
+	// Informações gerais
+	@OneToOne(fetch = FetchType.LAZY)
 	private Celula				celula;
+
+	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "membrosComparecidos")
+	private List<CelulaReuniao>	reunioesComparecidas;
 
 	@Column(columnDefinition = "timestamp")
 	@Temporal(TemporalType.TIMESTAMP)
@@ -38,7 +41,7 @@ public class Membro implements Serializable{
 
 	// Informaï¿½ï¿½es pessoais do membro
 	@NotNull
-	@OneToOne(fetch = FetchType.EAGER)
+	@OneToOne(fetch = FetchType.LAZY)
 	private Pessoa				pessoa;
 
 	// Flags
@@ -57,16 +60,16 @@ public class Membro implements Serializable{
 	private boolean				isDirectoryMember	= false;
 
 	// Atribuiï¿½ï¿½es
-	@ManyToMany(fetch = FetchType.EAGER)
+	@ManyToMany(fetch = FetchType.LAZY)
 	private List<Frente>		frentes;
 
-	@ManyToMany(fetch = FetchType.EAGER, mappedBy = "lideres")
+	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "lideres")
 	private List<Frente>		frentesLideradas;
 
-	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Lider				lider;
 
-	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Usuario				usuario;
 
 	@Column(columnDefinition = "timestamp")

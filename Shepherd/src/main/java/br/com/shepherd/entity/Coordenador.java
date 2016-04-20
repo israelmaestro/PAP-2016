@@ -30,7 +30,7 @@ public class Coordenador implements Serializable{
 
 	// Dados do coordenador
 	@NotNull
-	@OneToOne(fetch = FetchType.EAGER)
+	@OneToOne(fetch = FetchType.LAZY)
 	private Lider				lider;
 
 	@Column(columnDefinition = "timestamp")
@@ -42,11 +42,11 @@ public class Coordenador implements Serializable{
 	private Date				dataEntrega;
 
 	// Atribuições
-	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Ministro			ministro;
 
 	@NotNull
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "coordenador")
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "coordenador")
 	private List<Celula>		celulas;
 
 	public Coordenador(){

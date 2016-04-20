@@ -28,15 +28,15 @@ public class Lider implements Serializable{
 
 	// Informações pessoais do líder
 	@NotNull
-	@OneToOne(fetch = FetchType.EAGER)
+	@OneToOne(fetch = FetchType.LAZY)
 	private Membro				membro;
 
 	// Atribuições
 	@NotNull
-	@OneToOne(fetch = FetchType.EAGER)
+	@OneToOne(fetch = FetchType.LAZY)
 	private Celula				celula;
 
-	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Coordenador			coordenador;
 
 	@Column(columnDefinition = "timestamp")

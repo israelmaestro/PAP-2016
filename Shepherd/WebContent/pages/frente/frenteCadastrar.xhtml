@@ -113,8 +113,9 @@
 											disableIfEmpty='true'
 											allSelectedText='Todos os membros'
 											>
-							<f:selectItems	value='#{remedioBean.listar()}' var='frenteLideres'
-											itemLabel='#{frenteLideres.nome} #{frenteLideres.nome}'
+							<f:selectItems	value='#{membroBean.listar()}'
+											var='frenteLideres'
+											itemLabel='#{frenteLideres.membro.pessoa.nome} #{frenteLideres.membro.pessoa.sobrenome}'
 											/>
 						</b:selectMultiMenu>
 					</b:column>
@@ -140,7 +141,8 @@
 											allSelectedText='Todas as células'
 											fieldSize='lg'
 											>
-							<f:selectItems	value='#{remedioBean.listar()}' var='frenteCelulas'
+							<f:selectItems	value='#{celulaBean.listar()}'
+											var='frenteCelulas'
 											itemLabel='#{frenteCelulas.nome}'
 											/>
 						</b:selectMultiMenu>
@@ -154,7 +156,7 @@
 						<br/>
 						<b:selectMultiMenu 	id='frenteParticipantes'
 											label='Participantes'
-											value='#{frenteBean.frente.celulas}'
+											value='#{frenteBean.frente.participantes}'
 											required='true'
 											requiredMessage='Participantes: Selecione pelo menos um participante'
 											converter='omnifaces.SelectItemsConverter'
@@ -167,8 +169,9 @@
 											allSelectedText='Todas os membros'
 											fieldSize='lg'
 											>
-							<f:selectItems	value='#{remedioBean.listar()}' var='frenteParticipantes'
-											itemLabel='#{frenteParticipantes.nome}'
+							<f:selectItems	value='#{membroBean.listar()}'
+											var='frenteParticipantes'
+											itemLabel='#{frenteParticipantes.nome} #{frenteParticipantes.sobrenome}'
 											/>
 						</b:selectMultiMenu>
 					</b:column>

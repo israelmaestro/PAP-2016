@@ -26,7 +26,7 @@ public class Ministro implements Serializable{
 	// Informações gerais
 	// TODO: verificar se os "fetchs" não vão dar problema
 	@NotNull
-	@OneToOne(fetch = FetchType.EAGER)
+	@OneToOne(fetch = FetchType.LAZY)
 	private Coordenador			coordenador;
 
 	@Column(columnDefinition = "timestamp")

@@ -13,7 +13,7 @@ import br.com.shepherd.entity.Sede;
 /**
  * Realiza serviços diversos para a entidade Sede.
  *
- * @author Israel
+ * @author Israel Oliveira Santos
  *
  * @methods cadastrar, alterar, excluir
  */
@@ -103,6 +103,7 @@ public class SedeService{
 		}
 
 		pSede.setAtiva(true);
+
 		if(null == pSede.getCep() || pSede.getCep().equals("")){
 			if(pSede.isGpsAddress()){
 				if(null == pSede.getLogradouro() || pSede.getLogradouro().equals("")){
