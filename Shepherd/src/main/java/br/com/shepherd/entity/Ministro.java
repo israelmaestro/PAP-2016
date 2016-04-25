@@ -31,11 +31,11 @@ public class Ministro implements Serializable{
 
 	@Column(columnDefinition = "timestamp")
 	@Temporal(TemporalType.TIMESTAMP)
-	private Date				dataInicio;
+	private Date				dataNomeacao;
 
 	@Column(columnDefinition = "timestamp")
 	@Temporal(TemporalType.TIMESTAMP)
-	private Date				datadataFim;
+	private Date				datadataEntrega;
 
 	@Column(columnDefinition = "timestamp")
 	@Temporal(TemporalType.TIMESTAMP)
@@ -109,20 +109,20 @@ public class Ministro implements Serializable{
 		coordenador = pCoordenador;
 	}
 
-	public Date getDataInicio(){
-		return dataInicio;
+	public Date getDataNomeacao(){
+		return dataNomeacao;
 	}
 
-	public void setDataInicio(Date pDataInicio){
-		dataInicio = pDataInicio;
+	public void setDataNomeacao(Date pDataNomeacao){
+		dataNomeacao = pDataNomeacao;
 	}
 
-	public Date getDatadataFim(){
-		return datadataFim;
+	public Date getDatadataEntrega(){
+		return datadataEntrega;
 	}
 
-	public void setDatadataFim(Date pDatadataFim){
-		datadataFim = pDatadataFim;
+	public void setDatadataEntrega(Date pDatadataEntrega){
+		datadataEntrega = pDatadataEntrega;
 	}
 
 	public Date getDataOrdenacao(){

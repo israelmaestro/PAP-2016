@@ -320,7 +320,7 @@
 												value='Coordenadas de GPS*'
 												/>
 								<b:inputText	id='gpsAddress'
-												value='#{sedeBean.sede.logradouro}'
+												value='#{sedeBean.sede.enderecoLogradouro}'
 												placeholder='Digite as coordenadas do GPS'
 												requiered='true'
 												requiredMessage='Coordenadas de GPS: Campo obrigatório!'
@@ -352,7 +352,7 @@
 												binding='#{cep}'
 												maxlength='8'
 												onkeypress='return teclaNumerica(event.keyCode)'
-												value='#{sedeBean.sede.cep}'
+												value='#{sedeBean.sede.enderecoCep}'
 												placeholder='Digite o CEP'
 												onblur='if(this.value != "") pesquisaCep(this.value);'
 												/>
@@ -367,14 +367,14 @@
 								<h:outputLabel value='Endereço' for='logradouro'/>
 								<b:inputText	id='logradouro'
 												name='logradouro'
-												value='#{sedeBean.sede.logradouro}'
+												value='#{sedeBean.sede.enderecoLogradouro}'
 												placeholder='Digite o nome da rua, avenida, etc.'
 												class='hidden-xs'
 												onblur='document.getElementById("input_form:logradouro2").value = document.getElementById("input_form:logradouro").value'
 												/>
 								<b:inputTextarea	id='logradouro2'
 													name='logradouro2'
-													value='#{sedeBean.sede.logradouro}'
+													value='#{sedeBean.sede.enderecoLogradouro}'
 													placeholder='Digite o nome da rua, avenida, etc.'
 													class='visible-xs'
 													onblur='document.getElementById("input_form:logradouro").value = document.getElementById("input_form:logradouro2").value'
@@ -389,7 +389,7 @@
 								<br/>
 								<h:outputLabel value='№' for='numero'/>
 								<b:inputText	id='numero'
-												value='#{sedeBean.sede.numero}'
+												value='#{sedeBean.sede.enderecoNumero}'
 												onkeypress='return teclaNumerica(event.keyCode)'
 												maxlength='5'
 												placeholder='№'
@@ -404,7 +404,7 @@
 								<br/>
 								<h:outputLabel value='Complemento' for='complemento'/>
 								<b:inputText	id='complemento'
-												value='#{sedeBean.sede.complemento}'
+												value='#{sedeBean.sede.enderecoComplemento}'
 												placeholder='Complemento'
 												/>
 							</b:column>
@@ -417,7 +417,7 @@
 								<br/>
 								<h:outputLabel value='Bairro' for='bairro'/>
 								<b:inputText	id='bairro'
-												value='#{sedeBean.sede.bairro}'
+												value='#{sedeBean.sede.enderecoBairro}'
 												placeholder='Bairro'
 												/>
 							</b:column>
@@ -430,7 +430,7 @@
 								<br/>
 								<h:outputLabel value='Cidade' for='cidade'/>
 								<b:inputText	id='cidade'
-												value='#{sedeBean.sede.cidade}'
+												value='#{sedeBean.sede.enderecoCidade}'
 												placeholder='Cidade'
 												/>
 							</b:column>
@@ -444,7 +444,7 @@
 								<h:outputLabel value='UF' for='uf'/>
 								<b:inputText	id='uf'
 												maxlength='2'
-												value='#{sedeBean.sede.estado}'
+												value='#{sedeBean.sede.enderecoEstado}'
 												placeholder='UF'
 												/>
 							</b:column>
@@ -457,7 +457,7 @@
 								<br/>
 								<h:outputLabel value='País' for='pais'/>
 								<b:inputText	id='pais'
-												value='#{sedeBean.sede.pais}'
+												value='#{sedeBean.sede.enderecoPais}'
 												placeholder='País'
 												/>
 							</b:column>

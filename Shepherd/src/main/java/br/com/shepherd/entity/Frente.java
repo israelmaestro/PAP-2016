@@ -38,7 +38,7 @@ public class Frente implements Serializable{
 	@ManyToMany(fetch = FetchType.LAZY)
 	private List<Membro>		lideres;
 
-	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "frentes")
+	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "frentesParticipadas")
 	private List<Membro>		participantes;
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "frente")
@@ -47,9 +47,9 @@ public class Frente implements Serializable{
 	// TODO: Refazer o formulário para ficar com os mesmos padrões que o
 	// formulário de Sede, incluindo os campo novos
 
-	private Integer				idadeInicio;
+	private Integer				idadeMinima;
 
-	private Integer				idadeFim;
+	private Integer				idadeMaxima;
 
 	// Flags
 	@NotNull
@@ -127,20 +127,20 @@ public class Frente implements Serializable{
 		celulas = pCelulas;
 	}
 
-	public Integer getIdadeInicio(){
-		return idadeInicio;
+	public Integer getIdadeMinima(){
+		return idadeMinima;
 	}
 
-	public void setIdadeInicio(Integer pIdadeInicio){
-		idadeInicio = pIdadeInicio;
+	public void setIdadeMinima(Integer pIdadeMinima){
+		idadeMinima = pIdadeMinima;
 	}
 
-	public Integer getIdadeFim(){
-		return idadeFim;
+	public Integer getIdadeMaxima(){
+		return idadeMaxima;
 	}
 
-	public void setIdadeFim(Integer pIdadeFim){
-		idadeFim = pIdadeFim;
+	public void setIdadeMaxima(Integer pIdadeMaxima){
+		idadeMaxima = pIdadeMaxima;
 	}
 
 	public boolean isCell(){

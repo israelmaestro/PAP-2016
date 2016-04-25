@@ -35,7 +35,7 @@ public class NEspecial implements Serializable{
 	private List<Pessoa>		pessoas;
 
 	@NotNull
-	private boolean				restricao;
+	private boolean				deficiencia;
 
 	public NEspecial(){
 	}
@@ -100,11 +100,11 @@ public class NEspecial implements Serializable{
 		pessoas = pPessoas;
 	}
 
-	public boolean isRestricao(){
-		return restricao;
+	public boolean isDeficiencia(){
+		return deficiencia;
 	}
 
-	public void setRestricao(boolean pRestricao){
-		restricao = pRestricao;
+	public void setDeficiencia(boolean pDeficiencia){
+		deficiencia = pDeficiencia;
 	}
 }

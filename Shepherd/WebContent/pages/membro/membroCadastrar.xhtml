@@ -444,7 +444,7 @@
 												value='Coordenadas de GPS'
 												/>
 								<b:inputText	id='gpsAddress'
-												value='#{membroBean.membro.logradouro}'
+												value='#{membroBean.membro.enderecoLogradouro}'
 												placeholder='Digite as coordenadas do GPS'
 												/>
 								<b:message for='gpsAddress'/>
@@ -473,7 +473,7 @@
 												binding='#{cep}'
 												maxlength='8'
 												onkeypress='return teclaNumerica(event.keyCode)'
-												value='#{membroBean.membro.cep}'
+												value='#{membroBean.membro.enderecoCep}'
 												placeholder='Digite o CEP'
 												onblur='if(this.value != "") atualizacep(this.value)'
 												style='	background-color: #FFFFCC;'
@@ -490,13 +490,13 @@
 								<h:outputLabel value='Endereço' for='logradouro'/>
 								<b:inputText	id='logradouro'
 												name='logradouro'
-												value='#{membroBean.membro.logradouro}'
+												value='#{membroBean.membro.enderecoLogradouro}'
 												placeholder='Digite o nome da rua, avenida, etc.'
 												class='hidden-xs'
 												/>
 								<b:inputTextarea	id='logradouro2'
 													name='logradouro'
-													value='#{membroBean.membro.logradouro}'
+													value='#{membroBean.membro.enderecoLogradouro}'
 													required='true'
 													requiredMessage='Endereço obrigatório'
 													placeholder='Digite o nome da rua, avenida, etc.'
@@ -513,7 +513,7 @@
 										>
 								<h:outputLabel value='№' for='numero'/>
 								<b:inputText	id='numero'
-												value='#{membroBean.membro.numero}'
+												value='#{membroBean.membro.enderecoNumero}'
 												onkeypress='return teclaNumerica(event.keyCode)'
 												maxlength='5'
 												placeholder='№'
@@ -529,7 +529,7 @@
 										>
 								<h:outputLabel value='Complemento' for='complemento'/>
 								<b:inputText	id='complemento'
-												value='#{membroBean.membro.complemento}'
+												value='#{membroBean.membro.enderecoComplemento}'
 												placeholder='Complemento'
 												/>
 								<b:message for='complemento' />
@@ -543,7 +543,7 @@
 										>
 								<h:outputLabel value='Bairro' for='bairro'/>
 								<b:inputText	id='bairro'
-												value='#{membroBean.membro.bairro}'
+												value='#{membroBean.membro.enderecoBairro}'
 												placeholder='Bairro'
 												/>
 								<b:message for='bairro' />
@@ -557,7 +557,7 @@
 										>
 								<h:outputLabel value='Cidade' for='cidade'/>
 								<b:inputText	id='cidade'
-												value='#{membroBean.membro.cidade}'
+												value='#{membroBean.membro.enderecoCidade}'
 												placeholder='Cidade'
 												/>
 								<b:message for='cidade' />
@@ -572,7 +572,7 @@
 								<h:outputLabel value='UF' for='uf'/>
 								<b:inputText	id='uf'
 												maxlength='2'
-												value='#{membroBean.membro.estado}'
+												value='#{membroBean.membro.enderecoEstado}'
 												placeholder='UF'
 												/>
 								<p:message for='uf' />
@@ -586,7 +586,7 @@
 										>
 								<h:outputLabel value='País' for='pais'/>
 								<b:inputText	id='pais'
-												value='#{membroBean.membro.pais}'
+												value='#{membroBean.membro.enderecoPais}'
 												placeholder='País'
 												/>
 								<p:message for='pais' />
@@ -874,7 +874,7 @@
 									<h:outputLabel for='memberSince' value='Membro Desde'/>
 									<b:datepicker 	id='memberSince'
 													placeholder='DD/MM/AAAA'
-													value='#{membroBean.membro.membro.dataEntrada}'
+													value='#{membroBean.membro.membro.dataMembresia}'
 													/>
 									<b:message for='memberSince' />
 									<br/>
@@ -916,7 +916,7 @@
 									<h:outputLabel for='memberOut' value='Desligamento'/>
 									<b:datepicker 	id='memberOut'
 													placeholder='DD/MM/AAAA'
-													value='#{membroBean.membro.membro.dataSaida}'
+													value='#{membroBean.membro.membro.dataDesligamento}'
 													/>
 									<b:message for='memberOut' />
 									<br/>
@@ -1022,7 +1022,7 @@
 											<h:outputLabel for='traineeSince' value='Co-líder Desde'/>
 											<b:datepicker 	id='traineeSince'
 															placeholder='DD/MM/AAAA'
-															value='#{membroBean.membro.membro.dataColiderancaEntrada}'
+															value='#{membroBean.membro.membro.dataColiderancaPosse}'
 															/>
 											<b:message for='traineeSince' />
 											<br/>
@@ -1065,7 +1065,7 @@
 												<h:outputLabel for='traineeOut' value='Co-líder Até'/>
 												<b:datepicker 	id='traineeOut'
 																placeholder='DD/MM/AAAA'
-																value='#{membroBean.membro.membro.dataColiderancaSaida}'
+																value='#{membroBean.membro.membro.dataColiderancaEntrega}'
 																/>
 												<b:message for='traineeOut' />
 												<br/>

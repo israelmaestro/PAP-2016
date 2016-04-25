@@ -63,23 +63,23 @@ public class Pessoa implements Serializable{
 
 	// Informações de endereço
 	@Column(length = 8)
-	private String				cep;
+	private String				enderecoCep;
 
-	private String				logradouro;
+	private String				enderecoLogradouro;
 
 	@Column(length = 5)
-	private Integer				numero;
+	private Integer				enderecoNumero;
 
-	private String				complemento;
+	private String				enderecoComplemento;
 
-	private String				bairro;
+	private String				enderecoBairro;
 
-	private String				cidade;
+	private String				enderecoCidade;
 
 	@Column(length = 2)
-	private String				estado;
+	private String				enderecoEstado;
 
-	private String				pais;
+	private String				enderecoPais;
 
 	// Informações de contato
 	@Column(length = 4)
@@ -242,68 +242,68 @@ public class Pessoa implements Serializable{
 		nEspeciais = pNEspeciais;
 	}
 
-	public String getCep(){
-		return cep;
+	public String getEnderecoCep(){
+		return enderecoCep;
 	}
 
-	public void setCep(String pCep){
-		cep = pCep;
+	public void setEnderecoCep(String pEnderecoCep){
+		enderecoCep = pEnderecoCep;
 	}
 
-	public String getLogradouro(){
-		return logradouro;
+	public String getEnderecoLogradouro(){
+		return enderecoLogradouro;
 	}
 
-	public void setLogradouro(String pLogradouro){
-		logradouro = pLogradouro;
+	public void setEnderecoLogradouro(String pEnderecoLogradouro){
+		enderecoLogradouro = pEnderecoLogradouro;
 	}
 
-	public Integer getNumero(){
-		return numero;
+	public Integer getEnderecoNumero(){
+		return enderecoNumero;
 	}
 
-	public void setNumero(Integer pNumero){
-		numero = pNumero;
+	public void setEnderecoNumero(Integer pEnderecoNumero){
+		enderecoNumero = pEnderecoNumero;
 	}
 
-	public String getComplemento(){
-		return complemento;
+	public String getEnderecoComplemento(){
+		return enderecoComplemento;
 	}
 
-	public void setComplemento(String pComplemento){
-		complemento = pComplemento;
+	public void setEnderecoComplemento(String pEnderecoComplemento){
+		enderecoComplemento = pEnderecoComplemento;
 	}
 
-	public String getBairro(){
-		return bairro;
+	public String getEnderecoBairro(){
+		return enderecoBairro;
 	}
 
-	public void setBairro(String pBairro){
-		bairro = pBairro;
+	public void setEnderecoBairro(String pEnderecoBairro){
+		enderecoBairro = pEnderecoBairro;
 	}
 
-	public String getCidade(){
-		return cidade;
+	public String getEnderecoCidade(){
+		return enderecoCidade;
 	}
 
-	public void setCidade(String pCidade){
-		cidade = pCidade;
+	public void setEnderecoCidade(String pEnderecoCidade){
+		enderecoCidade = pEnderecoCidade;
 	}
 
-	public String getEstado(){
-		return estado;
+	public String getEnderecoEstado(){
+		return enderecoEstado;
 	}
 
-	public void setEstado(String pEstado){
-		estado = pEstado;
+	public void setEnderecoEstado(String pEnderecoEstado){
+		enderecoEstado = pEnderecoEstado;
 	}
 
-	public String getPais(){
-		return pais;
+	public String getEnderecoPais(){
+		return enderecoPais;
 	}
 
-	public void setPais(String pPais){
-		pais = pPais;
+	public void setEnderecoPais(String pEnderecoPais){
+		enderecoPais = pEnderecoPais;
 	}
 
 	public String getTelefoneDdi1(){

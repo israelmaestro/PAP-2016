@@ -56,12 +56,12 @@ public class MembroService{
 			}
 		}
 
-		pPessoa.setCep(pPessoa.getCep().trim());
-		pPessoa.setLogradouro(pPessoa.getLogradouro().trim());
-		pPessoa.setComplemento(pPessoa.getComplemento().trim());
-		pPessoa.setBairro(pPessoa.getBairro().trim());
-		pPessoa.setCidade(pPessoa.getCidade().trim());
-		pPessoa.setEstado(pPessoa.getEstado().trim().toUpperCase());
+		pPessoa.setEnderecoCep(pPessoa.getEnderecoCep().trim());
+		pPessoa.setEnderecoLogradouro(pPessoa.getEnderecoLogradouro().trim());
+		pPessoa.setEnderecoComplemento(pPessoa.getEnderecoComplemento().trim());
+		pPessoa.setEnderecoBairro(pPessoa.getEnderecoBairro().trim());
+		pPessoa.setEnderecoCidade(pPessoa.getEnderecoCidade().trim());
+		pPessoa.setEnderecoEstado(pPessoa.getEnderecoEstado().trim().toUpperCase());
 
 		pPessoa.setTelefoneDdi1(pPessoa.getTelefoneDdi1().trim());
 		pPessoa.setTelefoneNumero1(pPessoa.getTelefoneNumero1().trim());

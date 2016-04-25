@@ -207,7 +207,7 @@
 													>
 									<f:selectItem itemLabel='Selecione' itemDisabled='true'/>
 									<f:selectItems	value='#{sedeBean.listar()}' var='sede'
-													itemLabel='#{sede.nome}#{null != sede.cidade ? " (" : ""}#{null != sede.cidade ? sede.cidade : ""}#{null != sede.cidade ? ")" : ""}#{sede.mainChurch ? "*" : ""}'
+													itemLabel='#{sede.nome}#{null != sede.enderecoCidade ? " (" : ""}#{null != sede.enderecoCidade ? sede.enderecoCidade : ""}#{null != sede.enderecoCidade ? ")" : ""}#{sede.mainChurch ? "*" : ""}'
 													/>
 								</b:selectOneMenu>
 							</b:column>
@@ -398,7 +398,7 @@
 													value='Coordenadas de GPS*'
 													/>
 									<b:inputText	id='gpsAddress'
-													value='#{celulaBean.celula.logradouro}'
+													value='#{celulaBean.celula.enderecoLogradouro}'
 													placeholder='Digite as coordenadas do GPS'
 													requiered='true'
 													requiredMessage='Coordenadas de GPS: Campo obrigatório!'
@@ -430,7 +430,7 @@
 													binding='#{cep}'
 													maxlength='8'
 													onkeypress='return teclaNumerica(event.keyCode)'
-													value='#{celulaBean.celula.cep}'
+													value='#{celulaBean.celula.enderecoCep}'
 													placeholder='Digite o CEP'
 													onblur='if(this.value != "") pesquisaCep(this.value);'
 													/>
@@ -445,14 +445,14 @@
 									<h:outputLabel value='Endereço' for='logradouro'/>
 									<b:inputText	id='logradouro'
 													name='logradouro'
-													value='#{celulaBean.celula.logradouro}'
+													value='#{celulaBean.celula.enderecoLogradouro}'
 													placeholder='Digite o nome da rua, avenida, etc.'
 													class='hidden-xs'
 													onblur='document.getElementById("input_form:logradouro2").value = document.getElementById("input_form:logradouro").value'
 													/>
 									<b:inputTextarea	id='logradouro2'
 														name='logradouro2'
-														value='#{celulaBean.celula.logradouro}'
+														value='#{celulaBean.celula.enderecoLogradouro}'
 														placeholder='Digite o nome da rua, avenida, etc.'
 														class='visible-xs'
 														onblur='document.getElementById("input_form:logradouro").value = document.getElementById("input_form:logradouro2").value'
@@ -467,7 +467,7 @@
 									<br/>
 									<h:outputLabel value='№' for='numero'/>
 									<b:inputText	id='numero'
-													value='#{celulaBean.celula.numero}'
+													value='#{celulaBean.celula.enderecoNumero}'
 													onkeypress='return teclaNumerica(event.keyCode)'
 													maxlength='5'
 													placeholder='№'
@@ -482,7 +482,7 @@
 									<br/>
 									<h:outputLabel value='Complemento' for='complemento'/>
 									<b:inputText	id='complemento'
-													value='#{celulaBean.celula.complemento}'
+													value='#{celulaBean.celula.enderecoComplemento}'
 													placeholder='Complemento'
 													/>
 								</b:column>
@@ -495,7 +495,7 @@
 									<br/>
 									<h:outputLabel value='Bairro' for='bairro'/>
 									<b:inputText	id='bairro'
-													value='#{celulaBean.celula.bairro}'
+													value='#{celulaBean.celula.enderecoBairro}'
 													placeholder='Bairro'
 													/>
 								</b:column>
@@ -508,7 +508,7 @@
 									<br/>
 									<h:outputLabel value='Cidade' for='cidade'/>
 									<b:inputText	id='cidade'
-													value='#{celulaBean.celula.cidade}'
+													value='#{celulaBean.celula.enderecoCidade}'
 													placeholder='Cidade'
 													/>
 								</b:column>
@@ -522,7 +522,7 @@
 									<h:outputLabel value='UF' for='uf'/>
 									<b:inputText	id='uf'
 													maxlength='2'
-													value='#{celulaBean.celula.estado}'
+													value='#{celulaBean.celula.enderecoEstado}'
 													placeholder='UF'
 													/>
 								</b:column>
@@ -535,7 +535,7 @@
 									<br/>
 									<h:outputLabel value='País' for='pais'/>
 									<b:inputText	id='pais'
-													value='#{celulaBean.celula.pais}'
+													value='#{celulaBean.celula.enderecoPais}'
 													placeholder='País'
 													/>
 								</b:column>

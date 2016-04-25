@@ -17,8 +17,8 @@
 				<b:message for='frenteLideres' />
 				<b:message for='frenteCelulas' />
 				<b:message for='frenteParticipantes' />
-				<b:message for='idadeInicial' />
-				<b:message for='idadeFinal' />
+				<b:message for='idadeMinima' />
+				<b:message for='idadeMaxima' />
 				<b:message for='descricao' />
 				<br/>
 			</ui:define>
@@ -192,10 +192,10 @@
 											padding-right: 10px;
 											'
 									>
-									<b:inputText	id='idadeInicial'
+									<b:inputText	id='idadeMinima'
 													maxlength='2'
-													value='#{frenteBean.frente.idadeInicio}'
-													placeholder='De'
+													value='#{frenteBean.frente.idadeMinima}'
+													placeholder='Min.'
 													onkeypress='return teclaNumerica(event.keyCode)'
 													style='	text-align: center;
 															'
@@ -209,10 +209,10 @@
 											padding-left: 10px;
 											'
 									>
-									<b:inputText	id='idadeFinal'
+									<b:inputText	id='idadeMaxima'
 													maxlength='2'
-													value='#{frenteBean.frente.idadeFim}'
-													placeholder='Até'
+													value='#{frenteBean.frente.idadeMaxima}'
+													placeholder='Máx.'
 													onkeypress='return teclaNumerica(event.keyCode)'
 													style='	text-align: center;
 															'

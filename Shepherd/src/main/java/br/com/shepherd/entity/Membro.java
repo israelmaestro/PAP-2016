@@ -11,6 +11,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -33,11 +34,11 @@ public class Membro implements Serializable{
 
 	@Column(columnDefinition = "timestamp")
 	@Temporal(TemporalType.TIMESTAMP)
-	private Date				dataEntrada;
+	private Date				dataMembresia;
 
 	@Column(columnDefinition = "timestamp")
 	@Temporal(TemporalType.TIMESTAMP)
-	private Date				dataSaida;
+	private Date				dataDesligamento;
 
 	// Informa��es pessoais do membro
 	@NotNull
@@ -45,6 +46,9 @@ public class Membro implements Serializable{
 	private Pessoa				pessoa;
 
 	// Flags
+	@NotNull
+	private boolean				isBaptized			= false;
+
 	@NotNull
 	private boolean				isLeader			= false;
 
@@ -61,7 +65,7 @@ public class Membro implements Serializable{
 
 	// Atribui��es
 	@ManyToMany(fetch = FetchType.LAZY)
-	private List<Frente>		frentes;
+	private List<Frente>		frentesParticipadas;
 
 	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "lideres")
 	private List<Frente>		frentesLideradas;
@@ -72,13 +76,22 @@ public class Membro implements Serializable{
 	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Usuario				usuario;
 
-	@Column(columnDefinition = "timestamp")
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date				dataColiderancaEntrada;
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "membroAtendido")
+	private List<Atendimento>	atendimentosRecebidos;
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "membroAtendente")
+	private List<Atendimento>	atendimentosRealizados;
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "membroCadastrante")
+	private List<Visitante>		visitantesCadastrados;
 
 	@Column(columnDefinition = "timestamp")
 	@Temporal(TemporalType.TIMESTAMP)
-	private Date				dataColiderancaSaida;
+	private Date				dataColiderancaPosse;
+
+	@Column(columnDefinition = "timestamp")
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date				dataColiderancaEntrega;
 
 	@Column(columnDefinition = "timestamp")
 	@Temporal(TemporalType.TIMESTAMP)
@@ -131,20 +144,28 @@ public class Membro implements Serializable{
 		celula = pCelula;
 	}
 
-	public Date getDataEntrada(){
-		return dataEntrada;
+	public List<CelulaReuniao> getReunioesComparecidas(){
+		return reunioesComparecidas;
 	}
 
-	public void setDataEntrada(Date pDataEntrada){
-		dataEntrada = pDataEntrada;
+	public void setReunioesComparecidas(List<CelulaReuniao> pReunioesComparecidas){
+		reunioesComparecidas = pReunioesComparecidas;
 	}
 
-	public Date getDataSaida(){
-		return dataSaida;
+	public Date getDataMembresia(){
+		return dataMembresia;
 	}
 
-	public void setDataSaida(Date pDataSaida){
-		dataSaida = pDataSaida;
+	public void setDataMembresia(Date pDataMembresia){
+		dataMembresia = pDataMembresia;
+	}
+
+	public Date getDataDesligamento(){
+		return dataDesligamento;
+	}
+
+	public void setDataDesligamento(Date pDataDesligamento){
+		dataDesligamento = pDataDesligamento;
 	}
 
 	public Pessoa getPessoa(){
@@ -153,6 +174,14 @@ public class Membro implements Serializable{
 
 	public void setPessoa(Pessoa pPessoa){
 		pessoa = pPessoa;
+	}
+
+	public boolean isBaptized(){
+		return isBaptized;
+	}
+
+	public void setBaptized(boolean pIsBaptized){
+		isBaptized = pIsBaptized;
 	}
 
 	public boolean isLeader(){
@@ -195,12 +224,12 @@ public class Membro implements Serializable{
 		isDirectoryMember = pIsDirectoryMember;
 	}
 
-	public List<Frente> getFrentes(){
-		return frentes;
+	public List<Frente> getFrentesParticipadas(){
+		return frentesParticipadas;
 	}
 
-	public void setFrentes(List<Frente> pFrentes){
-		frentes = pFrentes;
+	public void setFrentesParticipadas(List<Frente> pFrentesParticipadas){
+		frentesParticipadas = pFrentesParticipadas;
 	}
 
 	public List<Frente> getFrentesLideradas(){
@@ -227,20 +256,44 @@ public class Membro implements Serializable{
 		usuario = pUsuario;
 	}
 
-	public Date getDataColiderancaEntrada(){
-		return dataColiderancaEntrada;
+	public List<Atendimento> getAtendimentosRecebidos(){
+		return atendimentosRecebidos;
 	}
 
-	public void setDataColiderancaEntrada(Date pDataColiderancaEntrada){
-		dataColiderancaEntrada = pDataColiderancaEntrada;
+	public void setAtendimentosRecebidos(List<Atendimento> pAtendimentosRecebidos){
+		atendimentosRecebidos = pAtendimentosRecebidos;
 	}
 
-	public Date getDataColiderancaSaida(){
-		return dataColiderancaSaida;
+	public List<Atendimento> getAtendimentosRealizados(){
+		return atendimentosRealizados;
 	}
 
-	public void setDataColiderancaSaida(Date pDataColiderancaSaida){
-		dataColiderancaSaida = pDataColiderancaSaida;
+	public void setAtendimentosRealizados(List<Atendimento> pAtendimentosRealizados){
+		atendimentosRealizados = pAtendimentosRealizados;
+	}
+
+	public List<Visitante> getVisitantesCadastrados(){
+		return visitantesCadastrados;
+	}
+
+	public void setVisitantesCadastrados(List<Visitante> pVisitantesCadastrados){
+		visitantesCadastrados = pVisitantesCadastrados;
+	}
+
+	public Date getDataColiderancaPosse(){
+		return dataColiderancaPosse;
+	}
+
+	public void setDataColiderancaPosse(Date pDataColiderancaPosse){
+		dataColiderancaPosse = pDataColiderancaPosse;
+	}
+
+	public Date getDataColiderancaEntrega(){
+		return dataColiderancaEntrega;
+	}
+
+	public void setDataColiderancaEntrega(Date pDataColiderancaEntrega){
+		dataColiderancaEntrega = pDataColiderancaEntrega;
 	}
 
 	public Date getDataDiretoriaEntrada(){

@@ -2,50 +2,44 @@ package br.com.shepherd.entity;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
-import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
-@Table
-// (uniqueConstraints = {
-// @UniqueConstraint(columnNames = {
-// "nome", "frente", "sede"
-// })
-// })
-public class CelulaReuniao implements Serializable{
-	private static final long	serialVersionUID	= -7390302449224224794L;
+public class Atendimento implements Serializable{
+	private static final long	serialVersionUID	= -1189982959606136016L;
 
 	@Id
 	@GeneratedValue
 	private Integer				id;
 
-	// Dados da Reunião
 	@Column(columnDefinition = "timestamp")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date				dataHora;
 
-	private String				titulo;
-
-	private Membro				anfitriao;
-
-	@ManyToMany(fetch = FetchType.LAZY)
-	private List<Membro>		membrosComparecidos;
-
-	@ManyToMany(fetch = FetchType.LAZY)
-	private List<Visitante>		visitantesComparecidos;
-
+	// Informações gerais
 	@OneToOne(fetch = FetchType.LAZY)
-	private Celula				celula;
+	private Visitante			visitanteAtendido;
+
+	// Informações gerais
+	@OneToOne(fetch = FetchType.LAZY)
+	private Membro				membroAtendido;
+
+	// Informações gerais
+	@OneToOne(fetch = FetchType.LAZY)
+	private Membro				membroAtendente;
+
+	private String				status;
+
+	@Column(length = 1000)
+	private String				comentarios;
 
 	// Informações de endereço
 	@Column(length = 8)
@@ -67,12 +61,6 @@ public class CelulaReuniao implements Serializable{
 
 	private String				enderecoPais;
 
-	@Column(length=1000)
-	private String				comentarios;
-
-	public CelulaReuniao(){
-	}
-
 	@Override
 	public int hashCode(){
 		final int prime = 31;
@@ -86,11 +74,17 @@ public class CelulaReuniao implements Serializable{
 		if(this == obj){ return true; }
 		if(obj == null){ return false; }
 		if(getClass() != obj.getClass()){ return false; }
-		CelulaReuniao other = (CelulaReuniao) obj;
+		Atendimento other = (Atendimento) obj;
 		if(id == null){
 			if(other.id != null){ return false; }
-		} else if(!id.equals(other.id)){ return false; }
+		} else if(!id.equals(other.id)){
+			return false;
+		}
 		return true;
+	}
+
+	// Construtor e afins
+	public Atendimento(){
 	}
 
 	public Integer getId(){
@@ -109,44 +103,44 @@ public class CelulaReuniao implements Serializable{
 		dataHora = pDataHora;
 	}
 
-	public String getTitulo(){
-		return titulo;
+	public Visitante getVisitanteAtendido(){
+		return visitanteAtendido;
 	}
 
-	public void setTitulo(String pTitulo){
-		titulo = pTitulo;
+	public void setVisitanteAtendido(Visitante pVisitanteAtendido){
+		visitanteAtendido = pVisitanteAtendido;
 	}
 
-	public Membro getAnfitriao(){
-		return anfitriao;
+	public Membro getMembroAtendido(){
+		return membroAtendido;
 	}
 
-	public void setAnfitriao(Membro pAnfitriao){
-		anfitriao = pAnfitriao;
+	public void setMembroAtendido(Membro pMembroAtendido){
+		membroAtendido = pMembroAtendido;
 	}
 
-	public List<Membro> getMembrosComparecidos(){
-		return membrosComparecidos;
+	public Membro getMembroAtendente(){
+		return membroAtendente;
 	}
 
-	public void setMembrosComparecidos(List<Membro> pMembrosComparecidos){
-		membrosComparecidos = pMembrosComparecidos;
+	public void setMembroAtendente(Membro pMembroAtendente){
+		membroAtendente = pMembroAtendente;
 	}
 
-	public List<Visitante> getVisitantesComparecidos(){
-		return visitantesComparecidos;
+	public String getStatus(){
+		return status;
 	}
 
-	public void setVisitantesComparecidos(List<Visitante> pVisitantesComparecidos){
-		visitantesComparecidos = pVisitantesComparecidos;
+	public void setStatus(String pStatus){
+		status = pStatus;
 	}
 
-	public Celula getCelula(){
-		return celula;
+	public String getComentarios(){
+		return comentarios;
 	}
 
-	public void setCelula(Celula pCelula){
-		celula = pCelula;
+	public void setComentarios(String pComentarios){
+		comentarios = pComentarios;
 	}
 
 	public String getEnderecoCep(){
@@ -211,13 +205,5 @@ public class CelulaReuniao implements Serializable{
 
 	public void setEnderecoPais(String pEnderecoPais){
 		enderecoPais = pEnderecoPais;
-	}
-
-	public String getComentarios(){
-		return comentarios;
-	}
-
-	public void setComentarios(String pComentarios){
-		comentarios = pComentarios;
 	}
 }

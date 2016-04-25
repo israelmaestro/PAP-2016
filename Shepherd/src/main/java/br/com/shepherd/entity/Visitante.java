@@ -10,6 +10,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -28,6 +29,15 @@ public class Visitante implements Serializable{
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date				dataVisita;
 
+	@OneToOne(fetch = FetchType.LAZY)
+	private Sede				sedeVisita;
+
+	// Situação
+	private String				situacao;
+
+	// Programação da igreja que o membro visitou
+	private String				programacaoVisita;
+
 	// Informações pessoais do visitante
 	@NotNull
 	@OneToOne(fetch = FetchType.LAZY)
@@ -41,10 +51,17 @@ public class Visitante implements Serializable{
 	@OneToOne(fetch = FetchType.LAZY)
 	private Celula				celula;
 
+	// Informações de reuniões
 	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "visitantesComparecidos")
 	private List<CelulaReuniao>	reunioesComparecidas;
 
-	// TODO: Criar visitação
+	// Atendimentos
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "visitanteAtendido")
+	private List<Atendimento>	atendimentosRecebidos;
+
+	// Comentários
+	@Column(length = 1000)
+	private String				comentarios;
 
 	// Construtor e afins
 	public Visitante(){
@@ -86,6 +103,30 @@ public class Visitante implements Serializable{
 		dataVisita = pDataVisita;
 	}
 
+	public Sede getSedeVisita(){
+		return sedeVisita;
+	}
+
+	public void setSedeVisita(Sede pSedeVisita){
+		sedeVisita = pSedeVisita;
+	}
+
+	public String getSituacao(){
+		return situacao;
+	}
+
+	public void setSituacao(String pSituacao){
+		situacao = pSituacao;
+	}
+
+	public String getProgramacaoVisita(){
+		return programacaoVisita;
+	}
+
+	public void setProgramacaoVisita(String pProgramacaoVisita){
+		programacaoVisita = pProgramacaoVisita;
+	}
+
 	public Pessoa getPessoa(){
 		return pessoa;
 	}
@@ -100,5 +141,37 @@ public class Visitante implements Serializable{
 
 	public void setMembroCadastrante(Membro pMembroCadastrante){
 		membroCadastrante = pMembroCadastrante;
+	}
+
+	public Celula getCelula(){
+		return celula;
+	}
+
+	public void setCelula(Celula pCelula){
+		celula = pCelula;
+	}
+
+	public List<CelulaReuniao> getReunioesComparecidas(){
+		return reunioesComparecidas;
+	}
+
+	public void setReunioesComparecidas(List<CelulaReuniao> pReunioesComparecidas){
+		reunioesComparecidas = pReunioesComparecidas;
+	}
+
+	public List<Atendimento> getAtendimentosRecebidos(){
+		return atendimentosRecebidos;
+	}
+
+	public void setAtendimentosRecebidos(List<Atendimento> pAtendimentosRecebidos){
+		atendimentosRecebidos = pAtendimentosRecebidos;
+	}
+
+	public String getComentarios(){
+		return comentarios;
+	}
+
+	public void setComentarios(String pComentarios){
+		comentarios = pComentarios;
 	}
 }

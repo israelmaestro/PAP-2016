@@ -104,55 +104,55 @@ public class SedeService{
 
 		pSede.setAtiva(true);
 
-		if(null == pSede.getCep() || pSede.getCep().equals("")){
+		if(null == pSede.getEnderecoCep() || pSede.getEnderecoCep().equals("")){
 			if(pSede.isGpsAddress()){
-				if(null == pSede.getLogradouro() || pSede.getLogradouro().equals("")){
+				if(null == pSede.getEnderecoLogradouro() || pSede.getEnderecoLogradouro().equals("")){
 					// Logradouro é campo obrigatório, caso seja endereço de GPS
 					throw new Exception("Coordenadas de GPS: Campo obrigatório!");
 				}
 			} else{
-				pSede.setCep(null);
+				pSede.setEnderecoCep(null);
 
-				if(null == pSede.getLogradouro() || pSede.getLogradouro().equals("")){
-					pSede.setLogradouro(null);
+				if(null == pSede.getEnderecoLogradouro() || pSede.getEnderecoLogradouro().equals("")){
+					pSede.setEnderecoLogradouro(null);
 				}
 
-				if(null == pSede.getNumero() || pSede.getNumero().equals("")){
-					pSede.setNumero(null);
+				if(null == pSede.getEnderecoNumero() || pSede.getEnderecoNumero().equals("")){
+					pSede.setEnderecoNumero(null);
 				}
 
-				if(null == pSede.getComplemento() || pSede.getComplemento().equals("")){
-					pSede.setComplemento(null);
+				if(null == pSede.getEnderecoComplemento() || pSede.getEnderecoComplemento().equals("")){
+					pSede.setEnderecoComplemento(null);
 				}
 
-				if(null == pSede.getBairro() || pSede.getBairro().equals("")){
-					pSede.setBairro(null);
+				if(null == pSede.getEnderecoBairro() || pSede.getEnderecoBairro().equals("")){
+					pSede.setEnderecoBairro(null);
 				}
 
-				if(null == pSede.getCidade() || pSede.getCidade().equals("")){
-					pSede.setCidade(null);
+				if(null == pSede.getEnderecoCidade() || pSede.getEnderecoCidade().equals("")){
+					pSede.setEnderecoCidade(null);
 				}
 
-				if(null == pSede.getEstado() || pSede.getEstado().equals("")){
-					pSede.setEstado(null);
+				if(null == pSede.getEnderecoEstado() || pSede.getEnderecoEstado().equals("")){
+					pSede.setEnderecoEstado(null);
 				}
 
-				if(null == pSede.getPais() || pSede.getPais().equals("")){
-					pSede.setPais(null);
+				if(null == pSede.getEnderecoPais() || pSede.getEnderecoPais().equals("")){
+					pSede.setEnderecoPais(null);
 				}
 			}
 		} else{
-			if(null == pSede.getLogradouro() || pSede.getLogradouro().equals("")){
+			if(null == pSede.getEnderecoLogradouro() || pSede.getEnderecoLogradouro().equals("")){
 				// Logradouro é campo obrigatório, caso haja CEP
 				throw new Exception("Endereço: Campo obrigatório quando há CEP!");
 			}
 
-			if(null == pSede.getNumero() || pSede.getNumero().equals("")){
+			if(null == pSede.getEnderecoNumero() || pSede.getEnderecoNumero().equals("")){
 				// Logradouro é campo obrigatório, caso haja CEP
 				throw new Exception("Número: Campo obrigatório quando há CEP!");
 			}
 
-			if(null == pSede.getCidade() || pSede.getCidade().equals("")){
+			if(null == pSede.getEnderecoCidade() || pSede.getEnderecoCidade().equals("")){
 				// Logradouro é campo obrigatório, caso haja CEP
 				throw new Exception("Cidade: Campo obrigatório quando há CEP!");
 			}
