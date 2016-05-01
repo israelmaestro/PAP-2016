@@ -15,6 +15,25 @@ public class UsuarioService{
 	@PersistenceContext(unitName = "ShepherdDB")
 	private EntityManager entityManager;
 
+	public boolean login(Usuario pUsuario) throws Exception{
+
+		Usuario existente = buscaConta(pUsuario.getConta());
+
+		if(null != existente){
+			if(pUsuario.getSenha().equals(existente.getSenha())){
+				return true;
+			} else{
+				throw new Exception("A senha para a conta “"+ pUsuario.getConta()
+									+ "” é inválida!");
+			}
+
+		} else{
+			throw new Exception("Conta “"+ pUsuario.getConta()
+								+ "” inexistente ou senha incorreta!");
+		}
+
+	}
+
 	public Usuario cadastrar(Usuario pUsuario) throws Exception{
 
 		pUsuario.setConta(pUsuario.getConta().trim());
@@ -52,7 +71,8 @@ public class UsuarioService{
 	}
 
 	public Usuario buscaConta(String pConta){
-		Query query = entityManager.createQuery("FROM Usuario dbUsuario WHERE UPPER(dbUsuario.conta) = UPPER(:p1)");
+		Query query =
+					entityManager.createQuery("FROM Usuario dbUsuario WHERE dbUsuario.conta = :p1");
 		query.setParameter("p1", pConta);
 		try{
 			return (Usuario) query.getSingleResult();

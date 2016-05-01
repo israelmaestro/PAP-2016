@@ -52,7 +52,7 @@ public class Visitante implements Serializable{
 	private Celula				celula;
 
 	// Informações de reuniões
-	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "visitantesComparecidos")
+	@ManyToMany(fetch = FetchType.LAZY)
 	private List<CelulaReuniao>	reunioesComparecidas;
 
 	// Atendimentos

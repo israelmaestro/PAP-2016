@@ -47,18 +47,20 @@ public class SedeService{
 			throw new Exception("O cadastro possui campos obrigatórios não preenchidos!");
 		}
 
-		if(null == pSede.getTelefoneDdi1()|| pSede.getTelefoneDdi1().equals("")
-			|| null == pSede.getTelefoneNumero1()
-			|| pSede.getTelefoneNumero1().equals("")
-			|| null == pSede.getTelefoneTipo1()
-			|| pSede.getTelefoneTipo1().equals("")){
-			// Campo Telefone1 obrigatório
-			throw new Exception("O cadastro possui campos obrigatórios não preenchidos!");
-		}
+		// if(null == pSede.getTelefoneDdi1()||
+		// pSede.getTelefoneDdi1().equals("")
+		// || null == pSede.getTelefoneNumero1()
+		// || pSede.getTelefoneNumero1().equals("")
+		// || null == pSede.getTelefoneTipo1()
+		// || pSede.getTelefoneTipo1().equals("")){
+		// // Campo Telefone1 obrigatório
+		// throw new Exception("O cadastro possui campos obrigatórios não
+		// preenchidos!");
+		// }
 
-		if(null == pSede.getEmail1() || pSede.getEmail1().equals("")){
-			// Campo Email1 obrigatório
-			throw new Exception("O cadastro possui campos obrigatórios não preenchidos!");
+		if(null == pSede.getEmails() || pSede.getEmails().isEmpty()){
+			// Campo Email obrigatório
+			throw new Exception("E-mail! Cadastre pelo menos um endereço");
 		}
 
 		// Atribuir valores padrão

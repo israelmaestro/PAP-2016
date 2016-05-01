@@ -32,7 +32,7 @@ public class Usuario implements Serializable{
 	@OneToOne(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
 	private Perfil				perfil;
 
-	@NotNull
+	// @NotNull
 	@OneToOne(fetch = FetchType.LAZY)
 	private Membro				membro;
 

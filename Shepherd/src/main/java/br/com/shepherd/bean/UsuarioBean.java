@@ -25,6 +25,16 @@ public class UsuarioBean implements Serializable{
 		usuario = new Usuario();
 	}
 
+	public String login(){
+		try{
+			usuarioService.login(usuario);
+			return "home";
+		} catch(Exception e){
+			JSFUtil.addWarnMessage(e.getMessage());
+		}
+		return "index";
+	}
+
 	public void cadastrar() throws Exception{
 		try{
 			usuarioService.cadastrar(usuario);

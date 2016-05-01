@@ -3,7 +3,6 @@ package br.com.shepherd.entity;
 import java.io.Serializable;
 import java.util.Date;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -36,7 +35,7 @@ public class Lider implements Serializable{
 	@OneToOne(fetch = FetchType.LAZY)
 	private Celula				celula;
 
-	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@OneToOne(fetch = FetchType.LAZY)
 	private Coordenador			coordenador;
 
 	@Column(columnDefinition = "timestamp")

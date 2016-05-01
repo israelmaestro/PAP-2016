@@ -1,0 +1,116 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html	xmlns='http://www.w3.org/1999/xhtml'
+		xmlns:b='http://bootsfaces.net/ui'
+		xmlns:btr='http://butterfaces.larmic.de/components'
+		xmlns:f='http://java.sun.com/jsf/core'
+		xmlns:h='http://java.sun.com/jsf/html'
+		xmlns:p='http://primefaces.org/ui'
+		xmlns:pm='http://primefaces.org/mobile'
+		xmlns:pt='http://xmlns.jcp.org/jsf/passthrough'
+		xmlns:ui='http://java.sun.com/jsf/facelets'
+		>
+
+	<ui:composition template='/META-INF/resources/bootsfaces/jsfTemplate.xhtml'>
+		<ui:define name='mensagensCampos'/>
+		<ui:define name='tituloPagina'>Shepherd > Lista de Sedes</ui:define>
+		<ui:define name='tituloPrincipal'>
+			<b:iconAwesome name='fa fa-puzzle-piece fa-fw'/>
+			<br class='visible-xs'/>
+			Lista de Sedes
+			<h1>==========ARRUMAR==========</h1>
+		</ui:define>
+		<ui:define name='tituloSecundario'>home > sedes > listar</ui:define>
+		
+		<ui:define name='botoesAcao'>
+			<b:buttonGroup>
+				<b:button	value=''
+							onclick='location.href = "./comunicadoCadastrar.jsf"'
+							iconAwesome='fa fa-plus fa-fw'
+							/>
+			</b:buttonGroup>
+		</ui:define>
+			
+		<ui:define name='conteudo'>
+			<p:dataTable	id='sedeLista'
+							value='#{sedeBean.listar()}'
+							var='sede'
+							update='sedeLista'
+							emptyMessage='Nenhuma sede encontrada.'
+							>
+				<p:column	headerText='Nome'
+							priority='1'
+							>
+					<center>
+						<h:outputText value='#{sede.nome}'/>
+					</center>
+				</p:column>
+				
+				<p:column	headerText='Presidente'
+							priority='3'
+							>
+					<center>
+						<h:outputText value='#{sede.presidente == null ? "NENHUM(A)" : sede.presidente}'/>
+					</center>
+				</p:column>
+				
+				<p:column	headerText='Tipo de Sede'
+							priority='2'
+							>
+					<center>
+						<h:outputText value='#{sede.mainChurch == true ? "Mãe" : "Filha"}'/>
+					</center>
+				</p:column>
+				
+				<p:column	headerText='Opções'
+							priority='1'
+							>
+					<center>
+						<p:commandButton	update='@form'
+											onclick='alert("Visualização AINDA NÃO IMPLEMENTADA!")'
+											icon='fa fa-fw fa-eye'
+											alt='Visualizar'
+											/>
+						<p:commandButton	update='@form'
+											onclick='alert("ALTERAÇÃO AINDA NÃO IMPLEMENTADA!")'
+											icon='fa fa-fw fa-pencil'
+											style='	color: #009900;
+													'
+											alt='Excluir'
+											/>
+						<p:commandButton	update='@form'
+											action='#{sedeBean.excluir(sede)}'
+											icon='fa fa-fw fa-trash'
+											style='	color: #cc0000;
+													'
+											alt='Excluir'
+											>
+							<p:confirm	header='Excluir'
+										message='Excluir a sede “#{sede.nome}”?'
+										icon='null'
+										style='	font-size: 200%;
+												'
+										/>
+						</p:commandButton>
+					</center>
+					
+					<p:confirmDialog	global='true'
+										closable='false'
+										>
+						<center>
+							<p:commandButton	styleClass='ui-confirmdialog-yes'
+												icon='fa fa-fw fa-check'
+												style='	color: #CC0000;
+														'
+												/>
+							<p:commandButton	styleClass='ui-confirmdialog-no'
+												icon='fa fa-fw fa-close'
+												style='	color: #0000CC;
+														'
+												/>
+						</center>
+					</p:confirmDialog>
+				</p:column>
+			</p:dataTable>
+		</ui:define>
+	</ui:composition>
+</html>

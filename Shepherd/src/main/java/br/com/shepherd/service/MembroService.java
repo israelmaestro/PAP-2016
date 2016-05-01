@@ -63,20 +63,20 @@ public class MembroService{
 		pPessoa.setEnderecoCidade(pPessoa.getEnderecoCidade().trim());
 		pPessoa.setEnderecoEstado(pPessoa.getEnderecoEstado().trim().toUpperCase());
 
-		pPessoa.setTelefoneDdi1(pPessoa.getTelefoneDdi1().trim());
-		pPessoa.setTelefoneNumero1(pPessoa.getTelefoneNumero1().trim());
-		pPessoa.setTelefoneTipo1(pPessoa.getTelefoneTipo1().trim());
+		// pPessoa.setTelefoneDdi1(pPessoa.getTelefoneDdi1().trim());
+		// pPessoa.setTelefoneNumero1(pPessoa.getTelefoneNumero1().trim());
+		// pPessoa.setTelefoneTipo1(pPessoa.getTelefoneTipo1().trim());
+		//
+		// pPessoa.setTelefoneDdi2(pPessoa.getTelefoneDdi2().trim());
+		// pPessoa.setTelefoneNumero2(pPessoa.getTelefoneNumero2().trim());
+		// pPessoa.setTelefoneTipo2(pPessoa.getTelefoneTipo2().trim());
+		//
+		// pPessoa.setTelefoneDdi3(pPessoa.getTelefoneDdi3().trim());
+		// pPessoa.setTelefoneNumero3(pPessoa.getTelefoneNumero3().trim());
+		// pPessoa.setTelefoneTipo3(pPessoa.getTelefoneTipo3().trim());
 
-		pPessoa.setTelefoneDdi2(pPessoa.getTelefoneDdi2().trim());
-		pPessoa.setTelefoneNumero2(pPessoa.getTelefoneNumero2().trim());
-		pPessoa.setTelefoneTipo2(pPessoa.getTelefoneTipo2().trim());
-
-		pPessoa.setTelefoneDdi3(pPessoa.getTelefoneDdi3().trim());
-		pPessoa.setTelefoneNumero3(pPessoa.getTelefoneNumero3().trim());
-		pPessoa.setTelefoneTipo3(pPessoa.getTelefoneTipo3().trim());
-
-		pPessoa.setEmail1(pPessoa.getEmail1().trim());
-		pPessoa.setEmail2(pPessoa.getEmail2().trim());
+		// pPessoa.setEmail1(pPessoa.getEmail1().trim());
+		// pPessoa.setEmail2(pPessoa.getEmail2().trim());
 
 		// Setando Membro
 		System.out.println(JSFUtil.actualTimeStamp() + "Setando Membro...");

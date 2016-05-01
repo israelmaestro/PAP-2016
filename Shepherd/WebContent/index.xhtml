@@ -1,0 +1,72 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html	xmlns='http://www.w3.org/1999/xhtml'
+		xmlns:b='http://bootsfaces.net/ui'
+		xmlns:btr='http://butterfaces.larmic.de/components'
+		xmlns:f='http://java.sun.com/jsf/core'
+		xmlns:h='http://java.sun.com/jsf/html'
+		xmlns:p='http://primefaces.org/ui'
+		xmlns:pm="http://primefaces.org/mobile"
+		xmlns:ui='http://java.sun.com/jsf/facelets'
+		>
+
+	<ui:composition template='/META-INF/resources/bootsfaces/jsfTemplateLogin.xhtml'>
+			<ui:define name='mensagensCampos'>
+				<b:message for='conta'/>
+				<b:message for='senha'/>
+			</ui:define>
+			<ui:define name='tituloPagina'>Shepherd > Login</ui:define>
+			<ui:define name='tituloPrincipal'>
+				<i class='fa fa-key fa-fw' />
+				Bem vindo ao Shepherd
+			</ui:define>
+			<ui:define name='tituloSecundario'>
+				<a href='/Shepherd/index.jsf'>
+					Login
+				</a>
+			</ui:define>
+			<ui:define name='botoesAcao'>
+				<b:buttonGroup>
+					<btr:commandLink	action='#{usuarioBean.login()}'
+										styleClass='btn btn-default'
+										>
+						<b:iconAwesome name='fa fa-sign-in fa-fw'/>
+					</btr:commandLink>
+					<b:button	value=''
+								iconAwesome='fa fa-eraser fa-fw'
+								onclick='location.href = "./index.jsf"'/>
+				</b:buttonGroup>
+			</ui:define>
+			<ui:define name='conteudo'>
+				<b:row>
+					<b:column	col-lg='4'
+								col-md='4'
+								col-sm='6'
+								col-xs='12'
+								>
+						<br/>
+						<h:outputLabel	for='conta' value='Conta' />
+						<b:inputText	id='conta'
+										value='#{usuarioBean.usuario.conta}'
+										maxlength='8'
+										required='true'
+										requiredMessage='Conta: Campo obrigatório;'
+										/>
+					</b:column>
+					<b:column	col-lg='4'
+								col-md='4'
+								col-sm='6'
+								col-xs='12'
+								>
+						<br/>
+						<h:outputLabel for='senha' value='Senha' />
+						<b:inputSecret	id='senha'
+										value='#{usuarioBean.usuario.senha}'
+										maxlength='32'
+										required='true'
+										requiredMessage='Senha: Campo obrigatório!'
+										/>
+					</b:column>
+				</b:row>
+			</ui:define>
+	</ui:composition>
+</html>

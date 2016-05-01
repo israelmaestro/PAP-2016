@@ -5,19 +5,24 @@ import java.io.Serializable;
 import java.util.List;
 
 import javax.ejb.EJB;
-import javax.enterprise.context.RequestScoped;
 import javax.faces.bean.ManagedProperty;
+import javax.faces.event.AjaxBehaviorEvent;
+import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 
+import br.com.shepherd.entity.Email;
 import br.com.shepherd.entity.Sede;
+import br.com.shepherd.entity.Telefone;
 import br.com.shepherd.service.SedeService;
 import br.com.shepherd.service.util.JSFUtil;
 
 @Named
-@RequestScoped
+@ViewScoped
 public class SedeBean implements Serializable{
 	private static final long	serialVersionUID	= 4229014895384999619L;
 
+
+	// Persistência
 	@EJB
 	@ManagedProperty("#{sedeService}")
 	private SedeService			sedeService;
@@ -28,8 +33,25 @@ public class SedeBean implements Serializable{
 		sede = new Sede();
 	}
 
+	public void botaoRemoverTelefone(Telefone pTelefone){
+		sede.removeTelefone(pTelefone);
+	}
+
+	public void botaoAdicionarTelefone(AjaxBehaviorEvent pAjax){
+		sede.addTelefone(new Telefone());
+	}
+
+	public void botaoRemoverEmail(Email pEmail){
+		sede.removeEmail(pEmail);
+	}
+
+	public void botaoAdicionarEmail(AjaxBehaviorEvent pAjax){
+		sede.addEmail(new Email());
+	}
+
 	public String cadastrar(){
 		try{
+			// sede.setTelefones(tels);
 			sedeService.cadastrar(sede);
 
 			JSFUtil.addInfoMessage("Sede “" + sede.getNome() + "” cadastrada com sucesso!");

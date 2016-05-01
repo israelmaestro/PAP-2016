@@ -63,6 +63,9 @@ public class Ministro implements Serializable{
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "presidente")
 	private List<Sede>			sedes;
 
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "ministro")
+	private List<Comunicado>	comunicados;
+
 	// Flags
 	private boolean				isPresident			= false;
 

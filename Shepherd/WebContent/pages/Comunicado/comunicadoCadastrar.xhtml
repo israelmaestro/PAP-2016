@@ -1,0 +1,93 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html	xmlns='http://www.w3.org/1999/xhtml'
+		xmlns:b='http://bootsfaces.net/ui'
+		xmlns:btr='http://butterfaces.larmic.de/components'
+		xmlns:f='http://java.sun.com/jsf/core'
+		xmlns:h='http://java.sun.com/jsf/html'
+		xmlns:p='http://primefaces.org/ui'
+		xmlns:pm='http://primefaces.org/mobile'
+		xmlns:pt='http://xmlns.jcp.org/jsf/passthrough'
+		xmlns:ui='http://java.sun.com/jsf/facelets'
+		>
+
+	<ui:composition template='/META-INF/resources/bootsfaces/jsfTemplate.xhtml'>
+	
+		<ui:define name='mensagensCampos'>
+<!-- 			<b:message for='nome'/> -->
+			<br/>
+		</ui:define>
+		<ui:define name='tituloPagina'>Shepherd > Novo Comunicado</ui:define>
+		<ui:define name='tituloPrincipal'>
+			<b:iconAwesome name='fa fa-university fa-fw'/>
+			<br class='visible-xs'/>
+			Novo Comunicado
+		</ui:define>
+		<ui:define name='tituloSecundario'>
+			home > comunicados > novo
+		</ui:define>
+		
+		<ui:define name='botoesAcao'>
+			<b:buttonGroup>
+				<b:button	value=''
+							onclick='location.href = "./comunicadoListar.jsf"'
+							iconAwesome='fa fa-arrow-left fa-fw'
+							/>
+				<btr:commandLink	action='#{comunicadoBean.cadastrar()}'
+									styleClass='btn btn-default'
+									>
+					<b:iconAwesome name='fa fa-check fa-fw'/>
+				</btr:commandLink>
+				<b:button	value=''
+							iconAwesome='fa fa-eraser fa-fw'
+							onclick='location.href = "./comunicadoCadastrar.jsf"'/>
+			</b:buttonGroup>
+		</ui:define>
+		
+		<ui:define name='conteudo'>
+			<div	style='	margin-left: 0px;
+							margin-right: 0px;
+							padding-left: 0px;
+							'
+					>
+				<b:row>
+					<b:column>
+						<h3>
+							<b:iconAwesome name="fa fa-fw fa-envelope"/>
+							<br class='visible-xs'/>
+							Dados gerais
+						</h3>
+					</b:column>
+				</b:row>
+
+				<br/>
+
+				<b:row	style='	border-top: solid;
+								width: 100%;
+								border-color: #CCCCCC;
+								margin: 0px;
+								padding: 0px;
+								'>
+					<h3>
+						<b:iconAwesome name="fa fa-fw fa-sticky-note-o"/>
+						Corpo do Texto
+					</h3>
+				</b:row>
+				
+				<b:row>
+					<b:column	col-lg='12'
+								col-md='12'
+								col-sm='12'
+								col-xs='12'
+								>
+						<br/>
+						<p:editor	id='conteudo'
+									widgetVar='conteudoWidget'
+									value='#{comunicadoBean.comunicado.conteudo}'
+									/>
+					</b:column>
+				</b:row>
+			</div>
+		</ui:define>
+	</ui:composition>
+
+</html>

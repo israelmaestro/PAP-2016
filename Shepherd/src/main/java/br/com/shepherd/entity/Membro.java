@@ -29,8 +29,11 @@ public class Membro implements Serializable{
 	@OneToOne(fetch = FetchType.LAZY)
 	private Celula				celula;
 
-	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "membrosComparecidos")
+	@ManyToMany(fetch = FetchType.LAZY)
 	private List<CelulaReuniao>	reunioesComparecidas;
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "anfitriao")
+	private List<CelulaReuniao>	reunioesRecebidas;
 
 	@Column(columnDefinition = "timestamp")
 	@Temporal(TemporalType.TIMESTAMP)

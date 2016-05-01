@@ -31,13 +31,12 @@ public class Celula implements Serializable{
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "celula")
 	private List<Membro>		membros;
 
-	// @NotNull
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "celula")
-	private List<Lider>			lideres;
+	private List<Visitante>		visitantes;
 
 	// @NotNull
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "celula")
-	private List<Visitante>		visitantes;
+	private List<Lider>			lideres;
 
 	// @NotNull
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "celula")

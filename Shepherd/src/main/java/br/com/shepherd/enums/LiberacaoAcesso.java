@@ -5,8 +5,6 @@ public enum LiberacaoAcesso{
 
 	private String descricao;
 
-
-
 	private LiberacaoAcesso(String pDescricao){
 		descricao = pDescricao;
 	}

@@ -1,0 +1,788 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<class-diagram version="1.1.9" icons="true" automaticImage="SVG" always-add-relationships="true" generalizations="true" 
+  realizations="true" associations="true" dependencies="true" nesting-relationships="true" router="MANHATTAN">  
+  <class id="1" language="java" name="br.com.shepherd.entity.Pessoa" project="Shepherd" 
+    file="/Shepherd/src/main/java/br/com/shepherd/entity/Pessoa.java" binary="false" corner="TOP_RIGHT">    
+    <position height="-1" width="-1" x="125" y="301"/>    
+    <display autosize="true" stereotype="false" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </class>  
+  <class id="2" language="java" name="br.com.shepherd.entity.NEspecial" project="Shepherd" 
+    file="/Shepherd/src/main/java/br/com/shepherd/entity/NEspecial.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="348" y="-37"/>    
+    <display autosize="true" stereotype="false" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </class>  
+  <class id="3" language="java" name="br.com.shepherd.entity.Membro" project="Shepherd" 
+    file="/Shepherd/src/main/java/br/com/shepherd/entity/Membro.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="534" y="301"/>    
+    <display autosize="true" stereotype="false" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </class>  
+  <class id="4" language="java" name="br.com.shepherd.entity.Atendimento" project="Shepherd" 
+    file="/Shepherd/src/main/java/br/com/shepherd/entity/Atendimento.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="125" y="716"/>    
+    <display autosize="true" stereotype="false" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </class>  
+  <class id="5" language="java" name="br.com.shepherd.entity.Visitante" project="Shepherd" 
+    file="/Shepherd/src/main/java/br/com/shepherd/entity/Visitante.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="648" y="779"/>    
+    <display autosize="true" stereotype="false" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </class>  
+  <class id="6" language="java" name="br.com.shepherd.entity.Usuario" project="Shepherd" 
+    file="/Shepherd/src/main/java/br/com/shepherd/entity/Usuario.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="534" y="44"/>    
+    <display autosize="true" stereotype="false" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </class>  
+  <class id="7" language="java" name="br.com.shepherd.entity.Perfil" project="Shepherd" 
+    file="/Shepherd/src/main/java/br/com/shepherd/entity/Perfil.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="534" y="-112"/>    
+    <display autosize="true" stereotype="false" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </class>  
+  <class id="8" language="java" name="br.com.shepherd.entity.Frente" project="Shepherd" 
+    file="/Shepherd/src/main/java/br/com/shepherd/entity/Frente.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="905" y="153"/>    
+    <display autosize="true" stereotype="false" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </class>  
+  <class id="9" language="java" name="br.com.shepherd.entity.Lider" project="Shepherd" 
+    file="/Shepherd/src/main/java/br/com/shepherd/entity/Lider.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="898" y="-67"/>    
+    <display autosize="true" stereotype="false" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </class>  
+  <class id="10" language="java" name="br.com.shepherd.entity.Coordenador" project="Shepherd" 
+    file="/Shepherd/src/main/java/br/com/shepherd/entity/Coordenador.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1359" y="-67"/>    
+    <display autosize="true" stereotype="false" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </class>  
+  <class id="11" language="java" name="br.com.shepherd.entity.Sede" project="Shepherd" 
+    file="/Shepherd/src/main/java/br/com/shepherd/entity/Sede.java" binary="false" corner="TOP_LEFT">    
+    <position height="-1" width="-1" x="1517" y="621"/>    
+    <display autosize="true" stereotype="false" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </class>  
+  <class id="12" language="java" name="br.com.shepherd.entity.Ministro" project="Shepherd" 
+    file="/Shepherd/src/main/java/br/com/shepherd/entity/Ministro.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1516" y="183"/>    
+    <display autosize="true" stereotype="false" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </class>  
+  <class id="13" language="java" name="br.com.shepherd.entity.Celula" project="Shepherd" 
+    file="/Shepherd/src/main/java/br/com/shepherd/entity/Celula.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1228" y="621"/>    
+    <display autosize="true" stereotype="false" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </class>  
+  <class id="14" language="java" name="br.com.shepherd.entity.CelulaReuniao" project="Shepherd" 
+    file="/Shepherd/src/main/java/br/com/shepherd/entity/CelulaReuniao.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="945" y="623"/>    
+    <display autosize="true" stereotype="false" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </class>  
+  <class id="15" language="java" name="br.com.shepherd.entity.Comunicado" project="Shepherd" 
+    file="/Shepherd/src/main/java/br/com/shepherd/entity/Comunicado.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1750" y="183"/>    
+    <display autosize="true" stereotype="false" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </class>  
+  <class id="16" language="java" name="br.com.shepherd.entity.Telefone" project="Shepherd" 
+    file="/Shepherd/src/main/java/br/com/shepherd/entity/Telefone.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1807" y="637"/>    
+    <display autosize="true" stereotype="false" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </class>  
+  <class id="17" language="java" name="br.com.shepherd.entity.Email" project="Shepherd" 
+    file="/Shepherd/src/main/java/br/com/shepherd/entity/Email.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1707" y="823"/>    
+    <display autosize="true" stereotype="false" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </class>  
+  <association id="18">    
+    <end type="SOURCE" refId="13" navigable="true" variant="AGGREGATION">      
+      <attribute id="19" name="sede"/>      
+      <multiplicity id="20" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="11" navigable="true" variant="ASSOCIATION">      
+      <attribute id="21" name="celulas"/>      
+      <multiplicity id="22" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <display labels="true" multiplicity="false"/>  
+  </association>  
+  <association id="23">    
+    <bendpoint x="1154" y="172"/>    
+    <end type="SOURCE" refId="8" navigable="true" variant="AGGREGATION">      
+      <attribute id="24" name="celulas"/>      
+      <multiplicity id="25" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="13" navigable="true" variant="ASSOCIATION">      
+      <attribute id="26" name="frente"/>      
+      <multiplicity id="27" minimum="0" maximum="1"/>    
+    </end>    
+    <display labels="true" multiplicity="false"/>  
+  </association>  
+  <association id="28">    
+    <bendpoint x="901" y="290"/>    
+    <end type="SOURCE" refId="8" navigable="false" variant="AGGREGATION">      
+      <attribute id="29" name="lideres">        
+        <position height="0" width="0" x="-36" y="-1"/>      
+      </attribute>      
+      <multiplicity id="30" minimum="0" maximum="2147483647">        
+        <position height="0" width="0" x="-36" y="-1"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="3" navigable="true" variant="ASSOCIATION"/>    
+    <display labels="true" multiplicity="false"/>  
+  </association>  
+  <association id="31">    
+    <bendpoint x="230" y="94"/>    
+    <bendpoint x="230" y="26"/>    
+    <bendpoint x="168" y="26"/>    
+    <end type="SOURCE" refId="1" navigable="false" variant="ASSOCIATION">      
+      <attribute id="32" name="mae">        
+        <position height="18" width="28" x="166" y="11"/>      
+      </attribute>      
+      <multiplicity id="33" minimum="0" maximum="1">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="1" navigable="true" variant="ASSOCIATION"/>    
+    <display labels="true" multiplicity="false"/>  
+  </association>  
+  <association id="34">    
+    <bendpoint x="544" y="712"/>    
+    <end type="SOURCE" refId="5" navigable="true" variant="ASSOCIATION">      
+      <attribute id="35" name="membroCadastrante">        
+        <position height="0" width="0" x="-36" y="-1"/>      
+      </attribute>      
+      <multiplicity id="36" minimum="0" maximum="1">        
+        <position height="0" width="0" x="-36" y="-1"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="3" navigable="true" variant="AGGREGATION">      
+      <attribute id="37" name="visitantesCadastrados">        
+        <position height="0" width="0" x="77" y="-88"/>      
+      </attribute>      
+      <multiplicity id="38" minimum="0" maximum="2147483647">        
+        <position height="0" width="0" x="77" y="-88"/>      
+      </multiplicity>    
+    </end>    
+    <display labels="true" multiplicity="false"/>  
+  </association>  
+  <association id="39">    
+    <bendpoint x="594" y="117"/>    
+    <bendpoint x="714" y="117"/>    
+    <bendpoint x="714" y="-53"/>    
+    <end type="SOURCE" refId="3" navigable="true" variant="COMPOSITION">      
+      <attribute id="40" name="lider">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="41" minimum="0" maximum="1">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="9" navigable="true" variant="ASSOCIATION">      
+      <attribute id="42" name="membro">        
+        <position height="0" width="0" x="-36" y="-1"/>      
+      </attribute>      
+      <multiplicity id="43" minimum="0" maximum="1">        
+        <position height="0" width="0" x="-36" y="-1"/>      
+      </multiplicity>    
+    </end>    
+    <display labels="true" multiplicity="false"/>  
+  </association>  
+  <association id="44">    
+    <bendpoint x="403" y="444"/>    
+    <bendpoint x="403" y="693"/>    
+    <end type="SOURCE" refId="3" navigable="false" variant="AGGREGATION">      
+      <attribute id="45" name="atendimentosRealizados">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="46" minimum="0" maximum="2147483647">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="4" navigable="true" variant="ASSOCIATION"/>    
+    <display labels="true" multiplicity="false"/>  
+  </association>  
+  <association id="47">    
+    <end type="SOURCE" refId="6" navigable="true" variant="ASSOCIATION">      
+      <attribute id="48" name="perfil">        
+        <position height="0" width="0" x="-37" y="54"/>      
+      </attribute>      
+      <multiplicity id="49" minimum="0" maximum="1">        
+        <position height="0" width="0" x="-37" y="54"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="7" navigable="true" variant="ASSOCIATION">      
+      <attribute id="50" name="usuarios">        
+        <position height="0" width="0" x="-36" y="45"/>      
+      </attribute>      
+      <multiplicity id="51" minimum="0" maximum="2147483647">        
+        <position height="0" width="0" x="-36" y="45"/>      
+      </multiplicity>    
+    </end>    
+    <display labels="true" multiplicity="false"/>  
+  </association>  
+  <association id="52">    
+    <end type="SOURCE" refId="6" navigable="true" variant="ASSOCIATION">      
+      <attribute id="53" name="membro">        
+        <position height="0" width="0" x="-36" y="-1"/>      
+      </attribute>      
+      <multiplicity id="54" minimum="0" maximum="1">        
+        <position height="0" width="0" x="-36" y="-1"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="3" navigable="true" variant="ASSOCIATION">      
+      <attribute id="55" name="usuario">        
+        <position height="0" width="0" x="-36" y="45"/>      
+      </attribute>      
+      <multiplicity id="56" minimum="0" maximum="1">        
+        <position height="0" width="0" x="-36" y="45"/>      
+      </multiplicity>    
+    </end>    
+    <display labels="true" multiplicity="false"/>  
+  </association>  
+  <association id="57">    
+    <end type="SOURCE" refId="11" navigable="false" variant="ASSOCIATION">      
+      <attribute id="58" name="sedeMae">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="59" minimum="0" maximum="1">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="11" navigable="true" variant="ASSOCIATION"/>    
+    <display labels="true" multiplicity="false"/>  
+  </association>  
+  <association id="60">    
+    <bendpoint x="327" y="600"/>    
+    <bendpoint x="327" y="359"/>    
+    <end type="SOURCE" refId="4" navigable="false" variant="ASSOCIATION">      
+      <attribute id="61" name="membroAtendente">        
+        <position height="0" width="0" x="-36" y="-1"/>      
+      </attribute>      
+      <multiplicity id="62" minimum="0" maximum="1">        
+        <position height="0" width="0" x="-36" y="-1"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="3" navigable="true" variant="ASSOCIATION"/>    
+    <display labels="true" multiplicity="false"/>  
+  </association>  
+  <association id="63">    
+    <end type="SOURCE" refId="12" navigable="true" variant="AGGREGATION">      
+      <attribute id="64" name="sedes">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="65" minimum="0" maximum="2147483647">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="11" navigable="true" variant="ASSOCIATION">      
+      <attribute id="66" name="presidente">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="67" minimum="0" maximum="1">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
+    </end>    
+    <display labels="true" multiplicity="false"/>  
+  </association>  
+  <association id="68">    
+    <bendpoint x="221" y="85"/>    
+    <bendpoint x="221" y="46"/>    
+    <bendpoint x="183" y="46"/>    
+    <end type="SOURCE" refId="1" navigable="false" variant="ASSOCIATION">      
+      <attribute id="69" name="pai">        
+        <position height="18" width="22" x="183" y="31"/>      
+      </attribute>      
+      <multiplicity id="70" minimum="0" maximum="1">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="1" navigable="true" variant="ASSOCIATION"/>    
+    <display labels="true" multiplicity="false"/>  
+  </association>  
+  <association id="71">    
+    <end type="SOURCE" refId="10" navigable="true" variant="ASSOCIATION">      
+      <attribute id="72" name="lider">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="73" minimum="0" maximum="1">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="9" navigable="true" variant="COMPOSITION">      
+      <attribute id="74" name="coordenador">        
+        <position height="0" width="0" x="114" y="49"/>      
+      </attribute>      
+      <multiplicity id="75" minimum="0" maximum="1">        
+        <position height="0" width="0" x="114" y="49"/>      
+      </multiplicity>    
+    </end>    
+    <display labels="true" multiplicity="false"/>  
+  </association>  
+  <association id="76">    
+    <bendpoint x="840" y="182"/>    
+    <bendpoint x="838" y="182"/>    
+    <end type="SOURCE" refId="3" navigable="false" variant="AGGREGATION">      
+      <attribute id="77" name="frentesParticipadas">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="78" minimum="0" maximum="2147483647">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="8" navigable="true" variant="ASSOCIATION"/>    
+    <display labels="true" multiplicity="false"/>  
+  </association>  
+  <association id="79">    
+    <bendpoint x="1081" y="316"/>    
+    <bendpoint x="1081" y="582"/>    
+    <end type="SOURCE" refId="3" navigable="true" variant="AGGREGATION">      
+      <attribute id="80" name="celula"/>      
+      <multiplicity id="81" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="13" navigable="true" variant="ASSOCIATION">      
+      <attribute id="82" name="membros"/>      
+      <multiplicity id="83" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <display labels="true" multiplicity="false"/>  
+  </association>  
+  <association id="84">    
+    <bendpoint x="935" y="792"/>    
+    <end type="SOURCE" refId="14" navigable="true" variant="ASSOCIATION">      
+      <attribute id="85" name="visitantesComparecidos"/>      
+      <multiplicity id="86" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="5" navigable="true" variant="AGGREGATION">      
+      <attribute id="87" name="reunioesComparecidas"/>      
+      <multiplicity id="88" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <display labels="true" multiplicity="false"/>  
+  </association>  
+  <association id="89">    
+    <bendpoint x="1762" y="466"/>    
+    <end type="SOURCE" refId="11" navigable="true" variant="AGGREGATION">      
+      <attribute id="90" name="comunicados"/>      
+      <multiplicity id="91" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="15" navigable="true" variant="ASSOCIATION">      
+      <attribute id="92" name="sede"/>      
+      <multiplicity id="93" minimum="0" maximum="1"/>    
+    </end>    
+    <display labels="true" multiplicity="false"/>  
+  </association>  
+  <association id="94">    
+    <bendpoint x="881" y="259"/>    
+    <end type="SOURCE" refId="8" navigable="false" variant="AGGREGATION">      
+      <attribute id="95" name="participantes">        
+        <position height="0" width="0" x="-36" y="-1"/>      
+      </attribute>      
+      <multiplicity id="96" minimum="0" maximum="2147483647">        
+        <position height="0" width="0" x="-36" y="-1"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="3" navigable="true" variant="ASSOCIATION"/>    
+    <display labels="true" multiplicity="false"/>  
+  </association>  
+  <association id="97">    
+    <end type="SOURCE" refId="1" navigable="true" variant="COMPOSITION">      
+      <attribute id="98" name="membro">        
+        <position height="0" width="0" x="-36" y="-1"/>      
+      </attribute>      
+      <multiplicity id="99" minimum="0" maximum="1">        
+        <position height="0" width="0" x="-36" y="-1"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="3" navigable="true" variant="ASSOCIATION">      
+      <attribute id="100" name="pessoa">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="101" minimum="0" maximum="1">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
+    </end>    
+    <display labels="true" multiplicity="false"/>  
+  </association>  
+  <association id="102">    
+    <bendpoint x="573" y="792"/>    
+    <bendpoint x="572" y="792"/>    
+    <end type="SOURCE" refId="4" navigable="true" variant="ASSOCIATION">      
+      <attribute id="103" name="visitanteAtendido">        
+        <position height="0" width="0" x="77" y="-88"/>      
+      </attribute>      
+      <multiplicity id="104" minimum="0" maximum="1">        
+        <position height="0" width="0" x="77" y="-88"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="5" navigable="true" variant="AGGREGATION">      
+      <attribute id="105" name="atendimentosRecebidos">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="106" minimum="0" maximum="2147483647">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
+    </end>    
+    <display labels="true" multiplicity="false"/>  
+  </association>  
+  <association id="107">    
+    <bendpoint x="1199" y="-23"/>    
+    <end type="SOURCE" refId="9" navigable="true" variant="ASSOCIATION">      
+      <attribute id="108" name="celula"/>      
+      <multiplicity id="109" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="13" navigable="true" variant="AGGREGATION">      
+      <attribute id="110" name="lideres"/>      
+      <multiplicity id="111" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <display labels="true" multiplicity="false"/>  
+  </association>  
+  <association id="112">    
+    <bendpoint x="1693" y="701"/>    
+    <end type="SOURCE" refId="17" navigable="true" variant="ASSOCIATION">      
+      <attribute id="113" name="sede"/>      
+      <multiplicity id="114" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="11" navigable="true" variant="AGGREGATION">      
+      <attribute id="115" name="emails"/>      
+      <multiplicity id="116" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <display labels="true" multiplicity="false"/>  
+  </association>  
+  <association id="117">    
+    <bendpoint x="599" y="580"/>    
+    <end type="SOURCE" refId="3" navigable="false" variant="AGGREGATION">      
+      <attribute id="118" name="reunioesRecebidas"/>      
+      <multiplicity id="119" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="14" navigable="true" variant="ASSOCIATION"/>    
+    <display labels="true" multiplicity="false"/>  
+  </association>  
+  <association id="120">    
+    <bendpoint x="252" y="120"/>    
+    <bendpoint x="252" y="-25"/>    
+    <bendpoint x="132" y="-25"/>    
+    <end type="SOURCE" refId="1" navigable="false" variant="AGGREGATION">      
+      <attribute id="121" name="irmaos">        
+        <position height="18" width="40" x="133" y="-40"/>      
+      </attribute>      
+      <multiplicity id="122" minimum="0" maximum="2147483647">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="1" navigable="true" variant="ASSOCIATION"/>    
+    <display labels="true" multiplicity="false"/>  
+  </association>  
+  <association id="123">    
+    <bendpoint x="1704" y="917"/>    
+    <bendpoint x="-35" y="917"/>    
+    <bendpoint x="-35" y="349"/>    
+    <end type="SOURCE" refId="17" navigable="true" variant="ASSOCIATION">      
+      <attribute id="124" name="pessoa"/>      
+      <multiplicity id="125" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="1" navigable="true" variant="AGGREGATION">      
+      <attribute id="126" name="emails"/>      
+      <multiplicity id="127" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <display labels="true" multiplicity="false"/>  
+  </association>  
+  <association id="128">    
+    <bendpoint x="74" y="-70"/>    
+    <end type="SOURCE" refId="1" navigable="true" variant="AGGREGATION">      
+      <attribute id="129" name="nEspeciais">        
+        <position height="0" width="0" x="243" y="109"/>      
+      </attribute>      
+      <multiplicity id="130" minimum="0" maximum="2147483647">        
+        <position height="0" width="0" x="243" y="109"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="2" navigable="true" variant="ASSOCIATION">      
+      <attribute id="131" name="pessoas">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="132" minimum="0" maximum="2147483647">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
+    </end>    
+    <display labels="true" multiplicity="false"/>  
+  </association>  
+  <association id="133">    
+    <bendpoint x="403" y="831"/>    
+    <bendpoint x="403" y="870"/>    
+    <bendpoint x="7" y="870"/>    
+    <bendpoint x="7" y="420"/>    
+    <end type="SOURCE" refId="5" navigable="true" variant="ASSOCIATION">      
+      <attribute id="134" name="pessoa">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="135" minimum="0" maximum="1">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="1" navigable="true" variant="COMPOSITION">      
+      <attribute id="136" name="visitante">        
+        <position height="0" width="0" x="77" y="-88"/>      
+      </attribute>      
+      <multiplicity id="137" minimum="0" maximum="1">        
+        <position height="0" width="0" x="77" y="-88"/>      
+      </multiplicity>    
+    </end>    
+    <display labels="true" multiplicity="false"/>  
+  </association>  
+  <association id="138">    
+    <bendpoint x="241" y="105"/>    
+    <bendpoint x="241" y="0"/>    
+    <bendpoint x="151" y="0"/>    
+    <end type="SOURCE" refId="1" navigable="false" variant="ASSOCIATION">      
+      <attribute id="139" name="conjuge">        
+        <position height="18" width="46" x="152" y="-15"/>      
+      </attribute>      
+      <multiplicity id="140" minimum="0" maximum="1">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="1" navigable="true" variant="ASSOCIATION"/>    
+    <display labels="true" multiplicity="false"/>  
+  </association>  
+  <association id="141">    
+    <bendpoint x="-70" y="270"/>    
+    <bendpoint x="-70" y="951"/>    
+    <bendpoint x="1810" y="951"/>    
+    <end type="SOURCE" refId="1" navigable="true" variant="AGGREGATION">      
+      <attribute id="142" name="telefones"/>      
+      <multiplicity id="143" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="16" navigable="true" variant="ASSOCIATION">      
+      <attribute id="144" name="pessoa"/>      
+      <multiplicity id="145" minimum="0" maximum="1"/>    
+    </end>    
+    <display labels="true" multiplicity="false"/>  
+  </association>  
+  <association id="146">    
+    <bendpoint x="1332" y="83"/>    
+    <bendpoint x="1277" y="83"/>    
+    <end type="SOURCE" refId="10" navigable="true" variant="AGGREGATION">      
+      <attribute id="147" name="celulas"/>      
+      <multiplicity id="148" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="13" navigable="true" variant="ASSOCIATION">      
+      <attribute id="149" name="coordenador"/>      
+      <multiplicity id="150" minimum="0" maximum="1"/>    
+    </end>    
+    <display labels="true" multiplicity="false"/>  
+  </association>  
+  <association id="151">    
+    <bendpoint x="1232" y="837"/>    
+    <end type="SOURCE" refId="13" navigable="true" variant="ASSOCIATION">      
+      <attribute id="152" name="visitantes"/>      
+      <multiplicity id="153" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="5" navigable="true" variant="AGGREGATION">      
+      <attribute id="154" name="celula"/>      
+      <multiplicity id="155" minimum="0" maximum="1"/>    
+    </end>    
+    <display labels="true" multiplicity="false"/>  
+  </association>  
+  <association id="156">    
+    <bendpoint x="575" y="617"/>    
+    <end type="SOURCE" refId="3" navigable="false" variant="ASSOCIATION">      
+      <attribute id="157" name="reunioesComparecidas"/>      
+      <multiplicity id="158" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="14" navigable="true" variant="ASSOCIATION"/>    
+    <display labels="true" multiplicity="false"/>  
+  </association>  
+  <association id="159">    
+    <bendpoint x="654" y="876"/>    
+    <bendpoint x="1509" y="876"/>    
+    <end type="SOURCE" refId="5" navigable="false" variant="ASSOCIATION">      
+      <attribute id="160" name="sedeVisita">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="161" minimum="0" maximum="1">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="11" navigable="true" variant="ASSOCIATION"/>    
+    <display labels="true" multiplicity="false"/>  
+  </association>  
+  <association id="162">    
+    <bendpoint x="1784" y="526"/>    
+    <end type="SOURCE" refId="16" navigable="true" variant="ASSOCIATION">      
+      <attribute id="163" name="sede"/>      
+      <multiplicity id="164" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="11" navigable="true" variant="AGGREGATION">      
+      <attribute id="165" name="telefones"/>      
+      <multiplicity id="166" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <display labels="true" multiplicity="false"/>  
+  </association>  
+  <association id="167">    
+    <end type="SOURCE" refId="14" navigable="true" variant="AGGREGATION">      
+      <attribute id="168" name="celula"/>      
+      <multiplicity id="169" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="13" navigable="true" variant="ASSOCIATION">      
+      <attribute id="170" name="reunioes"/>      
+      <multiplicity id="171" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <display labels="true" multiplicity="false"/>  
+  </association>  
+  <association id="172">    
+    <bendpoint x="349" y="621"/>    
+    <bendpoint x="349" y="394"/>    
+    <end type="SOURCE" refId="4" navigable="false" variant="ASSOCIATION">      
+      <attribute id="173" name="membroAtendido">        
+        <position height="0" width="0" x="-36" y="-1"/>      
+      </attribute>      
+      <multiplicity id="174" minimum="0" maximum="1">        
+        <position height="0" width="0" x="-36" y="-1"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="3" navigable="true" variant="ASSOCIATION"/>    
+    <display labels="true" multiplicity="false"/>  
+  </association>  
+  <association id="175">    
+    <bendpoint x="935" y="405"/>    
+    <end type="SOURCE" refId="14" navigable="false" variant="AGGREGATION">      
+      <attribute id="176" name="membrosComparecidos"/>      
+      <multiplicity id="177" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="3" navigable="true" variant="ASSOCIATION"/>    
+    <display labels="true" multiplicity="false"/>  
+  </association>  
+  <association id="178">    
+    <bendpoint x="1725" y="84"/>    
+    <end type="SOURCE" refId="15" navigable="true" variant="ASSOCIATION">      
+      <attribute id="179" name="ministro"/>      
+      <multiplicity id="180" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="12" navigable="true" variant="AGGREGATION">      
+      <attribute id="181" name="comunicados"/>      
+      <multiplicity id="182" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <display labels="true" multiplicity="false"/>  
+  </association>  
+  <association id="183">    
+    <bendpoint x="669" y="214"/>    
+    <bendpoint x="670" y="214"/>    
+    <end type="SOURCE" refId="3" navigable="false" variant="AGGREGATION">      
+      <attribute id="184" name="frentesLideradas">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="185" minimum="0" maximum="2147483647">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="8" navigable="true" variant="ASSOCIATION"/>    
+    <display labels="true" multiplicity="false"/>  
+  </association>  
+  <association id="186">    
+    <bendpoint x="373" y="419"/>    
+    <bendpoint x="373" y="660"/>    
+    <end type="SOURCE" refId="3" navigable="false" variant="AGGREGATION">      
+      <attribute id="187" name="atendimentosRecebidos">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="188" minimum="0" maximum="2147483647">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="4" navigable="true" variant="ASSOCIATION"/>    
+    <display labels="true" multiplicity="false"/>  
+  </association>  
+  <association id="189">    
+    <bendpoint x="956" y="373"/>    
+    <end type="SOURCE" refId="14" navigable="false" variant="ASSOCIATION">      
+      <attribute id="190" name="anfitriao"/>      
+      <multiplicity id="191" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="3" navigable="true" variant="ASSOCIATION"/>    
+    <display labels="true" multiplicity="false"/>  
+  </association>  
+  <association id="192">    
+    <bendpoint x="1547" y="-62"/>    
+    <end type="SOURCE" refId="10" navigable="true" variant="COMPOSITION">      
+      <attribute id="193" name="ministro">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="194" minimum="0" maximum="1">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="12" navigable="true" variant="ASSOCIATION">      
+      <attribute id="195" name="coordenador">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="196" minimum="0" maximum="1">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
+    </end>    
+    <display labels="true" multiplicity="false"/>  
+  </association>  
+  <classifier-display autosize="true" stereotype="false" package="true" initial-value="false" signature="true" 
+    sort-features="false" accessors="true" visibility="true">    
+    <attributes public="true" package="true" protected="true" private="true" static="true"/>    
+    <operations public="false" package="false" protected="false" private="false" static="false"/>  
+  </classifier-display>  
+  <association-display labels="true" multiplicity="false"/>
+</class-diagram>

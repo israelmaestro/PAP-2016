@@ -1,9 +1,11 @@
 package br.com.shepherd.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -17,7 +19,6 @@ import javax.persistence.TemporalType;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 
-import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.URL;
 
 @Entity
@@ -69,17 +70,16 @@ public class Sede implements Serializable{
 
 	private String				enderecoPais;
 
-	// Informações de contato
-	@Column(length = 4)
-	private String				telefoneDdi1;
+	// Informações de telefone
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "sede", cascade = CascadeType.ALL)
+	private List<Telefone>		telefones;
 
-	@Column(length = 11)
-	private String				telefoneNumero1;
+	// Informações de email
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "sede", cascade = CascadeType.ALL)
+	private List<Email>			emails;
 
-	private String				telefoneTipo1;
-
-	@Email
-	private String				email1;
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "sede"/*, cascade = CascadeType.DETACH */)
+	private List<Comunicado>	comunicados;
 
 	@URL
 	private String				paginaWeb;
@@ -89,8 +89,6 @@ public class Sede implements Serializable{
 
 	@Column(length = 1000)
 	private String				comentarios;
-
-	// TODO: Lista de correspondências (cartas)
 
 	// TODO: Lista de assembleias gerais
 
@@ -105,6 +103,9 @@ public class Sede implements Serializable{
 	private boolean				isGpsAddress		= false;
 
 	public Sede(){
+		telefones = new ArrayList<Telefone>();
+		emails = new ArrayList<Email>();
+		setComunicados(new ArrayList<Comunicado>());
 	}
 
 	@Override
@@ -247,36 +248,28 @@ public class Sede implements Serializable{
 		enderecoPais = pEnderecoPais;
 	}
 
-	public String getTelefoneDdi1(){
-		return telefoneDdi1;
+	public List<Telefone> getTelefones(){
+		return telefones;
 	}
 
-	public void setTelefoneDdi1(String pTelefoneDdi1){
-		telefoneDdi1 = pTelefoneDdi1;
+	public void setTelefones(List<Telefone> pTelefones){
+		telefones = pTelefones;
 	}
 
-	public String getTelefoneNumero1(){
-		return telefoneNumero1;
+	public List<Email> getEmails(){
+		return emails;
 	}
 
-	public void setTelefoneNumero1(String pTelefoneNumero1){
-		telefoneNumero1 = pTelefoneNumero1;
+	public void setEmails(List<Email> pEmails){
+		emails = pEmails;
 	}
 
-	public String getTelefoneTipo1(){
-		return telefoneTipo1;
+	public List<Comunicado> getComunicados(){
+		return comunicados;
 	}
 
-	public void setTelefoneTipo1(String pTelefoneTipo1){
-		telefoneTipo1 = pTelefoneTipo1;
-	}
-
-	public String getEmail1(){
-		return email1;
-	}
-
-	public void setEmail1(String pEmail1){
-		email1 = pEmail1;
+	public void setComunicados(List<Comunicado> pComunicados){
+		comunicados = pComunicados;
 	}
 
 	public String getPaginaWeb(){
@@ -325,5 +318,23 @@ public class Sede implements Serializable{
 
 	public void setGpsAddress(boolean pIsGpsAddress){
 		isGpsAddress = pIsGpsAddress;
+	}
+
+	public void addTelefone(Telefone pTelefone){
+		telefones.add(pTelefone);
+		pTelefone.setSede(this);
+	}
+
+	public void removeTelefone(Telefone pTelefone){
+		telefones.remove(pTelefone);
+	}
+
+	public void addEmail(Email pEmail){
+		emails.add(pEmail);
+		pEmail.setSede(this);
+	}
+
+	public void removeEmail(Email pEmail){
+		emails.remove(pEmail);
 	}
 }

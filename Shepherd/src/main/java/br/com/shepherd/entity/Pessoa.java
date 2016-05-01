@@ -1,6 +1,7 @@
 package br.com.shepherd.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -19,7 +20,6 @@ import javax.persistence.TemporalType;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 
-import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
@@ -81,36 +81,13 @@ public class Pessoa implements Serializable{
 
 	private String				enderecoPais;
 
-	// Informações de contato
-	@Column(length = 4)
-	private String				telefoneDdi1;
+	// Informações de telefone
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "pessoa")
+	private List<Telefone>		telefones;
 
-	@Column(length = 9)
-	private String				telefoneNumero1;
-
-	private String				telefoneTipo1;
-
-	@Column(length = 3)
-	private String				telefoneDdi2;
-
-	@Column(length = 9)
-	private String				telefoneNumero2;
-
-	private String				telefoneTipo2;
-
-	@Column(length = 3)
-	private String				telefoneDdi3;
-
-	@Column(length = 9)
-	private String				telefoneNumero3;
-
-	private String				telefoneTipo3;
-
-	@Email
-	private String				email1;
-
-	@Email
-	private String				email2;
+	// Informações de email
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "sede", cascade = CascadeType.ALL)
+	private List<br.com.shepherd.entity.Email>	emails;
 
 	// Flags
 	@NotNull
@@ -156,6 +133,8 @@ public class Pessoa implements Serializable{
 	public Pessoa(){
 		membro = new Membro();
 		visitante = new Visitante();
+		telefones = new ArrayList<Telefone>();
+		emails = new ArrayList<Email>();
 	}
 
 	@Override
@@ -306,92 +285,20 @@ public class Pessoa implements Serializable{
 		enderecoPais = pEnderecoPais;
 	}
 
-	public String getTelefoneDdi1(){
-		return telefoneDdi1;
+	public List<Telefone> getTelefones(){
+		return telefones;
 	}
 
-	public void setTelefoneDdi1(String pTelefoneDdi1){
-		telefoneDdi1 = pTelefoneDdi1;
+	public void setTelefones(List<Telefone> pTelefones){
+		telefones = pTelefones;
 	}
 
-	public String getTelefoneNumero1(){
-		return telefoneNumero1;
+	public List<br.com.shepherd.entity.Email> getEmails(){
+		return emails;
 	}
 
-	public void setTelefoneNumero1(String pTelefoneNumero1){
-		telefoneNumero1 = pTelefoneNumero1;
-	}
-
-	public String getTelefoneTipo1(){
-		return telefoneTipo1;
-	}
-
-	public void setTelefoneTipo1(String pTelefoneTipo1){
-		telefoneTipo1 = pTelefoneTipo1;
-	}
-
-	public String getTelefoneDdi2(){
-		return telefoneDdi2;
-	}
-
-	public void setTelefoneDdi2(String pTelefoneDdi2){
-		telefoneDdi2 = pTelefoneDdi2;
-	}
-
-	public String getTelefoneNumero2(){
-		return telefoneNumero2;
-	}
-
-	public void setTelefoneNumero2(String pTelefoneNumero2){
-		telefoneNumero2 = pTelefoneNumero2;
-	}
-
-	public String getTelefoneTipo2(){
-		return telefoneTipo2;
-	}
-
-	public void setTelefoneTipo2(String ptelefoneTipo2){
-		telefoneTipo2 = ptelefoneTipo2;
-	}
-
-	public String getTelefoneDdi3(){
-		return telefoneDdi3;
-	}
-
-	public void setTelefoneDdi3(String pTelefoneDdi3){
-		telefoneDdi3 = pTelefoneDdi3;
-	}
-
-	public String getTelefoneNumero3(){
-		return telefoneNumero3;
-	}
-
-	public void setTelefoneNumero3(String pTelefoneNumero3){
-		telefoneNumero3 = pTelefoneNumero3;
-	}
-
-	public String getTelefoneTipo3(){
-		return telefoneTipo3;
-	}
-
-	public void setTelefoneTipo3(String pTelefoneTipo3){
-		telefoneTipo3 = pTelefoneTipo3;
-	}
-
-	public String getEmail1(){
-		return email1;
-	}
-
-	public void setEmail1(String pEmail1){
-		email1 = pEmail1;
-	}
-
-	public String getEmail2(){
-		return email2;
-	}
-
-	public void setEmail2(String pEmail2){
-		email2 = pEmail2;
+	public void setEmails(List<br.com.shepherd.entity.Email> pEmails){
+		emails = pEmails;
 	}
 
 	public boolean isAtivo(){
@@ -488,5 +395,23 @@ public class Pessoa implements Serializable{
 
 	public void setVisitante(Visitante pVisitante){
 		visitante = pVisitante;
+	}
+
+	public void addTelefone(Telefone pTelefone){
+		telefones.add(pTelefone);
+		pTelefone.setPessoa(this);
+	}
+
+	public void removeTelefone(Telefone pTelefone){
+		telefones.remove(pTelefone);
+	}
+
+	public void addEmail(br.com.shepherd.entity.Email pEmail){
+		emails.add(pEmail);
+		pEmail.setPessoa(this);
+	}
+
+	public void removeEmail(br.com.shepherd.entity.Email pEmail){
+		emails.remove(pEmail);
 	}
 }

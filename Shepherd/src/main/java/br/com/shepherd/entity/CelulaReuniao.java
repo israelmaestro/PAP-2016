@@ -36,16 +36,20 @@ public class CelulaReuniao implements Serializable{
 
 	private String				titulo;
 
+	@OneToOne(fetch = FetchType.LAZY)
 	private Membro				anfitriao;
 
-	@ManyToMany(fetch = FetchType.LAZY)
+	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "reunioesComparecidas")
 	private List<Membro>		membrosComparecidos;
 
-	@ManyToMany(fetch = FetchType.LAZY)
+	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "reunioesComparecidas")
 	private List<Visitante>		visitantesComparecidos;
 
 	@OneToOne(fetch = FetchType.LAZY)
 	private Celula				celula;
+
+	// Flags
+	private boolean				isGpsAddress;
 
 	// Informações de endereço
 	@Column(length = 8)
@@ -147,6 +151,14 @@ public class CelulaReuniao implements Serializable{
 
 	public void setCelula(Celula pCelula){
 		celula = pCelula;
+	}
+
+	public boolean isGpsAddress(){
+		return isGpsAddress;
+	}
+
+	public void setGpsAddress(boolean pIsGpsAddress){
+		isGpsAddress = pIsGpsAddress;
 	}
 
 	public String getEnderecoCep(){
