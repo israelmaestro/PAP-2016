@@ -22,7 +22,7 @@ public class Email implements Serializable{
 	private String				descricao;
 
 	@OneToOne(fetch = FetchType.LAZY)
-	private Sede				sede;
+	private Sede					sede;
 
 	@OneToOne(fetch = FetchType.LAZY)
 	private Pessoa				pessoa;

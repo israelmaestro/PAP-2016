@@ -2,126 +2,82 @@
 <class-diagram version="1.1.9" icons="true" automaticImage="SVG" always-add-relationships="true" generalizations="true" 
   realizations="true" associations="true" dependencies="true" nesting-relationships="true" router="FAN">  
   <class id="1" language="java" name="br.com.shepherd.entity.Celula" project="Shepherd" 
-    file="/Shepherd/src/main/java/br/com/shepherd/entity/Celula.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1078" y="775"/>    
+    file="/Shepherd/src/main/java/br/com/shepherd/entity/Celula.java" binary="false" corner="TOP_LEFT">    
+    <position height="-1" width="-1" x="786" y="533"/>    
     <display autosize="true" stereotype="false" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="false" package="false" protected="false" private="false" static="false"/>    
     </display>  
   </class>  
-  <class id="2" language="java" name="br.com.shepherd.entity.Sede" project="Shepherd" 
-    file="/Shepherd/src/main/java/br/com/shepherd/entity/Sede.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="280" y="731"/>    
-    <display autosize="true" stereotype="false" package="true" initial-value="false" signature="true" 
-      sort-features="false" accessors="true" visibility="true">      
-      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
-      <operations public="false" package="false" protected="false" private="false" static="false"/>    
-    </display>  
-  </class>  
-  <class id="3" language="java" name="br.com.shepherd.service.CelulaService" project="Shepherd" 
+  <class id="2" language="java" name="br.com.shepherd.service.CelulaService" project="Shepherd" 
     file="/Shepherd/src/main/java/br/com/shepherd/service/CelulaService.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="607" y="468"/>    
+    <position height="-1" width="-1" x="291" y="389"/>    
     <display autosize="true" stereotype="false" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="true"/>      
       <operations public="true" package="false" protected="false" private="false" static="false"/>    
     </display>  
   </class>  
-  <class id="4" language="java" name="br.com.shepherd.bean.CelulaBean" project="Shepherd" 
+  <class id="3" language="java" name="br.com.shepherd.bean.CelulaBean" project="Shepherd" 
     file="/Shepherd/src/main/java/br/com/shepherd/bean/CelulaBean.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1078" y="467"/>    
+    <position height="-1" width="-1" x="53" y="631"/>    
     <display autosize="true" stereotype="false" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="true"/>      
       <operations public="false" package="false" protected="false" private="false" static="false"/>    
     </display>  
   </class>  
-  <interface id="5" language="java" name="javax.persistence.EntityManager" project="Shepherd" 
+  <interface id="4" language="java" name="javax.persistence.EntityManager" project="Shepherd" 
     file="C:/Aplicativos Portable/wildfly-9.0.1.Final/modules/system/layers/base/javax/persistence/api/main/hibernate-jpa-2.1-api-1.0.0.Final.jar" 
     binary="true" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="877" y="405"/>    
+    <position height="-1" width="-1" x="577" y="322"/>    
     <display autosize="true" stereotype="false" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="true"/>      
       <operations public="false" package="false" protected="false" private="false" static="false"/>    
     </display>  
   </interface>  
-  <dependency id="6">    
-    <end type="SOURCE" refId="3"/>    
-    <end type="TARGET" refId="2"/>  
+  <dependency id="5">    
+    <end type="SOURCE" refId="2"/>    
+    <end type="TARGET" refId="1"/>  
   </dependency>  
-  <association id="7">    
-    <end type="SOURCE" refId="4" navigable="false" variant="ASSOCIATION">      
-      <attribute id="8" name="celulaService">        
-        <position height="0" width="0" x="0" y="0"/>      
+  <association id="6">    
+    <end type="SOURCE" refId="3" navigable="false" variant="ASSOCIATION">      
+      <attribute id="7" name="celulaService">        
+        <position height="0" width="0" x="-316" y="-79"/>      
       </attribute>      
-      <multiplicity id="9" minimum="0" maximum="1">        
-        <position height="0" width="0" x="0" y="0"/>      
-      </multiplicity>    
-    </end>    
-    <end type="TARGET" refId="3" navigable="true" variant="ASSOCIATION"/>    
-    <display labels="false" multiplicity="false"/>  
-  </association>  
-  <association id="10">    
-    <end type="SOURCE" refId="1" navigable="true" variant="ASSOCIATION">      
-      <attribute id="11" name="sede">        
-        <position height="0" width="0" x="-1209" y="108"/>      
-      </attribute>      
-      <multiplicity id="12" minimum="0" maximum="1">        
-        <position height="0" width="0" x="-1209" y="108"/>      
-      </multiplicity>    
-    </end>    
-    <end type="TARGET" refId="2" navigable="true" variant="ASSOCIATION">      
-      <attribute id="13" name="celulas">        
-        <position height="0" width="0" x="-174" y="86"/>      
-      </attribute>      
-      <multiplicity id="14" minimum="0" maximum="2147483647">        
-        <position height="0" width="0" x="-174" y="86"/>      
-      </multiplicity>    
-    </end>    
-    <display labels="false" multiplicity="false"/>  
-  </association>  
-  <association id="15">    
-    <end type="SOURCE" refId="2" navigable="false" variant="ASSOCIATION">      
-      <attribute id="16" name="sedeMae">        
-        <position height="0" width="0" x="-1209" y="108"/>      
-      </attribute>      
-      <multiplicity id="17" minimum="0" maximum="1">        
-        <position height="0" width="0" x="-1209" y="108"/>      
+      <multiplicity id="8" minimum="0" maximum="1">        
+        <position height="0" width="0" x="-316" y="-79"/>      
       </multiplicity>    
     </end>    
     <end type="TARGET" refId="2" navigable="true" variant="ASSOCIATION"/>    
-    <display labels="false" multiplicity="false"/>  
+    <display labels="true" multiplicity="false"/>  
   </association>  
-  <association id="18">    
-    <end type="SOURCE" refId="4" navigable="false" variant="ASSOCIATION">      
-      <attribute id="19" name="celula">        
-        <position height="0" width="0" x="0" y="0"/>      
+  <association id="9">    
+    <end type="SOURCE" refId="2" navigable="false" variant="ASSOCIATION">      
+      <attribute id="10" name="entityManager">        
+        <position height="0" width="0" x="-300" y="-92"/>      
       </attribute>      
-      <multiplicity id="20" minimum="0" maximum="1">        
-        <position height="0" width="0" x="0" y="0"/>      
+      <multiplicity id="11" minimum="0" maximum="1">        
+        <position height="0" width="0" x="-300" y="-92"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="4" navigable="true" variant="ASSOCIATION"/>    
+    <display labels="true" multiplicity="false"/>  
+  </association>  
+  <association id="12">    
+    <end type="SOURCE" refId="3" navigable="false" variant="ASSOCIATION">      
+      <attribute id="13" name="celula">        
+        <position height="0" width="0" x="-303" y="-143"/>      
+      </attribute>      
+      <multiplicity id="14" minimum="0" maximum="1">        
+        <position height="0" width="0" x="-303" y="-143"/>      
       </multiplicity>    
     </end>    
     <end type="TARGET" refId="1" navigable="true" variant="ASSOCIATION"/>    
-    <display labels="false" multiplicity="false"/>  
+    <display labels="true" multiplicity="false"/>  
   </association>  
-  <association id="21">    
-    <end type="SOURCE" refId="3" navigable="false" variant="ASSOCIATION">      
-      <attribute id="22" name="entityManager">        
-        <position height="0" width="0" x="0" y="0"/>      
-      </attribute>      
-      <multiplicity id="23" minimum="0" maximum="1">        
-        <position height="0" width="0" x="0" y="0"/>      
-      </multiplicity>    
-    </end>    
-    <end type="TARGET" refId="5" navigable="true" variant="ASSOCIATION"/>    
-    <display labels="false" multiplicity="false"/>  
-  </association>  
-  <dependency id="24">    
-    <end type="SOURCE" refId="3"/>    
-    <end type="TARGET" refId="1"/>  
-  </dependency>  
   <classifier-display autosize="true" stereotype="false" package="true" initial-value="false" signature="true" 
     sort-features="false" accessors="true" visibility="true">    
     <attributes public="true" package="true" protected="true" private="true" static="true"/>    

@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sequence-diagram version="1.1.9" icons="true" automaticImage="SVG">  
+  <object id="1" language="java" name="br.com.shepherd.bean.MembroBean" project="Shepherd" 
+    file="/Shepherd/src/main/java/br/com/shepherd/bean/MembroBean.java" binary="false" label="membroBean" type="class" 
+    autoSize="true">    
+    <position height="-1" width="-1" x="350" y="0"/>    
+    <execution id="2">      
+      <position height="417" width="100" x="5" y="78"/>    
+    </execution>    
+    <execution id="5">      
+      <position height="165" width="7" x="52" y="225"/>    
+    </execution>  
+  </object>  
+  <object id="12" language="java" name="br.com.shepherd.service.util.JSFUtil" project="Shepherd" 
+    file="/Shepherd/src/main/java/br/com/shepherd/service/util/JSFUtil.java" binary="false" label="&lt;static&gt;" 
+    type="class" autoSize="true">    
+    <position height="0" width="0" x="0" y="0"/>    
+    <execution id="9">      
+      <position height="21" width="0" x="0" y="301"/>    
+    </execution>    
+    <execution id="11">      
+      <position height="21" width="0" x="0" y="348"/>    
+    </execution>  
+  </object>  
+  <object id="13" language="java" name="br.com.shepherd.entity.Pessoa" project="Shepherd" 
+    file="/Shepherd/src/main/java/br/com/shepherd/entity/Pessoa.java" binary="false" label="pessoa" type="class" 
+    autoSize="true">    
+    <position height="0" width="0" x="0" y="0"/>    
+    <execution id="7">      
+      <position height="21" width="0" x="0" y="262"/>    
+    </execution>  
+  </object>  
+  <object id="14" language="java" name="br.com.shepherd.service.MembroService" project="Shepherd" 
+    file="/Shepherd/src/main/java/br/com/shepherd/service/MembroService.java" binary="false" label="membroService" 
+    type="class" autoSize="false">    
+    <position height="507" width="199" x="342" y="0"/>    
+    <execution id="4">      
+      <position height="375" width="113" x="109" y="99"/>    
+    </execution>    
+    <execution id="16">      
+      <position height="312" width="113" x="109" y="141"/>    
+    </execution>    
+    <execution id="19">      
+      <position height="207" width="7" x="165" y="204"/>    
+    </execution>  
+  </object>  
+  <object id="21" language="java" name="javax.persistence.EntityManager" project="Shepherd" 
+    file="C:/Aplicativos Portable/wildfly-9.0.1.Final/modules/system/layers/base/javax/persistence/api/main/hibernate-jpa-2.1-api-1.0.0.Final.jar" 
+    binary="true" label="entityManager" type="interface" autoSize="false">    
+    <position height="452" width="241" x="541" y="0"/>    
+    <execution id="18">      
+      <position height="260" width="104" x="226" y="172"/>    
+    </execution>  
+  </object>  
+  <message id="3" operation="cadastrar(br.com.shepherd.entity.Pessoa):br.com.shepherd.entity.Pessoa" 
+    asynchronous="false">    
+    <end type="SOURCE" refId="2"/>    
+    <end type="TARGET" refId="4"/>  
+  </message>  
+  <message id="6" operation="Pessoa()" asynchronous="false">    
+    <end type="SOURCE" refId="5"/>    
+    <end type="TARGET" refId="7"/>  
+  </message>  
+  <message id="8" operation="addInfoMessage(java.lang.String):void" asynchronous="false">    
+    <end type="SOURCE" refId="5"/>    
+    <end type="TARGET" refId="9"/>  
+  </message>  
+  <message id="10" operation="addWarnMessage(java.lang.String):void" asynchronous="false">    
+    <end type="SOURCE" refId="5"/>    
+    <end type="TARGET" refId="11"/>  
+  </message>  
+  <message id="15" 
+    operation="buscaPessoaUnica(java.lang.String,java.lang.String,java.util.Date,java.lang.String,java.lang.String,boolean):br.com.shepherd.entity.Pessoa" 
+    asynchronous="false">    
+    <end type="SOURCE" refId="4"/>    
+    <end type="TARGET" refId="16"/>  
+  </message>  
+  <message id="17" operation="persist(java.lang.Object):void" asynchronous="false">    
+    <end type="SOURCE" refId="16"/>    
+    <end type="TARGET" refId="18"/>  
+  </message>  
+  <message id="20" operation="cadastrar():java.lang.String" asynchronous="false" x="345" y="206">    
+    <end type="SOURCE" refId="19"/>    
+    <end type="TARGET" refId="5"/>  
+  </message>  
+  <message id="22" operation="cadastrar(br.com.shepherd.entity.Pessoa):br.com.shepherd.entity.Pessoa" 
+    asynchronous="false">    
+    <end type="SOURCE" refId="18"/>    
+    <end type="TARGET" refId="19"/>  
+  </message>
+</sequence-diagram>
