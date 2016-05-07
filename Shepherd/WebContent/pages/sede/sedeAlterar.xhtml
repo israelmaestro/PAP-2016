@@ -1,0 +1,664 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html	xmlns='http://www.w3.org/1999/xhtml'
+		xmlns:b='http://bootsfaces.net/ui'
+		xmlns:btr='http://butterfaces.larmic.de/components'
+		xmlns:f='http://java.sun.com/jsf/core'
+		xmlns:h='http://java.sun.com/jsf/html'
+		xmlns:p='http://primefaces.org/ui'
+		xmlns:pm='http://primefaces.org/mobile'
+		xmlns:pt='http://xmlns.jcp.org/jsf/passthrough'
+		xmlns:ui='http://java.sun.com/jsf/facelets'
+		>
+
+	<ui:composition template='/META-INF/resources/bootsfaces/jsfTemplate.xhtml'>
+	
+		<ui:define name='mensagensCampos'>
+			<b:message for='nome'/>
+			<b:message for='cnpj'/>
+			<b:message for='presidente'/>
+			<b:message for='dataFuncacao' />
+			<b:message for='celulas' />
+			<b:message for='sedeMae' />
+			<b:message for='paginaWeb'/>
+			<b:message for='perfilRedeSocial' />
+			<b:message for='gpsAddress'/>
+			<b:message for='cep' />
+			<b:message for='logradouro' />
+			<b:message for='numero' />
+			<b:message for='complemento' />
+			<b:message for='bairro' />
+			<b:message for='cidade' />
+			<b:message for='uf' />
+			<b:message for='pais' />
+			<b:message for='tbTelefones'/>
+			<b:message for='tbEmails' />
+			<b:message for='comentarios' />
+			<br/>
+		</ui:define>
+		<ui:define name='tituloPagina'>Shepherd > Alterar Sede</ui:define>
+		<ui:define name='tituloPrincipal'>
+			<b:iconAwesome name='fa fa-university fa-fw'/>
+			<br class='visible-xs'/>
+			Alterar Sede
+		</ui:define>
+		<ui:define name='tituloSecundario'>
+			home > sedes > alterar
+		</ui:define>
+		
+		<ui:define name='botoesAcao'>
+			<b:buttonGroup>
+				<b:button	value=''
+							onclick='location.href = "./sedeListar.jsf"'
+							iconAwesome='fa fa-arrow-left fa-fw'
+							/>
+				<btr:commandLink	action='#{sedeBean.alterar()}'
+									styleClass='btn btn-default'
+									>
+					<b:iconAwesome name='fa fa-check fa-fw'/>
+				</btr:commandLink>
+				<b:button	value=''
+							iconAwesome='fa fa-eraser fa-fw'
+							onclick='location.href = "./sedeCadastrar.jsf"'/>
+			</b:buttonGroup>
+		</ui:define>
+		
+		<ui:define name='conteudo'>
+			<div	style='	margin-left: 0px;
+							margin-right: 0px;
+							padding-left: 0px;
+							'
+					>
+				<b:row>
+					<b:column>
+						<table style='width: 100%;'
+											>
+							<tr>
+								<td	style='	vertical-align: bottom;'>
+									<h3>
+										<b:iconAwesome name="fa fa-fw fa-info-circle"/>
+										<br class='visible-xs'/>
+										Dados gerais
+									</h3>
+								</td>
+								<td	style='	vertical-align: bottom;
+											text-align: right;
+											line-height: 1px;
+											'
+									>
+									<b:switch	value='#{sedeBean.sede.mainChurch}'
+												binding='#{mainChurch}'
+												label='Sede Tipo'
+												offText='Filha'
+												onText='Mãe'
+												onColor='danger'
+												offColor='primary'
+												switchsize='mini'
+												>
+										<f:ajax event='change' render='@form' />
+									</b:switch>
+								</td>
+							</tr>
+						</table>
+					</b:column>
+				</b:row>
+			
+				<b:row	>
+					<b:container	style='	margin: 0px;
+											padding: 0px;
+											width: 100%;
+											'
+									>
+						<b:column	col-lg='3'
+									col-md='3'
+									col-sm='6'
+									col-xs='12'
+									>
+							<br/>
+							
+							<h:outputLabel	for='nome'
+											value='Nome*'
+											/>
+							<b:inputText 	id='nome'
+											required='true'
+											requiredMessage='Nome: Campo obrigatório!'
+											value='#{sedeBean.sede.nome}'
+											style='background-color: #FFFFCC'
+											placeholder='Nome'
+											>
+
+								<f:facet name="prepend">
+									<h:outputText value="Igreja Esperança" />
+								</f:facet>
+							</b:inputText>
+						</b:column>
+						
+						<b:column	col-lg='3'
+									col-md='3'
+									col-sm='6'
+									col-xs='12'
+									>
+							<br/>
+							<h:outputLabel	for='cnpj'
+											value='CNPJ'
+											/>
+							<b:inputText 	id='cnpj'
+											value='#{sedeBean.sede.cnpj}'
+											maxlength='14'
+											placeholder='CNPJ'
+											onkeydown='return teclaNumerica(event.keyCode)'
+											/>
+						</b:column>
+						<b:column	col-lg='3'
+									col-md='3'
+									col-sm='6'
+									col-xs='12'
+									>
+							<br/>
+							<b:selectOneMenu	id='presidente'
+												label='Presidente'
+												value='#{sedeBean.sede.presidente}'
+												converter='omnifaces.SelectItemsConverter'
+												enableFiltering='true'
+												filterPlaceholder='Procurar'
+												nonSelectedText='Selecione'
+												disableIfEmpty='true'
+												>
+								<f:selectItem itemLabel='Selecione' itemDisabled='true'/>
+								<f:selectItems	value='#{membroBean.listarPresidentes()}'
+												var='presidente'
+												itemLabel='#{presidente.coordenador.lider.membro.pessoa.nome}'
+												/>
+							</b:selectOneMenu>
+						</b:column>
+													
+						<b:column	col-lg='3'
+									col-md='3'
+									col-sm='6'
+									col-xs='12'
+									>
+							<br/>
+							<h:outputLabel	for='dataFuncacao'
+											value='Data da Fundação'
+											/>
+							<b:datepicker 	id='dataFuncacao'
+											placeholder='DD/MM/AAAA'
+											value='#{sedeBean.sede.dataFundacao}'
+											/>
+						</b:column>
+					</b:container>
+						
+					<b:column	col-lg='3'
+								col-md='3'
+								col-sm='6'
+								col-xs='12'
+								>
+						<br/>
+						<b:selectMultiMenu 	id='celulas'
+											label='Células'
+											value='#{sedeBean.sede.celulas}'
+											converter='omnifaces.SelectItemsConverter'
+											enableFiltering='true'
+											filterPlaceholder='Procurar'
+											nonSelectedText='Selecione'
+											nSelectedText='Células selecionadas'
+											numberDisplayed='1'
+											disableIfEmpty='true'
+											allSelectedText='Todas'
+											fieldSize='lg'
+											style='	width: 200%;'
+											>
+							<f:selectItems	value='#{celulaBean.listar()}'
+											var='celula'
+											itemLabel='#{celula.nome}'
+											/>
+						</b:selectMultiMenu>
+					</b:column>
+					
+					<b:column	col-lg='3'
+								col-md='3'
+								col-sm='6'
+								col-xs='12'
+								rendered='#{!mainChurch.value}'
+								>
+						<br/>
+						<b:selectOneMenu	id='sedeMae'
+											label='Sede-Mãe'
+											value='#{sedeBean.sede.sedeMae}'
+											converter='omnifaces.SelectItemsConverter'
+											enableFiltering='true'
+											filterPlaceholder='Procurar'
+											nonSelectedText='Selecione'
+											disableIfEmpty='true'
+											>
+							<f:selectItem itemLabel='Selecione' itemDisabled='true'/>
+							<f:selectItems	value='#{sedeBean.listarMaes()}' var='sedeMae'
+											itemLabel='#{sedeMae.nome}'
+											/>
+						</b:selectOneMenu>
+					</b:column>
+					
+					<b:column	col-lg='3'
+								col-md='3'
+								col-sm='12'
+								col-xs='12'
+								>
+						<br/>
+						
+						<h:outputLabel	for='paginaWeb'
+										value='Página da Web'
+										/>
+						<b:inputText 	id='paginaWeb'
+										value='#{sedeBean.sede.paginaWeb}'
+										placeholder='Página da Web'
+										/>
+					</b:column>
+					
+					<b:column	col-lg='3'
+								col-md='3'
+								col-sm='12'
+								col-xs='12'
+								>
+						<br/>
+						
+						<h:outputLabel	for='perfilRedeSocial'
+										value='Perfil de Rede Social'
+										/>
+						<b:inputText 	id='perfilRedeSocial'
+										value='#{sedeBean.sede.perfilRedeSocial}'
+										placeholder='Perfil de Rede Social'
+										/>
+										<br/>
+					</b:column>
+				</b:row>
+				<b:row	style='	border-top: solid;
+								width: 100%;
+								border-color: #CCCCCC;
+								margin: 0px;
+								padding: 0px;
+								'>
+					<table style='width: 100%;'>
+						<tr>
+							<td	style='	vertical-align: bottom;'>
+								<h3>
+									<b:iconAwesome name="fa fa-fw fa-map-marker"/>
+									Endereço
+								</h3>
+							</td>
+							<td	style='	vertical-align: bottom;
+										text-align: right;
+										line-height: 1px;
+										 margin: 0px; padding: 0px;'
+								>
+								<b:switch	value='#{sedeBean.sede.gpsAddress}'
+											label=''
+											offText='Postal'
+											onText='GPS'
+											onColor='danger'
+											offColor='primary'
+											switchsize='mini'
+											binding='#{showGpsForm}'
+											>
+									<f:ajax event='change' render='@form' />
+								</b:switch>
+							</td>
+						</tr>
+					</table>
+				</b:row>
+				
+				<b:row>
+					<b:container	rendered='#{showGpsForm.value}'
+									style='	width: 100%;
+											margin: 0px;
+											padding: 0px;
+											'
+									>
+						<b:column	col-lg='4'
+									col-md='4'
+									col-sm='6'
+									col-xs='12'
+									>
+							<br/>
+							<h:outputLabel	for='gpsAddress'
+											value='Coordenadas de GPS*'
+											/>
+							<b:inputText	id='gpsAddress'
+											value='#{sedeBean.sede.enderecoLogradouro}'
+											placeholder='Digite as coordenadas do GPS'
+											requiered='true'
+											requiredMessage='Coordenadas de GPS: Campo obrigatório!'
+											/>
+						</b:column>
+					</b:container>
+				</b:row>
+				
+				<b:row>
+					<b:container	rendered='#{!showGpsForm.value}'
+									style='	width: 100%;
+											margin: 0px;
+											padding: 0px;
+											'
+									>
+						<b:column	col-lg='3'
+									col-md='3'
+									col-sm='3'
+									col-xs='12'
+									>
+							<br/>
+							<h:outputLabel value='CEP' for='cep'/>
+							<b:iconAwesome	name='fa-question-circle'
+											tooltip='Caso o sistema encontre o CEP digitado, os campos de endereço serão preenchidos automaticamente.'
+											onclick='alert("Caso o sistema encontre o CEP digitado, os campos de endereço serão preenchidos automaticamente.")'
+											style='	margin-left: 4px;'
+											/>
+							<b:inputText	id='cep'
+											binding='#{cep}'
+											maxlength='8'
+											onkeypress='return teclaNumerica(event.keyCode)'
+											value='#{sedeBean.sede.enderecoCep}'
+											placeholder='Digite o CEP'
+											onblur='if(this.value != "") pesquisaCep(this.value);'
+											/>
+						</b:column>
+						
+						<b:column	col-lg='6'
+									col-md='6'
+									col-sm='9'
+									col-xs='12'
+									>
+							<br/>
+							<h:outputLabel value='Endereço' for='logradouro'/>
+							<b:inputText	id='logradouro'
+											name='logradouro'
+											value='#{sedeBean.sede.enderecoLogradouro}'
+											placeholder='Digite o nome da rua, avenida, etc.'
+											class='hidden-xs'
+											onblur='document.getElementById("input_form:logradouro2").value = document.getElementById("input_form:logradouro").value'
+											/>
+							<b:inputTextarea	id='logradouro2'
+												name='logradouro2'
+												value='#{sedeBean.sede.enderecoLogradouro}'
+												placeholder='Digite o nome da rua, avenida, etc.'
+												class='visible-xs'
+												onblur='document.getElementById("input_form:logradouro").value = document.getElementById("input_form:logradouro2").value'
+												/>
+						</b:column>
+						
+						<b:column	col-lg='1'
+									col-md='1'
+									col-sm='2'
+									col-xs='5'
+									>
+							<br/>
+							<h:outputLabel value='№' for='numero'/>
+							<b:inputText	id='numero'
+											value='#{sedeBean.sede.enderecoNumero}'
+											onkeypress='return teclaNumerica(event.keyCode)'
+											maxlength='5'
+											placeholder='№'
+											/>
+						</b:column>
+						
+						<b:column	col-lg='2'
+									col-md='2'
+									col-sm='4'
+									col-xs='7'
+									>
+							<br/>
+							<h:outputLabel value='Complemento' for='complemento'/>
+							<b:inputText	id='complemento'
+											value='#{sedeBean.sede.enderecoComplemento}'
+											placeholder='Complemento'
+											/>
+						</b:column>
+						
+						<b:column	col-lg='3'
+									col-md='3'
+									col-sm='6'
+									col-xs='12'
+									>
+							<br/>
+							<h:outputLabel value='Bairro' for='bairro'/>
+							<b:inputText	id='bairro'
+											value='#{sedeBean.sede.enderecoBairro}'
+											placeholder='Bairro'
+											/>
+						</b:column>
+						
+						<b:column	col-lg='4'
+									col-md='4'
+									col-sm='6'
+									col-xs='12'
+									>
+							<br/>
+							<h:outputLabel value='Cidade' for='cidade'/>
+							<b:inputText	id='cidade'
+											value='#{sedeBean.sede.enderecoCidade}'
+											placeholder='Cidade'
+											/>
+						</b:column>
+						
+						<b:column	col-lg='1'
+									col-md='1'
+									col-sm='2'
+									col-xs='4'
+									>
+							<br/>
+							<h:outputLabel value='UF' for='uf'/>
+							<b:inputText	id='uf'
+											maxlength='2'
+											value='#{sedeBean.sede.enderecoEstado}'
+											placeholder='UF'
+											/>
+						</b:column>
+						
+						<b:column	col-lg='4'
+									col-md='4'
+									col-sm='4'
+									col-xs='12'
+									>
+							<br/>
+							<h:outputLabel value='País' for='pais'/>
+							<b:inputText	id='pais'
+											value='#{sedeBean.sede.enderecoPais}'
+											placeholder='País'
+											/>
+						</b:column>
+					</b:container>
+				</b:row>
+
+				<br/>
+
+				<b:row	style='	border-top: solid;
+								width: 100%;
+								border-color: #CCCCCC;
+								margin: 0px;
+								padding: 0px;
+								'>
+					<h3>
+						<b:iconAwesome name="fa fa-fw fa-phone"/>
+						Telefone
+					</h3>
+				</b:row>
+				<b:row>
+					<h:dataTable	id='tbTelefones'
+									value='#{sedeBean.sede.telefones}'
+									var='telefone'
+									style='	width: 100%;'
+									>
+						<h:column>
+							<b:column	col-lg='3'
+										col-md='3'
+										col-sm='6'
+										col-xs='12'
+										>
+								<br/>
+								<b:inputText	value='#{telefone.numero}'
+												placeholder='DDI + Código + Número'
+												maxlength='32'
+												onkeypress='return teclaNumerica(event.keyCode);'
+												/>
+							</b:column>
+							<b:column	col-lg='3'
+										col-md='3'
+										col-sm='6'
+										col-xs='12'
+										>
+								<br class='hidden-xs'/>
+								<table	style='	width: 100%;
+												'
+										>
+									<tr>
+										<td>
+											<b:inputText	value='#{telefone.descricao}'
+															placeholder='Descrição'
+															/>
+										</td>
+										<td	style='	vertical-align: middle;
+													text-align: right;
+													'
+											>
+											<b:iconAwesome	name='fa fa-trash fa-fw'
+															size='lg'
+															style='	color: #CC0000;
+																	margin-bottom: 12px;
+																	'
+															>
+												<f:ajax	listener="#{sedeBean.botaoRemoverTelefone(telefone)}"
+														immediate="true"
+														render="@form"
+														/>
+											</b:iconAwesome>
+										</td>
+									</tr>
+								</table>
+							</b:column>
+						</h:column>
+					</h:dataTable>
+					<b:column span='12'>
+						<b:iconAwesome	name='fa fa-plus fa-fw'
+										size='lg'
+										style='	color: #00CC00;					
+												'
+										>
+							<f:ajax	listener="#{sedeBean.botaoAdicionarTelefone}"
+									execute="tbTelefones"
+									render="tbTelefones"
+									/>
+						</b:iconAwesome>
+					</b:column>
+				</b:row>
+
+				<br/>
+				
+				<b:row	style='	border-top: solid;
+								width: 100%;
+								border-color: #CCCCCC;
+								margin: 0px;
+								padding: 0px;
+								'>
+					<h3>
+						<b:iconAwesome name="fa fa-fw fa-at"/>
+						E-mail
+					</h3>
+				</b:row>
+				
+				<b:row>
+					<h:dataTable	id='tbEmails'
+									value='#{sedeBean.sede.emails}'
+									var='email'
+									style='	width: 100%;'
+									>
+						<h:column>
+							<b:column	col-lg='3'
+										col-md='3'
+										col-sm='6'
+										col-xs='12'
+										>
+								<br/>
+								<b:inputText	value='#{email.conta}'
+												placeholder='E-Mail'
+												/>
+							</b:column>
+							<b:column	col-lg='3'
+										col-md='3'
+										col-sm='6'
+										col-xs='12'
+										>
+								<br class='hidden-xs'/>
+								<table	style='	width: 100%;
+												'
+										>
+									<tr>
+										<td>
+											<b:inputText	value='#{email.descricao}'
+															placeholder='Descrição'
+															/>
+										</td>
+										<td	style='	vertical-align: middle;
+													text-align: right;
+													'
+											>
+											<b:iconAwesome	name='fa fa-trash fa-fw'
+															size='lg'
+															style='	color: #CC0000;
+																	margin-bottom: 12px;
+																	'
+															>
+												<f:ajax	listener="#{sedeBean.botaoRemoverEmail(email)}"
+														immediate="true"
+														render="@form"
+														/>
+											</b:iconAwesome>
+										</td>
+									</tr>
+								</table>
+							</b:column>
+						</h:column>
+					</h:dataTable>
+					<b:column span='12'>
+						<b:iconAwesome	name='fa fa-plus fa-fw'
+										size='lg'
+										style='	color: #00CC00;					
+												'
+										>
+							<f:ajax	listener="#{sedeBean.botaoAdicionarEmail}"
+									execute="tbEmails"
+									render="tbEmails"
+									/>
+						</b:iconAwesome>
+					</b:column>
+				</b:row>
+
+				<br/>
+
+				<b:row	style='	border-top: solid;
+								width: 100%;
+								border-color: #CCCCCC;
+								margin: 0px;
+								padding: 0px;
+								'>
+						<h3>
+							<b:iconAwesome name="fa fa-fw fa-sticky-note-o"/>
+							Comentários
+						</h3>
+				</b:row>
+
+				<b:row>
+					<b:column	col-lg='12'
+								col-md='12'
+								col-sm='12'
+								col-xs='12'
+								style='	margin: 0px;'
+								>
+						<b:inputTextarea	id='comentarios'
+											value='#{sedeBean.sede.comentarios}'
+											maxlength='1000'
+											placeholder='Digite os comentários aqui.'
+											/>
+					</b:column>
+				</b:row>
+			</div>
+		</ui:define>
+	</ui:composition>
+
+</html>

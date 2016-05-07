@@ -65,6 +65,13 @@ public class SedeBean implements Serializable{
 		return "sedeCadastrar";
 	}
 
+	public String prepararAlteracao(Integer id){
+
+		setSede(sedeService.procurar(id));
+
+		return "sedeAlterar";
+	}
+
 	public void alterar(Sede pSede){
 		sedeService.alterar(pSede);
 

@@ -70,11 +70,11 @@
 											alt='Visualizar'
 											/>
 						<p:commandButton	update='@form'
-											onclick='alert("ALTERAÇÃO AINDA NÃO IMPLEMENTADA!")'
+											onclick='#{sedeBean.prepararAlteracao(sede.id)}}'
 											icon='fa fa-fw fa-pencil'
 											style='	color: #009900;
 													'
-											alt='Excluir'
+											alt='Alterar'
 											/>
 						<p:commandButton	update='@form'
 											action='#{sedeBean.excluir(sede)}'
