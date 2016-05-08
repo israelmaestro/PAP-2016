@@ -5,9 +5,9 @@ import java.io.Serializable;
 import java.util.List;
 
 import javax.ejb.EJB;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.event.AjaxBehaviorEvent;
-import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 
 import br.com.shepherd.entity.Email;
@@ -17,7 +17,7 @@ import br.com.shepherd.service.SedeService;
 import br.com.shepherd.service.util.JSFUtil;
 
 @Named
-@ViewScoped
+@SessionScoped
 public class SedeBean implements Serializable{
 	private static final long	serialVersionUID	= 4229014895384999619L;
 
@@ -65,9 +65,9 @@ public class SedeBean implements Serializable{
 		return "sedeCadastrar";
 	}
 
-	public String prepararAlteracao(Integer id){
+	public String prepararAlteracao(Sede pSede){
 
-		setSede(sedeService.procurar(id));
+		setSede(pSede);
 
 		return "sedeAlterar";
 	}
