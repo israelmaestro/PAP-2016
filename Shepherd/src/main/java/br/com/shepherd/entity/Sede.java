@@ -41,13 +41,13 @@ public class Sede implements Serializable{
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date				dataFundacao;
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "sede")
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "sede")
 	private List<Celula>		celulas;
 
 	@OneToOne(fetch = FetchType.EAGER)
 	private Ministro			presidente;
 
-	@OneToOne(fetch = FetchType.LAZY)
+	@OneToOne(fetch = FetchType.EAGER)
 	private Sede				sedeMae;
 
 	// Informações de endereço
@@ -71,14 +71,15 @@ public class Sede implements Serializable{
 	private String				enderecoPais;
 
 	// Informações de telefone
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "sede", cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "sede", cascade = CascadeType.ALL)
 	private List<Telefone>		telefones;
 
 	// Informações de email
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "sede", cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "sede", cascade = CascadeType.ALL)
 	private List<Email>			emails;
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "sede"/*, cascade = CascadeType.DETACH */)
+	@OneToMany(	fetch = FetchType.EAGER,
+				mappedBy = "sede"/* , cascade = CascadeType.DETACH */)
 	private List<Comunicado>	comunicados;
 
 	@URL
