@@ -69,21 +69,6 @@
 							'
 					>
 				<b:row>
-					<b:column span="12">
-									<b:switch	value='#{sedeBean.sede.ativa}'
-												binding='#{Status}'
-												label='Status'
-												offText='Ativa'
-												onText='Inativa'
-												onColor='danger'
-												offColor='primary'
-												switchsize='mini'
-												>
-										<f:ajax render='@form' />
-									</b:switch>	
-					</b:column>
-				</b:row>	
-				<b:row>
 					<b:column>
 						<table style='width: 100%;'
 											>
@@ -95,7 +80,6 @@
 										Dados gerais
 									</h3>
 								</td>
-								
 								<td	style='	vertical-align: bottom;
 											text-align: right;
 											line-height: 1px;
@@ -112,7 +96,7 @@
 												>
 										<f:ajax event='change' render='@form' />
 									</b:switch>
-								</td>																
+								</td>
 							</tr>
 						</table>
 					</b:column>
