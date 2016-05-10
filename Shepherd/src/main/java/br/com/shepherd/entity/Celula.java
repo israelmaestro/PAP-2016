@@ -248,7 +248,7 @@ public class Celula implements Serializable{
 		return enderecoBairro;
 	}
 
-	public void seEnderecotBairro(String pEnderecoBairro){
+	public void setEnderecoBairro(String pEnderecoBairro){
 		enderecoBairro = pEnderecoBairro;
 	}
 
@@ -256,7 +256,7 @@ public class Celula implements Serializable{
 		return enderecoCidade;
 	}
 
-	public void setCidade(String pCidade){
+	public void setEnderecoCidade(String pCidade){
 		enderecoCidade = pCidade;
 	}
 

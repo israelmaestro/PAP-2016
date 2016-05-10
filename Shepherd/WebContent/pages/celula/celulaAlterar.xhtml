@@ -1,0 +1,591 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html	xmlns='http://www.w3.org/1999/xhtml'
+		xmlns:b='http://bootsfaces.net/ui'
+		xmlns:btr='http://butterfaces.larmic.de/components'
+		xmlns:f='http://java.sun.com/jsf/core'
+		xmlns:h='http://java.sun.com/jsf/html'
+		xmlns:p='http://primefaces.org/ui'
+		xmlns:pm='http://primefaces.org/mobile'
+		xmlns:pt='http://xmlns.jcp.org/jsf/passthrough'
+		xmlns:ui='http://java.sun.com/jsf/facelets'
+		>
+
+	<ui:composition template='/META-INF/resources/bootsfaces/jsfTemplate.xhtml'>
+	
+			<ui:define name='mensagensCampos'>
+				<b:message for='nome'/>
+				<b:message for='frente'/>
+				<b:message for='sede'/>
+				<b:message for='lideres'/>
+				<b:message for='coordenador'/>
+				<b:message for='membros'/>
+				<b:message for='visitantes'/>
+				<b:message for='cep'/>
+				<b:message for='logradouro'/>
+				<b:message for='logradouro2'/>
+				<b:message for='numero'/>
+				<b:message for='complemento'/>
+				<b:message for='bairro'/>
+				<b:message for='cidade'/>
+				<b:message for='uf'/>
+				<b:message for='pais'/>
+				<b:message for='comentarios'/>
+				<br/>
+			</ui:define>
+			<ui:define name='tituloPagina'>Shepherd > Nova Célula</ui:define>
+			<ui:define name='tituloPrincipal'>
+				<b:iconAwesome name='fa fa-sitemap fa-fw'/>
+				<br class='visible-xs'/>
+				Nova Célula
+			</ui:define>
+			<ui:define name='tituloSecundario'>
+				home > célula > nova
+			</ui:define>
+			
+			<ui:define name='botoesAcao'>
+				<b:buttonGroup>
+					<b:button	value=''
+								onclick='location.href = "./celulaListar.jsf"'
+								iconAwesome='fa fa-arrow-left fa-fw'
+								/>
+					<btr:commandLink	action='#{celulaBean.alterar()}'
+										styleClass='btn btn-default'
+										>
+						<b:iconAwesome name='fa fa-check fa-fw'/>
+					</btr:commandLink>
+					<b:button	value=''
+								iconAwesome='fa fa-eraser fa-fw'
+								onclick='location.href = "./celulaCadastrar.jsf"'/>
+				</b:buttonGroup>
+			</ui:define>
+			
+			<ui:define name='conteudo'>
+				<div	style='	margin-left: 0px;
+								margin-right: 0px;
+								padding-left: 0px;
+								'
+						>
+					<b:row>
+						<b:column>
+							<b:switch	value='#{celulaBean.celula.active}'
+										label='Status'
+										offText='Inativa'
+										onText='Ativa'
+										onColor='danger'
+										offColor='primary'
+										switchsize='mini'
+										/>
+						</b:column>
+					</b:row>
+					<b:row>
+						<b:column	col-lg='11'
+									col-md='11'
+									col-sm='10'
+									col-xs='8'
+									style='	line-height: 1px;
+											'
+									>
+							<h3>
+								<b:iconAwesome name="fa fa-fw fa-info-circle"/>
+								<br class='visible-xs'/>
+								Dados gerais
+							</h3>
+						</b:column>
+						
+						<b:column	col-lg='1'
+									col-md='1'
+									col-sm='2'
+									col-xs='4'
+									>
+							<br class='visible-xs'/>
+							
+							<table	style='	width: 100%;
+											text-align: left;
+											line-height: 1px;
+											margin:0px;
+											margin-left: 16px;
+											padding: 0px;
+											'
+									>
+								<tr>
+									<td	style='	line-height: 1px;
+												font-size: 125%;
+												color: #0033FF; 
+												'
+										>
+										<b:iconAwesome	name='fa-map-marker'
+														tooltip='Endereço Fixo'
+														onclick='alert("Selecione esta opção caso a célula possua um endereço fixo.")'
+														style='	border-radius: 100%;
+																background-color: #99CCFF;
+																margin-left: -3px;
+																padding-left: 3.5px;
+																padding-right: 3.5px;'
+														/>
+										<b:selectBooleanCheckbox	id='address'
+																	binding='#{showAddress}'
+																	value='#{celulaBean.celula.enderecoFixo}'
+																	>
+											<f:ajax event='change' render='@form' />
+										</b:selectBooleanCheckbox>
+									</td>
+									<td	style='	line-height: 1px;
+												color: #009900;
+												font-size: 125%;
+												'
+										>
+										<b:iconAwesome	name='fa-child'
+														tooltip='Permitir Visitantes'
+														onclick='alert("Selecione esta opção caso a célula deva permitir visitantes.")'
+														style='	border-radius: 100%;
+																background-color: #CCFFCC;
+																margin-left: -3.5px;
+																padding-left: 3px;
+																padding-right: 3px;
+																'
+														/>
+										<b:selectBooleanCheckbox	id='permitirVisitante'
+																	binding='#{showVisitorsMenu}'
+																	value='#{celulaBean.celula.visitorsAllowed}'
+																	>
+											<f:ajax event='change' render='@form' />
+										</b:selectBooleanCheckbox>
+									</td>
+								</tr>
+							</table>
+							
+							<br class='visible-xs' style='line-height: 100%;'/>
+						</b:column>
+					</b:row>
+					<b:row>
+						<b:container	style='	margin: 0px;
+												padding: 0px;
+												width: 100%;
+												'
+										>
+							<b:column	col-lg='3'
+										col-md='3'
+										col-sm='6'
+										col-xs='12'
+										>
+								<br/>
+								
+								<h:outputLabel	for='nome'
+												value='Nome*'
+												/>
+								<b:inputText 	id='nome'
+												required='true'
+												requiredMessage='Nome: Campo obrigatório!'
+												value='#{celulaBean.celula.nome}'
+												style='background-color: #FFFFCC'
+												placeholder='Nome'
+												/>
+							</b:column>
+							<b:column	col-lg='3'
+										col-md='3'
+										col-sm='6'
+										col-xs='12'
+										>
+								<br/>
+								<b:selectOneMenu	id='frente'
+													label='Frente'
+													value='#{celulaBean.celula.frente}'
+													converter='omnifaces.SelectItemsConverter'
+													enableFiltering='true'
+													filterPlaceholder='Procurar'
+													nonSelectedText='Selecione'
+													disableIfEmpty='true'
+													>
+									<f:selectItem itemLabel='Selecione' itemDisabled='true'/>
+									<f:selectItems	value='#{frenteBean.listarTipoCelula()}' var='frente'
+													itemLabel='#{frente.nome}'
+													/>
+								</b:selectOneMenu>
+							</b:column>
+							<b:column	col-lg='3'
+										col-md='3'
+										col-sm='6'
+										col-xs='12'
+										>
+								<br/>
+								<b:selectOneMenu	id='sede'
+													label='Sede'
+													value='#{celulaBean.celula.sede}'
+													converter='omnifaces.SelectItemsConverter'
+													enableFiltering='true'
+													filterPlaceholder='Procurar'
+													nonSelectedText='Selecione'
+													disableIfEmpty='true'
+													>
+									<f:selectItem itemLabel='Selecione' itemDisabled='true'/>
+									<f:selectItems	value='#{sedeBean.listar()}' var='sede'
+													itemLabel='#{sede.nome}#{null != sede.enderecoCidade ? " (" : ""}#{null != sede.enderecoCidade ? sede.enderecoCidade : ""}#{null != sede.enderecoCidade ? ")" : ""}#{sede.mainChurch ? "*" : ""}'
+													/>
+								</b:selectOneMenu>
+							</b:column>
+							<b:column	col-lg='3'
+										col-md='3'
+										col-sm='6'
+										col-xs='12'
+										>
+								<br/>
+								<b:selectMultiMenu 	id='lideres'
+													label='Líder(es)'
+													value='#{celulaBean.celula.lideres}'
+													converter='omnifaces.SelectItemsConverter'
+													enableFiltering='true'
+													filterPlaceholder='Procurar'
+													nonSelectedText='Selecione'
+													nSelectedText='Líderes selecionados'
+													numberDisplayed='1'
+													disableIfEmpty='true'
+													allSelectedText='Todas'
+													fieldSize='lg'
+													style='	width: 200%;'
+													>
+									<f:selectItems	value='#{membroBean.listarLideres()}'
+													var='lider'
+													itemLabel='#{lider.membro.pessoa.nome} #{lider.membro.pessoa.sobrenome}'
+													/>
+								</b:selectMultiMenu>
+							</b:column>
+							<b:column	col-lg='3'
+										col-md='3'
+										col-sm='6'
+										col-xs='12'
+										>
+								<br/>
+								<b:selectOneMenu	id='coordenador'
+													label='Coordenador(a)'
+													value='#{celulaBean.celula.coordenador}'
+													converter='omnifaces.SelectItemsConverter'
+													enableFiltering='true'
+													filterPlaceholder='Procurar'
+													nonSelectedText='Selecione'
+													disableIfEmpty='true'
+													>
+									<f:selectItem itemLabel='Selecione' itemDisabled='true'/>
+									<f:selectItems	value='#{membroBean.listarCoordenadores()}'
+													var='coordenador'
+													itemLabel='#{coordenador.lider.membro.pessoa.nome} #{coordenador.lider.membro.pessoa.sobrenome}'
+													/>
+								</b:selectOneMenu>
+							</b:column>
+							<b:column	col-lg='3'
+										col-md='3'
+										col-sm='6'
+										col-xs='12'
+										>
+								<br/>
+								<b:selectMultiMenu 	id='membros'
+													label='Membro(s)'
+													value='#{celulaBean.celula.membros}'
+													converter='omnifaces.SelectItemsConverter'
+													enableFiltering='true'
+													filterPlaceholder='Procurar'
+													nonSelectedText='Selecione'
+													nSelectedText='Membros selecionados'
+													numberDisplayed='1'
+													disableIfEmpty='true'
+													allSelectedText='Todos'
+													fieldSize='lg'
+													style='	width: 200%;'
+													>
+									<f:selectItems	value='#{membroBean.listar()}}'
+													var='membro'
+													itemLabel='#{membro.nome} #{membro.sobrenome}'
+													/>
+								</b:selectMultiMenu>
+							</b:column>
+							<b:column	col-lg='3'
+										col-md='3'
+										col-sm='6'
+										col-xs='12'
+										rendered='#{showVisitorsMenu.value}'
+										>
+								<br/>
+								<b:selectMultiMenu 	id='visitantes'
+													label='Visitante(s)'
+													value='#{celulaBean.celula.visitantes}'
+													converter='omnifaces.SelectItemsConverter'
+													enableFiltering='true'
+													filterPlaceholder='Procurar'
+													nonSelectedText='Selecione'
+													nSelectedText='Visitantes selecionados'
+													numberDisplayed='1'
+													disableIfEmpty='true'
+													allSelectedText='Todos'
+													fieldSize='lg'
+													style='	width: 200%;'
+													>
+									<f:selectItems	value='#{visitanteBean.listar()}'
+													var='visitante'
+													itemLabel='#{visitante.nome} #{visitante.sobrenome}'
+													/>
+								</b:selectMultiMenu>
+							</b:column>
+						</b:container>
+					</b:row>
+
+					<br/>
+
+					<b:container	rendered='#{showAddress.value}'
+									style='	margin: 0px;
+											padding: 0px;
+											width: 100%;
+											'
+									>
+						<b:row	style='	border-top: solid;
+										width: 100%;
+										border-color: #CCCCCC;
+										margin: 0px;
+										padding: 0px;
+										'>
+							<table style='width: 100%;'>
+								<tr>
+									<td	style='	vertical-align: bottom;'>
+										<h3>
+											<b:iconAwesome name="fa fa-fw fa-map-marker"/>
+											Endereço
+										</h3>
+									</td>
+									<td	style='	vertical-align: bottom;
+												text-align: right;
+												line-height: 1px;
+												 margin: 0px; padding: 0px;'
+										>
+										<b:switch	value='#{celulaBean.celula.gpsAddress}'
+													label=''
+													offText='Postal'
+													onText='GPS'
+													onColor='danger'
+													offColor='primary'
+													switchsize='mini'
+													binding='#{showGpsForm}'
+													>
+											<f:ajax event='change' render='@form' />
+										</b:switch>
+									</td>
+								</tr>
+							</table>
+						</b:row>
+
+						<br style='font-style: normal;'/>
+						
+						<b:row>
+							<b:column	col-lg='3'
+										col-md='3'
+										col-sm='4'
+										col-xs='10'
+										>
+								<h:outputLabel	for=''
+												value='Local das reuniões'
+												/>
+								<h:selectOneRadio	style='	width: 100%;
+															'
+													onchange='alert(TESTE)'
+													>
+<!-- 									<f:ajax event='change' render='@form' /> -->
+									<f:selectItem	itemLabel='Sede'/>
+									<f:selectItem	itemLabel='Líder'/>
+									<f:selectItem	itemLabel='Outro'/>
+								</h:selectOneRadio>
+							</b:column>
+						</b:row>
+						
+						<b:row>
+							<b:container	rendered='#{showGpsForm.value}'
+											style='	width: 100%;
+													margin: 0px;
+													padding: 0px;
+													'
+											>
+								<b:column	col-lg='4'
+											col-md='4'
+											col-sm='6'
+											col-xs='12'
+											>
+									<br/>
+									<h:outputLabel	for='gpsAddress'
+													value='Coordenadas de GPS*'
+													/>
+									<b:inputText	id='gpsAddress'
+													value='#{celulaBean.celula.enderecoLogradouro}'
+													placeholder='Digite as coordenadas do GPS'
+													requiered='true'
+													requiredMessage='Coordenadas de GPS: Campo obrigatório!'
+													/>
+								</b:column>
+							</b:container>
+						</b:row>
+	
+						<b:row>
+							<b:container	rendered='#{!showGpsForm.value}'
+											style='	width: 100%;
+													margin: 0px;
+													padding: 0px;
+													'
+											>
+								<b:column	col-lg='3'
+											col-md='3'
+											col-sm='3'
+											col-xs='12'
+											>
+									<br/>
+									<h:outputLabel value='CEP' for='cep'/>
+									<b:iconAwesome	name='fa-question-circle'
+													tooltip='Caso o sistema encontre o CEP digitado, os campos de endereço serão preenchidos automaticamente.'
+													onclick='alert("Caso o sistema encontre o CEP digitado, os campos de endereço serão preenchidos automaticamente.")'
+													style='	margin-left: 4px;'
+													/>
+									<b:inputText	id='cep'
+													binding='#{cep}'
+													maxlength='8'
+													onkeypress='return teclaNumerica(event.keyCode)'
+													value='#{celulaBean.celula.enderecoCep}'
+													placeholder='Digite o CEP'
+													onblur='if(this.value != "") pesquisaCep(this.value);'
+													/>
+								</b:column>
+								
+								<b:column	col-lg='6'
+											col-md='6'
+											col-sm='9'
+											col-xs='12'
+											>
+									<br/>
+									<h:outputLabel value='Endereço' for='logradouro'/>
+									<b:inputText	id='logradouro'
+													name='logradouro'
+													value='#{celulaBean.celula.enderecoLogradouro}'
+													placeholder='Digite o nome da rua, avenida, etc.'
+													class='hidden-xs'
+													onblur='document.getElementById("input_form:logradouro2").value = document.getElementById("input_form:logradouro").value'
+													/>
+									<b:inputTextarea	id='logradouro2'
+														name='logradouro2'
+														value='#{celulaBean.celula.enderecoLogradouro}'
+														placeholder='Digite o nome da rua, avenida, etc.'
+														class='visible-xs'
+														onblur='document.getElementById("input_form:logradouro").value = document.getElementById("input_form:logradouro2").value'
+														/>
+								</b:column>
+								
+								<b:column	col-lg='1'
+											col-md='1'
+											col-sm='2'
+											col-xs='5'
+											>
+									<br/>
+									<h:outputLabel value='№' for='numero'/>
+									<b:inputText	id='numero'
+													value='#{celulaBean.celula.enderecoNumero}'
+													onkeypress='return teclaNumerica(event.keyCode)'
+													maxlength='5'
+													placeholder='№'
+													/>
+								</b:column>
+								
+								<b:column	col-lg='2'
+											col-md='2'
+											col-sm='4'
+											col-xs='7'
+											>
+									<br/>
+									<h:outputLabel value='Complemento' for='complemento'/>
+									<b:inputText	id='complemento'
+													value='#{celulaBean.celula.enderecoComplemento}'
+													placeholder='Complemento'
+													/>
+								</b:column>
+								
+								<b:column	col-lg='3'
+											col-md='3'
+											col-sm='6'
+											col-xs='12'
+											>
+									<br/>
+									<h:outputLabel value='Bairro' for='bairro'/>
+									<b:inputText	id='bairro'
+													value='#{celulaBean.celula.enderecoBairro}'
+													placeholder='Bairro'
+													/>
+								</b:column>
+								
+								<b:column	col-lg='4'
+											col-md='4'
+											col-sm='6'
+											col-xs='12'
+											>
+									<br/>
+									<h:outputLabel value='Cidade' for='cidade'/>
+									<b:inputText	id='cidade'
+													value='#{celulaBean.celula.enderecoCidade}'
+													placeholder='Cidade'
+													/>
+								</b:column>
+								
+								<b:column	col-lg='1'
+											col-md='1'
+											col-sm='2'
+											col-xs='4'
+											>
+									<br/>
+									<h:outputLabel value='UF' for='uf'/>
+									<b:inputText	id='uf'
+													maxlength='2'
+													value='#{celulaBean.celula.enderecoEstado}'
+													placeholder='UF'
+													/>
+								</b:column>
+								
+								<b:column	col-lg='4'
+											col-md='4'
+											col-sm='4'
+											col-xs='12'
+											>
+									<br/>
+									<h:outputLabel value='País' for='pais'/>
+									<b:inputText	id='pais'
+													value='#{celulaBean.celula.enderecoPais}'
+													placeholder='País'
+													/>
+								</b:column>
+							</b:container>
+						</b:row>
+						<br/>
+					</b:container>
+
+					<b:row	style='	border-top: solid;
+									width: 100%;
+									border-color: #CCCCCC;
+									margin: 0px;
+									padding: 0px;
+									'>
+							<h3>
+								<i class="fa fa-fw fa-sticky-note-o"/>
+								Comentários
+							</h3>
+					</b:row>
+
+					<b:row>
+						<b:column	col-lg='12'
+									col-md='12'
+									col-sm='12'
+									col-xs='12'
+									style='	margin: 0px;'
+									>
+							<b:inputTextarea	id='comentarios'
+												value='#{celulaBean.celula.comentarios}'
+												maxlength='1000'
+												placeholder='Digite os comentários aqui.'
+												/>
+						</b:column>
+					</b:row>
+<!--
+-->
+				</div>
+			</ui:define>
+	</ui:composition>
+
+</html>

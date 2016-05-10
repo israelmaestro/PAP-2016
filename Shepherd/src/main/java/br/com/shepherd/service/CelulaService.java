@@ -68,11 +68,11 @@ public class CelulaService{
 				}
 
 				if(null == pCelula.getEnderecoBairro() || pCelula.getEnderecoBairro().equals("")){
-					pCelula.seEnderecotBairro(null);
+					pCelula.setEnderecoBairro(null);
 				}
 
 				if(null == pCelula.getEnderecoCidade() || pCelula.getEnderecoCidade().equals("")){
-					pCelula.setCidade(null);
+					pCelula.setEnderecoCidade(null);
 				}
 
 				if(null == pCelula.getEnderecoEstado() || pCelula.getEnderecoEstado().equals("")){

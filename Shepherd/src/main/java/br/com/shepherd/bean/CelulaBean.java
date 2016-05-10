@@ -43,6 +43,13 @@ public class CelulaBean implements Serializable{
 		return "celulaCadastrar";
 	}
 
+	public String prepararAlteracao(Celula pCelula){
+		
+		setCelula(pCelula);
+		
+		return "celulaAlterar";
+	}
+	
 	public void alterar(Celula pCelula){
 		celulaService.alterar(pCelula);
 
