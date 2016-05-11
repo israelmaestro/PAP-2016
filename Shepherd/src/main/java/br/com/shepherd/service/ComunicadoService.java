@@ -7,6 +7,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import br.com.shepherd.entity.Comunicado;
+import br.com.shepherd.service.util.JSFUtil;
 
 @Stateless
 public class ComunicadoService{
@@ -14,10 +15,15 @@ public class ComunicadoService{
 	@PersistenceContext(name = "ShepherdDB")
 	private EntityManager entityManager;
 
+
 	public ComunicadoService(){
 	}
 
 	public Comunicado cadastrar(Comunicado pComunicado) throws Exception{
+
+
+		pComunicado.setCodigo(JSFUtil.logTimeStamp()+ "."
+								+ pComunicado.getSede().getNome().replaceAll(" ", ""));
 
 		try{
 			entityManager.persist(pComunicado);
@@ -37,7 +43,7 @@ public class ComunicadoService{
 	@SuppressWarnings("unchecked")
 	public List<Comunicado> listar(){
 		return entityManager.createQuery("FROM Comunicado dbComunicado "
-											+ "ORDER BY dbComunicado.nome")
+											+ "ORDER BY dbComunicado.codigo")
 							.getResultList();
 	}
 

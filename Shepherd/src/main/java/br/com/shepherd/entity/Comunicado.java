@@ -1,48 +1,57 @@
+/*
+ * TODO: Os comunicados devem receber automaticamente os valores de sede e
+ * ministro, baseando-se no usuário logado
+ */
 package br.com.shepherd.entity;
 
 import java.io.Serializable;
-import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
+import javax.validation.constraints.NotNull;
+
+import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
+@Table(uniqueConstraints = { @UniqueConstraint(columnNames = { "codigo" }) })
 public class Comunicado implements Serializable{
 	private static final long	serialVersionUID	= -1189982959606136016L;
 
 	@Id
-	@GeneratedValue
-	private Integer				id;
-
-	@Column(columnDefinition = "timestamp")
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date				dataHora;
-
-	// @NotNull
+	@NotNull
 	private String				codigo				= "";
 
-	// @NotNull
-	// @NotEmpty
+	@NotNull
+	@NotEmpty
 	@Column(length = 10000)
 	private String				conteudo;
 
-	@OneToOne(fetch = FetchType.LAZY)
+	/*
+	 * TODO: Habilitar "@NotNull" na sede após implementação de Membro..MINISTRO
+	 * e USUARIO
+	 */
+	// @NotNull
+	@OneToOne(fetch = FetchType.EAGER)
 	private Sede				sede;
 
-	@OneToOne(fetch = FetchType.LAZY)
-	private Ministro			ministro;
+	/*
+	 * TODO: Habilitar "@NotNull" em ministro após implementação de
+	 * Membro..MINISTRO e USUARIO
+	 */
+	// @NotNull
+	@OneToOne(fetch = FetchType.EAGER)
+	private Usuario				autor;
 
 	@Override
 	public int hashCode(){
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + (id == null ? 0 : id.hashCode());
+		result = prime * result + (codigo == null ? 0 : codigo.hashCode());
 		return result;
 	}
 
@@ -50,11 +59,13 @@ public class Comunicado implements Serializable{
 	public boolean equals(Object obj){
 		if(this == obj){ return true; }
 		if(obj == null){ return false; }
-		if(getClass() != obj.getClass()){ return false; }
+		if(getClass() != obj.getClass()){
+			return false;
+		}
 		Comunicado other = (Comunicado) obj;
-		if(id == null){
-			if(other.id != null){ return false; }
-		} else if(!id.equals(other.id)){
+		if(codigo == null){
+			if(other.codigo != null){ return false; }
+		} else if(!codigo.equals(other.codigo)){
 			return false;
 		}
 		return true;
@@ -62,22 +73,6 @@ public class Comunicado implements Serializable{
 
 	// Construtor e afins
 	public Comunicado(){
-	}
-
-	public Integer getId(){
-		return id;
-	}
-
-	public void setId(Integer pId){
-		id = pId;
-	}
-
-	public Date getDataHora(){
-		return dataHora;
-	}
-
-	public void setDataHora(Date pDataHora){
-		dataHora = pDataHora;
 	}
 
 	public String getCodigo(){
@@ -103,4 +98,13 @@ public class Comunicado implements Serializable{
 	public void setSede(Sede pSede){
 		sede = pSede;
 	}
+
+	public Usuario getAutor(){
+		return autor;
+	}
+
+	public void setAutor(Usuario pAutor){
+		autor = pAutor;
+	}
+
 }

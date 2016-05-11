@@ -8,6 +8,12 @@ import javax.faces.context.FacesContext;
 
 public class JSFUtil{
 
+	public static String logTimeStamp(){
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd.HHmmss");
+
+		return sdf.format(new Date());
+	}
+
 	public static String actualTimeStamp(){
 		SimpleDateFormat sdf = new SimpleDateFormat("[dd/MM/yyyy HH:mm:ss] ");
 

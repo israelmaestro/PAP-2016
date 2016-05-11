@@ -1,3 +1,9 @@
+// TODO: Criptografia de senha
+// TODO: Métodos de recuperação de senha
+// TODO: Perfis de acesso
+// TODO: Sessão de login
+// TODO: Validar sessão
+
 package br.com.shepherd.service;
 
 import java.util.List;

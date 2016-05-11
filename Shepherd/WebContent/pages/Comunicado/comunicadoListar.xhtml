@@ -12,14 +12,13 @@
 
 	<ui:composition template='/META-INF/resources/bootsfaces/jsfTemplate.xhtml'>
 		<ui:define name='mensagensCampos'/>
-		<ui:define name='tituloPagina'>Shepherd > Lista de Sedes</ui:define>
+		<ui:define name='tituloPagina'>Shepherd > Lista de Comunicados</ui:define>
 		<ui:define name='tituloPrincipal'>
-			<b:iconAwesome name='fa fa-puzzle-piece fa-fw'/>
+			<b:iconAwesome name='fa fa-envelope fa-fw'/>
 			<br class='visible-xs'/>
-			Lista de Sedes
-			<h1>==========ARRUMAR==========</h1>
+			Lista de Comunicados
 		</ui:define>
-		<ui:define name='tituloSecundario'>home > sedes > listar</ui:define>
+		<ui:define name='tituloSecundario'>home > comunicados > listar</ui:define>
 		
 		<ui:define name='botoesAcao'>
 			<b:buttonGroup>
@@ -31,33 +30,33 @@
 		</ui:define>
 			
 		<ui:define name='conteudo'>
-			<p:dataTable	id='sedeLista'
-							value='#{sedeBean.listar()}'
-							var='sede'
-							update='sedeLista'
-							emptyMessage='Nenhuma sede encontrada.'
+			<p:dataTable	id='comunicadoLista'
+							value='#{comunicadoBean.listar()}'
+							var='comunicado'
+							update='comunicadoLista'
+							emptyMessage='Nenhum comunicado encontrada.'
 							>
-				<p:column	headerText='Nome'
+				<p:column	headerText='Código'
 							priority='1'
 							>
 					<center>
-						<h:outputText value='#{sede.nome}'/>
+						<h:outputText value='#{comunicado.codigo}'/>
 					</center>
 				</p:column>
 				
-				<p:column	headerText='Presidente'
+				<p:column	headerText='Autor'
 							priority='3'
 							>
 					<center>
-						<h:outputText value='#{sede.presidente == null ? "NENHUM(A)" : sede.presidente}'/>
+						<h:outputText value='#{comunicado.autor == null ? "INDEFINIDO" : comunicado.autor.conta}'/>
 					</center>
 				</p:column>
 				
-				<p:column	headerText='Tipo de Sede'
+				<p:column	headerText='Sede'
 							priority='2'
 							>
 					<center>
-						<h:outputText value='#{sede.mainChurch == true ? "Mãe" : "Filha"}'/>
+						<h:outputText value='#{comunicado.sede.nome == null ? "INDEFINIDA" : comunicado.sede.nome}'/>
 					</center>
 				</p:column>
 				
@@ -85,7 +84,7 @@
 											alt='Excluir'
 											>
 							<p:confirm	header='Excluir'
-										message='Excluir a sede “#{sede.nome}”?'
+										message='Excluir o comunicado “#{comunicado.codigo}”?'
 										icon='null'
 										style='	font-size: 200%;
 												'

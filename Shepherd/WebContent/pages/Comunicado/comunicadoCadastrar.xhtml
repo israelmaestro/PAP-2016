@@ -18,7 +18,7 @@
 		</ui:define>
 		<ui:define name='tituloPagina'>Shepherd > Novo Comunicado</ui:define>
 		<ui:define name='tituloPrincipal'>
-			<b:iconAwesome name='fa fa-university fa-fw'/>
+			<b:iconAwesome name='fa fa-envelope fa-fw'/>
 			<br class='visible-xs'/>
 			Novo Comunicado
 		</ui:define>
@@ -57,6 +57,27 @@
 							Dados gerais
 						</h3>
 					</b:column>
+					<b:column	col-lg='3'
+								col-md='3'
+								col-sm='6'
+								col-xs='12'
+								>
+						<br/>
+						<b:selectOneMenu	id='sede'
+											label='Sede'
+											value='#{comunicadoBean.comunicado.sede}'
+											converter='omnifaces.SelectItemsConverter'
+											enableFiltering='true'
+											filterPlaceholder='Procurar'
+											nonSelectedText='Selecione'
+											disableIfEmpty='true'
+											>
+							<f:selectItem itemLabel='Selecione' itemDisabled='true'/>
+							<f:selectItems	value='#{sedeBean.listar()}' var='sede'
+											itemLabel='#{sede.nome}'
+											/>
+						</b:selectOneMenu>
+					</b:column>
 				</b:row>
 
 				<br/>
@@ -83,6 +104,8 @@
 						<p:editor	id='conteudo'
 									widgetVar='conteudoWidget'
 									value='#{comunicadoBean.comunicado.conteudo}'
+									maxlength='10000'
+									style='size:300%'
 									/>
 					</b:column>
 				</b:row>

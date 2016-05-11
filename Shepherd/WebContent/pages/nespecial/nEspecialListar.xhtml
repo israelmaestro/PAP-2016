@@ -36,8 +36,6 @@
 							emptyMessage='Nenhuma necessidade especial encontrada.'
 							>
 				<p:column	headerText='Nome'
-							filterBy='#{nEspecial.nome}'
-							filterMatchMode='contains'
 							priority='1'
 							>
 					<center>
@@ -83,7 +81,7 @@
 													'
 											>
 							<p:confirm	header='Excluir'
-										message='Excluir a necessidade especial “#{nEspecial.nome})”?'
+										message='Excluir a necessidade especial “#{nEspecial.nome}”?'
 										icon='null'
 										/>
 						</p:commandButton>
