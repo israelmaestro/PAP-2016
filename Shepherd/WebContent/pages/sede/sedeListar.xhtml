@@ -10,7 +10,7 @@
 		xmlns:ui='http://java.sun.com/jsf/facelets'
 		>
 
-	<ui:composition template='/META-INF/resources/bootsfaces/jsfTemplate.xhtml'>
+	<ui:composition	template='/META-INF/resources/bootsfaces/jsfTemplate.xhtml'>
 		<ui:define name='mensagensCampos'/>
 		<ui:define name='tituloPagina'>Shepherd > Lista de Sedes</ui:define>
 		<ui:define name='tituloPrincipal'>
@@ -21,7 +21,7 @@
 		<ui:define name='tituloSecundario'>home > sedes > listar</ui:define>
 		
 		<ui:define name='botoesAcao'>
-			<b:buttonGroup>
+			<b:buttonGroup	onload='#{sedeBean.limpar()}'>
 				<b:button	value=''
 							onclick='location.href = "./sedeCadastrar.jsf"'
 							iconAwesome='fa fa-plus fa-fw'
@@ -40,7 +40,7 @@
 							priority='1'
 							>
 					<center>
-						<h:outputText value='#{sede.nome}'/>
+						<h:outputText value='#{sedeBean.getProperty("convencaoAbrev")} #{sede.nome}'/>
 					</center>
 				</p:column>
 				

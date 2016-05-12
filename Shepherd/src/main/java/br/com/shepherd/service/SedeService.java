@@ -26,12 +26,6 @@ public class SedeService{
 	public SedeService(){
 	}
 
-	public Sede procurar(Integer id){
-		Sede tSede = entityManager.find(Sede.class, id);
-
-		return tSede;
-	}
-
 	/**
 	 * Efetua o cadastro da sede no sistema
 	 *

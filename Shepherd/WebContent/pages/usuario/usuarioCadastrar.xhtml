@@ -12,7 +12,16 @@
 
 	<ui:composition template='/META-INF/resources/bootsfaces/jsfTemplate.xhtml'>
 	
-			<ui:define name='tituloPagina'>SCO > Novo Usuário</ui:define>
+			<ui:define name='mensagensCampos'>
+				<b:message for='conta' />
+				<b:message for='senha' />
+				<b:message for='confirmarSenha' />
+				<b:message for='perfil' />
+				<b:message for='pessoa' />
+				<br/>
+			</ui:define>
+			
+			<ui:define name='tituloPagina'>Shepherd > Novo Usuário</ui:define>
 			<ui:define name='tituloPrincipal'>
 				<i class='fa fa-user-secret fa-fw' />
 				Novo Usuário
@@ -20,45 +29,134 @@
 			<ui:define name='tituloSecundario'>home > usuários > novo</ui:define>
 			
 			<ui:define name='botoesAcao'>
-				<a href='./usuarioListar.jsf' >
-					<i class='fa fa-arrow-left fa-fw' style='margin-right: 8px'/>
-				</a>
-				<p:commandButton action='#{usuarioBean.cadastrar()}' value='Cadastrar' update='@form' />
-				<p:button value='Limpar' onclick='reset'/>
+				<b:buttonGroup>
+					<b:button	value=''
+								onclick='location.href = "./usuarioListar.jsf"'
+								iconAwesome='fa fa-arrow-left fa-fw'
+								/>
+					<btr:commandLink	action='#{usuarioBean.cadastrar()}'
+										styleClass='btn btn-default'
+										>
+						<b:iconAwesome name='fa fa-check fa-fw'/>
+					</btr:commandLink>
+					<b:button	value=''
+								iconAwesome='fa fa-eraser fa-fw'
+								onclick='location.href = "./usuarioCadastrar.jsf"'/>
+				</b:buttonGroup>
 			</ui:define>
 			
 			<ui:define name='conteudo'>
 			
-			<h:panelGrid columns='3'>
-					<p:outputLabel value='Conta' />
-					<p:inputMask 	id='conta'
-									value='#{usuarioBean.usuario.conta}'
-									required='true'
-									requiredMessage='Campo obrigatório'
-									maxlength='8'/>
-					<p:message for='conta' />
+				<div	style='	margin-left: 0px;
+							margin-right: 0px;
+							padding-left: 0px;
+							'
+						>
+					<b:row>
+						<b:column span='12'>
+							<h3>
+								<b:iconAwesome name="fa fa-fw fa-key"/>
+								<br class='visible-xs'/>
+								Informações de <br class='visible-xs'/>conta e senha
+							</h3>
+						</b:column>
+					</b:row>
+					<b:row>
+						<b:column 	col-lg='4'
+									col-md='4'
+									col-sm='4'
+									col-xs='12'
+									>
+							<br/>
+							<h:outputLabel	for='conta'
+											value='Conta'
+											/>
+							<b:inputText	id='conta'
+											value='#{usuarioBean.usuario.conta}'
+											required='true'
+											requiredMessage='Conta: Campo obrigatório'
+											maxlength='8'
+											/>
+						</b:column>
+						<b:column 	col-lg='4'
+									col-md='4'
+									col-sm='4'
+									col-xs='12'
+									>
+							<br/>
+							<h:outputLabel value='Senha' />
+							<b:inputSecret	id='senha'
+											value='#{usuarioBean.usuario.senha}'
+											required='true'
+											requiredMessage='Senha: Campo obrigatório'
+											maxlength='32'
+											/>
+						</b:column>
+						<b:column 	col-lg='4'
+									col-md='4'
+									col-sm='4'
+									col-xs='12'
+									>
+							<br/>
+							<h:outputLabel	for='confirmarSenha'
+											value='Confirmar senha'
+											/>
+							<b:inputSecret	id='confirmarSenha'
+											value='#{usuarioBean.confirmacaoSenha}'
+											required='true'
+											requiredMessage='Confirmar senha: Campo obrigatório'
+											maxlength='32'
+											/>
+						</b:column>
+					</b:row>
+					
+					<br/>
+					
+					<b:row	style='	border-top: solid;
+								width: 100%;
+								border-color: #CCCCCC;
+								margin: 0px;
+								padding: 0px;
+								'>
+						
+							<h3>
+								<b:iconAwesome name="fa fa-fw fa-tags"/>
+								<br class='visible-xs'/>
+								Informações de perfil
+							</h3>
+					</b:row>
+					<b:row>
+						<b:column 	col-lg='3'
+									col-md='3'
+									col-sm='6'
+									col-xs='12'
+									>
+							<br/>
+							<h:outputLabel	for='perfil'
+											value='Perfil' />
+							<b:selectOneMenu id='perfil'>
+								<f:selectItem itemValue='admin' itemLabel='Administrador' />
+								<f:selectItem itemValue='func' itemLabel='Funcionário' />
+								<f:selectItem itemValue='parent' itemLabel='Responsável' />
+							</b:selectOneMenu>
+						</b:column>
+						<b:column 	col-lg='3'
+									col-md='3'
+									col-sm='6'
+									col-xs='12'
+									>
+							<br/>
+							<h:outputLabel	for='pessoa'
+											value='Atribuir' />
+							<b:selectOneMenu id='pessoa'>
+								<f:selectItem itemValue='' itemLabel='Selecione' />
+							</b:selectOneMenu>
+						</b:column>
+					</b:row>
+				</div>
+			
+				<h:panelGrid columns='3'>
 
-					<p:outputLabel value='Senha' />
-					<p:password	id='senha'
-								value='#{usuarioBean.usuario.senha}'
-								required='true'
-								requiredMessage='Campo obrigatório'
-								maxlength='32'/>
-					<p:message for='senha' />
-
-					<p:outputLabel value='Perfil' />
-					<p:selectOneMenu id='perfil'>
-						<f:selectItem itemValue='admin' itemLabel='Administrador' />
-						<f:selectItem itemValue='func' itemLabel='Funcionário' />
-						<f:selectItem itemValue='parent' itemLabel='Responsável' />
-					</p:selectOneMenu>
-					<p:message for='perfil' />
-
-					<p:outputLabel value='Atribuir' />
-					<p:selectOneMenu id='pessoa'>
-						<f:selectItem itemValue='' itemLabel='Selecione' />
-					</p:selectOneMenu>
-					<p:message for='pessoa' />
 				</h:panelGrid>
 			</ui:define>
 	</ui:composition>

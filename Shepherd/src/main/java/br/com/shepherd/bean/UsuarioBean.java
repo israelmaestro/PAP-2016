@@ -21,6 +21,8 @@ public class UsuarioBean implements Serializable{
 
 	private Usuario				usuario;
 
+	private String				confirmacaoSenha;
+
 	public UsuarioBean(){
 		usuario = new Usuario();
 	}
@@ -37,10 +39,16 @@ public class UsuarioBean implements Serializable{
 
 	public void cadastrar() throws Exception{
 		try{
+
+			if(confirmacaoSenha.equals(usuario.getSenha())){
+
 			usuarioService.cadastrar(usuario);
 			usuario = new Usuario();
 
 			JSFUtil.addInfoMessage("Cadastro de Usuário realizado com sucesso.");
+			} else{
+				JSFUtil.addErrorMessage("A senha e a sua confirmação devem ser iguais!");
+			}
 		} catch(Exception e){
 			JSFUtil.addWarnMessage(e.getMessage());
 		}
@@ -68,5 +76,13 @@ public class UsuarioBean implements Serializable{
 
 	public void setUsuario(Usuario pUsuario){
 		usuario = pUsuario;
+	}
+
+	public String getConfirmacaoSenha(){
+		return confirmacaoSenha;
+	}
+
+	public void setConfirmacaoSenha(String pConfirmacaoSenha){
+		confirmacaoSenha = pConfirmacaoSenha;
 	}
 }

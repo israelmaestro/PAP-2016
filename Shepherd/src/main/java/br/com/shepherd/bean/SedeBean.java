@@ -1,6 +1,7 @@
 
 package br.com.shepherd.bean;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;
 
@@ -28,6 +29,8 @@ public class SedeBean implements Serializable{
 	private SedeService			sedeService;
 
 	private Sede				sede;
+
+	private Sede				sedeTemp;
 
 	public SedeBean(){
 		sede = new Sede();
@@ -67,7 +70,7 @@ public class SedeBean implements Serializable{
 
 	public String prepararAlteracao(Sede pSede){
 
-		setSede(pSede);
+		setSedeTemp(pSede);
 
 		return "sedeAlterar";
 	}
@@ -76,6 +79,10 @@ public class SedeBean implements Serializable{
 		sedeService.alterar(pSede);
 
 		JSFUtil.addInfoMessage("Sede alterada com sucesso.");
+	}
+
+	public void limpar(){
+		setSede(new Sede());
 	}
 
 	public List<Sede> listar(){
@@ -99,4 +106,23 @@ public class SedeBean implements Serializable{
 	public void setSede(Sede pSede){
 		sede = pSede;
 	}
+
+	public Sede getSedeTemp(){
+		return sedeTemp;
+	}
+
+	public void setSedeTemp(Sede pSedeTemp){
+		sedeTemp = pSedeTemp;
+	}
+
+	public String getProperty(String pKey){
+		try{
+			return JSFUtil.getProperty(pKey);
+		} catch(IOException e){
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	// TODO: Implementar setProperty
 }

@@ -51,14 +51,14 @@
 							onclick='location.href = "./sedeListar.jsf"'
 							iconAwesome='fa fa-arrow-left fa-fw'
 							/>
-				<btr:commandLink	action='#{sedeBean.alterar()}'
+				<btr:commandLink	action='#{sedeBean.alterar(sedeBean.sedeTemp)}'
 									styleClass='btn btn-default'
 									>
 					<b:iconAwesome name='fa fa-check fa-fw'/>
 				</btr:commandLink>
 				<b:button	value=''
 							iconAwesome='fa fa-eraser fa-fw'
-							onclick='location.href = "./sedeCadastrar.jsf"'/>
+							onclick='location.href = "./sedeAlterar.jsf"'/>
 			</b:buttonGroup>
 		</ui:define>
 		
@@ -70,7 +70,7 @@
 					>
 				<b:row>
 					<b:column>
-						<b:switch	value='#{sedeBean.sede.ativa}'
+						<b:switch	value='#{sedeBean.sedeTemp.ativa}'
 									label='Status'
 									offText='Inativa'
 									onText='Ativa'
@@ -98,7 +98,7 @@
 											line-height: 1px;
 											'
 									>
-									<b:switch	value='#{sedeBean.sede.mainChurch}'
+									<b:switch	value='#{sedeBean.sedeTemp.mainChurch}'
 												binding='#{mainChurch}'
 												label='Sede Tipo'
 												offText='Filha'
@@ -134,13 +134,13 @@
 							<b:inputText 	id='nome'
 											required='true'
 											requiredMessage='Nome: Campo obrigatório!'
-											value='#{sedeBean.sede.nome}'
+											value='#{sedeBean.sedeTemp.nome}'
 											style='background-color: #FFFFCC'
 											placeholder='Nome'
 											>
 
-								<f:facet name="prepend">
-									<h:outputText value="Igreja Esperança" />
+								<f:facet name='prepend'>
+									<h:outputText value='#{sedeBean.getProperty("convencao")}'/>
 								</f:facet>
 							</b:inputText>
 						</b:column>
@@ -155,7 +155,7 @@
 											value='CNPJ'
 											/>
 							<b:inputText 	id='cnpj'
-											value='#{sedeBean.sede.cnpj}'
+											value='#{sedeBean.sedeTemp.cnpj}'
 											maxlength='14'
 											placeholder='CNPJ'
 											onkeydown='return teclaNumerica(event.keyCode)'
@@ -169,7 +169,7 @@
 							<br/>
 							<b:selectOneMenu	id='presidente'
 												label='Presidente'
-												value='#{sedeBean.sede.presidente}'
+												value='#{sedeBean.sedeTemp.presidente}'
 												converter='omnifaces.SelectItemsConverter'
 												enableFiltering='true'
 												filterPlaceholder='Procurar'
@@ -195,7 +195,7 @@
 											/>
 							<b:datepicker 	id='dataFuncacao'
 											placeholder='DD/MM/AAAA'
-											value='#{sedeBean.sede.dataFundacao}'
+											value='#{sedeBean.sedeTemp.dataFundacao}'
 											/>
 						</b:column>
 					</b:container>
@@ -208,7 +208,7 @@
 						<br/>
 						<b:selectMultiMenu 	id='celulas'
 											label='Células'
-											value='#{sedeBean.sede.celulas}'
+											value='#{sedeBean.sedeTemp.celulas}'
 											converter='omnifaces.SelectItemsConverter'
 											enableFiltering='true'
 											filterPlaceholder='Procurar'
@@ -236,7 +236,7 @@
 						<br/>
 						<b:selectOneMenu	id='sedeMae'
 											label='Sede-Mãe'
-											value='#{sedeBean.sede.sedeMae}'
+											value='#{sedeBean.sedeTemp.sedeMae}'
 											converter='omnifaces.SelectItemsConverter'
 											enableFiltering='true'
 											filterPlaceholder='Procurar'
@@ -261,7 +261,7 @@
 										value='Página da Web'
 										/>
 						<b:inputText 	id='paginaWeb'
-										value='#{sedeBean.sede.paginaWeb}'
+										value='#{sedeBean.sedeTemp.paginaWeb}'
 										placeholder='Página da Web'
 										/>
 					</b:column>
@@ -277,7 +277,7 @@
 										value='Perfil de Rede Social'
 										/>
 						<b:inputText 	id='perfilRedeSocial'
-										value='#{sedeBean.sede.perfilRedeSocial}'
+										value='#{sedeBean.sedeTemp.perfilRedeSocial}'
 										placeholder='Perfil de Rede Social'
 										/>
 										<br/>
@@ -302,7 +302,7 @@
 										line-height: 1px;
 										 margin: 0px; padding: 0px;'
 								>
-								<b:switch	value='#{sedeBean.sede.gpsAddress}'
+								<b:switch	value='#{sedeBean.sedeTemp.gpsAddress}'
 											label=''
 											offText='Postal'
 											onText='GPS'
@@ -335,7 +335,7 @@
 											value='Coordenadas de GPS*'
 											/>
 							<b:inputText	id='gpsAddress'
-											value='#{sedeBean.sede.enderecoLogradouro}'
+											value='#{sedeBean.sedeTemp.enderecoLogradouro}'
 											placeholder='Digite as coordenadas do GPS'
 											requiered='true'
 											requiredMessage='Coordenadas de GPS: Campo obrigatório!'
@@ -367,7 +367,7 @@
 											binding='#{cep}'
 											maxlength='8'
 											onkeypress='return teclaNumerica(event.keyCode)'
-											value='#{sedeBean.sede.enderecoCep}'
+											value='#{sedeBean.sedeTemp.enderecoCep}'
 											placeholder='Digite o CEP'
 											onblur='if(this.value != "") pesquisaCep(this.value);'
 											/>
@@ -382,14 +382,14 @@
 							<h:outputLabel value='Endereço' for='logradouro'/>
 							<b:inputText	id='logradouro'
 											name='logradouro'
-											value='#{sedeBean.sede.enderecoLogradouro}'
+											value='#{sedeBean.sedeTemp.enderecoLogradouro}'
 											placeholder='Digite o nome da rua, avenida, etc.'
 											class='hidden-xs'
 											onblur='document.getElementById("input_form:logradouro2").value = document.getElementById("input_form:logradouro").value'
 											/>
 							<b:inputTextarea	id='logradouro2'
 												name='logradouro2'
-												value='#{sedeBean.sede.enderecoLogradouro}'
+												value='#{sedeBean.sedeTemp.enderecoLogradouro}'
 												placeholder='Digite o nome da rua, avenida, etc.'
 												class='visible-xs'
 												onblur='document.getElementById("input_form:logradouro").value = document.getElementById("input_form:logradouro2").value'
@@ -404,7 +404,7 @@
 							<br/>
 							<h:outputLabel value='№' for='numero'/>
 							<b:inputText	id='numero'
-											value='#{sedeBean.sede.enderecoNumero}'
+											value='#{sedeBean.sedeTemp.enderecoNumero}'
 											onkeypress='return teclaNumerica(event.keyCode)'
 											maxlength='5'
 											placeholder='№'
@@ -419,7 +419,7 @@
 							<br/>
 							<h:outputLabel value='Complemento' for='complemento'/>
 							<b:inputText	id='complemento'
-											value='#{sedeBean.sede.enderecoComplemento}'
+											value='#{sedeBean.sedeTemp.enderecoComplemento}'
 											placeholder='Complemento'
 											/>
 						</b:column>
@@ -432,7 +432,7 @@
 							<br/>
 							<h:outputLabel value='Bairro' for='bairro'/>
 							<b:inputText	id='bairro'
-											value='#{sedeBean.sede.enderecoBairro}'
+											value='#{sedeBean.sedeTemp.enderecoBairro}'
 											placeholder='Bairro'
 											/>
 						</b:column>
@@ -445,7 +445,7 @@
 							<br/>
 							<h:outputLabel value='Cidade' for='cidade'/>
 							<b:inputText	id='cidade'
-											value='#{sedeBean.sede.enderecoCidade}'
+											value='#{sedeBean.sedeTemp.enderecoCidade}'
 											placeholder='Cidade'
 											/>
 						</b:column>
@@ -459,7 +459,7 @@
 							<h:outputLabel value='UF' for='uf'/>
 							<b:inputText	id='uf'
 											maxlength='2'
-											value='#{sedeBean.sede.enderecoEstado}'
+											value='#{sedeBean.sedeTemp.enderecoEstado}'
 											placeholder='UF'
 											/>
 						</b:column>
@@ -472,7 +472,7 @@
 							<br/>
 							<h:outputLabel value='País' for='pais'/>
 							<b:inputText	id='pais'
-											value='#{sedeBean.sede.enderecoPais}'
+											value='#{sedeBean.sedeTemp.enderecoPais}'
 											placeholder='País'
 											/>
 						</b:column>
@@ -494,7 +494,7 @@
 				</b:row>
 				<b:row>
 					<h:dataTable	id='tbTelefones'
-									value='#{sedeBean.sede.telefones}'
+									value='#{sedeBean.sedeTemp.telefones}'
 									var='telefone'
 									style='	width: 100%;'
 									>
@@ -577,7 +577,7 @@
 				
 				<b:row>
 					<h:dataTable	id='tbEmails'
-									value='#{sedeBean.sede.emails}'
+									value='#{sedeBean.sedeTemp.emails}'
 									var='email'
 									style='	width: 100%;'
 									>
@@ -664,7 +664,7 @@
 								style='	margin: 0px;'
 								>
 						<b:inputTextarea	id='comentarios'
-											value='#{sedeBean.sede.comentarios}'
+											value='#{sedeBean.sedeTemp.comentarios}'
 											maxlength='1000'
 											placeholder='Digite os comentários aqui.'
 											/>

@@ -1,7 +1,9 @@
 package br.com.shepherd.service.util;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Properties;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
@@ -49,4 +51,20 @@ public class JSFUtil{
 		FacesContext.getCurrentInstance().addMessage(null, msg);
 	}
 
+	public static String getProperty(String pKey) throws IOException{
+		Properties properties = new Properties();
+		ClassLoader cl = Thread.currentThread().getContextClassLoader();
+
+		try{
+
+			properties.load(cl.getResourceAsStream("shepherd.properties"));
+
+			return properties.getProperty(pKey);
+		} catch(IOException e){
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	// TODO: Implementar setProperty
 }
