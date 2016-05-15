@@ -24,6 +24,7 @@ function preencherCampos(conteudo){
 		document.getElementById('input_form:bairro').value = conteudo.bairro;
 		document.getElementById('input_form:cidade').value = conteudo.localidade;
 		document.getElementById('input_form:uf').value = conteudo.uf;
+		document.getElementById('input_form:pais').value = "Brasil";
 	} // end if.
 	else{
 		// CEP não Encontrado.
