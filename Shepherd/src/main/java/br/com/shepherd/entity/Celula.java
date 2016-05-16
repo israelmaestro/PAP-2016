@@ -28,22 +28,22 @@ public class Celula implements Serializable{
 	@NotNull
 	private String				nome;
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "celula")
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "celula")
 	private List<Membro>		membros;
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "celula")
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "celula")
 	private List<Visitante>		visitantes;
 
 	// @NotNull
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "celula")
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "celula")
 	private List<Lider>			lideres;
 
 	// @NotNull
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "celula")
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "celula")
 	private List<CelulaReuniao>	reunioes;
 
 	// @NotNull
-	@OneToOne(fetch = FetchType.LAZY)
+	@OneToOne(fetch = FetchType.EAGER)
 	private Coordenador			coordenador;
 
 	// @NotNull

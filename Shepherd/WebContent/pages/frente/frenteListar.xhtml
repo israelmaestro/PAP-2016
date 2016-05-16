@@ -68,12 +68,12 @@
 											icon='fa fa-fw fa-eye'
 											alt='Visualizar'
 											/>
-						<p:commandButton	update='@form'
-											onclick='alert("ALTERAÇÃO AINDA NÃO IMPLEMENTADA!")'
+						<p:commandButton	ajax='false'
+											action='#{frenteBean.prepararAlteracao(frente)}'
 											icon='fa fa-fw fa-pencil'
 											style='	color: #009900;
 													'
-											alt='Excluir'
+											alt='Alterar'
 											/>
 						<p:commandButton	update='@form'
 											action='#{frenteBean.excluir(frente)}'

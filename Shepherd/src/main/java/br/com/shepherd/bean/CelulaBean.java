@@ -23,6 +23,8 @@ public class CelulaBean implements Serializable{
 	private CelulaService		celulaService;
 
 	private Celula				celula;
+	
+	private Celula 				celulaTemp;
 
 	public CelulaBean(){
 		celula = new Celula();
@@ -45,7 +47,7 @@ public class CelulaBean implements Serializable{
 
 	public String prepararAlteracao(Celula pCelula){
 		
-		setCelula(pCelula);
+		setCelulaTemp(pCelula);
 		
 		return "celulaAlterar";
 	}
@@ -72,5 +74,13 @@ public class CelulaBean implements Serializable{
 
 	public void setCelula(Celula pCelula){
 		celula = pCelula;
+	}
+
+	public Celula getCelulaTemp() {
+		return celulaTemp;
+	}
+
+	public void setCelulaTemp(Celula pCelulaTemp) {
+		celulaTemp = pCelulaTemp;
 	}
 }

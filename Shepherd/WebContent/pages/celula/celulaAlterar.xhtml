@@ -32,14 +32,14 @@
 				<b:message for='comentarios'/>
 				<br/>
 			</ui:define>
-			<ui:define name='tituloPagina'>Shepherd > Nova Célula</ui:define>
+			<ui:define name='tituloPagina'>Shepherd > Alterar Célula</ui:define>
 			<ui:define name='tituloPrincipal'>
-				<b:iconAwesome name='fa fa-sitemap fa-fw'/>
+				<b:iconAwesome name='fa fa-university fa-fw'/>
 				<br class='visible-xs'/>
-				Nova Célula
+				Alterar Célula
 			</ui:define>
 			<ui:define name='tituloSecundario'>
-				home > célula > nova
+				home > célula > alterar
 			</ui:define>
 			
 			<ui:define name='botoesAcao'>
@@ -48,14 +48,14 @@
 								onclick='location.href = "./celulaListar.jsf"'
 								iconAwesome='fa fa-arrow-left fa-fw'
 								/>
-					<btr:commandLink	action='#{celulaBean.alterar()}'
+					<btr:commandLink	action='#{celulaBean.alterar(celulaBean.celulaTemp)}'
 										styleClass='btn btn-default'
 										>
 						<b:iconAwesome name='fa fa-check fa-fw'/>
 					</btr:commandLink>
 					<b:button	value=''
 								iconAwesome='fa fa-eraser fa-fw'
-								onclick='location.href = "./celulaCadastrar.jsf"'/>
+								onclick='location.href = "./celulaAlterar.jsf"'/>
 				</b:buttonGroup>
 			</ui:define>
 			
@@ -67,7 +67,7 @@
 						>
 					<b:row>
 						<b:column>
-							<b:switch	value='#{celulaBean.celula.active}'
+							<b:switch	value='#{celulaBean.celulaTemp.active}'
 										label='Status'
 										offText='Inativa'
 										onText='Ativa'
@@ -124,7 +124,7 @@
 														/>
 										<b:selectBooleanCheckbox	id='address'
 																	binding='#{showAddress}'
-																	value='#{celulaBean.celula.enderecoFixo}'
+																	value='#{celulaBean.celulaTemp.enderecoFixo}'
 																	>
 											<f:ajax event='change' render='@form' />
 										</b:selectBooleanCheckbox>
@@ -146,7 +146,7 @@
 														/>
 										<b:selectBooleanCheckbox	id='permitirVisitante'
 																	binding='#{showVisitorsMenu}'
-																	value='#{celulaBean.celula.visitorsAllowed}'
+																	value='#{celulaBean.celulaTemp.visitorsAllowed}'
 																	>
 											<f:ajax event='change' render='@form' />
 										</b:selectBooleanCheckbox>
@@ -176,7 +176,7 @@
 								<b:inputText 	id='nome'
 												required='true'
 												requiredMessage='Nome: Campo obrigatório!'
-												value='#{celulaBean.celula.nome}'
+												value='#{celulaBean.celulaTemp.nome}'
 												style='background-color: #FFFFCC'
 												placeholder='Nome'
 												/>
@@ -189,7 +189,7 @@
 								<br/>
 								<b:selectOneMenu	id='frente'
 													label='Frente'
-													value='#{celulaBean.celula.frente}'
+													value='#{celulaBean.celulaTemp.frente}'
 													converter='omnifaces.SelectItemsConverter'
 													enableFiltering='true'
 													filterPlaceholder='Procurar'
@@ -197,7 +197,7 @@
 													disableIfEmpty='true'
 													>
 									<f:selectItem itemLabel='Selecione' itemDisabled='true'/>
-									<f:selectItems	value='#{frenteBean.listarTipoCelula()}' var='frente'
+									<f:selectItems	value='#{frenteBean.listar()}' var='frente'
 													itemLabel='#{frente.nome}'
 													/>
 								</b:selectOneMenu>
@@ -210,7 +210,7 @@
 								<br/>
 								<b:selectOneMenu	id='sede'
 													label='Sede'
-													value='#{celulaBean.celula.sede}'
+													value='#{celulaBean.celulaTemp.sede}'
 													converter='omnifaces.SelectItemsConverter'
 													enableFiltering='true'
 													filterPlaceholder='Procurar'
@@ -231,7 +231,7 @@
 								<br/>
 								<b:selectMultiMenu 	id='lideres'
 													label='Líder(es)'
-													value='#{celulaBean.celula.lideres}'
+													value='#{celulaBean.celulaTemp.lideres}'
 													converter='omnifaces.SelectItemsConverter'
 													enableFiltering='true'
 													filterPlaceholder='Procurar'
@@ -257,7 +257,7 @@
 								<br/>
 								<b:selectOneMenu	id='coordenador'
 													label='Coordenador(a)'
-													value='#{celulaBean.celula.coordenador}'
+													value='#{celulaBean.celulaTemp.coordenador}'
 													converter='omnifaces.SelectItemsConverter'
 													enableFiltering='true'
 													filterPlaceholder='Procurar'
@@ -279,7 +279,7 @@
 								<br/>
 								<b:selectMultiMenu 	id='membros'
 													label='Membro(s)'
-													value='#{celulaBean.celula.membros}'
+													value='#{celulaBean.celulaTemp.membros}'
 													converter='omnifaces.SelectItemsConverter'
 													enableFiltering='true'
 													filterPlaceholder='Procurar'
@@ -306,7 +306,7 @@
 								<br/>
 								<b:selectMultiMenu 	id='visitantes'
 													label='Visitante(s)'
-													value='#{celulaBean.celula.visitantes}'
+													value='#{celulaBean.celulaTemp.visitantes}'
 													converter='omnifaces.SelectItemsConverter'
 													enableFiltering='true'
 													filterPlaceholder='Procurar'
@@ -354,7 +354,7 @@
 												line-height: 1px;
 												 margin: 0px; padding: 0px;'
 										>
-										<b:switch	value='#{celulaBean.celula.gpsAddress}'
+										<b:switch	value='#{celulaBean.celulaTemp.gpsAddress}'
 													label=''
 													offText='Postal'
 													onText='GPS'
@@ -410,7 +410,7 @@
 													value='Coordenadas de GPS*'
 													/>
 									<b:inputText	id='gpsAddress'
-													value='#{celulaBean.celula.enderecoLogradouro}'
+													value='#{celulaBean.celulaTemp.enderecoLogradouro}'
 													placeholder='Digite as coordenadas do GPS'
 													requiered='true'
 													requiredMessage='Coordenadas de GPS: Campo obrigatório!'
@@ -442,7 +442,7 @@
 													binding='#{cep}'
 													maxlength='8'
 													onkeypress='return teclaNumerica(event.keyCode)'
-													value='#{celulaBean.celula.enderecoCep}'
+													value='#{celulaBean.celulaTemp.enderecoCep}'
 													placeholder='Digite o CEP'
 													onblur='if(this.value != "") pesquisaCep(this.value);'
 													/>
@@ -457,14 +457,14 @@
 									<h:outputLabel value='Endereço' for='logradouro'/>
 									<b:inputText	id='logradouro'
 													name='logradouro'
-													value='#{celulaBean.celula.enderecoLogradouro}'
+													value='#{celulaBean.celulaTemp.enderecoLogradouro}'
 													placeholder='Digite o nome da rua, avenida, etc.'
 													class='hidden-xs'
 													onblur='document.getElementById("input_form:logradouro2").value = document.getElementById("input_form:logradouro").value'
 													/>
 									<b:inputTextarea	id='logradouro2'
 														name='logradouro2'
-														value='#{celulaBean.celula.enderecoLogradouro}'
+														value='#{celulaBean.celulaTemp.enderecoLogradouro}'
 														placeholder='Digite o nome da rua, avenida, etc.'
 														class='visible-xs'
 														onblur='document.getElementById("input_form:logradouro").value = document.getElementById("input_form:logradouro2").value'
@@ -479,7 +479,7 @@
 									<br/>
 									<h:outputLabel value='№' for='numero'/>
 									<b:inputText	id='numero'
-													value='#{celulaBean.celula.enderecoNumero}'
+													value='#{celulaBean.celulaTemp.enderecoNumero}'
 													onkeypress='return teclaNumerica(event.keyCode)'
 													maxlength='5'
 													placeholder='№'
@@ -494,7 +494,7 @@
 									<br/>
 									<h:outputLabel value='Complemento' for='complemento'/>
 									<b:inputText	id='complemento'
-													value='#{celulaBean.celula.enderecoComplemento}'
+													value='#{celulaBean.celulaTemp.enderecoComplemento}'
 													placeholder='Complemento'
 													/>
 								</b:column>
@@ -507,7 +507,7 @@
 									<br/>
 									<h:outputLabel value='Bairro' for='bairro'/>
 									<b:inputText	id='bairro'
-													value='#{celulaBean.celula.enderecoBairro}'
+													value='#{celulaBean.celulaTemp.enderecoBairro}'
 													placeholder='Bairro'
 													/>
 								</b:column>
@@ -520,7 +520,7 @@
 									<br/>
 									<h:outputLabel value='Cidade' for='cidade'/>
 									<b:inputText	id='cidade'
-													value='#{celulaBean.celula.enderecoCidade}'
+													value='#{celulaBean.celulaTemp.enderecoCidade}'
 													placeholder='Cidade'
 													/>
 								</b:column>
@@ -534,7 +534,7 @@
 									<h:outputLabel value='UF' for='uf'/>
 									<b:inputText	id='uf'
 													maxlength='2'
-													value='#{celulaBean.celula.enderecoEstado}'
+													value='#{celulaBean.celulaTemp.enderecoEstado}'
 													placeholder='UF'
 													/>
 								</b:column>
@@ -547,7 +547,7 @@
 									<br/>
 									<h:outputLabel value='País' for='pais'/>
 									<b:inputText	id='pais'
-													value='#{celulaBean.celula.enderecoPais}'
+													value='#{celulaBean.celulaTemp.enderecoPais}'
 													placeholder='País'
 													/>
 								</b:column>
@@ -576,7 +576,7 @@
 									style='	margin: 0px;'
 									>
 							<b:inputTextarea	id='comentarios'
-												value='#{celulaBean.celula.comentarios}'
+												value='#{celulaBean.celulaTemp.comentarios}'
 												maxlength='1000'
 												placeholder='Digite os comentários aqui.'
 												/>

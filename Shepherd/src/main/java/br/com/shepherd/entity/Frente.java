@@ -35,13 +35,13 @@ public class Frente implements Serializable{
 
 	// TODO: Devolver a anotação quando o membro for implementado.
 	// @NotNull
-	@ManyToMany(fetch = FetchType.LAZY)
+	@ManyToMany(fetch = FetchType.EAGER)
 	private List<Membro>		lideres;
 
-	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "frentesParticipadas")
+	@ManyToMany(fetch = FetchType.EAGER, mappedBy = "frentesParticipadas")
 	private List<Membro>		participantes;
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "frente")
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "frente")
 	private List<Celula>		celulas;
 
 	// TODO: Refazer o formulário para ficar com os mesmos padrões que o

@@ -185,7 +185,7 @@
 													disableIfEmpty='true'
 													>
 									<f:selectItem itemLabel='Selecione' itemDisabled='true'/>
-									<f:selectItems	value='#{frenteBean.listarTipoCelula()}' var='frente'
+									<f:selectItems	value='#{frenteBean.listar()}' var='frente'
 													itemLabel='#{frente.nome}'
 													/>
 								</b:selectOneMenu>
@@ -210,6 +210,16 @@
 													itemLabel='#{sede.nome}#{null != sede.enderecoCidade ? " (" : ""}#{null != sede.enderecoCidade ? sede.enderecoCidade : ""}#{null != sede.enderecoCidade ? ")" : ""}#{sede.mainChurch ? "*" : ""}'
 													/>
 								</b:selectOneMenu>
+<!-- 									<h:outputLabel for='sede' value='Sede' /> -->
+<!-- 									<h:selectOneMenu	id='sede' -->
+<!-- 														binding='#{sede}' -->
+<!-- 														value='#{celulaBean.celula.sede}' -->
+<!-- 														converter='omnifaces.SelectItemsConverter'														 -->
+<!-- 														class='hSelectOneMenu' -->
+<!-- 														> -->
+<!-- 										<f:selectItem itemLabel='Selecione' noSelectionOption='false'/> -->
+<!-- 										<f:selectItems value='#{sedeBean.listar()}' var='sede' itemLabel='#{sede.nome}'/> -->
+<!-- 									</h:selectOneMenu> -->
 							</b:column>
 							<b:column	col-lg='3'
 										col-md='3'
