@@ -26,13 +26,13 @@ public class Membro implements Serializable{
 	private Integer				id;
 
 	// Informações gerais
-	@OneToOne(fetch = FetchType.LAZY)
+	@OneToOne(fetch = FetchType.EAGER)
 	private Celula				celula;
 
-	@ManyToMany(fetch = FetchType.LAZY)
+	@ManyToMany(fetch = FetchType.EAGER)
 	private List<CelulaReuniao>	reunioesComparecidas;
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "anfitriao")
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "anfitriao")
 	private List<CelulaReuniao>	reunioesRecebidas;
 
 	@Column(columnDefinition = "timestamp")
@@ -45,7 +45,7 @@ public class Membro implements Serializable{
 
 	// Informaï¿½ï¿½es pessoais do membro
 	@NotNull
-	@OneToOne(fetch = FetchType.LAZY)
+	@OneToOne(fetch = FetchType.EAGER)
 	private Pessoa				pessoa;
 
 	// Flags
@@ -73,10 +73,10 @@ public class Membro implements Serializable{
 	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "lideres")
 	private List<Frente>		frentesLideradas;
 
-	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private Lider				lider;
 
-	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private Usuario				usuario;
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "membroAtendido")

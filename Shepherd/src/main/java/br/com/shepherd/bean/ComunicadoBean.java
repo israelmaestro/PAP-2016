@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 
 import javax.ejb.EJB;
-import javax.enterprise.context.RequestScoped;
+import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
 
 import br.com.shepherd.entity.Comunicado;
@@ -12,7 +12,7 @@ import br.com.shepherd.service.ComunicadoService;
 import br.com.shepherd.service.util.JSFUtil;
 
 @Named
-@RequestScoped
+@SessionScoped
 public class ComunicadoBean implements Serializable{
 	private static final long	serialVersionUID	= 4229014895384999619L;
 
@@ -20,6 +20,8 @@ public class ComunicadoBean implements Serializable{
 	private ComunicadoService	comunicadoService;
 
 	private Comunicado			comunicado;
+
+	private List<Comunicado>	listaFiltrada;
 
 	public ComunicadoBean(){
 		comunicado = new Comunicado();
@@ -58,5 +60,13 @@ public class ComunicadoBean implements Serializable{
 
 	public void setComunicado(Comunicado pComunicado){
 		comunicado = pComunicado;
+	}
+
+	public List<Comunicado> getListaFiltrada(){
+		return listaFiltrada;
+	}
+
+	public void setListaFiltrada(List<Comunicado> pListaFiltrada){
+		listaFiltrada = pListaFiltrada;
 	}
 }

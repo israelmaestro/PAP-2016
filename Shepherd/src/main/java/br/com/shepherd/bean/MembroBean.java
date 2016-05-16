@@ -4,19 +4,22 @@ import java.io.Serializable;
 import java.util.List;
 
 import javax.ejb.EJB;
-import javax.enterprise.context.RequestScoped;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.bean.ManagedProperty;
+import javax.faces.event.AjaxBehaviorEvent;
 import javax.inject.Named;
 
 import br.com.shepherd.entity.Coordenador;
+import br.com.shepherd.entity.Email;
 import br.com.shepherd.entity.Lider;
 import br.com.shepherd.entity.Ministro;
 import br.com.shepherd.entity.Pessoa;
+import br.com.shepherd.entity.Telefone;
 import br.com.shepherd.service.MembroService;
 import br.com.shepherd.service.util.JSFUtil;
 
 @Named
-@RequestScoped
+@SessionScoped
 public class MembroBean implements Serializable{
 	private static final long	serialVersionUID	= 4229014895384999619L;
 
@@ -28,6 +31,22 @@ public class MembroBean implements Serializable{
 
 	public MembroBean(){
 		pessoa = new Pessoa();
+	}
+
+	public void botaoRemoverTelefone(Telefone pTelefone){
+		pessoa.removeTelefone(pTelefone);
+	}
+
+	public void botaoAdicionarTelefone(AjaxBehaviorEvent pAjax){
+		pessoa.addTelefone(new Telefone());
+	}
+
+	public void botaoRemoverEmail(Email pEmail){
+		pessoa.removeEmail(pEmail);
+	}
+
+	public void botaoAdicionarEmail(AjaxBehaviorEvent pAjax){
+		pessoa.addEmail(new Email());
 	}
 
 	public String cadastrar(){
@@ -55,6 +74,26 @@ public class MembroBean implements Serializable{
 
 	public List<Pessoa> listar(){
 		return membroService.listar();
+	}
+
+	public List<Pessoa> listarExcluindo(Pessoa pPai, Pessoa pMae){
+		return membroService.listarExcluindo(pPai, pMae);
+	}
+
+	public List<Pessoa> listarHomens(){
+		return membroService.listarHomens();
+	}
+
+	public List<Pessoa> listarHomensSolteiros(){
+		return membroService.listarHomensSolteiros();
+	}
+
+	public List<Pessoa> listarMulheres(){
+		return membroService.listarMulheres();
+	}
+
+	public List<Pessoa> listarMulheresSolteiras(){
+		return membroService.listarMulheresSolteiras();
 	}
 
 	public List<Lider> listarLideres(){

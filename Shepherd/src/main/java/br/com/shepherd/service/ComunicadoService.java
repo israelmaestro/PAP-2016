@@ -22,7 +22,8 @@ public class ComunicadoService{
 	public Comunicado cadastrar(Comunicado pComunicado) throws Exception{
 
 
-		pComunicado.setCodigo(JSFUtil.logTimeStamp()+ "."
+		pComunicado.setCodigo("C."+ JSFUtil.logTimeStamp()
+								+ "."
 								+ pComunicado.getSede().getNome().replaceAll(" ", ""));
 
 		try{

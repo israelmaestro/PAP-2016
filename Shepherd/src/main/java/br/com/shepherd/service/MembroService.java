@@ -13,7 +13,6 @@ import br.com.shepherd.entity.Coordenador;
 import br.com.shepherd.entity.Lider;
 import br.com.shepherd.entity.Ministro;
 import br.com.shepherd.entity.Pessoa;
-import br.com.shepherd.service.util.JSFUtil;
 
 @Stateless
 public class MembroService{
@@ -26,132 +25,199 @@ public class MembroService{
 	}
 
 	public Pessoa cadastrar(Pessoa pPessoa) throws Exception{
-		System.out.println("===============================================");
-		System.out.println(JSFUtil.actualTimeStamp() + "MembroService.cadastrar()");
-		System.out.println("===============================================");
+
+		// Tornar ativo
+		pPessoa.setAtivo(true);
+		pPessoa.setMember(true);
+
+		// Consistir dados de casamento
+		if(pPessoa.isMarried()){
+			if(null == pPessoa.getConjuge()){ throw new Exception("Desative a opção “Casado” ou selecione um cônjuge!"); }
+
+			if(null == pPessoa.getDataCasamento() || pPessoa.getDataCasamento().equals("")){
+				pPessoa.setDataCasamento(null);
+			}
+		} else{
+			pPessoa.setConjuge(null);
+		}
 
 		// Eliminando espaços vazios
-		System.out.println(JSFUtil.actualTimeStamp() + "Eliminando espaços vazios dos campos...");
-
 		pPessoa.setNome(pPessoa.getNome().trim());
 		pPessoa.setSobrenome(pPessoa.getSobrenome().trim());
-
-		if(null != pPessoa.getCpf()){
-			if(!pPessoa.getCpf().equals("")){
-				pPessoa.setCpf(pPessoa.getCpf().trim());
-			} else{
-				pPessoa.setCpf(null);
-
-				System.out.println(JSFUtil.actualTimeStamp() + "Não há CPF...");
-			}
-		}
 
 		if(null != pPessoa.getRg()){
 			if(!pPessoa.getRg().equals("")){
 				pPessoa.setRg(pPessoa.getRg().trim());
 			} else{
 				pPessoa.setRg(null);
-
-				System.out.println(JSFUtil.actualTimeStamp() + "Não há RG...");
 			}
 		}
 
-		pPessoa.setEnderecoCep(pPessoa.getEnderecoCep().trim());
-		pPessoa.setEnderecoLogradouro(pPessoa.getEnderecoLogradouro().trim());
-		pPessoa.setEnderecoComplemento(pPessoa.getEnderecoComplemento().trim());
-		pPessoa.setEnderecoBairro(pPessoa.getEnderecoBairro().trim());
-		pPessoa.setEnderecoCidade(pPessoa.getEnderecoCidade().trim());
-		pPessoa.setEnderecoEstado(pPessoa.getEnderecoEstado().trim().toUpperCase());
-
-		// pPessoa.setTelefoneDdi1(pPessoa.getTelefoneDdi1().trim());
-		// pPessoa.setTelefoneNumero1(pPessoa.getTelefoneNumero1().trim());
-		// pPessoa.setTelefoneTipo1(pPessoa.getTelefoneTipo1().trim());
-		//
-		// pPessoa.setTelefoneDdi2(pPessoa.getTelefoneDdi2().trim());
-		// pPessoa.setTelefoneNumero2(pPessoa.getTelefoneNumero2().trim());
-		// pPessoa.setTelefoneTipo2(pPessoa.getTelefoneTipo2().trim());
-		//
-		// pPessoa.setTelefoneDdi3(pPessoa.getTelefoneDdi3().trim());
-		// pPessoa.setTelefoneNumero3(pPessoa.getTelefoneNumero3().trim());
-		// pPessoa.setTelefoneTipo3(pPessoa.getTelefoneTipo3().trim());
-
-		// pPessoa.setEmail1(pPessoa.getEmail1().trim());
-		// pPessoa.setEmail2(pPessoa.getEmail2().trim());
-
-		// Setando Membro
-		System.out.println(JSFUtil.actualTimeStamp() + "Setando Membro...");
-		pPessoa.setMember(true);
-		pPessoa.setVisitante(null);
-
-		// Ativando Membro
-		System.out.println(JSFUtil.actualTimeStamp() + "Ativando Membro...");
-		pPessoa.setAtivo(true);
-
-		// Verificando dados do membro
-		System.out.println(JSFUtil.actualTimeStamp() + "Verificando dados do membro...");
-
-		// Verificando Pessoa existente
-		System.out.println(JSFUtil.actualTimeStamp() + "Verificando pré-existência de membro");
-
-		Pessoa existente = buscaPessoaUnica(pPessoa.getNome(),
-											pPessoa.getSobrenome(),
-											pPessoa.getDataNasc(),
-											pPessoa.getRg(),
-											pPessoa.getCpf(),
-											pPessoa.getSexo());
-
-		if(null == existente){
-			existente = buscaCriterioStr("Pessoa", "cpf", pPessoa.getCpf());
-
-			System.out.println(JSFUtil.actualTimeStamp() + "Verificando CPF existente");
-
-			if(null != existente){
-				throw new Exception(") O CPF “"+ pPessoa.getCpf()
-									+ "” já existe no cadastro!");
+		if(null != pPessoa.getCpf()){
+			if(!pPessoa.getCpf().equals("")){
+				pPessoa.setCpf(pPessoa.getCpf().trim());
 			} else{
-				existente = buscaCriterioStr("Pessoa", "rg", pPessoa.getRg());
+				pPessoa.setCpf(null);
+			}
+		}
 
-				System.out.println(JSFUtil.actualTimeStamp() + "Verificando RG existente");
+		// Consistir endereço
+		if(!pPessoa.isGpsAddress()){
+			if(null == pPessoa.getEnderecoCep() || pPessoa.getEnderecoCep().equals("")){
+				pPessoa.setEnderecoCep(null);
+			} else{
+				pPessoa.setEnderecoCep(pPessoa.getEnderecoCep().trim());
+			}
 
-				if(null != existente){
-					throw new Exception(") O RG “"+ pPessoa.getRg()
-										+ "” já existe no cadastro!");
+			if(null == pPessoa.getEnderecoLogradouro()
+				|| pPessoa.getEnderecoLogradouro().equals("")){
+				pPessoa.setEnderecoLogradouro(null);
+				pPessoa.setEnderecoNumero(null);
+				pPessoa.setEnderecoComplemento(null);
+				pPessoa.setEnderecoBairro(null);
+				pPessoa.setEnderecoCidade(null);
+				pPessoa.setEnderecoEstado(null);
+				pPessoa.setEnderecoPais(null);
+			} else{
+				pPessoa.setEnderecoLogradouro(pPessoa.getEnderecoLogradouro().trim());
+
+				if(null == pPessoa.getEnderecoNumero() || pPessoa.getEnderecoNumero().equals("")){
+					// Endereço sem número
+					throw new Exception("Campo Nº obrigatório quando há endereço!");
+				}
+
+				if(null == pPessoa.getEnderecoComplemento()
+					|| pPessoa.getEnderecoComplemento().equals("")){
+					// Campo vazio
+					pPessoa.setEnderecoComplemento(null);
 				} else{
-					System.out.println(JSFUtil.actualTimeStamp() + "Gravando membro na base");
+					pPessoa.setEnderecoComplemento(pPessoa.getEnderecoComplemento().trim());
+				}
 
-					entityManager.persist(pPessoa);
-					return pPessoa;
+				if(null == pPessoa.getEnderecoCidade() || pPessoa.getEnderecoCidade().equals("")){
+					// Campo vazio
+					pPessoa.setEnderecoCidade(null);
+				} else{
+					pPessoa.setEnderecoCidade(pPessoa.getEnderecoCidade().trim());
+				}
+
+				if(null == pPessoa.getEnderecoEstado() || pPessoa.getEnderecoEstado().equals("")){
+					// Campo vazio
+					pPessoa.setEnderecoEstado(null);
+				} else{
+					pPessoa.setEnderecoEstado(pPessoa.getEnderecoEstado().trim());
+				}
+
+				if(null == pPessoa.getEnderecoPais() || pPessoa.getEnderecoPais().equals("")){
+					// Campo vazio
+					pPessoa.setEnderecoPais(null);
+				} else{
+					pPessoa.setEnderecoPais(pPessoa.getEnderecoPais().trim());
 				}
 			}
-
 		} else{
-			throw new Exception(") A pessoa “"+ pPessoa.getNome() + " " + pPessoa.getSobrenome()
-								+ (null != pPessoa.getDataNasc()	? "”, nascida em “"
-																	+ JSFUtil.dataNormal(pPessoa.getDataNasc())
-																	: "")
-								+ (null != pPessoa.getRg()	? "”, do RG “" + pPessoa.getRg()
-															: "")
-								+ (null != pPessoa.getCpf()	? "”, do CPF “"
-															: "")
-								+ "” e de sexo " + (pPessoa.getSexo()	? "masculino"
-																		: "feminino")
-								+ " já existe no cadastro!");
+			if(null == pPessoa.getEnderecoLogradouro()
+				|| pPessoa.getEnderecoLogradouro().equals("")){
+				// Coordenadas de GPS nulas
+				throw new Exception("Coordenadas de GPS: Campo obrigatório!");
+			} else{
+				pPessoa.setEnderecoLogradouro(pPessoa.getEnderecoLogradouro().trim());
+				pPessoa.setEnderecoCep(null);
+				pPessoa.setEnderecoNumero(null);
+				pPessoa.setEnderecoComplemento(null);
+				pPessoa.setEnderecoBairro(null);
+				pPessoa.setEnderecoCidade(null);
+				pPessoa.setEnderecoEstado(null);
+				pPessoa.setEnderecoPais(null);
+			}
 		}
 
-		// TODO: Criar regras para "MERGE"
+		entityManager.persist(pPessoa);
 
+		if(pPessoa.isMarried()){
+			Pessoa tConjuge = pPessoa.getConjuge();
+
+			tConjuge.setMarried(true);
+			tConjuge.setConjuge(pPessoa);
+			tConjuge.setDataCasamento(pPessoa.getDataCasamento());
+
+			entityManager.merge(tConjuge);
+		}
+
+		return pPessoa;
 	}
 
-	public Pessoa alterar(Pessoa pResponsavel){
-		entityManager.merge(pResponsavel);
+	public Pessoa alterar(Pessoa pPessoa){
+		entityManager.merge(pPessoa);
 
-		return pResponsavel;
+		return pPessoa;
 	}
 
 	@SuppressWarnings("unchecked")
 	public List<Pessoa> listar(){
-		return entityManager.createQuery("FROM Pessoa dbPessoa "
-											+ "WHERE dbPessoa.isMember = true "
+		return entityManager.createQuery("FROM Pessoa dbPessoa "+ "WHERE dbPessoa.isMember = true "
+											+ "ORDER BY dbPessoa.nome")
+							.getResultList();
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<Pessoa> listarExcluindo(Pessoa pPai, Pessoa pMae){
+		Query query = entityManager.createQuery("FROM Pessoa dbPessoa"
+											+ (null != pPai
+													?	" WHERE dbPessoa.id <> :p1"
+													 	+ (null != pMae
+													 			? " AND dbPessoa.id <> :p2"
+													 			: "")
+													:	null != pMae
+															? " WHERE dbPessoa.id <> :p2"
+															: ""
+												)
+											+ " ORDER BY dbPessoa.nome");
+		if(null != pPai){
+			query.setParameter("p1", pPai.getId());
+		}
+
+		if(null != pMae){
+			query.setParameter("p2", pMae.getId());
+		}
+
+		try{
+			return query.getResultList();
+		} catch(NoResultException n){
+			return null;
+		}
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<Pessoa> listarHomens(){
+		return entityManager.createQuery("FROM Pessoa dbPessoa "+ "WHERE dbPessoa.isMember = true "
+											+ "AND dbPessoa.sexo = true "
+											+ "ORDER BY dbPessoa.nome")
+							.getResultList();
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<Pessoa> listarHomensSolteiros(){
+		return entityManager.createQuery("FROM Pessoa dbPessoa "+ "WHERE dbPessoa.isMember = true "
+											+ "AND dbPessoa.sexo = true "
+											+ "AND dbPessoa.isMarried = false "
+											+ "ORDER BY dbPessoa.nome")
+							.getResultList();
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<Pessoa> listarMulheres(){
+		return entityManager.createQuery("FROM Pessoa dbPessoa "+ "WHERE dbPessoa.isMember = true "
+											+ "AND dbPessoa.sexo = false "
+											+ "ORDER BY dbPessoa.nome")
+							.getResultList();
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<Pessoa> listarMulheresSolteiras(){
+		return entityManager.createQuery("FROM Pessoa dbPessoa "+ "WHERE dbPessoa.isMember = true "
+											+ "AND dbPessoa.sexo = false "
+											+ "AND dbPessoa.isMarried = false "
 											+ "ORDER BY dbPessoa.nome")
 							.getResultList();
 	}
@@ -177,12 +243,8 @@ public class MembroService{
 		entityManager.remove(pResponsavel);
 	}
 
-	public Pessoa buscaPessoaUnica(	String pNome,
-									String pSobrenome,
-									Date pDataNasc,
-									String pRg,
-									String pCpf,
-									boolean pSexo){
+	public Pessoa buscaPessoaUnica(	String pNome, String pSobrenome, Date pDataNasc, String pRg,
+									String pCpf, boolean pSexo){
 		Query query = entityManager.createQuery("FROM Pessoa dbPessoa "
 												+ "WHERE UPPER(dbPessoa.nome) = UPPER(:p1) "
 												+ "AND UPPER(dbPessoa.sobrenome) = UPPER(:p2) "
@@ -218,11 +280,18 @@ public class MembroService{
 	}
 
 	public Pessoa buscaCriterioStr(String pTabela, String pCampo, String pValor){
-		Query query = entityManager.createQuery("FROM "+ pTabela + " db" + pTabela + " "
+		Query query = entityManager.createQuery("FROM "+ pTabela
+												+ " db"
+												+ pTabela
+												+ " "
 												+ "WHERE "
-												+ (null == pValor	? "db"+ pTabela + "." + pCampo
-																	+ " is null "
-																	: "db"+ pTabela + "." + pCampo
+												+ (null == pValor	? "db"+ pTabela
+																		+ "."
+																		+ pCampo
+																		+ " is null "
+																	: "db"+ pTabela
+																		+ "."
+																		+ pCampo
 																		+ " = :p1"));
 		if(null != pValor){
 			query.setParameter("p1", pValor);

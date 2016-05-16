@@ -6,7 +6,6 @@
 		xmlns:f='http://java.sun.com/jsf/core'
 		xmlns:h='http://java.sun.com/jsf/html'
 		xmlns:p='http://primefaces.org/ui'
-		xmlns:pm='http://primefaces.org/mobile'
 		xmlns:pt='http://xmlns.jcp.org/jsf/passthrough'
 		xmlns:ui='http://java.sun.com/jsf/facelets'
 		>
@@ -17,15 +16,16 @@
 		<meta name='description' content='X Conami' />
 		<meta name='author' content='Israel Oliveira Santos' />
 		<meta http-equiv='pragma' content='no-cache' />
+		
 		<link rel='icon' href='#{facesContext.externalContext.requestContextPath}/resources/genericImages/favicon.ico' type='image/x-icon' />
 		<link	rel='stylesheet'
 				href='#{facesContext.externalContext.requestContextPath}/resources/font-awesome/css/font-awesome.css'
 				/>
 		<link	rel='stylesheet'
-				href='#{facesContext.externalContext.requestContextPath}/resources/font-awesome/css/font-awesome.min.css'
+				href='#{facesContext.externalContext.requestContextPath}/resources/css/styles.css'
 				/>
 		<link	rel='stylesheet'
-				href='#{facesContext.externalContext.requestContextPath}/resources/primefaces-bootstrap/theme.css'
+				href='#{facesContext.externalContext.requestContextPath}/resources/font-awesome/css/font-awesome.min.css'
 				/>
 		<link	rel='stylesheet'
 				href='#{facesContext.externalContext.requestContextPath}/resources/bootstrap/css/bootstrap-multiselect.css'
@@ -33,11 +33,16 @@
 		<link	rel="stylesheet"
 				href="#{facesContext.externalContext.requestContextPath}/resources/bootstrap/css/BootSideMenu.css"
 				/>
+<!--
+		<link	rel='stylesheet'
+				href='#{facesContext.externalContext.requestContextPath}/resources/primefaces-bootstrap/theme.css'
+				/>
+-->
 		<script	src="#{facesContext.externalContext.requestContextPath}/resources/bootstrap/js/BootSideMenu.js"></script>
 	
 		<script type="text/javascript">
 			$(document).ready(function(){
-				$('#sidebar').BootSideMenu({side:"left", autoClose:true});
+				$('#sidebar').BootSideMenu({side:"left", closed:true});
 			});
 		</script>
 

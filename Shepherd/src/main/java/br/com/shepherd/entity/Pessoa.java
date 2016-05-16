@@ -56,7 +56,7 @@ public class Pessoa implements Serializable{
 	private String				rg;
 
 	@NotNull
-	private boolean				sexo;
+	private boolean								sexo				= true;
 
 	@ManyToMany(fetch = FetchType.LAZY)
 	private List<NEspecial>		nEspeciais;
@@ -82,7 +82,7 @@ public class Pessoa implements Serializable{
 	private String				enderecoPais;
 
 	// Informações de telefone
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "pessoa")
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "pessoa", cascade = CascadeType.ALL)
 	private List<Telefone>		telefones;
 
 	// Informações de email
@@ -122,17 +122,17 @@ public class Pessoa implements Serializable{
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date				dataCasamento;
 
-	// Informações eclesiásticas
-	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	private Membro				membro;
-
-	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	private Visitante			visitante;
+	// // Informações eclesiásticas
+	// @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	// private Membro membro;
+	//
+	// @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	// private Visitante visitante;
 
 	// Construtor e afins
 	public Pessoa(){
-		membro = new Membro();
-		visitante = new Visitante();
+		// membro = new Membro();
+		// visitante = new Visitante();
 		telefones = new ArrayList<Telefone>();
 		emails = new ArrayList<Email>();
 	}
@@ -381,21 +381,21 @@ public class Pessoa implements Serializable{
 		dataCasamento = pDataCasamento;
 	}
 
-	public Membro getMembro(){
-		return membro;
-	}
-
-	public void setMembro(Membro pMembro){
-		membro = pMembro;
-	}
-
-	public Visitante getVisitante(){
-		return visitante;
-	}
-
-	public void setVisitante(Visitante pVisitante){
-		visitante = pVisitante;
-	}
+	// public Membro getMembro(){
+	// return membro;
+	// }
+	//
+	// public void setMembro(Membro pMembro){
+	// membro = pMembro;
+	// }
+	//
+	// public Visitante getVisitante(){
+	// return visitante;
+	// }
+	//
+	// public void setVisitante(Visitante pVisitante){
+	// visitante = pVisitante;
+	// }
 
 	public void addTelefone(Telefone pTelefone){
 		telefones.add(pTelefone);

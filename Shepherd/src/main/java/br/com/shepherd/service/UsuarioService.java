@@ -21,13 +21,13 @@ public class UsuarioService{
 	@PersistenceContext(unitName = "ShepherdDB")
 	private EntityManager entityManager;
 
-	public boolean login(Usuario pUsuario) throws Exception{
+	public Usuario login(Usuario pUsuario) throws Exception{
 
 		Usuario existente = buscaConta(pUsuario.getConta());
 
 		if(null != existente){
 			if(pUsuario.getSenha().equals(existente.getSenha())){
-				return true;
+				return existente;
 			} else{
 				throw new Exception("A senha para a conta “"+ pUsuario.getConta()
 									+ "” é inválida!");
