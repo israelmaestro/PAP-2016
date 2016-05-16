@@ -1,0 +1,254 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html	xmlns='http://www.w3.org/1999/xhtml'
+		xmlns:b='http://bootsfaces.net/ui'
+		xmlns:btr='http://butterfaces.larmic.de/components'
+		xmlns:f='http://java.sun.com/jsf/core'
+		xmlns:h='http://java.sun.com/jsf/html'
+		xmlns:p='http://primefaces.org/ui'
+		xmlns:pm='http://primefaces.org/mobile'
+		xmlns:pt='http://xmlns.jcp.org/jsf/passthrough'
+		xmlns:ui='http://java.sun.com/jsf/facelets'
+		>
+
+	<ui:composition template='/META-INF/resources/bootsfaces/jsfTemplate.xhtml'>
+	
+			<ui:define name='mensagensCampos'>
+				<b:message for='nome'/>
+				<b:message for='frenteLideres' />
+				<b:message for='frenteCelulas' />
+				<b:message for='frenteParticipantes' />
+				<b:message for='idadeMinima' />
+				<b:message for='idadeMaxima' />
+				<b:message for='descricao' />
+				<br/>
+			</ui:define>
+	
+			<ui:define name='tituloPagina'>Shepherd > Nova Frente</ui:define>
+			<ui:define name='tituloPrincipal'>
+				<b:iconAwesome name='fa fa-puzzle-piece fa-fw'/>
+				<br class='visible-xs'/>
+				Nova Frente
+			</ui:define>
+			<ui:define name='tituloSecundario'>
+				home > frentes > nova
+			</ui:define>
+			
+			<ui:define name='botoesAcao'>
+				<b:buttonGroup>
+					<b:button	value=''
+								onclick='location.href = "./frenteListar.jsf"'
+								iconAwesome='fa fa-arrow-left fa-fw'
+								/>
+					<btr:commandLink	action='#{frenteBean.alterar(frenteBean.frenteTemp)}'
+										styleClass='btn btn-default'
+										>
+						<b:iconAwesome name='fa fa-check fa-fw'/>
+					</btr:commandLink>
+					<b:button	value=''
+								iconAwesome='fa fa-eraser fa-fw'
+								onclick='location.href = "./frenteCadastrar.jsf"'/>
+				</b:buttonGroup>
+			</ui:define>
+			
+			<ui:define name='conteudo'>
+				<b:row>
+					<b:column	col-lg='12'
+								col-md='12'
+								col-sm='12'
+								col-xs='12'
+								style='	margin: 0px;
+										padding: 0px;
+										'
+								>
+						<b:switch	value='#{frenteBean.frenteTemp.cell}'
+									binding='#{showCellList}'
+									offText='Operacional'
+									onText='Célula'
+									onColor='danger'
+									offColor='primary'
+									switchsize='mini'
+									style='	margin-top: 0px;
+											margin-bottom: 0px;
+											'
+									>
+							<f:ajax event='change' render='@form' />
+						</b:switch>
+					</b:column>
+				</b:row>
+				<b:row>
+					<b:column	col-lg='3'
+								col-md='3'
+								col-sm='6'
+								col-xs='12'
+								>
+						<br/>
+						<h:outputLabel	for='nome'
+										value='Nome*'
+										/>
+						<b:inputText 	id='nome'
+										required='true'
+										requiredMessage='Nome: Campo obrigatório'
+										value='#{frenteBean.frenteTemp.nome}'
+										style='background-color: #FFFFCC'
+										placeholder='Nome'
+										></b:inputText>
+					</b:column>
+					<b:column	col-lg='3'
+								col-md='3'
+								col-sm='6'
+								col-xs='12'
+								>
+						<br/>
+						<b:selectMultiMenu 	id='frenteLideres'
+											label='Líderes'
+											value='#{frenteBean.frenteTemp.lideres}'
+											required='true'
+											requiredMessage='Líderes: Selecione pelo menos um líder'
+											converter='omnifaces.SelectItemsConverter'
+											enableFiltering='true'
+											filterPlaceholder='Procurar'
+											nonSelectedText='Selecione'
+											nSelectedText='Líderes Selecionados'
+											numberDisplayed='1'
+											disableIfEmpty='true'
+											allSelectedText='Todos os membros'
+											>
+							<f:selectItems	value='#{membroBean.listar()}'
+											var='frenteLideres'
+											itemLabel='#{frenteLideres.membro.pessoa.nome} #{frenteLideres.membro.pessoa.sobrenome}'
+											/>
+						</b:selectMultiMenu>
+					</b:column>
+					<b:column	col-lg='3'
+								col-md='3'
+								col-sm='6'
+								col-xs='12'
+								rendered='#{showCellList.value}'
+								>
+						<br/>
+						<b:selectMultiMenu 	id='frenteCelulas'
+											label='Células'
+											value='#{frenteBean.frenteTemp.celulas}'
+											required='true'
+											requiredMessage='Células: Selecione pelo menos uma célula'
+											converter='omnifaces.SelectItemsConverter'
+											enableFiltering='true'
+											filterPlaceholder='Procurar'
+											nonSelectedText='Selecione'
+											nSelectedText='Células Selecionadas'
+											numberDisplayed='1'
+											disableIfEmpty='true'
+											allSelectedText='Todas as células'
+											fieldSize='lg'
+											>
+							<f:selectItems	value='#{celulaBean.listar()}'
+											var='frenteCelulas'
+											itemLabel='#{frenteCelulas.nome}'
+											/>
+						</b:selectMultiMenu>
+					</b:column>
+					<b:column	col-lg='3'
+								col-md='3'
+								col-sm='6'
+								col-xs='12'
+								rendered='#{!showCellList.value}'
+								>
+						<br/>
+						<b:selectMultiMenu 	id='frenteParticipantes'
+											label='Participantes'
+											value='#{frenteBean.frenteTemp.participantes}'
+											required='true'
+											requiredMessage='Participantes: Selecione pelo menos um participante'
+											converter='omnifaces.SelectItemsConverter'
+											enableFiltering='true'
+											filterPlaceholder='Procurar'
+											nonSelectedText='Selecione'
+											nSelectedText='Participantes Selecionados'
+											numberDisplayed='1'
+											disableIfEmpty='true'
+											allSelectedText='Todas os membros'
+											fieldSize='lg'
+											>
+							<f:selectItems	value='#{membroBean.listar()}'
+											var='frenteParticipantes'
+											itemLabel='#{frenteParticipantes.nome} #{frenteParticipantes.sobrenome}'
+											/>
+						</b:selectMultiMenu>
+					</b:column>
+					<b:column	col-lg='3'
+								col-md='3'
+								col-sm='6'
+								col-xs='12'
+								>
+						<br/>
+						<h:outputLabel	value='Faixa Etária'
+										/>
+						<table	cellspacing='2'
+								style='	width: 100%;
+										'
+								>
+							<tr>
+								<td style='	width: 50%;
+											padding-right: 10px;
+											'
+									>
+									<b:inputText	id='idadeMinima'
+													maxlength='2'
+													value='#{frenteBean.frenteTemp.idadeMinima}'
+													placeholder='Min.'
+													onkeypress='return teclaNumerica(event.keyCode)'
+													style='	text-align: center;
+															'
+													>
+										<f:facet name='append'>
+											<h:outputText value='ano(s)' />
+										</f:facet>
+									</b:inputText>
+								</td>
+								<td style='	width: 50%;
+											padding-left: 10px;
+											'
+									>
+									<b:inputText	id='idadeMaxima'
+													maxlength='2'
+													value='#{frenteBean.frenteTemp.idadeMaxima}'
+													placeholder='Máx.'
+													onkeypress='return teclaNumerica(event.keyCode)'
+													style='	text-align: center;
+															'
+													>
+										<f:facet name='append'>
+											<h:outputText value='ano(s)' />
+										</f:facet>
+									</b:inputText>
+								</td>
+							</tr>
+						</table>
+					</b:column>
+				</b:row>
+				
+				
+				<b:row>
+					<b:column	col-lg='12'
+								col-md='12'
+								col-sm='12'
+								col-xs='12'
+								>
+						<br/>
+						<h:outputLabel	for='descricao'
+										value='Descrição*'
+										/>
+						<b:inputTextarea	id='descricao'
+											required='true'
+											requiredMessage='Descrição: Campo obrigatório'
+											value='#{frenteBean.frenteTemp.descricao}'
+											maxlength='255'
+											placeholder='Descrição'
+											style='	background-color: #FFFFCC;'
+											/>
+					</b:column>
+				</b:row>
+			</ui:define>
+	</ui:composition>
+
+</html>
