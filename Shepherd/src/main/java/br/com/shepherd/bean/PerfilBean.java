@@ -25,14 +25,17 @@ public class PerfilBean implements Serializable{
 		setPerfil(new Perfil());
 	}
 
-	public void cadastrar(){
+	public String cadastrar(){
 		try{
 			perfilService.cadastrar(perfil);
 			perfil = new Perfil();
 
 			JSFUtil.addInfoMessage("Cadastro de Perfil realizado com sucesso!");
+
+			return "perfilListar";
 		} catch(Exception e){
 			JSFUtil.addWarnMessage(e.getMessage());
+			return "perfilCadastrar";
 		}
 	}
 

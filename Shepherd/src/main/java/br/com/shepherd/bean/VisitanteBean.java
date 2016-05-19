@@ -37,11 +37,11 @@ public class VisitanteBean implements Serializable{
 	//
 	// pessoa = new Pessoa();
 	//
+	// return "visitanteListar";
 	// } catch(Exception e){
 	// JSFUtil.addWarnMessage(e.getMessage());
-	// }
-	//
 	// return "visitanteCadastrar";
+	// }
 	// }
 
 	public void alterar(Pessoa pPessoa){

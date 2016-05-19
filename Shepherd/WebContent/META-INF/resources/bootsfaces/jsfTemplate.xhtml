@@ -22,9 +22,6 @@
 				href='#{facesContext.externalContext.requestContextPath}/resources/font-awesome/css/font-awesome.css'
 				/>
 		<link	rel='stylesheet'
-				href='#{facesContext.externalContext.requestContextPath}/resources/css/styles.css'
-				/>
-		<link	rel='stylesheet'
 				href='#{facesContext.externalContext.requestContextPath}/resources/font-awesome/css/font-awesome.min.css'
 				/>
 		<link	rel='stylesheet'
@@ -32,6 +29,9 @@
 				/>
 		<link	rel="stylesheet"
 				href="#{facesContext.externalContext.requestContextPath}/resources/bootstrap/css/BootSideMenu.css"
+				/>
+		<link	rel='stylesheet'
+				href='#{facesContext.externalContext.requestContextPath}/resources/css/styles.css'
 				/>
 <!--
 		<link	rel='stylesheet'
@@ -45,7 +45,6 @@
 				$('#sidebar').BootSideMenu({side:"left", closed:true});
 			});
 		</script>
-
 
 		<script type='text/javascript' src='#{facesContext.externalContext.requestContextPath}/resources/bootstrap/js/bootstrap-confirmation.js'></script>
 		<script type='text/javascript' src='#{facesContext.externalContext.requestContextPath}/resources/js/scripts.js'></script>
@@ -96,39 +95,6 @@
 								'
 						fluid='true'
 						>
-			<div	id='sidebar'
-					class='hidden-xs'
-					style='	margin-top: 56px;
-							border-radius: 4px;
-							background-color: #000000;
-							'
-					>
-				<div	class='user'
-						style='	text-align: center;
-								'
-						>
-					<img	src="#{facesContext.externalContext.requestContextPath}/resources/genericImages/user-circle.svg"
-							alt="Usuário" class="img-thumbnail"
-							style='	margin: 4px;
-									width: 35%;
-									height: auto;
-									background-color: #333333;
-									'
-							/>
-					
-					<br/>
-					
-					<a	href='' target=''
-						class='navbar-link'
-						>
-						Usuário Logado
-					</a>
-				</div>
-				<b:navbarLinks style='width: 100%;'>
-					<ui:include	src='./menu.xhtml'/>
-				</b:navbarLinks>
-			</div>
-
 			<b:column	col-lg='12'
 						col-md='12'
 						col-sm='12'
@@ -211,6 +177,39 @@
 					</b:container>
 				</h:form>
 			</b:column>
+
+			<div	id='sidebar'
+					class='hidden-xs'
+					style='	margin-top: 56px;
+							border-radius: 4px;
+							background-color: #000000;
+							'
+					>
+				<div	class='user'
+						style='	text-align: center;
+								'
+						>
+					<img	src="#{facesContext.externalContext.requestContextPath}/resources/genericImages/user-circle.svg"
+							alt="Usuário" class="img-thumbnail"
+							style='	margin: 4px;
+									width: 35%;
+									height: auto;
+									background-color: #333333;
+									'
+							/>
+					
+					<br/>
+					
+					<a	href='' target=''
+						class='navbar-link'
+						>
+						Usuário Logado
+					</a>
+				</div>
+				<b:navbarLinks style='width: 100%;'>
+					<ui:include	src='./menu.xhtml'/>
+				</b:navbarLinks>
+			</div>
 		</b:container>
 	</h:body>
 </html>

@@ -42,11 +42,10 @@ public class Membro implements Serializable{
 	@Column(columnDefinition = "timestamp")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date				dataDesligamento;
-
-	// Informaï¿½ï¿½es pessoais do membro
-	@NotNull
-	@OneToOne(fetch = FetchType.EAGER)
-	private Pessoa				pessoa;
+	//
+	// // Informações pessoais do membro
+	// @OneToOne(fetch = FetchType.EAGER, mappedBy = "membro")
+	// private Pessoa pessoa;
 
 	// Flags
 	@NotNull
@@ -73,8 +72,8 @@ public class Membro implements Serializable{
 	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "lideres")
 	private List<Frente>		frentesLideradas;
 
-	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	private Lider				lider;
+	// @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	// private Lider lider;
 
 	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private Usuario				usuario;
@@ -108,7 +107,7 @@ public class Membro implements Serializable{
 
 	// Construtor e afins
 	public Membro(){
-		lider = new Lider();
+		// lider = new Lider();
 	}
 
 	@Override
@@ -171,13 +170,13 @@ public class Membro implements Serializable{
 		dataDesligamento = pDataDesligamento;
 	}
 
-	public Pessoa getPessoa(){
-		return pessoa;
-	}
-
-	public void setPessoa(Pessoa pPessoa){
-		pessoa = pPessoa;
-	}
+//	public Pessoa getPessoa(){
+//		return pessoa;
+//	}
+//
+//	public void setPessoa(Pessoa pPessoa){
+//		pessoa = pPessoa;
+//	}
 
 	public boolean isBaptized(){
 		return isBaptized;
@@ -243,13 +242,13 @@ public class Membro implements Serializable{
 		frentesLideradas = pFrentesLideradas;
 	}
 
-	public Lider getLider(){
-		return lider;
-	}
-
-	public void setLider(Lider pLider){
-		lider = pLider;
-	}
+	// public Lider getLider(){
+	// return lider;
+	// }
+	//
+	// public void setLider(Lider pLider){
+	// lider = pLider;
+	// }
 
 	public Usuario getUsuario(){
 		return usuario;

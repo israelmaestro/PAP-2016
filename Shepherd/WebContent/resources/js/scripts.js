@@ -1,3 +1,9 @@
+function alertarAoDesligar(x, y){
+	if(!x.checked){
+		if(!confirm(y)){x.checked = true;}
+	}
+}
+
 function setTrainee(x){
 	if(x){
 		document.getElementById("input_form:isTrainee").value = false;

@@ -23,7 +23,7 @@ public class CelulaBean implements Serializable{
 	private CelulaService		celulaService;
 
 	private Celula				celula;
-	
+
 	private Celula 				celulaTemp;
 
 	public CelulaBean(){
@@ -38,20 +38,21 @@ public class CelulaBean implements Serializable{
 
 			celula = new Celula();
 
+			return "celulaListar";
 		} catch(Exception e){
 			JSFUtil.addWarnMessage(e.getMessage());
+			return "celulaCadastrar";
 		}
 
-		return "celulaCadastrar";
 	}
 
 	public String prepararAlteracao(Celula pCelula){
-		
+
 		setCelulaTemp(pCelula);
-		
+
 		return "celulaAlterar";
 	}
-	
+
 	public void alterar(Celula pCelula){
 		celulaService.alterar(pCelula);
 

@@ -10,73 +10,130 @@
 		xmlns:ui='http://java.sun.com/jsf/facelets'
 		>
 
-	<ui:composition template='/META-INF/resources/bootsfaces/jsfTemplate.xhtml'>
-	
-			<ui:define name='tituloPagina'>SCO > Lista de Perfis de Acesso</ui:define>
-			<ui:define name='tituloPrincipal'>
-				<i class='fa fa-tags fa-fw' />
-				Lista de Perfis de Acesso
-			</ui:define>
-			<ui:define name='tituloSecundario'>home > perfis de acesso > listar</ui:define>
+	<ui:composition	template='/META-INF/resources/bootsfaces/jsfTemplate.xhtml'>
+		<ui:define name='mensagensCampos'/>
+		<ui:define name='tituloPagina'>Shepherd > Lista de Sedes</ui:define>
+		<ui:define name='tituloPrincipal'>
+			<b:iconAwesome name='fa fa-puzzle-piece fa-fw'/>
+			<br class='visible-xs'/>
+			Lista de Sedes
+		</ui:define>
+		<ui:define name='tituloSecundario'>home > sedes > listar</ui:define>
+		
+		<ui:define name='botoesAcao'>
+			<b:buttonGroup	onload='#{sedeBean.limpar()}'>
+				<b:button	value=''
+							onclick='location.href = "./sedeCadastrar.jsf"'
+							iconAwesome='fa fa-plus fa-fw'
+							/>
+			</b:buttonGroup>
+		</ui:define>
 			
-			<ui:define name='botoesAcao'>
-				<p:commandButton value='Novo' action='./perfilCadastrar.jsf' update='@form'/>
-			</ui:define>
-			
-			<ui:define name='conteudo'>
-				<p:dataTable	class='perfilLista'
-								value='#{perfilBean.listar()}'
-								var='perfil'
-								update='perfilLista'
-								style='	width: 100%;
-										min-width: 640px;'
-								emptyMessage='Não há perfis cadastrados.'
-								>
-					<p:column	headerText='id'
-								filterBy='#{perfil.acesso}'>
-						<center>
-							<h:outputText value='#{perfil.acesso}'/>
-						</center>
-					</p:column>
-					<p:column	headerText='Alterar'
-								style='width: 10%'>
-						<center>
-							<a href='javascript:alert("Implementar \"ALTERAR\"")'>
-								<i class='fa fa-pencil fa-fw'/>
-							</a>
-						</center>
-					</p:column>
-					
-					<p:column	headerText='Excluir'
-								style='width: 10%'>
-						<center>
-							<p:commandButton	update='@form'
-												action='#{perfilBean.excluir(perfil)}'
-												icon='ui-icon-trash'
-												>
-								<p:confirm	header='Excluir'
-											message='Excluir o perfil "#{perfil.acesso}"?'
-											icon='ui-icon-alert'
+		<ui:define name='conteudo'>
+			<p:dataTable	id='sedeLista'
+							value='#{sedeBean.listar()}'
+							var='sede'
+							update='sedeLista'
+							emptyMessage='Nenhuma sede encontrada.'
+							class='pDataTable'
+							paginator='true'
+							widgetVar='sedeLista'
+							filteredValue=''
+							rows='10'
+							paginatorAlwaysVisible='false'
+							rowsPerPageTemplate='10, 50, 100, 200'
+							>
+				<f:facet name='header'>
+					<p:outputPanel>
+						<b:row>
+							<b:column	col-lg='12'
+										col-md='12'
+										col-sm='12'
+										col-xs='12'
+										>
+								<b:inputText	id='filtroGlobal'
+												onkeyup="PF('sedeLista').filter()"
+												placeholder='Pesquisar'	
+												style='	font-family: inherit;
+														font-weight: normal;
+														'
+												/>
+							</b:column>
+						</b:row>
+					</p:outputPanel>
+				</f:facet>
+				<p:column	headerText='Nome'
+							priority='1'
+							>
+					<center>
+						<h:outputText value='#{sedeBean.getProperty("convencaoAbrev")} #{sede.nome}'/>
+					</center>
+				</p:column>
+				
+				<p:column	headerText='Presidente'
+							priority='3'
+							>
+					<center>
+						<h:outputText value='#{sede.presidente == null ? "NENHUM(A)" : sede.presidente}'/>
+					</center>
+				</p:column>
+				
+				<p:column	headerText='Tipo de Sede'
+							priority='2'
+							>
+					<center>
+						<h:outputText value='#{sede.mainChurch == true ? "Mãe" : "Filha"}'/>
+					</center>
+				</p:column>
+				
+				<p:column	headerText='Opções'
+							priority='1'
+							>
+					<center>
+						<p:commandButton	update='@form'
+											onclick='alert("Visualização AINDA NÃO IMPLEMENTADA!")'
+											icon='fa fa-fw fa-eye'
+											alt='Visualizar'
 											/>
-							</p:commandButton>
+						<p:commandButton	ajax='false'
+											action='#{sedeBean.prepararAlteracao(sede)}'
+											icon='fa fa-fw fa-pencil'
+											style='	color: #009900;
+													'
+											alt='Alterar'
+											/>
+						<p:commandButton	update='@form'
+											action='#{sedeBean.excluir(sede)}'
+											icon='fa fa-fw fa-trash'
+											style='	color: #cc0000;
+													'
+											alt='Excluir'
+											>
+							<p:confirm	header='Excluir'
+										message='Excluir a sede “#{sede.nome}”?'
+										icon='ui-icon-blank'
+										/>
+						</p:commandButton>
+					</center>
+					
+					<p:confirmDialog	global='true'
+										closable='false'
+										>
+						<center>
+							<p:commandButton	styleClass='ui-confirmdialog-yes'
+												icon='fa fa-fw fa-check'
+												style='	color: #900;
+														'
+												/>
+							<p:commandButton	styleClass='ui-confirmdialog-no'
+												icon='fa fa-fw fa-close'
+												style='	color: #009;
+														'
+												/>
 						</center>
-						<p:confirmDialog global='true' showEffect='fade' hideEffect='fade'>
-							<center>
-								<p:commandButton	value='Sim'
-													type='button'
-													styleClass='ui-confirmdialog-yes'
-													icon='ui-icon-check'
-													/>
-								<p:commandButton	value='Não'
-													type='button'
-													styleClass='ui-confirmdialog-no'
-													icon='ui-icon-close'
-													/>
-							</center>
-						</p:confirmDialog>
-					</p:column>
-				</p:dataTable>
-			</ui:define>
+					</p:confirmDialog>
+				</p:column>
+			</p:dataTable>
+		</ui:define>
 	</ui:composition>
-
 </html>

@@ -1,4 +1,3 @@
-
 package br.com.shepherd.bean;
 
 import java.io.Serializable;
@@ -25,7 +24,7 @@ public class FrenteBean implements Serializable{
 	private Frente				frente;
 
 	private Frente 				frenteTemp;
-	
+
 	public FrenteBean(){
 		frente = new Frente();
 	}
@@ -38,20 +37,20 @@ public class FrenteBean implements Serializable{
 
 			frente = new Frente();
 
+			return "frenteListar";
 		} catch(Exception e){
 			JSFUtil.addWarnMessage(e.getMessage());
+			return "frenteCadastrar";
 		}
-
-		return "frenteCadastrar";
 	}
 
 	public String prepararAlteracao(Frente pFrente){
-		
+
 		setFrenteTemp(pFrente);
-		
+
 		return "frenteAlterar";
 	}
-	
+
 	public void alterar(Frente pFrente){
 		frenteService.alterar(pFrente);
 

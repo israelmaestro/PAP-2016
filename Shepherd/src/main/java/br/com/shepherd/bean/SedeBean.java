@@ -61,11 +61,11 @@ public class SedeBean implements Serializable{
 
 			sede = new Sede();
 
+			return "sedeListar";
 		} catch(Exception e){
 			JSFUtil.addWarnMessage(e.getMessage());
+			return "sedeCadastrar";
 		}
-
-		return "sedeCadastrar";
 	}
 
 	public String prepararAlteracao(Sede pSede){

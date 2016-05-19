@@ -56,10 +56,11 @@
 								col-md='12'
 								col-sm='12'
 								col-xs='12'
-								style='	margin: 0px;
-										padding: 0px;
-										'
 								>
+						<br/>
+						<h:outputLabel	class='outputLabel'
+										value='Frente tipo'
+										/>
 						<b:switch	value='#{frenteBean.frente.cell}'
 									binding='#{showCellList}'
 									offText='Operacional'
@@ -67,9 +68,6 @@
 									onColor='danger'
 									offColor='primary'
 									switchsize='mini'
-									style='	margin-top: 0px;
-											margin-bottom: 0px;
-											'
 									>
 							<f:ajax event='change' render='@form' />
 						</b:switch>

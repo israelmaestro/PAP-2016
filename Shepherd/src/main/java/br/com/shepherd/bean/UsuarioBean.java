@@ -22,7 +22,7 @@ public class UsuarioBean implements Serializable{
 	private Usuario				usuario;
 
 	private String				confirmacaoSenha;
-	
+
 	private Usuario 			usuarioTemp;
 
 	public UsuarioBean(){
@@ -39,7 +39,7 @@ public class UsuarioBean implements Serializable{
 		return "index";
 	}
 
-	public void cadastrar() throws Exception{
+	public String cadastrar() throws Exception{
 		try{
 
 			if(confirmacaoSenha.equals(usuario.getSenha())){
@@ -48,18 +48,22 @@ public class UsuarioBean implements Serializable{
 			usuario = new Usuario();
 
 			JSFUtil.addInfoMessage("Cadastro de Usuário realizado com sucesso.");
+
+				return "usuarioListar";
 			} else{
 				JSFUtil.addErrorMessage("A senha e a sua confirmação devem ser iguais!");
+				return "usuarioCadastrar";
 			}
 		} catch(Exception e){
 			JSFUtil.addWarnMessage(e.getMessage());
+			return "usuarioCadastrar";
 		}
 	}
 
 	public String prepararAlteracao(Usuario pUsuario){
-		
+
 		setUsuarioTemp(pUsuario);
-		
+
 		return "usuarioAlterar";
 	}
 	

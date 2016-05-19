@@ -27,14 +27,17 @@ public class ComunicadoBean implements Serializable{
 		comunicado = new Comunicado();
 	}
 
-	public void cadastrar(){
+	public String cadastrar(){
 		try{
 			comunicadoService.cadastrar(comunicado);
 			comunicado = new Comunicado();
 
 			JSFUtil.addInfoMessage("Comunicado registrado com sucesso!");
+
+			return "comunicadoListar";
 		} catch(Exception e){
 			JSFUtil.addWarnMessage(e.getMessage());
+			return "comunicadoCadastrar";
 		}
 	}
 

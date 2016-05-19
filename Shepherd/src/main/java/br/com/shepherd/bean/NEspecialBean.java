@@ -20,21 +20,24 @@ public class NEspecialBean implements Serializable{
 	private NEspecialService	nEspecialService;
 
 	private NEspecial			nEspecial;
-	
+
 	private NEspecial			nEspecialTemp;
 
 	public NEspecialBean(){
 		nEspecial = new NEspecial();
 	}
 
-	public void cadastrar(){
+	public String cadastrar(){
 		try{
 			nEspecialService.cadastrar(nEspecial);
 			nEspecial = new NEspecial();
 
 			JSFUtil.addInfoMessage("Cadastro de Necessiade Especial realizado com sucesso!");
+
+			return "nEspecialListar";
 		} catch(Exception e){
 			JSFUtil.addWarnMessage(e.getMessage());
+			return "nEspecialCadastrar";
 		}
 	}
 

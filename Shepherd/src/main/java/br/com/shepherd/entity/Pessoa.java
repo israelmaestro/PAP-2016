@@ -14,6 +14,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -86,7 +87,7 @@ public class Pessoa implements Serializable{
 	private List<Telefone>		telefones;
 
 	// Informações de email
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "sede", cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "pessoa", cascade = CascadeType.ALL)
 	private List<br.com.shepherd.entity.Email>	emails;
 
 	// Flags
@@ -116,22 +117,23 @@ public class Pessoa implements Serializable{
 	private List<Pessoa>		irmaos;
 
 	@OneToOne(fetch = FetchType.LAZY)
+	@PrimaryKeyJoinColumn
 	private Pessoa				conjuge;
 
 	@Column(columnDefinition = "timestamp")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date				dataCasamento;
 
-	// // Informações eclesiásticas
-	// @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	// private Membro membro;
-	//
+	// Informações eclesiásticas
+	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	private Membro								membro;
+
 	// @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	// private Visitante visitante;
 
 	// Construtor e afins
 	public Pessoa(){
-		// membro = new Membro();
+		membro = new Membro();
 		// visitante = new Visitante();
 		telefones = new ArrayList<Telefone>();
 		emails = new ArrayList<Email>();
@@ -381,13 +383,13 @@ public class Pessoa implements Serializable{
 		dataCasamento = pDataCasamento;
 	}
 
-	// public Membro getMembro(){
-	// return membro;
-	// }
-	//
-	// public void setMembro(Membro pMembro){
-	// membro = pMembro;
-	// }
+	public Membro getMembro(){
+		return membro;
+	}
+
+	public void setMembro(Membro pMembro){
+		membro = pMembro;
+	}
 	//
 	// public Visitante getVisitante(){
 	// return visitante;

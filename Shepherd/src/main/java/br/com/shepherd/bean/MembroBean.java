@@ -58,11 +58,11 @@ public class MembroBean implements Serializable{
 
 			pessoa = new Pessoa();
 
+			return "membroListar";
 		} catch(Exception e){
 			JSFUtil.addWarnMessage(e.getMessage());
+			return "membroCadastrar";
 		}
-
-		return "membroCadastrar";
 	}
 
 	public void alterar(Pessoa pPessoa){

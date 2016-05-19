@@ -62,20 +62,20 @@
 								col-xs='12'
 								>
 						<br/>
-						<b:selectOneMenu	id='sede'
-											label='Sede'
+						<h:outputLabel	class='outputLabel' for='sede' value='Sede' />
+						<h:selectOneMenu	id='sede'
 											value='#{comunicadoBean.comunicado.sede}'
 											converter='omnifaces.SelectItemsConverter'
-											enableFiltering='true'
-											filterPlaceholder='Procurar'
-											nonSelectedText='Selecione'
-											disableIfEmpty='true'
+											class='hSelectOneMenu'
+											required='true'
+											requiredMessage='Sede: Campo obrigatório!'
 											>
-							<f:selectItem itemLabel='Selecione' itemDisabled='true'/>
+							<f:ajax event='change' render='@this'/>
+							<f:selectItem itemLabel='Selecione' noSelectionOption='true'/>
 							<f:selectItems	value='#{sedeBean.listar()}' var='sede'
 											itemLabel='#{sede.nome}'
 											/>
-						</b:selectOneMenu>
+						</h:selectOneMenu>
 					</b:column>
 				</b:row>
 
@@ -104,7 +104,6 @@
 						<p:editor	id='conteudo'
 									widgetVar='conteudoWidget'
 									value='#{comunicadoBean.comunicado.conteudo}'
-									maxlength='10000'
 									/>
 					</b:column>
 				</b:row>

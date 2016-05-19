@@ -36,6 +36,11 @@
 			<b:message for='pais' />
 			<b:message for='tbTelefones'/>
 			<b:message for='tbEmails' />
+			<b:message for='membroCelula' />
+			<b:message for='dataMembresia' />
+			<b:message for='diretoriaCargo' />
+			<b:message for='dataDiretoriaPosse' />
+			<b:message for='dataDiretoriaEntrega' />
 			<br/>
 		</ui:define>
 		
@@ -161,7 +166,6 @@
 										placeholder='Nome'
 										/>
 					</b:column>
-						
 					<b:column	col-lg='3'
 								col-md='3'
 								col-sm='6'
@@ -178,7 +182,6 @@
 										placeholder='Sobrenome'
 										/>
 					</b:column>
-						
 					<b:column	col-lg='3'
 								col-md='4'
 								col-sm='6'
@@ -191,7 +194,6 @@
 										value='#{membroBean.membro.dataNasc}'
 										/>
 					</b:column>
-						
 					<b:column	col-lg='3'
 								col-md='2'
 								col-sm='6'
@@ -346,13 +348,14 @@
 							<br/>
 							<h:outputLabel	class='outputLabel' for='irmaos' value='Irmãos' />
 							<p:selectCheckboxMenu	id="irmaos"
-													label='Selecione'
+													label='#{membroBean.membro.irmaos.size() == 0 ? "Selecione" : (membroBean.membro.irmaos.size())} #{membroBean.membro.irmaos.size() == 0 ? "" : "irmão(s) selecionado(s)"}'
 													value="#{membroBean.membro.irmaos}"
 													converter="omnifaces.SelectItemsConverter"
 													filter="true"
 													filterMatchMode="contains"
 													showCheckbox="true"
 													>
+								<f:ajax event='change' render='@this' />
 								<f:selectItems	value='#{membroBean.listarExcluindo(membroBean.membro.pai, membroBean.membro.mae)}'
 												var='membrsIrmaos'
 												itemLabel='#{membrsIrmaos.nome} #{membrsIrmaos.sobrenome}'
@@ -437,7 +440,8 @@
 								<td	style='	vertical-align: bottom;
 											text-align: right;
 											line-height: 1px;
-											 margin: 0px; padding: 0px;'
+											margin: 0px;
+											padding: 0px;'
 									>
 									<b:switch	value='#{membroBean.membro.gpsAddress}'
 												label=''
@@ -777,6 +781,260 @@
 						</b:iconAwesome>
 					</b:column>
 				</b:row>
+				
+				<br/>
+				
+				<b:row	style='	border-top: solid;
+								width: 100%;
+								border-color: #CCCCCC;
+								margin: 0px;
+								padding: 0px;
+								'>
+					<table style='width: 100%;'>
+						<tr>
+							<td	style='	vertical-align: bottom;'>
+								<h3>
+									<b:iconAwesome name="fa fa-fw fa-users"/>
+									Membresia
+								</h3>
+							</td>
+							<td	style='	line-height: 1px;
+										color: #336;
+										min-width: 24px;
+										max-width: 24px;
+										'
+								>
+<!-- 								<b:switch	value='#{membroBean.membro.membro.directoryMember}' -->
+<!-- 											label='' -->
+<!-- 											offText='Normal' -->
+<!-- 											onText='Diretoria' -->
+<!-- 											onColor='danger' -->
+<!-- 											offColor='primary' -->
+<!-- 											switchsize='mini' -->
+<!-- 											binding='#{showDirectoryForm}' -->
+<!-- 											> -->
+<!-- 									<f:ajax event='change' render='@form' /> -->
+<!-- 								</b:switch> -->
+								<b:iconAwesome	name='fa-legal'
+													tooltip='Membro da diretoria / conselho fiscal'
+													onclick='alert("Selecione esta opção caso o membro pertença à diretoria ou ao conselho fiscal.")'
+													style='	border-radius: 100%;
+															background-color: #CCCCFF;
+															margin-left: -5px;
+															padding: 3.5px;
+															'
+													/>
+								<b:selectBooleanCheckbox	id='directoryCheckBox'
+															binding='#{showDirectoryForm}'
+															value='#{membroBean.membro.membro.directoryMember}'
+															style='	margin-left: 0px;'
+															>
+									<f:ajax event='change' render='@form' />
+								</b:selectBooleanCheckbox>
+							</td>
+							<td	style='	line-height: 1px;
+										color: #090;
+										max-width: 24px;
+										'
+								>
+								<b:iconAwesome	name='fa-thumbs-up'
+													tooltip='Líder de célula'
+													onclick='alert("Selecione esta opção caso o membro seja líder de célula.")'
+													style='	border-radius: 100%;
+															background-color: #CCFFCC;
+															margin-left: -5px;
+															padding: 3.5px;
+															'
+													/>
+								<b:selectBooleanCheckbox	id='celLeaderCheckBox'
+															value='#{membroBean.membro.membro.directoryMember}'
+															binding='#{showLeaderForm}'
+															onchange='setTrainee(#{!showLeaderForm.value})'
+															style='	margin-left: 0px;'
+															>
+									<f:ajax event='change' render='@form' />
+								</b:selectBooleanCheckbox>
+							</td>
+						</tr>
+					</table>
+				</b:row>
+				<b:row>
+					<b:column	rendered='#{!showPresidentForm.value}'
+										col-lg='3'
+										col-md='3'
+										col-sm='6'
+										col-xs='12'
+										>
+						<br/>
+						<h:outputLabel	class='outputLabel' for='membroCelula' value='Célula' />
+						<h:selectOneMenu	id='membroCelula'
+											value='#{membroBean.membro.membro.celula}'
+											converter='omnifaces.SelectItemsConverter'
+											class='hSelectOneMenu'
+											required='true'
+											requiredMessage='Célula: Campo obrigatório!'
+											>
+							<f:selectItem	itemLabel='Selecione'
+											noSelectionOption='true'
+											/>
+							<f:selectItems	value='#{celulaBean.listar()}'
+											var='membroCelula'
+											itemLabel='#{membroCelula.nome} (#{membroCelula.sede.nome}#{membroCelula.sede.mainChurch ? "*" : ""})'
+											/>
+						</h:selectOneMenu>
+					</b:column>
+					<b:column	col-lg='4'
+								col-md='4'
+								col-sm='6'
+								col-xs='12'
+								>
+						<br/>
+						<h:outputLabel	for='dataMembresia'
+										value='Data da membresia'
+										class='outputLabel'
+										/>
+						<b:datepicker 	id='dataMembresia'
+										placeholder='DD/MM/AAAA'
+										value='#{membroBean.membro.membro.dataMembresia}'
+										/>
+					</b:column>
+				</b:row>
+				
+				
+				
+				
+				
+				
+				
+				<b:container	rendered='#{showDirectoryForm.value}'
+								style='	width: 100%;
+										margin: 0px;
+										padding: 0px;
+										'
+								>
+					<br/>
+					<b:row	style='	border-top: solid;
+							width: 100%;
+							border-color: #CCCCCC;
+							margin: 0px;
+							padding: 0px;
+							'>
+						<table style='width: 100%;'>
+							<tr>
+								<td	style='	vertical-align: bottom;'>
+									<h3>
+										<b:iconAwesome name="fa fa-fw fa-legal"/>
+										<br class='visible-xs'/>
+										Diretoria / <br class='visible-xs'/>
+										Conselho Fiscal
+									</h3>
+								</td>
+								<td	style='	vertical-align: bottom;
+											text-align: right;
+											line-height: 1px;
+											margin: 0px;
+											padding: 0px;'
+									>
+									<b:switch	id='directoryStatusChanger'
+												value='#{showDirectoryForm.value}'
+												label=''
+												offText='Inativo'
+												onText='Ativo'
+												onColor='danger'
+												offColor='primary'
+												switchsize='mini'
+												binding='#{directoryStatus}'
+												onchange='alertarAoDesligar(this, "Ao tornar inativo, o membro deixa de pertencer à diretoria, mantendo as informações atuais como histórico. Deseja continuar?")'
+												>
+										<f:ajax event='change' render='@form' />
+									</b:switch>
+								</td>
+							</tr>
+						</table>
+					</b:row>
+					<b:row>
+						<b:column	col-lg='4'
+									col-md='4'
+									col-sm='6'
+									col-xs='12'
+									>
+							<br/>
+							<h:outputLabel	class='outputLabel' for='diretoriaCargo' value='Cargo' />
+							<h:selectOneMenu	id='diretoriaCargo'
+												value='#{membroBean.membro.membro.diretoriaCargo}'
+												class='hSelectOneMenu'
+												>
+								<f:selectItem	itemLabel='Selecione'
+												noSelectionOption='false'
+												/>
+								<f:selectItem	itemLabel='Presidente'
+												itemValue='Presidente'
+												/>
+								<f:selectItem	itemLabel='Vice-Presidente'
+												itemValue='Vice-Presidente'
+												/>
+								<f:selectItem	itemLabel='1º Tesoureiro'
+												itemValue='1º Tesoureiro'
+												/>
+								<f:selectItem	itemLabel='2º Tesoureiro'
+												itemValue='2º Tesoureiro'
+												/>
+								<f:selectItem	itemLabel='1º Secretário'
+												itemValue='1º Secretário'
+												/>
+								<f:selectItem	itemLabel='2º Secretário'
+												itemValue='2º Secretário'
+												/>
+								<f:selectItem	itemLabel='Presidente (Conselho Fiscal)'
+												itemValue='Presidente (Conselho Fiscal)'
+												/>
+								<f:selectItem	itemLabel='1º Membro (Diretoria)'
+												itemValue='1º Membro (Diretoria)'
+												/>
+								<f:selectItem	itemLabel='2º Membro (Diretoria)'
+												itemValue='2º Membro (Diretoria)'
+												/>
+								<f:selectItem	itemLabel='3º Membro (Assembléia)'
+												itemValue='3º Membro (Assembléia)'
+												/>
+								<f:selectItem	itemLabel='4º Membro (Assembléia)'
+												itemValue='4º Membro (Assembléia)'
+												/>
+							</h:selectOneMenu>
+						</b:column>
+						<b:column	col-lg='4'
+									col-md='4'
+									col-sm='6'
+									col-xs='12'
+									>
+							<br/>
+							<h:outputLabel	for='dataDiretoriaPosse'
+											value='Data da posse'
+											class='outputLabel'
+											/>
+							<b:datepicker 	id='dataDiretoriaPosse'
+											placeholder='DD/MM/AAAA'
+											value='#{membroBean.membro.membro.dataDiretoriaEntrada}'
+											/>
+						</b:column>
+						<b:column	col-lg='4'
+									col-md='4'
+									col-sm='6'
+									col-xs='12'
+									rendered='#{!directoryStatus.value}'
+									>
+							<br/>
+							<h:outputLabel	for='dataDiretoriaEntrega'
+											value='Data da entrega'
+											class='outputLabel'
+											/>
+							<b:datepicker 	id='dataDiretoriaEntrega'
+											placeholder='DD/MM/AAAA'
+											value='#{membroBean.membro.membro.dataDiretoriaSaida}'
+											/>
+						</b:column>
+					</b:row>
+				</b:container>
 			</div>
 		</ui:define>
 	</ui:composition>
