@@ -103,8 +103,8 @@
 											icon='fa fa-fw fa-eye'
 											alt='Visualizar'
 											/>
-						<p:commandButton	update='nEspecialLista'
-											onclick='alert("ALTERAÇÃO AINDA NÃO IMPLEMENTADA!")'
+						<p:commandButton	ajax='false'
+											action='#{nEspecialBean.prepararAlteracao(nEspecial)}'
 											icon='fa fa-fw fa-pencil'
 											style='	color: #009900;
 													'
