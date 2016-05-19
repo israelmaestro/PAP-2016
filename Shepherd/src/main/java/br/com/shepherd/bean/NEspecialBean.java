@@ -20,6 +20,8 @@ public class NEspecialBean implements Serializable{
 	private NEspecialService	nEspecialService;
 
 	private NEspecial			nEspecial;
+	
+	private NEspecial			nEspecialTemp;
 
 	public NEspecialBean(){
 		nEspecial = new NEspecial();
@@ -36,6 +38,13 @@ public class NEspecialBean implements Serializable{
 		}
 	}
 
+	public String prepararAlteracao(NEspecial pNEspecial){
+		
+		setNEspecialTemp(pNEspecial);
+		
+		return "nEspecialAlterar";
+	}
+	
 	public void alterar(NEspecial pNEspecial){
 		nEspecialService.alterar(pNEspecial);
 
@@ -58,5 +67,13 @@ public class NEspecialBean implements Serializable{
 
 	public void setNEspecial(NEspecial pNEspecial){
 		nEspecial = pNEspecial;
+	}
+
+	public NEspecial getNEspecialTemp() {
+		return nEspecialTemp;
+	}
+
+	public void setNEspecialTemp(NEspecial pNEspecialTemp) {
+		nEspecialTemp = pNEspecialTemp;
 	}
 }

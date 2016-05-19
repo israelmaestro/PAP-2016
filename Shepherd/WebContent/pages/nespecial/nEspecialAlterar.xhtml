@@ -1,0 +1,120 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html	xmlns='http://www.w3.org/1999/xhtml'
+		xmlns:b='http://bootsfaces.net/ui'
+		xmlns:btr='http://butterfaces.larmic.de/components'
+		xmlns:f='http://java.sun.com/jsf/core'
+		xmlns:h='http://java.sun.com/jsf/html'
+		xmlns:p='http://primefaces.org/ui'
+		xmlns:pm='http://primefaces.org/mobile'
+		xmlns:pt='http://xmlns.jcp.org/jsf/passthrough'
+		xmlns:ui='http://java.sun.com/jsf/facelets'
+		>
+
+	<ui:composition template='/META-INF/resources/bootsfaces/jsfTemplate.xhtml'>
+	
+			<ui:define name='mensagensCampos'>
+				<p:message for='nome'/>
+				<p:message for='tipo'/>
+				<p:message for='descricao'/>
+				<br/>
+			</ui:define>
+			<ui:define name='tituloPagina'>Shepherd > Alterar Necessidade Especial</ui:define>
+			<ui:define name='tituloPrincipal'>
+				<i class='fa fa-wheelchair fa-fw' />
+				Alterar Necessidade Especial
+			</ui:define>
+			<ui:define name='tituloSecundario'>
+				home > necessidades especiais > alterar
+			</ui:define>
+			
+			<ui:define name='botoesAcao'>
+				<b:buttonGroup>
+					<b:button	value=''
+								onclick='location.href = "./nEspecialListar.jsf"'
+								iconAwesome='fa fa-arrow-left fa-fw'
+								/>
+					<btr:commandLink	action='#{nEspecialBean.prepararAlteracao(nEspecialBean.NEspecialTemp)}'
+										styleClass='btn btn-default'
+										>
+						<b:iconAwesome name='fa fa-check fa-fw'/>
+					</btr:commandLink>
+					<b:button	value=''
+								iconAwesome='fa fa-eraser fa-fw'
+								onclick='location.href = "./nEspecialAlterar.jsf"'/>
+				</b:buttonGroup>
+			</ui:define>
+			
+			<ui:define name='conteudo'>
+				<b:row>
+					<b:column	col-lg='12'
+								col-md='12'
+								col-sm='12'
+								col-xs='12'
+								style='	margin: 0px;
+										padding: 0px;
+										'
+								>
+						<b:switch	value='#{nEspecialBean.NEspecialTemp.deficiencia}'
+									offText='Outra'
+									onText='Deficiência'
+									onColor='danger'
+									offColor='primary'
+									switchsize='mini'
+									style='	margin-top: 0px;
+											margin-bottom: 0px;
+											'
+									/>
+					</b:column>
+				</b:row>
+				<b:row>
+					<b:column	col-lg='6'
+								col-md='6'
+								col-sm='6'
+								col-xs='12'
+								>
+						<br/>
+						<h:outputLabel	for='nome'
+										value='Nome'/>
+						<b:inputText	id='nome'
+										required='true'
+										requiredMessage='Nome: Campo obrigatório'
+										value='#{nEspecialBean.NEspecialTemp.nome}'
+										placeholder='Nome'
+										/>
+					</b:column>
+					<b:column	col-lg='6'
+								col-md='6'
+								col-sm='6'
+								col-xs='12'
+								>
+						<br/>
+						<h:outputLabel	for='tipo'
+										value='Tipo'/>
+						<b:inputText	id='tipo'
+										value='#{nEspecialBean.NEspecialTemp.tipo}'
+										autocomplete='true'
+										placeholder='Tipo'
+										label='Tipo'
+										/>
+					</b:column>
+				</b:row>
+				
+				<b:row>
+					<b:column	col-lg='12'
+								col-md='12'
+								col-sm='12'
+								col-xs='12'
+								>
+						<br/>
+						<h:outputLabel	for='descricao'
+										value='Descrição'/>
+						<b:inputTextarea	id='descricao'
+											value='#{nEspecialBean.NEspecialTemp.descricao}'
+											maxlength='255'
+											placeholder='Descrição'
+											/>
+					</b:column>
+				</b:row>
+			</ui:define>
+	</ui:composition>
+</html>

@@ -22,6 +22,8 @@ public class UsuarioBean implements Serializable{
 	private Usuario				usuario;
 
 	private String				confirmacaoSenha;
+	
+	private Usuario 			usuarioTemp;
 
 	public UsuarioBean(){
 		usuario = new Usuario();
@@ -54,6 +56,13 @@ public class UsuarioBean implements Serializable{
 		}
 	}
 
+	public String prepararAlteracao(Usuario pUsuario){
+		
+		setUsuarioTemp(pUsuario);
+		
+		return "usuarioAlterar";
+	}
+	
 	public void alterar(Usuario pUsuario){
 		usuarioService.alterar(pUsuario);
 
@@ -84,5 +93,13 @@ public class UsuarioBean implements Serializable{
 
 	public void setConfirmacaoSenha(String pConfirmacaoSenha){
 		confirmacaoSenha = pConfirmacaoSenha;
+	}
+
+	public Usuario getUsuarioTemp() {
+		return usuarioTemp;
+	}
+
+	public void setUsuarioTemp(Usuario pUsuarioTemp) {
+		usuarioTemp = pUsuarioTemp;
 	}
 }

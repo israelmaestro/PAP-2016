@@ -43,9 +43,13 @@
 					<p:column	headerText='Alterar'
 								style='width: 10%'>
 						<center>
-							<a href='javascript:alert("Implementar \"ALTERAR\"")'>
-								<i class='fa fa-pencil fa-fw'/>
-							</a>
+							<p:commandButton 	ajax='false'
+												action='#{usuarioBean.prepararAlteracao(usuario)}'
+												icon='fa fa-fw fa-pencil'
+												style=' color: #009900;
+													'
+												alt='Alterar'
+												/>
 						</center>
 					</p:column>
 					

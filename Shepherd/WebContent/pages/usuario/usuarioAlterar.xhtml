@@ -1,0 +1,166 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html	xmlns='http://www.w3.org/1999/xhtml'
+		xmlns:b='http://bootsfaces.net/ui'
+		xmlns:btr='http://butterfaces.larmic.de/components'
+		xmlns:f='http://java.sun.com/jsf/core'
+		xmlns:h='http://java.sun.com/jsf/html'
+		xmlns:p='http://primefaces.org/ui'
+		xmlns:pm='http://primefaces.org/mobile'
+		xmlns:pt='http://xmlns.jcp.org/jsf/passthrough'
+		xmlns:ui='http://java.sun.com/jsf/facelets'
+		>
+
+	<ui:composition template='/META-INF/resources/bootsfaces/jsfTemplate.xhtml'>
+	
+			<ui:define name='mensagensCampos'>
+				<b:message for='conta' />
+				<b:message for='senha' />
+				<b:message for='confirmarSenha' />
+				<b:message for='perfil' />
+				<b:message for='pessoa' />
+				<br/>
+			</ui:define>
+			
+			<ui:define name='tituloPagina'>Shepherd > Alterar Usuário</ui:define>
+			<ui:define name='tituloPrincipal'>
+				<i class='fa fa-user-secret fa-fw' />
+				Alterar Usuário
+			</ui:define>
+			<ui:define name='tituloSecundario'>home > usuários > alterar</ui:define>
+			
+			<ui:define name='botoesAcao'>
+				<b:buttonGroup>
+					<b:button	value=''
+								onclick='location.href = "./usuarioListar.jsf"'
+								iconAwesome='fa fa-arrow-left fa-fw'
+								/>
+					<btr:commandLink	action='#{usuarioBean.alterar(usuarioBean.usuarioTemp)}'
+										styleClass='btn btn-default'
+										>
+						<b:iconAwesome name='fa fa-check fa-fw'/>
+					</btr:commandLink>
+					<b:button	value=''
+								iconAwesome='fa fa-eraser fa-fw'
+								onclick='location.href = "./usuarioAlterar.jsf"'/>
+				</b:buttonGroup>
+			</ui:define>
+			
+			<ui:define name='conteudo'>
+			
+				<div	style='	margin-left: 0px;
+							margin-right: 0px;
+							padding-left: 0px;
+							'
+						>
+					<b:row>
+						<b:column span='12'>
+							<h3>
+								<b:iconAwesome name="fa fa-fw fa-key"/>
+								<br class='visible-xs'/>
+								Informações de <br class='visible-xs'/>conta e senha
+							</h3>
+						</b:column>
+					</b:row>
+					<b:row>
+						<b:column 	col-lg='4'
+									col-md='4'
+									col-sm='4'
+									col-xs='12'
+									>
+							<br/>
+							<h:outputLabel	for='conta'
+											value='Conta*'
+											/>
+							<b:inputText	id='conta'
+											required='true'
+											requiredMessage='Conta: Campo obrigatório'
+											value='#{usuarioBean.usuarioTemp.conta}'
+											maxlength='8'
+											style='background-color: #FFFFCC'
+											placeholder='Conta'
+											/>
+						</b:column>
+						<b:column 	col-lg='4'
+									col-md='4'
+									col-sm='4'
+									col-xs='12'
+									>
+							<br/>
+							<h:outputLabel value='Senha' />
+							<b:inputSecret	id='senha'
+											value='#{usuarioBean.usuario.senha}'
+											required='true'
+											requiredMessage='Senha: Campo obrigatório'
+											maxlength='32'
+											/>
+						</b:column>
+						<b:column 	col-lg='4'
+									col-md='4'
+									col-sm='4'
+									col-xs='12'
+									>
+							<br/>
+							<h:outputLabel	for='confirmarSenha'
+											value='Confirmar senha'
+											/>
+							<b:inputSecret	id='confirmarSenha'
+											value='#{usuarioBean.confirmacaoSenha}'
+											required='true'
+											requiredMessage='Confirmar senha: Campo obrigatório'
+											maxlength='32'
+											/>
+						</b:column>
+					</b:row>
+					
+					<br/>
+					
+					<b:row	style='	border-top: solid;
+								width: 100%;
+								border-color: #CCCCCC;
+								margin: 0px;
+								padding: 0px;
+								'>
+						
+							<h3>
+								<b:iconAwesome name="fa fa-fw fa-tags"/>
+								<br class='visible-xs'/>
+								Informações de perfil
+							</h3>
+					</b:row>
+					<b:row>
+						<b:column 	col-lg='3'
+									col-md='3'
+									col-sm='6'
+									col-xs='12'
+									>
+							<br/>
+							<h:outputLabel	for='perfil'
+											value='Perfil' />
+							<b:selectOneMenu id='perfil'>
+								<f:selectItem itemValue='admin' itemLabel='Administrador' />
+								<f:selectItem itemValue='func' itemLabel='Funcionário' />
+								<f:selectItem itemValue='parent' itemLabel='Responsável' />
+							</b:selectOneMenu>
+						</b:column>
+						<b:column 	col-lg='3'
+									col-md='3'
+									col-sm='6'
+									col-xs='12'
+									>
+							<br/>
+							<h:outputLabel	for='pessoa'
+											value='Atribuir' />
+							<b:selectOneMenu id='pessoa'>
+								<f:selectItem itemValue='' itemLabel='Selecione' />
+							</b:selectOneMenu>
+						</b:column>
+					</b:row>
+				</div>
+			
+				<h:panelGrid columns='3'>
+
+				</h:panelGrid>
+			</ui:define>
+	</ui:composition>
+
+</html>

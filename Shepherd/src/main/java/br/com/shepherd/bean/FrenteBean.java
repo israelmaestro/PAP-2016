@@ -1,7 +1,6 @@
 
 package br.com.shepherd.bean;
 
-import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;
 

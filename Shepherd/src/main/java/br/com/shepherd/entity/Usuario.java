@@ -31,14 +31,14 @@ public class Usuario implements Serializable{
 	@Column(length = 32)
 	private String				senha;
 
-	@OneToOne(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+	@OneToOne(fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
 	private Perfil				perfil;
 
 	// @NotNull
-	@OneToOne(fetch = FetchType.LAZY)
+	@OneToOne(fetch = FetchType.EAGER)
 	private Membro				membro;
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "autor")
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "autor")
 	private List<Comunicado>	comunicados;
 
 	public Usuario(){
