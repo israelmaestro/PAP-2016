@@ -1,0 +1,162 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html	xmlns='http://www.w3.org/1999/xhtml'
+		xmlns:b='http://bootsfaces.net/ui'
+		xmlns:btr='http://butterfaces.larmic.de/components'
+		xmlns:f='http://java.sun.com/jsf/core'
+		xmlns:h='http://java.sun.com/jsf/html'
+		xmlns:p='http://primefaces.org/ui'
+		xmlns:pm='http://primefaces.org/mobile'
+		xmlns:pt='http://xmlns.jcp.org/jsf/passthrough'
+		xmlns:ui='http://java.sun.com/jsf/facelets'
+		>
+
+	<ui:composition template='/META-INF/resources/bootsfaces/jsfTemplate.xhtml'>
+		<ui:define name='mensagensCampos'/>
+		<ui:define name='tituloPagina'>Shepherd > Lista de Membros</ui:define>
+		<ui:define name='tituloPrincipal'>
+			<b:iconAwesome name='fa fa-wheelchair fa-fw'/>
+			<br class='visible-xs'/>
+			Lista de Membros
+		</ui:define>
+		<ui:define name='tituloSecundario'>home > membros > listar</ui:define>
+		
+		<ui:define name='botoesAcao'>
+			<b:buttonGroup>
+				<b:button	value=''
+							onclick='location.href = "./membroCadastrar.jsf"'
+							iconAwesome='fa fa-plus fa-fw'
+							/>
+			</b:buttonGroup>
+		</ui:define>
+		
+		<ui:define name='conteudo'>
+			<b:container	rendered='#{membroBean.listar().size() == 0}'
+							style='	background-color: #FFC;
+									border: solid #C90;
+									border-radius: 8px;
+									text-align: top;
+									padding: 32px 8px 32px 8px;
+									font-size: xx-large;
+									font-weight: bold;
+									'
+							>
+				<center>
+						Lista vazia!
+				</center>
+			</b:container>
+
+			<p:dataTable	id='membroLista'
+							value='#{membroBean.listar()}'
+							var='membro'
+							update='@form'
+							emptyMessage='Nenhum membro encontrado.'
+							class='pDataTable'
+							rendered='#{membroBean.listar().size() != 0}'
+							paginator='true'
+							widgetVar='membroLista'
+							filteredValue=''
+							rows='10'
+							paginatorAlwaysVisible='false'
+							rowsPerPageTemplate='10, 50, 100, 200'
+							>
+				<f:facet name='header'>
+					<p:outputPanel>
+						<b:row>
+							<b:column	col-lg='12'
+										col-md='12'
+										col-sm='12'
+										col-xs='12'
+										>
+								<b:inputText	id='filtroGlobal'
+												onkeyup="PF('membroLista').filter()"
+												placeholder='Pesquisar'	
+												style='	font-family: inherit;
+														font-weight: normal;
+														'
+												/>
+							</b:column>
+						</b:row>
+					</p:outputPanel>
+				</f:facet>
+				<p:column	headerText='Nome'
+							priority='1'
+							>
+					<center>
+						<h:outputText value='#{membro.nome} #{membro.sobrenome}'/>
+					</center>
+				</p:column>
+				<p:column	headerText='Célula'
+							priority='2'
+							>
+					<center>
+						<h:outputText value='#{membro.membro.celula.nome}'/>
+					</center>
+				</p:column>
+				
+				<p:column	headerText='Frente'
+							priority='3'
+							>
+					<center>
+						<h:outputText value='#{membro.membro.celula.frente.nome}'/>
+					</center>
+				</p:column>
+
+				<p:column	headerText='Sede'
+							priority='4'
+							>
+					<center>
+						<h:outputText value='#{membro.membro.celula.sede.nome}'/>
+					</center>
+				</p:column>
+				
+				<p:column	headerText='Opções'
+							priority='1'
+							>
+					<center>
+						<p:commandButton	update='@form'
+											onclick='alert("Visualização AINDA NÃO IMPLEMENTADA!")'
+											icon='fa fa-fw fa-eye'
+											alt='Visualizar'
+											/>
+						<p:commandButton	update='@form'
+											onclick='alert("ALTERAÇÃO AINDA NÃO IMPLEMENTADA!")'
+											icon='fa fa-fw fa-pencil'
+											style='	color: #009900;
+													'
+											/>
+						<p:commandButton	update='@form'
+											action='#{membroBean.excluir(membro)}'
+											icon='fa fa-fw fa-trash'
+											style='	color: #cc0000;
+													'
+											>
+							<p:confirm	header='Excluir'
+										message='Excluir o membro “#{membro.nome} #{membro.sobrenome}”?'
+										icon='ui-icon-blank'
+										/>
+						</p:commandButton>
+					</center>
+					
+					<p:confirmDialog	global='true'
+										closable='false'
+										>
+						<center>
+							<p:commandButton	styleClass='ui-confirmdialog-yes'
+												icon='fa fa-fw fa-check'
+												update='membroLista'
+												style='	color: #900;
+														'
+												/>
+							<p:commandButton	styleClass='ui-confirmdialog-no'
+												icon='fa fa-fw fa-close'
+												update='membroLista'
+												style='	color: #009;
+														'
+												/>
+						</center>
+					</p:confirmDialog>
+				</p:column>
+			</p:dataTable>
+		</ui:define>
+	</ui:composition>
+</html>
