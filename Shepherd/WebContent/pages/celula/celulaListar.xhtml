@@ -108,7 +108,7 @@
 							priority='2'
 							>
 					<center>
-						<h:outputText value='#{celula.sede.nome}#{celula.sede.mainChurch ? "*" : ""}'/>
+						<h:outputText value='#{sedeBean.getProperty("convencaoAbrev")} #{celula.sede.nome}#{celula.sede.mainChurch ? "*" : ""}'/>
 					</center>
 				</p:column>
 				
@@ -120,13 +120,15 @@
 											onclick='alert("Visualização AINDA NÃO IMPLEMENTADA!")'
 											icon='fa fa-fw fa-eye'
 											alt='Visualizar'
+											disabled='true'
 											/>
 						<p:commandButton	ajax='false'
 											action='#{celulaBean.prepararAlteracao(celula)}'
 											icon='fa fa-fw fa-pencil'
+											alt='Alterar'
+											disabled='true'
 											style='	color: #009900;
 													'
-											alt='Alterar'
 											/>
 						<p:commandButton	update='@form'
 											action='#{celulaBean.excluir(celula)}'

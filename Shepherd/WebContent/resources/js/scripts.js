@@ -1,6 +1,14 @@
+function requiredField(id){
+	document.getElementById(id).style.backgroundColor = "#FFC";
+}
+
 function alertarAoDesligar(x, y){
 	if(!x.checked){
-		if(!confirm(y)){x.checked = true;}
+		if(confirm(y)){
+			x.checked = false;
+		} else{
+			x.checked = true;
+		}
 	}
 }
 

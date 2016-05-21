@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
@@ -35,17 +34,14 @@ public class Frente implements Serializable{
 
 	// TODO: Devolver a anotação quando o membro for implementado.
 	// @NotNull
-	@ManyToMany(fetch = FetchType.EAGER)
+	@ManyToMany // (fetch = FetchType.EAGER)
 	private List<Membro>		lideres;
 
-	@ManyToMany(fetch = FetchType.EAGER, mappedBy = "frentesParticipadas")
+	@ManyToMany(/* fetch = FetchType.EAGER, */ mappedBy = "frentesParticipadas")
 	private List<Membro>		participantes;
 
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "frente")
+	@OneToMany(/* fetch = FetchType.EAGER, */ mappedBy = "frente")
 	private List<Celula>		celulas;
-
-	// TODO: Refazer o formulário para ficar com os mesmos padrões que o
-	// formulário de Sede, incluindo os campo novos
 
 	private Integer				idadeMinima;
 

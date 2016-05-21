@@ -116,20 +116,22 @@
 											onclick='alert("Visualização AINDA NÃO IMPLEMENTADA!")'
 											icon='fa fa-fw fa-eye'
 											alt='Visualizar'
+											disabled='true'
 											/>
 						<p:commandButton	update='@form'
 											onclick='alert("ALTERAÇÃO AINDA NÃO IMPLEMENTADA!")'
 											icon='fa fa-fw fa-pencil'
+											alt='Alterar'
 											style='	color: #009900;
 													'
-											alt='Alterar'
+											disabled='true'
 											/>
 						<p:commandButton	update='@form'
 											action='#{comunicadoBean.excluir(comunicado)}'
 											icon='fa fa-fw fa-trash'
+											alt='Excluir'
 											style='	color: #cc0000;
 													'
-											alt='Excluir'
 											>
 							<p:confirm	header='Excluir'
 										message='Excluir o comunicado “#{comunicado.codigo}”?'

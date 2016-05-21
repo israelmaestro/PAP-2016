@@ -13,6 +13,8 @@
 	<ui:composition template='/META-INF/resources/bootsfaces/jsfTemplate.xhtml'>
 	
 		<ui:define name='mensagensCampos'>
+			<b:message for='sede'/>
+			<b:message for='conteudo'/>
 			<br/>
 		</ui:define>
 		<ui:define name='tituloPagina'>Shepherd > Novo Comunicado</ui:define>
@@ -49,10 +51,12 @@
 							'
 					>
 				<b:row>
-					<b:column>
+					<b:column	class='column'
+								span='12'
+								>
 						<h3>
 							<b:iconAwesome name="fa fa-fw fa-envelope"/>
-							<br class='visible-xs'/>
+<!-- 							<br class='visible-xs'/> -->
 							Dados gerais
 						</h3>
 					</b:column>
@@ -62,11 +66,11 @@
 								col-xs='12'
 								>
 						<br/>
-						<h:outputLabel	class='outputLabel' for='sede' value='Sede' />
+						<h:outputLabel	class='outputLabel' for='sede' value='Sede*' />
 						<h:selectOneMenu	id='sede'
 											value='#{comunicadoBean.comunicado.sede}'
 											converter='omnifaces.SelectItemsConverter'
-											class='hSelectOneMenu'
+											class='hSelectOneMenu required'
 											required='true'
 											requiredMessage='Sede: Campo obrigatório!'
 											>
@@ -82,28 +86,25 @@
 				<br/>
 
 				<b:row	style='	border-top: solid;
-								width: 100%;
 								border-color: #CCCCCC;
-								margin: 0px;
-								padding: 0px;
 								'
 						>
 					<h3>
 						<b:iconAwesome name="fa fa-fw fa-sticky-note-o"/>
-						Corpo do Texto
+						Corpo do Texto*
 					</h3>
 				</b:row>
 				
 				<b:row>
-					<b:column	col-lg='12'
-								col-md='12'
-								col-sm='12'
-								col-xs='12'
+					<b:column	class='column'
+								span='12'
 								>
 						<br/>
 						<p:editor	id='conteudo'
 									widgetVar='conteudoWidget'
 									value='#{comunicadoBean.comunicado.conteudo}'
+									required='true'
+									requiredMessage='Documento: O conteúdo não pode estar vazio!'
 									/>
 					</b:column>
 				</b:row>

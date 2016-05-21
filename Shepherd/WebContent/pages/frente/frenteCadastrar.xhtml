@@ -69,19 +69,20 @@
 									offColor='primary'
 									switchsize='mini'
 									>
-							<f:ajax event='change' render='@form' />
+							<f:ajax event='change' render='dados' />
 						</b:switch>
 					</b:column>
 				</b:row>
-				<b:row>
+				<b:row id='dados'>
 					<b:column	col-lg='3'
-								col-md='3'
+								col-md='4'
 								col-sm='6'
 								col-xs='12'
 								>
 						<br/>
 						<h:outputLabel	for='nome'
 										value='Nome*'
+										class='outputLabel'
 										/>
 						<b:inputText 	id='nome'
 										required='true'
@@ -91,95 +92,111 @@
 										style='	background-color: #FFFFCC;'
 										/>
 					</b:column>
+					
 					<b:column	col-lg='3'
-								col-md='3'
+								col-md='4'
 								col-sm='6'
 								col-xs='12'
 								>
 						<br/>
-						<b:selectMultiMenu 	id='frenteLideres'
-											label='Líderes'
-											value='#{frenteBean.frente.lideres}'
-											required='true'
-											requiredMessage='Líderes: Selecione pelo menos um líder'
-											converter='omnifaces.SelectItemsConverter'
-											enableFiltering='true'
-											filterPlaceholder='Procurar'
-											nonSelectedText='Selecione'
-											nSelectedText='Líderes Selecionados'
-											numberDisplayed='1'
-											disableIfEmpty='true'
-											allSelectedText='Todos os membros'
-											>
+						<h:outputLabel	class='outputLabel' for='frenteLideres' value='Líderes' />
+						<p:selectCheckboxMenu	id="frenteLideres"
+												label='#{null == frenteBean.frente.lideres
+														|| frenteBean.frente.lideres.size() == 0
+															? "Selecione"
+															: frenteBean.frente.lideres.size()} 
+															#{null == frenteBean.frente.lideres
+																|| frenteBean.frente.lideres.size() == 0
+																	? ""
+																	: "líder(es) selecionado(s)"}'
+												value="#{frenteBean.frente.lideres}"
+												converter="omnifaces.SelectItemsConverter"
+												filter="true"
+												filterMatchMode="contains"
+												showCheckbox="true"
+												>
+							<f:ajax event='change' render='@this' />
 							<f:selectItems	value='#{membroBean.listar()}'
-											var='frenteLideres'
-											itemLabel='#{frenteLideres.membro.pessoa.nome} #{frenteLideres.membro.pessoa.sobrenome}'
+											var='lider'
+											itemLabel='#{lider.nome} #{lider.sobrenome}'
+											itemValue='#{lider}'
 											/>
-						</b:selectMultiMenu>
+						</p:selectCheckboxMenu>
+						<br class='visible-sm'/>
 					</b:column>
+					
 					<b:column	col-lg='3'
-								col-md='3'
+								col-md='4'
 								col-sm='6'
 								col-xs='12'
 								rendered='#{showCellList.value}'
 								>
 						<br/>
-						<b:selectMultiMenu 	id='frenteCelulas'
-											label='Células'
-											value='#{frenteBean.frente.celulas}'
-											required='true'
-											requiredMessage='Células: Selecione pelo menos uma célula'
-											converter='omnifaces.SelectItemsConverter'
-											enableFiltering='true'
-											filterPlaceholder='Procurar'
-											nonSelectedText='Selecione'
-											nSelectedText='Células Selecionadas'
-											numberDisplayed='1'
-											disableIfEmpty='true'
-											allSelectedText='Todas as células'
-											fieldSize='lg'
-											>
+						<h:outputLabel	class='outputLabel' for='frenteCelulas' value='Células' />
+						<p:selectCheckboxMenu	id="frenteCelulas"
+												label='#{null == frenteBean.frente.celulas
+														|| frenteBean.frente.celulas.size() == 0
+															? "Selecione"
+															: frenteBean.frente.celulas.size()} 
+															#{null == frenteBean.frente.celulas
+																|| frenteBean.frente.celulas.size() == 0
+																	? ""
+																	: "célula(s) selecionado(s)"}'
+												value="#{frenteBean.frente.celulas}"
+												converter="omnifaces.SelectItemsConverter"
+												filter="true"
+												filterMatchMode="contains"
+												showCheckbox="true"
+												>
+							<f:ajax event='change' render='@this' />
 							<f:selectItems	value='#{celulaBean.listar()}'
-											var='frenteCelulas'
-											itemLabel='#{frenteCelulas.nome}'
+											var='celula'
+											itemLabel='#{celula.nome} (#{celula.frente} - #{celula.sede})'
+											itemValue='#{celula}'
 											/>
-						</b:selectMultiMenu>
+						</p:selectCheckboxMenu>
+						<br class='visible-sm'/>
 					</b:column>
 					<b:column	col-lg='3'
-								col-md='3'
+								col-md='4'
 								col-sm='6'
 								col-xs='12'
 								rendered='#{!showCellList.value}'
 								>
 						<br/>
-						<b:selectMultiMenu 	id='frenteParticipantes'
-											label='Participantes'
-											value='#{frenteBean.frente.participantes}'
-											required='true'
-											requiredMessage='Participantes: Selecione pelo menos um participante'
-											converter='omnifaces.SelectItemsConverter'
-											enableFiltering='true'
-											filterPlaceholder='Procurar'
-											nonSelectedText='Selecione'
-											nSelectedText='Participantes Selecionados'
-											numberDisplayed='1'
-											disableIfEmpty='true'
-											allSelectedText='Todas os membros'
-											fieldSize='lg'
-											>
+						<h:outputLabel	class='outputLabel' for='frenteParticipantes' value='Participantes' />
+						<p:selectCheckboxMenu	id="frenteParticipantes"
+												label='#{null == frenteBean.frente.participantes
+														|| frenteBean.frente.participantes.size() == 0
+															? "Selecione"
+															: frenteBean.frente.participantes.size()} 
+															#{null == frenteBean.frente.participantes
+																|| frenteBean.frente.participantes.size() == 0
+																	? ""
+																	: "participante(s) selecionado(s)"}'
+												value="#{frenteBean.frente.participantes}"
+												converter="omnifaces.SelectItemsConverter"
+												filter="true"
+												filterMatchMode="contains"
+												showCheckbox="true"
+												>
+							<f:ajax event='change' render='@this' />
 							<f:selectItems	value='#{membroBean.listar()}'
-											var='frenteParticipantes'
-											itemLabel='#{frenteParticipantes.nome} #{frenteParticipantes.sobrenome}'
+											var='lider'
+											itemLabel='#{lider.nome} #{lider.sobrenome}'
+											itemValue='#{lider}'
 											/>
-						</b:selectMultiMenu>
+						</p:selectCheckboxMenu>
+						<br class='visible-md visible sm'/>
 					</b:column>
 					<b:column	col-lg='3'
-								col-md='3'
+								col-md='4'
 								col-sm='6'
 								col-xs='12'
 								>
 						<br/>
 						<h:outputLabel	value='Faixa Etária'
+										class='outputLabel'
 										/>
 						<table	cellspacing='2'
 								style='	width: 100%;
@@ -195,11 +212,10 @@
 													value='#{frenteBean.frente.idadeMinima}'
 													placeholder='Min.'
 													onkeypress='return teclaNumerica(event.keyCode)'
-													style='	text-align: center;
-															'
+													class='idade'
 													>
 										<f:facet name='append'>
-											<h:outputText value='ano(s)' />
+											<h:outputText value='ano(s)' class='idade'/>
 										</f:facet>
 									</b:inputText>
 								</td>
@@ -212,8 +228,7 @@
 													value='#{frenteBean.frente.idadeMaxima}'
 													placeholder='Máx.'
 													onkeypress='return teclaNumerica(event.keyCode)'
-													style='	text-align: center;
-															'
+													class='idade'
 													>
 										<f:facet name='append'>
 											<h:outputText value='ano(s)' />
@@ -235,6 +250,7 @@
 						<br/>
 						<h:outputLabel	for='descricao'
 										value='Descrição*'
+										class='outputLabel'
 										/>
 						<b:inputTextarea	id='descricao'
 											required='true'

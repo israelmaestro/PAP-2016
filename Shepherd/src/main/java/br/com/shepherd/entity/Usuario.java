@@ -6,7 +6,6 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -31,14 +30,14 @@ public class Usuario implements Serializable{
 	@Column(length = 32)
 	private String				senha;
 
-	@OneToOne(fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+	@OneToOne(/* fetch = FetchType.EAGER, */ cascade = { CascadeType.PERSIST, CascadeType.MERGE })
 	private Perfil				perfil;
 
 	// @NotNull
-	@OneToOne(fetch = FetchType.EAGER)
+	@OneToOne // (fetch = FetchType.EAGER)
 	private Membro				membro;
 
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "autor")
+	@OneToMany(/* fetch = FetchType.EAGER, */ mappedBy = "autor")
 	private List<Comunicado>	comunicados;
 
 	public Usuario(){

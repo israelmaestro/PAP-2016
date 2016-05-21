@@ -6,7 +6,6 @@ import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
@@ -24,7 +23,7 @@ public class Perfil implements Serializable{
 	@Enumerated(EnumType.STRING)
 	private LiberacaoAcesso		acesso;
 
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "perfil")
+	@OneToMany(/* fetch = FetchType.EAGER, */ mappedBy = "perfil")
 	private List<Usuario>		usuarios;
 
 	public Perfil(){

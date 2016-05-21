@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
@@ -31,7 +30,7 @@ public class NEspecial implements Serializable{
 	@NotNull
 	private String				descricao;
 
-	@ManyToMany(fetch = FetchType.EAGER, mappedBy = "nEspeciais")
+	@ManyToMany(/* fetch = FetchType.EAGER, */ mappedBy = "nEspeciais")
 	private List<Pessoa>		pessoas;
 
 	@NotNull

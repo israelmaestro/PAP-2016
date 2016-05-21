@@ -1,16 +1,18 @@
 package br.com.shepherd.entity;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 
@@ -28,31 +30,40 @@ public class Celula implements Serializable{
 	@NotNull
 	private String				nome;
 
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "celula")
+	@OneToMany(/* fetch = FetchType.EAGER, */ mappedBy = "celula")
 	private List<Membro>		membros;
 
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "celula")
+	@OneToMany(/* fetch = FetchType.EAGER, */ mappedBy = "celula")
 	private List<Visitante>		visitantes;
 
 	// @NotNull
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "celula")
+	@OneToMany(/* fetch = FetchType.EAGER, */ mappedBy = "celula")
 	private List<Lider>			lideres;
 
 	// @NotNull
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "celula")
+	@OneToMany(/* fetch = FetchType.EAGER, */ mappedBy = "celula")
 	private List<CelulaReuniao>	reunioes;
 
 	// @NotNull
-	@OneToOne(fetch = FetchType.EAGER)
+	@OneToOne // (fetch = FetchType.EAGER)
 	private Coordenador			coordenador;
 
 	// @NotNull
-	@OneToOne(fetch = FetchType.EAGER)
+	@OneToOne // (fetch = FetchType.EAGER)
 	private Frente				frente;
 
 	// @NotNull
-	@OneToOne(fetch = FetchType.EAGER)
+	@OneToOne // (fetch = FetchType.EAGER)
 	private Sede				sede;
+
+	@Column(columnDefinition = "timestamp")
+	@Temporal(TemporalType.TIMESTAMP)
+	@NotNull
+	private Date				dataAtivação;
+
+	@Column(columnDefinition = "timestamp")
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date				dataDesativacao;
 
 	private boolean				isActive			= false;
 
@@ -178,6 +189,22 @@ public class Celula implements Serializable{
 
 	public void setSede(Sede pSede){
 		sede = pSede;
+	}
+
+	public Date getDataAtivação(){
+		return dataAtivação;
+	}
+
+	public void setDataAtivação(Date pDataAtivação){
+		dataAtivação = pDataAtivação;
+	}
+
+	public Date getDataDesativacao(){
+		return dataDesativacao;
+	}
+
+	public void setDataDesativacao(Date pDataDesativacao){
+		dataDesativacao = pDataDesativacao;
 	}
 
 	public boolean isActive(){

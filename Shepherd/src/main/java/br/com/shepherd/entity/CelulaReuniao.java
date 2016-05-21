@@ -6,7 +6,6 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
@@ -36,16 +35,16 @@ public class CelulaReuniao implements Serializable{
 
 	private String				titulo;
 
-	@OneToOne(fetch = FetchType.LAZY)
+	@OneToOne // (fetch = FetchType.LAZY)
 	private Membro				anfitriao;
 
-	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "reunioesComparecidas")
+	@ManyToMany(/* fetch = FetchType.LAZY, */ mappedBy = "reunioesComparecidas")
 	private List<Membro>		membrosComparecidos;
 
-	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "reunioesComparecidas")
+	@ManyToMany(/* fetch = FetchType.LAZY, */ mappedBy = "reunioesComparecidas")
 	private List<Visitante>		visitantesComparecidos;
 
-	@OneToOne(fetch = FetchType.LAZY)
+	@OneToOne // (fetch = FetchType.LAZY)
 	private Celula				celula;
 
 	// Flags

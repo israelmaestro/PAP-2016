@@ -11,6 +11,7 @@
 		>
 
 	<ui:composition template='/META-INF/resources/bootsfaces/jsfTemplate.xhtml'>
+		<ui:define name='mensagensCampos'/>
 		<ui:define name='tituloPagina'>Shepherd > Lista de Frentes</ui:define>
 		<ui:define name='tituloPrincipal'>
 			<b:iconAwesome name='fa fa-puzzle-piece fa-fw'/>
@@ -29,12 +30,46 @@
 		</ui:define>
 			
 		<ui:define name='conteudo'>
-			<p:dataTable	id='frenteLista'
+			<b:container	rendered='#{frenteBean.listar().size() == 0}'
+							class='emptyTableWarining'
+							>
+				<center>
+						Lista vazia!
+				</center>
+			</b:container>
+			<p:dataTable	rendered='#{frenteBean.listar().size() != 0}'
+							id='frenteLista'
 							value='#{frenteBean.listar()}'
 							var='frente'
 							update='frenteLista'
 							emptyMessage='Nenhuma frente encontrada.'
+							class='pDataTable'
+							paginator='true'
+							widgetVar='frenteLista'
+							filteredValue=''
+							rows='10'
+							paginatorAlwaysVisible='false'
+							rowsPerPageTemplate='10, 50, 100, 200'
 							>
+				<f:facet name='header'>
+					<p:outputPanel>
+						<b:row>
+							<b:column	col-lg='12'
+										col-md='12'
+										col-sm='12'
+										col-xs='12'
+										>
+								<b:inputText	id='filtroGlobal'
+												onkeyup="PF('frenteLista').filter()"
+												placeholder='Pesquisar'	
+												style='	font-family: inherit;
+														font-weight: normal;
+														'
+												/>
+							</b:column>
+						</b:row>
+					</p:outputPanel>
+				</f:facet>
 				<p:column	headerText='Nome'
 							priority='1'
 							>
@@ -67,6 +102,7 @@
 											onclick='alert("Visualização AINDA NÃO IMPLEMENTADA!")'
 											icon='fa fa-fw fa-eye'
 											alt='Visualizar'
+											disabled='true'
 											/>
 						<p:commandButton	ajax='false'
 											action='#{frenteBean.prepararAlteracao(frente)}'
@@ -74,6 +110,7 @@
 											style='	color: #009900;
 													'
 											alt='Alterar'
+											disabled='true'
 											/>
 						<p:commandButton	update='@form'
 											action='#{frenteBean.excluir(frente)}'
@@ -84,7 +121,7 @@
 											>
 							<p:confirm	header='Excluir'
 										message='Excluir a frente “#{frente.nome}”?'
-										icon='null'
+										icon='ui-icon-blank'
 										/>
 						</p:commandButton>
 					</center>
@@ -95,12 +132,12 @@
 						<center>
 							<p:commandButton	styleClass='ui-confirmdialog-yes'
 												icon='fa fa-fw fa-check'
-												style='	color: #CC0000;
+												style='	color: #900;
 														'
 												/>
 							<p:commandButton	styleClass='ui-confirmdialog-no'
 												icon='fa fa-fw fa-close'
-												style='	color: #0000CC;
+												style='	color: #009;
 														'
 												/>
 						</center>

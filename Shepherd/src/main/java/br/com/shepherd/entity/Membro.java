@@ -7,7 +7,6 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
@@ -25,14 +24,18 @@ public class Membro implements Serializable{
 	@GeneratedValue
 	private Integer				id;
 
+	// Informações pessoais
+	@OneToOne(mappedBy = "membro")
+	private Pessoa				pessoa;
+
 	// Informações gerais
-	@OneToOne(fetch = FetchType.EAGER)
+	@OneToOne
 	private Celula				celula;
 
-	@ManyToMany(fetch = FetchType.EAGER)
+	@ManyToMany
 	private List<CelulaReuniao>	reunioesComparecidas;
 
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "anfitriao")
+	@OneToMany(mappedBy = "anfitriao")
 	private List<CelulaReuniao>	reunioesRecebidas;
 
 	@Column(columnDefinition = "timestamp")
@@ -42,10 +45,6 @@ public class Membro implements Serializable{
 	@Column(columnDefinition = "timestamp")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date				dataDesligamento;
-	//
-	// // Informações pessoais do membro
-	// @OneToOne(fetch = FetchType.EAGER, mappedBy = "membro")
-	// private Pessoa pessoa;
 
 	// Flags
 	@NotNull
@@ -60,32 +59,36 @@ public class Membro implements Serializable{
 	@NotNull
 	private boolean				isProjectLeader		= false;
 
-	@NotNull // TODO: Continuar a partir daqui.
+	@NotNull
 	private boolean				isUser				= false;
 
 	private boolean				isDirectoryMember	= false;
 
-	// Atribuiï¿½ï¿½es
-	@ManyToMany(fetch = FetchType.LAZY)
+	// Atribuições
+	@ManyToMany
 	private List<Frente>		frentesParticipadas;
 
-	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "lideres")
+	@ManyToMany(mappedBy = "lideres")
 	private List<Frente>		frentesLideradas;
 
 	// @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	// private Lider lider;
 
-	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToOne(cascade = CascadeType.ALL)
 	private Usuario				usuario;
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "membroAtendido")
+	@OneToMany(mappedBy = "membroAtendido")
 	private List<Atendimento>	atendimentosRecebidos;
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "membroAtendente")
+	@OneToMany(mappedBy = "membroAtendente")
 	private List<Atendimento>	atendimentosRealizados;
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "membroCadastrante")
+	@OneToMany(mappedBy = "membroCadastrante")
 	private List<Visitante>		visitantesCadastrados;
+
+	@Column(columnDefinition = "timestamp")
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date				dataBatismo;
 
 	@Column(columnDefinition = "timestamp")
 	@Temporal(TemporalType.TIMESTAMP)
@@ -280,6 +283,14 @@ public class Membro implements Serializable{
 
 	public void setVisitantesCadastrados(List<Visitante> pVisitantesCadastrados){
 		visitantesCadastrados = pVisitantesCadastrados;
+	}
+
+	public Date getDataBatismo(){
+		return dataBatismo;
+	}
+
+	public void setDataBatismo(Date pDataBatismo){
+		dataBatismo = pDataBatismo;
 	}
 
 	public Date getDataColiderancaPosse(){

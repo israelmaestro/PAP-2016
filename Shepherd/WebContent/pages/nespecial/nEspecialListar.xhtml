@@ -102,12 +102,14 @@
 											onclick='alert("Visualização AINDA NÃO IMPLEMENTADA!")'
 											icon='fa fa-fw fa-eye'
 											alt='Visualizar'
+											disabled='true'
 											/>
 						<p:commandButton	ajax='false'
 											action='#{nEspecialBean.prepararAlteracao(nEspecial)}'
 											icon='fa fa-fw fa-pencil'
 											style='	color: #009900;
 													'
+											disabled='true'
 											/>
 						<p:commandButton	update='@form'
 											action='#{nEspecialBean.excluir(nEspecial)}'

@@ -19,9 +19,11 @@
 			<b:message for='lideres'/>
 			<b:message for='coordenador'/>
 			<b:message for='membros'/>
+			<b:message for='dataAtivacao'/>
 			<b:message for='visitantes'/>
 			<b:message for='cep'/>
 			<b:message for='logradouro'/>
+			<b:message for='gpsAddress'/>
 			<b:message for='logradouro2'/>
 			<b:message for='numero'/>
 			<b:message for='complemento'/>
@@ -29,7 +31,7 @@
 			<b:message for='cidade'/>
 			<b:message for='uf'/>
 			<b:message for='pais'/>
-<!-- 			<b:message for='comentarios'/> -->
+			<b:message for='comentarios'/>
 			<br/>
 		</ui:define>
 
@@ -71,7 +73,8 @@
 							'
 					>
 				<b:row>
-					<b:column	col-lg='11'
+					<b:column	class='column'
+								col-lg='11'
 								col-md='11'
 								col-sm='10'
 								col-xs='8'
@@ -82,7 +85,8 @@
 							Dados gerais
 						</h3>
 					</b:column>
-					<b:column	col-lg='1'
+					<b:column	class='column'
+								col-lg='1'
 								col-md='1'
 								col-sm='2'
 								col-xs='4'
@@ -119,7 +123,7 @@
 																value='#{celulaBean.celula.enderecoFixo}'
 																style='	margin: 0px;'
 																>
-										<f:ajax event='change' render='@form' />
+										<f:ajax event='change' render='endereco' />
 									</b:selectBooleanCheckbox>
 								</td>
 								<td	style='	line-height: 1px;
@@ -142,7 +146,7 @@
 																value='#{celulaBean.celula.visitorsAllowed}'
 																style='	margin: 0px;'
 																>
-										<f:ajax event='change' render='@form' />
+										<f:ajax event='change' render='permitirVisitantes' />
 									</b:selectBooleanCheckbox>
 								</td>
 							</tr>
@@ -158,9 +162,10 @@
 								>
 						<br/>
 						<h:outputLabel	class='outputLabel' for='nome'
-										value='Nome'
+										value='Nome*'
 										/>
 						<b:inputText 	id='nome'
+										class='required'
 										required='true'
 										requiredMessage='Nome: Campo obrigatório'
 										value='#{celulaBean.celula.nome}'
@@ -175,7 +180,14 @@
 						<br/>
 						<h:outputLabel	class='outputLabel' for='lideres' value='Líderes' />
 						<p:selectCheckboxMenu	id="lideres"
-												label='#{null == celulaBean.celula.lideres || celulaBean.celula.lideres.size() == 0 ? "Selecione" : celulaBean.celula.lideres.size()} #{null == celulaBean.celula.lideres || celulaBean.celula.lideres.size() == 0 ? "" : "líder(es) selecionado(s)"}'
+												label='#{null == celulaBean.celula.lideres
+														|| celulaBean.celula.lideres.size() == 0
+															? "Selecione"
+															: celulaBean.celula.lideres.size()} 
+															#{null == celulaBean.celula.lideres
+																|| celulaBean.celula.lideres.size() == 0
+																	? ""
+																	: "líder(es) selecionado(s)"}'
 												value="#{celulaBean.celula.lideres}"
 												converter="omnifaces.SelectItemsConverter"
 												filter="true"
@@ -197,11 +209,11 @@
 								col-xs='12'
 								>
 						<br/>
-						<h:outputLabel	class='outputLabel' for='frente' value='Frente' />
+						<h:outputLabel	class='outputLabel' for='frente' value='Frente*' />
 						<h:selectOneMenu	id='frente'
 											value='#{celulaBean.celula.frente}'
 											converter='omnifaces.SelectItemsConverter'
-											class='hSelectOneMenu'
+											class='hSelectOneMenu required'
 											required='true'
 											requiredMessage='Frente: Campo obrigatório!'
 											>
@@ -220,11 +232,11 @@
 								col-xs='12'
 								>
 						<br/>
-						<h:outputLabel	class='outputLabel' for='sede' value='Sede' />
+						<h:outputLabel	class='outputLabel' for='sede' value='Sede*' />
 						<h:selectOneMenu	id='sede'
 											value='#{celulaBean.celula.sede}'
 											converter='omnifaces.SelectItemsConverter'
-											class='hSelectOneMenu'
+											class='hSelectOneMenu required'
 											required='true'
 											requiredMessage='Sede: campo obrigatório!'
 											>
@@ -239,7 +251,7 @@
 					</b:column>
 				</b:row>
 				
-				<b:row>
+				<b:row id='permitirVisitantes'>
 					<b:column	col-lg='3'
 								col-md='3'
 								col-sm='6'
@@ -269,7 +281,14 @@
 						<br/>
 						<h:outputLabel	class='outputLabel' for='membros' value='Membros' />
 						<p:selectCheckboxMenu	id="membros"
-												label='#{null == celulaBean.celula.membros || celulaBean.celula.membros.size() == 0 ? "Selecione" : celulaBean.celula.membros.size()} #{null == celulaBean.celula.membros || celulaBean.celula.membros.size() == 0 ? "" : "membro(s) selecionado(s)"}'
+												label='#{null == celulaBean.celula.membros
+															|| celulaBean.celula.membros.size() == 0
+																? "Selecione"
+																: celulaBean.celula.membros.size()} 
+																#{null == celulaBean.celula.membros
+																	|| celulaBean.celula.membros.size() == 0 
+																		? ""
+																		: "membro(s) selecionado(s)"}'
 												value="#{celulaBean.celula.membros}"
 												converter="omnifaces.SelectItemsConverter"
 												filter="true"
@@ -285,11 +304,29 @@
 						</p:selectCheckboxMenu>
 					</b:column>
 					<b:column	col-lg='3'
-									col-md='3'
-									col-sm='6'
-									col-xs='12'
-									rendered='#{showVisitorsMenu.value}'
-									>
+								col-md='4'
+								col-sm='6'
+								col-xs='12'
+								>
+						<br/>
+						<h:outputLabel	class='outputLabel' for='dataAtivacao' value='Data de Ativação*'/>
+						<b:datepicker 	id='dataAtivacao'
+										placeholder='DD/MM/AAAA'
+										value='#{celulaBean.celula.dataAtivação}'
+										required='true'
+										requiredMessage='Data da Ativação: Campo obrigatório!'
+										>
+							<script>
+								requiredField("form:dataAtivacao");
+							</script>
+						</b:datepicker>
+					</b:column>
+					<b:column	col-lg='3'
+								col-md='3'
+								col-sm='6'
+								col-xs='12'
+								rendered='#{showVisitorsMenu.value}'
+								>
 						<br/>
 						<h:outputLabel	class='outputLabel' for='visitantes' value='Visitantes' />
 						<p:selectCheckboxMenu	id="visitantes"
@@ -310,20 +347,16 @@
 					</b:column>
 				</b:row>
 				
-				<b:container	rendered='#{showAddress.value}'
-								style='	width: 100%;
-										margin: 0px;
-										padding: 0px;
-										'
+				<b:row	id='endereco'
+								class='row'
 								>
 					<br/>
 					<br/>
-					<b:row	style='	border-top: solid;
-									width: 100%;
+					<b:row	rendered='#{showAddress.value}'
+							style='	border-top: solid;
 									border-color: #CCCCCC;
-									margin: 0px;
-									padding: 0px;
-									'>
+									'
+							>
 						<table style='width: 100%;'>
 							<tr>
 								<td	style='	vertical-align: bottom;'>
@@ -346,178 +379,177 @@
 												switchsize='mini'
 												binding='#{showGpsForm}'
 												>
-										<f:ajax event='change' render='@form' />
+										<f:ajax event='change' render='endereco' />
 									</b:switch>
 								</td>
 							</tr>
 						</table>
-					</b:row>
-					<b:row>
-						<b:container	rendered='#{showGpsForm.value}'
-										style='	width: 100%;
-												margin: 0px;
-												padding: 0px;
-												'
-										>
-							<b:column	col-lg='4'
-										col-md='4'
-										col-sm='6'
-										col-xs='12'
-										>
-								<br/>
-								<h:outputLabel	class='outputLabel'	for='gpsAddress'
-												value='Coordenadas de GPS*'
-												/>
-								<b:inputText	id='gpsAddress'
-												value='#{celulaBean.celula.enderecoLogradouro}'
-												placeholder='Digite as coordenadas do GPS'
-												requiered='true'
-												requiredMessage='Coordenadas de GPS: Campo obrigatório!'
-												/>
-							</b:column>
-						</b:container>
-					</b:row>
-					<b:row>
-						<b:container	rendered='#{!showGpsForm.value}'
-										style='	width: 100%;
-												margin: 0px;
-												padding: 0px;
-												'
-										>
-							<b:column	col-lg='3'
-										col-md='3'
-										col-sm='3'
-										col-xs='12'
-										>
-								<br/>
-								<h:outputLabel	class='outputLabel' value='CEP' for='cep'/>
-								<b:iconAwesome	name='fa-question-circle'
-												tooltip='Caso o sistema encontre o CEP digitado, os campos de endereço serão preenchidos automaticamente.'
-												onclick='alert("Caso o sistema encontre o CEP digitado, os campos de endereço serão preenchidos automaticamente.")'
-												style='	margin-left: 4px;'
-												/>
-								<b:inputText	id='cep'
-												binding='#{cep}'
-												maxlength='8'
-												onkeypress='return teclaNumerica(event.keyCode)'
-												value='#{celulaBean.celula.enderecoCep}'
-												placeholder='Digite o CEP'
-												onblur='if(this.value != "") pesquisaCep(this.value);'
-												/>
-							</b:column>
-							
-							<b:column	col-lg='6'
-										col-md='6'
-										col-sm='9'
-										col-xs='12'
-										>
-								<br/>
-								<h:outputLabel	class='outputLabel' value='Endereço' for='logradouro'/>
-								<b:inputText	id='logradouro'
-												name='logradouro'
-												value='#{celulaBean.celula.enderecoLogradouro}'
-												placeholder='Digite o nome da rua, avenida, etc.'
-												class='hidden-xs'
-												onblur='document.getElementById("input_form:logradouro2").value = document.getElementById("input_form:logradouro").value'
-												/>
-								<b:inputTextarea	id='logradouro2'
-													name='logradouro2'
+					
+						<b:row>
+							<b:container	rendered='#{showGpsForm.value}'
+											style='	width: 100%;
+													margin: 0px;
+													padding: 0px;
+													'
+											>
+								<b:column	col-lg='4'
+											col-md='4'
+											col-sm='6'
+											col-xs='12'
+											>
+									<br/>
+									<h:outputLabel	class='outputLabel'	for='gpsAddress'
+													value='Coordenadas de GPS*'
+													/>
+									<b:inputText	id='gpsAddress'
+													value='#{celulaBean.celula.enderecoLogradouro}'
+													placeholder='Digite as coordenadas do GPS'
+													required='true'
+													requiredMessage='Coordenadas de GPS: Campo obrigatório!'
+													class='required'
+													/>
+								</b:column>
+							</b:container>
+						</b:row>
+						<b:row>
+							<b:container	rendered='#{!showGpsForm.value}'
+											style='	width: 100%;
+													margin: 0px;
+													padding: 0px;
+													'
+											>
+								<b:column	col-lg='3'
+											col-md='3'
+											col-sm='3'
+											col-xs='12'
+											>
+									<br/>
+									<h:outputLabel	class='outputLabel' value='CEP' for='cep'/>
+									<b:iconAwesome	name='fa-question-circle'
+													tooltip='Caso o sistema encontre o CEP digitado, os campos de endereço serão preenchidos automaticamente.'
+													onclick='alert("Caso o sistema encontre o CEP digitado, os campos de endereço serão preenchidos automaticamente.")'
+													style='	margin-left: 4px;'
+													/>
+									<b:inputText	id='cep'
+													binding='#{cep}'
+													maxlength='8'
+													onkeypress='return teclaNumerica(event.keyCode)'
+													value='#{celulaBean.celula.enderecoCep}'
+													placeholder='Digite o CEP'
+													onblur='if(this.value != "") pesquisaCep(this.value);'
+													/>
+								</b:column>
+								
+								<b:column	col-lg='6'
+											col-md='6'
+											col-sm='9'
+											col-xs='12'
+											>
+									<br/>
+									<h:outputLabel	class='outputLabel' value='Endereço' for='logradouro'/>
+									<b:inputText	id='logradouro'
+													name='logradouro'
 													value='#{celulaBean.celula.enderecoLogradouro}'
 													placeholder='Digite o nome da rua, avenida, etc.'
-													class='visible-xs'
-													onblur='document.getElementById("input_form:logradouro").value = document.getElementById("input_form:logradouro2").value'
+													class='hidden-xs'
+													onblur='document.getElementById("input_form:logradouro2").value = document.getElementById("input_form:logradouro").value'
 													/>
-							</b:column>
-							
-							<b:column	col-lg='1'
-										col-md='1'
-										col-sm='2'
-										col-xs='5'
-										>
-								<br/>
-								<h:outputLabel	class='outputLabel' value='№' for='numero'/>
-								<b:inputText	id='numero'
-												value='#{celulaBean.celula.enderecoNumero}'
-												onkeypress='return teclaNumerica(event.keyCode)'
-												maxlength='5'
-												placeholder='№'
-												/>
-							</b:column>
-							
-							<b:column	col-lg='2'
-										col-md='2'
-										col-sm='4'
-										col-xs='7'
-										>
-								<br/>
-								<h:outputLabel	class='outputLabel' value='Complemento' for='complemento'/>
-								<b:inputText	id='complemento'
-												value='#{celulaBean.celula.enderecoComplemento}'
-												placeholder='Complemento'
-												/>
-							</b:column>
-							
-							<b:column	col-lg='3'
-										col-md='3'
-										col-sm='6'
-										col-xs='12'
-										>
-								<br/>
-								<h:outputLabel	class='outputLabel' value='Bairro' for='bairro'/>
-								<b:inputText	id='bairro'
-												value='#{celulaBean.celula.enderecoBairro}'
-												placeholder='Bairro'
-												/>
-							</b:column>
-							
-							<b:column	col-lg='4'
-										col-md='4'
-										col-sm='6'
-										col-xs='12'
-										>
-								<br/>
-								<h:outputLabel	class='outputLabel' value='Cidade' for='cidade'/>
-								<b:inputText	id='cidade'
-												value='#{celulaBean.celula.enderecoCidade}'
-												placeholder='Cidade'
-												/>
-							</b:column>
-							
-							<b:column	col-lg='1'
-										col-md='1'
-										col-sm='2'
-										col-xs='4'
-										>
-								<br/>
-								<h:outputLabel	class='outputLabel' value='UF' for='uf'/>
-								<b:inputText	id='uf'
-												maxlength='2'
-												value='#{celulaBean.celula.enderecoEstado}'
-												placeholder='UF'
-												/>
-							</b:column>
-							
-							<b:column	col-lg='4'
-										col-md='4'
-										col-sm='4'
-										col-xs='12'
-										>
-								<br/>
-								<h:outputLabel	class='outputLabel' value='País' for='pais'/>
-								<b:inputText	id='pais'
-												value='#{celulaBean.celula.enderecoPais}'
-												placeholder='País'
-												/>
-							</b:column>
-						</b:container>
+									<b:inputTextarea	id='logradouro2'
+														name='logradouro2'
+														value='#{celulaBean.celula.enderecoLogradouro}'
+														placeholder='Digite o nome da rua, avenida, etc.'
+														class='visible-xs'
+														onblur='document.getElementById("input_form:logradouro").value = document.getElementById("input_form:logradouro2").value'
+														/>
+								</b:column>
+								
+								<b:column	col-lg='1'
+											col-md='1'
+											col-sm='2'
+											col-xs='5'
+											>
+									<br/>
+									<h:outputLabel	class='outputLabel' value='№' for='numero'/>
+									<b:inputText	id='numero'
+													value='#{celulaBean.celula.enderecoNumero}'
+													onkeypress='return teclaNumerica(event.keyCode)'
+													maxlength='5'
+													placeholder='№'
+													/>
+								</b:column>
+								
+								<b:column	col-lg='2'
+											col-md='2'
+											col-sm='4'
+											col-xs='7'
+											>
+									<br/>
+									<h:outputLabel	class='outputLabel' value='Complemento' for='complemento'/>
+									<b:inputText	id='complemento'
+													value='#{celulaBean.celula.enderecoComplemento}'
+													placeholder='Complemento'
+													/>
+								</b:column>
+								
+								<b:column	col-lg='3'
+											col-md='3'
+											col-sm='6'
+											col-xs='12'
+											>
+									<br/>
+									<h:outputLabel	class='outputLabel' value='Bairro' for='bairro'/>
+									<b:inputText	id='bairro'
+													value='#{celulaBean.celula.enderecoBairro}'
+													placeholder='Bairro'
+													/>
+								</b:column>
+								
+								<b:column	col-lg='4'
+											col-md='4'
+											col-sm='6'
+											col-xs='12'
+											>
+									<br/>
+									<h:outputLabel	class='outputLabel' value='Cidade' for='cidade'/>
+									<b:inputText	id='cidade'
+													value='#{celulaBean.celula.enderecoCidade}'
+													placeholder='Cidade'
+													/>
+								</b:column>
+								
+								<b:column	col-lg='1'
+											col-md='1'
+											col-sm='2'
+											col-xs='4'
+											>
+									<br/>
+									<h:outputLabel	class='outputLabel' value='UF' for='uf'/>
+									<b:inputText	id='uf'
+													maxlength='2'
+													value='#{celulaBean.celula.enderecoEstado}'
+													placeholder='UF'
+													/>
+								</b:column>
+								
+								<b:column	col-lg='4'
+											col-md='4'
+											col-sm='4'
+											col-xs='12'
+											>
+									<br/>
+									<h:outputLabel	class='outputLabel' value='País' for='pais'/>
+									<b:inputText	id='pais'
+													value='#{celulaBean.celula.enderecoPais}'
+													placeholder='País'
+													/>
+								</b:column>
+							</b:container>
+						</b:row>
 					</b:row>
-				</b:container>
+				</b:row>
 				<br/>
 				<b:row	style='	border-top: solid;
-								width: 100%;
 								border-color: #CCCCCC;
-								margin: 0px;
-								padding: 0px;
 								'>
 						<h3>
 							<i class="fa fa-fw fa-sticky-note-o"/>

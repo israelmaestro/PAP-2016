@@ -6,7 +6,6 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
@@ -26,7 +25,7 @@ public class Ministro implements Serializable{
 	// Informações gerais
 	// TODO: verificar se os "fetchs" não vão dar problema
 	@NotNull
-	@OneToOne(fetch = FetchType.EAGER)
+	@OneToOne // (fetch = FetchType.EAGER)
 	private Coordenador			coordenador;
 
 	@Column(columnDefinition = "timestamp")
@@ -60,7 +59,7 @@ public class Ministro implements Serializable{
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date				dataPresidenteEntrega;
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "presidente")
+	@OneToMany(/* fetch = FetchType.LAZY, */ mappedBy = "presidente")
 	private List<Sede>			sedes;
 
 	// Flags

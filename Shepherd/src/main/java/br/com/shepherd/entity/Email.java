@@ -3,7 +3,6 @@ package br.com.shepherd.entity;
 import java.io.Serializable;
 
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
@@ -21,10 +20,10 @@ public class Email implements Serializable{
 
 	private String				descricao;
 
-	@OneToOne(fetch = FetchType.LAZY)
+	@OneToOne // (fetch = FetchType.LAZY)
 	private Sede					sede;
 
-	@OneToOne(fetch = FetchType.LAZY)
+	@OneToOne // (fetch = FetchType.LAZY)
 	private Pessoa				pessoa;
 
 	public Email(){

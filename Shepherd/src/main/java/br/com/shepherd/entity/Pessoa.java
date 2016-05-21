@@ -8,7 +8,6 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
@@ -59,7 +58,7 @@ public class Pessoa implements Serializable{
 	@NotNull
 	private boolean								sexo				= true;
 
-	@ManyToMany(fetch = FetchType.LAZY)
+	@ManyToMany
 	private List<NEspecial>		nEspeciais;
 
 	// Informações de endereço
@@ -83,11 +82,11 @@ public class Pessoa implements Serializable{
 	private String				enderecoPais;
 
 	// Informações de telefone
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "pessoa", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "pessoa", cascade = CascadeType.ALL)
 	private List<Telefone>		telefones;
 
 	// Informações de email
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "pessoa", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "pessoa", cascade = CascadeType.ALL)
 	private List<br.com.shepherd.entity.Email>	emails;
 
 	// Flags
@@ -107,16 +106,16 @@ public class Pessoa implements Serializable{
 	private boolean				isGpsAddress		= false;
 
 	// Informações de parentesco
-	@OneToOne(fetch = FetchType.LAZY)
+	@OneToOne
 	private Pessoa				pai;
 
-	@OneToOne(fetch = FetchType.LAZY)
+	@OneToOne
 	private Pessoa				mae;
 
-	@OneToMany(fetch = FetchType.LAZY)
+	@OneToMany
 	private List<Pessoa>		irmaos;
 
-	@OneToOne(fetch = FetchType.LAZY)
+	@OneToOne
 	@PrimaryKeyJoinColumn
 	private Pessoa				conjuge;
 
@@ -125,7 +124,7 @@ public class Pessoa implements Serializable{
 	private Date				dataCasamento;
 
 	// Informações eclesiásticas
-	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToOne(cascade = CascadeType.ALL)
 	private Membro								membro;
 
 	// @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)

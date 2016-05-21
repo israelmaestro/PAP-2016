@@ -40,7 +40,6 @@
 			<b:message for='dataMembresia' />
 			<b:message for='diretoriaCargo' />
 			<b:message for='dataDiretoriaPosse' />
-			<b:message for='dataDiretoriaEntrega' />
 			<br/>
 		</ui:define>
 		
@@ -72,13 +71,9 @@
 		</ui:define>
 			
 		<ui:define name='conteudo'>
-			<div	style='	margin-left: 0px;
-							margin-right: 0px;
-							padding-left: 0px;
-							'
-					>
+			<div>
 				<b:row>
-					<b:column	col-lg='10'
+					<b:column	class='column'	col-lg='10'
 								col-md='10'
 								col-sm='10'
 								col-xs='12'
@@ -89,7 +84,8 @@
 						</h3>
 					</b:column>
 					
-					<b:column	col-lg='2'
+					<b:column	class='column'
+								col-lg='2'
 								col-md='2'
 								col-sm='2'
 								col-xs='4'
@@ -121,7 +117,7 @@
 																binding='#{showNeMenu}'
 																style='	margin-left: 0px;'
 																>
-										<f:ajax event='change' render='@form' />
+										<f:ajax event='change' render='nEspeciaisMostrar' />
 									</b:selectBooleanCheckbox>
 								</td>
 								<td	style='	line-height: 1px;
@@ -141,14 +137,16 @@
 																value='#{membroBean.membro.married}'
 																style='	margin-left: 0px;'
 																>
-										<f:ajax event='change' render='@form' />
+										<f:ajax event='change' render='familia' />
 									</b:selectBooleanCheckbox>
 								</td>
 							</tr>
 						</table>
 					</b:column>
 				</b:row>
-			
+
+				<br class='visible-xs'/>
+
 				<b:row>
 					<b:column	col-lg='3'
 								col-md='3'
@@ -157,13 +155,14 @@
 								>
 						<br/>
 						<h:outputLabel	class='outputLabel' for='nome'
-										value='Nome'
+										value='Nome*'
 										/>
 						<b:inputText 	id='nome'
 										required='true'
 										requiredMessage='Nome: Campo obrigatório'
 										value='#{membroBean.membro.nome}'
 										placeholder='Nome'
+										class='required'
 										/>
 					</b:column>
 					<b:column	col-lg='3'
@@ -173,17 +172,18 @@
 								>
 						<br/>
 						<h:outputLabel	class='outputLabel'	for='sobrenome'
-										value='Sobrenome'
+										value='Sobrenome*'
 										/>
 						<b:inputText 	id='sobrenome'
 										required='true'
 										requiredMessage='Sobrenome: Campo obrigatório'
 										value='#{membroBean.membro.sobrenome}'
 										placeholder='Sobrenome'
+										class='required'
 										/>
 					</b:column>
 					<b:column	col-lg='3'
-								col-md='4'
+								col-md='3'
 								col-sm='6'
 								col-xs='12'
 								>
@@ -195,7 +195,7 @@
 										/>
 					</b:column>
 					<b:column	col-lg='3'
-								col-md='2'
+								col-md='3'
 								col-sm='6'
 								col-xs='12'
 								>
@@ -221,11 +221,11 @@
 									onColor='primary'
 									offColor='danger'
 									>
-							<f:ajax event='change' render='@form' />
+							<f:ajax event='change' render='familia' />
 						</b:switch>
 					</b:column>
 				</b:row>
-				<b:row>
+				<b:row id='nEspeciaisMostrar'>
 					<b:column	col-lg='3'
 								col-md='3'
 								col-sm='6'
@@ -257,376 +257,365 @@
 										placeholder='CPF'
 										/>
 					</b:column>
+					<b:column	col-lg='3'
+								col-md='3'
+								col-sm='6'
+								col-xs='12'
+								rendered='#{showNeMenu.value}'
+								>
+						<br/>
+						<h:outputLabel	class='outputLabel' for='nEspeciais' value='Necessidades Especiais' />
+						<p:selectCheckboxMenu	id="nEspecial"
+												label='#{null == membroBean.membro.nEspeciais || membroBean.membro.nEspeciais.size() == 0 ? "Selecione" : membroBean.membro.nEspeciais.size()} #{null == membroBean.membro.nEspeciais || membroBean.membro.nEspeciais.size() == 0 ? "" : "necessidade(s) selecionada(s)"}'
+												value="#{membroBean.membro.nEspeciais}"
+												converter="omnifaces.SelectItemsConverter"
+												filter="true"
+												filterMatchMode="contains"
+												showCheckbox="true"
+												>
+							<f:ajax event='change' render='@this' />
+							<f:selectItems	value='#{nEspecialBean.listar()}'
+											var='nEspecial'
+											itemLabel='#{nEspecial.nome}'
+											itemValue='#{nEspecial}'
+											/>
+						</p:selectCheckboxMenu>
+					</b:column>
+				</b:row>
+				
+				<br/>
+				
+				<b:row	style='	border-top: solid;
+								border-color: #CCCCCC;
+								'>
+					<h3>
+						<b:iconAwesome name="fa fa-fw fa-sitemap"/>
+						Família
+					</h3>
+				</b:row>
+				<b:row id='familia'>
+					<b:column	col-lg='4'
+								col-md='4'
+								col-sm='6'
+								col-xs='12'
+								>
+						<br/>
+						<h:outputLabel	class='outputLabel' for='membroPai' value='Pai' />
+						<h:selectOneMenu	id='membroPai'
+											value='#{membroBean.membro.pai}'
+											converter='omnifaces.SelectItemsConverter'
+											class='hSelectOneMenu'
+											>
+							<f:selectItem	itemLabel='Selecione'
+											noSelectionOption='false'
+											/>
+							<f:selectItems	value='#{membroBean.listarHomens()}' var='membroPai'
+											itemLabel='#{membroPai.nome} #{membroPai.sobrenome}'
+											binding='#{membroPai}'
+											/>
+							<f:ajax event='change' render='@this' />
+						</h:selectOneMenu>
+					</b:column>
+					<b:column	col-lg='4'
+								col-md='4'
+								col-sm='6'
+								col-xs='12'
+								>
+						<br/>
+						<h:outputLabel	class='outputLabel' for='membroMae' value='Mãe' />
+						<h:selectOneMenu	id='membroMae'
+											value='#{membroBean.membro.mae}'
+											converter='omnifaces.SelectItemsConverter'
+											class='hSelectOneMenu'
+											>
+							<f:selectItem	itemLabel='Selecione'
+											noSelectionOption='false'
+											/>
+							<f:selectItems	value='#{membroBean.listarMulheres()}' var='membroMae'
+											itemLabel='#{membroMae.nome} #{membroMae.sobrenome}'
+											binding='#{membroMae}'
+											/>
+							<f:ajax event='change' render='@this' />
+						</h:selectOneMenu>
+					</b:column>
+					<b:column	col-lg='4'
+								col-md='4'
+								col-sm='6'
+								col-xs='12'
+								>
+						<br/>
+						<h:outputLabel	class='outputLabel' for='irmaos' value='Irmãos' />
+						<p:selectCheckboxMenu	id="irmaos"
+												label='#{null == membroBean.membro.irmaos || membroBean.membro.irmaos.size() == 0 ? "Selecione" : membroBean.membro.irmaos.size()} #{null == membroBean.membro.irmaos || membroBean.membro.irmaos.size() == 0 ? "" : "irmão(s) selecionado(s)"}'
+												value="#{membroBean.membro.irmaos}"
+												converter="omnifaces.SelectItemsConverter"
+												filter="true"
+												filterMatchMode="contains"
+												showCheckbox="true"
+												>
+							<f:ajax event='change' render='@this' />
+							<f:selectItems	value='#{membroBean.listarExcluindo(membroBean.membro.pai, membroBean.membro.mae)}'
+											var='membrsIrmaos'
+											itemLabel='#{membrsIrmaos.nome} #{membrsIrmaos.sobrenome}'
+											itemValue='#{membrsIrmaos}'
+											/>
+						</p:selectCheckboxMenu>
+					</b:column>
+					<b:container	style='	width: 100%;
+											margin: 0px;
+											padding: 0px;
+											'
+									rendered='#{showMateInfo.value}'
+									>
+						<b:column	col-lg='4'
+									col-md='4'
+									col-sm='6'
+									col-xs='12'
+									>
+							<br/>
+							<h:outputLabel	class='outputLabel' for='membroConjuge' value='Cônjuge*' />
+							<h:selectOneMenu	id='membroConjugeMulher'
+												rendered='#{membroSexo.value}'
+												value='#{membroBean.membro.conjuge}'
+												converter='omnifaces.SelectItemsConverter'
+												class='hSelectOneMenu required'
+												required='true'
+												requiredMessage='Cônjuge: selecione o cônjuge ou deslique a opção de casamento.'
+												>
+								<f:selectItem	itemLabel='Selecione'
+												noSelectionOption='true'
+												/>
+								<f:selectItems	value='#{membroBean.listarMulheresSolteiras()}'
+												var='membroConjuge'
+												itemLabel='#{membroConjuge.nome} #{membroConjuge.sobrenome}'
+												/>
+							</h:selectOneMenu>
+							<h:selectOneMenu	id='membroConjugeHomem'
+												rendered='#{!membroSexo.value}'
+												value='#{membroBean.membro.conjuge}'
+												converter='omnifaces.SelectItemsConverter'
+												class='hSelectOneMenu'
+												required='true'
+												requiredMessage='Cônjuge: selecione o cônjuge ou deslique a opção de casamento.'
+												>
+								<f:selectItem	itemLabel='Selecione'
+												noSelectionOption='true'
+												/>
+								<f:selectItems	value='#{membroBean.listarHomensSolteiros()}'
+												var='membroConjuge'
+												itemLabel='#{membroConjuge.nome} #{membroConjuge.sobrenome}'
+												/>
+							</h:selectOneMenu>
+						</b:column>
+						
+						<b:column	col-lg='4'
+									col-md='4'
+									col-sm='6'
+									col-xs='12'
+									>
+							<br/>
+							<h:outputLabel	class='outputLabel' for='dataCasamento' value='Data do Casamento'/>
+							<b:datepicker 	id='dataCasamento'
+											placeholder='DD/MM/AAAA'
+											value='#{membroBean.membro.dataCasamento}'
+											/>
+						</b:column>
+					</b:container>
+				</b:row>
+					
+				<br/>
+					
+				<b:row	style='	border-top: solid;
+								border-color: #CCCCCC;
+								'>
+					<table style='width: 100%;'>
+						<tr>
+							<td	style='	vertical-align: bottom;'>
+								<h3>
+									<b:iconAwesome name="fa fa-fw fa-map-marker"/>
+									Endereço
+								</h3>
+							</td>
+							<td	style='	vertical-align: bottom;
+										text-align: right;
+										line-height: 1px;
+										margin: 0px;
+										padding: 0px;'
+								>
+								<b:switch	value='#{membroBean.membro.gpsAddress}'
+											label=''
+											offText='Postal'
+											onText='GPS'
+											onColor='danger'
+											offColor='primary'
+											switchsize='mini'
+											binding='#{showGpsForm}'
+											>
+									<f:ajax event='change' render='endereco' />
+								</b:switch>
+							</td>
+						</tr>
+					</table>
+				</b:row>
+					
+				<b:row id='endereco'>
+					<b:row	rendered='#{showGpsForm.value}'
+									>
+						<b:column	col-lg='4'
+									col-md='4'
+									col-sm='6'
+									col-xs='12'
+									>
+							<br/>
+							<h:outputLabel	class='outputLabel'	for='gpsAddress'
+											value='Coordenadas de GPS*'
+											/>
+							<b:inputText	id='gpsAddress'
+											value='#{membroBean.membro.enderecoLogradouro}'
+											placeholder='Digite as coordenadas do GPS'
+											required='true'
+											requiredMessage='Coordenadas de GPS: Campo obrigatório!'
+											class='required'
+											/>
+						</b:column>
+					</b:row>
+					<b:row	rendered='#{!showGpsForm.value}'
+									class='row'
+									>
+						<b:column	col-lg='3'
+									col-md='3'
+									col-sm='3'
+									col-xs='12'
+									>
+							<br/>
+							<h:outputLabel	class='outputLabel' value='CEP' for='cep'/>
+							<b:iconAwesome	name='fa-question-circle'
+											tooltip='Caso o sistema encontre o CEP digitado, os campos de endereço serão preenchidos automaticamente.'
+											onclick='alert("Caso o sistema encontre o CEP digitado, os campos de endereço serão preenchidos automaticamente.")'
+											style='	margin-left: 4px;'
+											/>
+							<b:inputText	id='cep'
+											binding='#{cep}'
+											maxlength='8'
+											onkeypress='return teclaNumerica(event.keyCode)'
+											value='#{membroBean.membro.enderecoCep}'
+											placeholder='Digite o CEP'
+											onblur='if(this.value != "") pesquisaCep(this.value);'
+											/>
+						</b:column>
+						
+						<b:column	col-lg='6'
+									col-md='6'
+									col-sm='9'
+									col-xs='12'
+									>
+							<br/>
+							<h:outputLabel	class='outputLabel' value='Endereço' for='logradouro'/>
+							<b:inputText	id='logradouro'
+											name='logradouro'
+											value='#{membroBean.membro.enderecoLogradouro}'
+											placeholder='Digite o nome da rua, avenida, etc.'
+											class='hidden-xs'
+											onblur='document.getElementById("input_form:logradouro2").value = document.getElementById("input_form:logradouro").value'
+											/>
+							<b:inputTextarea	id='logradouro2'
+												name='logradouro2'
+												value='#{membroBean.membro.enderecoLogradouro}'
+												placeholder='Digite o nome da rua, avenida, etc.'
+												class='visible-xs'
+												onblur='document.getElementById("input_form:logradouro").value = document.getElementById("input_form:logradouro2").value'
+												/>
+						</b:column>
+						
+						<b:column	col-lg='1'
+									col-md='1'
+									col-sm='2'
+									col-xs='5'
+									>
+							<br/>
+							<h:outputLabel	class='outputLabel' value='№' for='numero'/>
+							<b:inputText	id='numero'
+											value='#{membroBean.membro.enderecoNumero}'
+											onkeypress='return teclaNumerica(event.keyCode)'
+											maxlength='5'
+											placeholder='№'
+											/>
+						</b:column>
+						
+						<b:column	col-lg='2'
+									col-md='2'
+									col-sm='4'
+									col-xs='7'
+									>
+							<br/>
+							<h:outputLabel	class='outputLabel' value='Complemento' for='complemento'/>
+							<b:inputText	id='complemento'
+											value='#{membroBean.membro.enderecoComplemento}'
+											placeholder='Complemento'
+											/>
+						</b:column>
+						
 						<b:column	col-lg='3'
 									col-md='3'
 									col-sm='6'
 									col-xs='12'
-									rendered='#{showNeMenu.value}'
 									>
 							<br/>
-							<h:outputLabel	class='outputLabel' for='nEspeciais' value='Necessidades Especiais' />
-							<p:selectCheckboxMenu	id="nEspecial"
-													label='Selecione'
-													value="#{membroBean.membro.nEspeciais}"
-													converter="omnifaces.SelectItemsConverter"
-													filter="true"
-													filterMatchMode="contains"
-													showCheckbox="true"
-													>
-								<f:selectItems	value='#{nEspecialBean.listar()}'
-												var='nEspecial'
-												itemLabel='#{nEspecial.nome}'
-												itemValue='#{nEspecial}'
-												/>
-							</p:selectCheckboxMenu>
+							<h:outputLabel	class='outputLabel' value='Bairro' for='bairro'/>
+							<b:inputText	id='bairro'
+											value='#{membroBean.membro.enderecoBairro}'
+											placeholder='Bairro'
+											/>
 						</b:column>
-					</b:row>
-					
-					<br/>
-					
-					<b:row	style='	border-top: solid;
-									width: 100%;
-									border-color: #CCCCCC;
-									margin: 0px;
-									padding: 0px;
-									'>
-						<h3>
-							<b:iconAwesome name="fa fa-fw fa-sitemap"/>
-							Família
-						</h3>
-					</b:row>
-					<b:row>
+						
 						<b:column	col-lg='4'
 									col-md='4'
 									col-sm='6'
 									col-xs='12'
 									>
 							<br/>
-							<h:outputLabel	class='outputLabel' for='membroPai' value='Pai' />
-							<h:selectOneMenu	id='membroPai'
-												value='#{membroBean.membro.pai}'
-												converter='omnifaces.SelectItemsConverter'
-												class='hSelectOneMenu'
-												>
-								<f:selectItem	itemLabel='Selecione'
-												noSelectionOption='false'
-												/>
-								<f:selectItems	value='#{membroBean.listarHomens()}' var='membroPai'
-												itemLabel='#{membroPai.nome} #{membroPai.sobrenome}'
-												binding='#{membroPai}'
-												/>
-								<f:ajax event='change' render='@form' />
-							</h:selectOneMenu>
+							<h:outputLabel	class='outputLabel' value='Cidade' for='cidade'/>
+							<b:inputText	id='cidade'
+											value='#{membroBean.membro.enderecoCidade}'
+											placeholder='Cidade'
+											/>
 						</b:column>
+						
+						<b:column	col-lg='1'
+									col-md='1'
+									col-sm='2'
+									col-xs='4'
+									>
+							<br/>
+							<h:outputLabel	class='outputLabel' value='UF' for='uf'/>
+							<b:inputText	id='uf'
+											maxlength='2'
+											value='#{membroBean.membro.enderecoEstado}'
+											placeholder='UF'
+											/>
+						</b:column>
+						
 						<b:column	col-lg='4'
 									col-md='4'
-									col-sm='6'
+									col-sm='4'
 									col-xs='12'
 									>
 							<br/>
-							<h:outputLabel	class='outputLabel' for='membroMae' value='Mãe' />
-							<h:selectOneMenu	id='membroMae'
-												value='#{membroBean.membro.mae}'
-												converter='omnifaces.SelectItemsConverter'
-												class='hSelectOneMenu'
-												>
-								<f:selectItem	itemLabel='Selecione'
-												noSelectionOption='false'
-												/>
-								<f:selectItems	value='#{membroBean.listarMulheres()}' var='membroMae'
-												itemLabel='#{membroMae.nome} #{membroMae.sobrenome}'
-												binding='#{membroMae}'
-												/>
-								<f:ajax event='change' render='@form' />
-							</h:selectOneMenu>
+							<h:outputLabel	class='outputLabel' value='País' for='pais'/>
+							<b:inputText	id='pais'
+											value='#{membroBean.membro.enderecoPais}'
+											placeholder='País'
+											/>
 						</b:column>
-						<b:column	col-lg='4'
-									col-md='4'
-									col-sm='6'
-									col-xs='12'
-									>
-							<br/>
-							<h:outputLabel	class='outputLabel' for='irmaos' value='Irmãos' />
-							<p:selectCheckboxMenu	id="irmaos"
-													label='#{membroBean.membro.irmaos.size() == 0 ? "Selecione" : (membroBean.membro.irmaos.size())} #{membroBean.membro.irmaos.size() == 0 ? "" : "irmão(s) selecionado(s)"}'
-													value="#{membroBean.membro.irmaos}"
-													converter="omnifaces.SelectItemsConverter"
-													filter="true"
-													filterMatchMode="contains"
-													showCheckbox="true"
-													>
-								<f:ajax event='change' render='@this' />
-								<f:selectItems	value='#{membroBean.listarExcluindo(membroBean.membro.pai, membroBean.membro.mae)}'
-												var='membrsIrmaos'
-												itemLabel='#{membrsIrmaos.nome} #{membrsIrmaos.sobrenome}'
-												itemValue='#{membrsIrmaos}'
-												/>
-							</p:selectCheckboxMenu>
-						</b:column>
-						<b:container	style='	width: 100%;
-												margin: 0px;
-												padding: 0px;
-												'
-										rendered='#{showMateInfo.value}'
-										>
-							<b:column	col-lg='4'
-										col-md='4'
-										col-sm='6'
-										col-xs='12'
-										>
-								<br/>
-								<h:outputLabel	class='outputLabel' for='membroConjuge' value='Cônjuge' />
-								<h:selectOneMenu	id='membroConjugeMulher'
-													rendered='#{membroSexo.value}'
-													value='#{membroBean.membro.conjuge}'
-													converter='omnifaces.SelectItemsConverter'
-													class='hSelectOneMenu'
-													>
-									<f:selectItem	itemLabel='Selecione'
-													noSelectionOption='true'
-													/>
-									<f:selectItems	value='#{membroBean.listarMulheresSolteiras()}'
-													var='membroConjuge'
-													itemLabel='#{membroConjuge.nome} #{membroConjuge.sobrenome}'
-													/>
-								</h:selectOneMenu>
-								<h:selectOneMenu	id='membroConjugeHomem'
-													rendered='#{!membroSexo.value}'
-													value='#{membroBean.membro.conjuge}'
-													converter='omnifaces.SelectItemsConverter'
-													class='hSelectOneMenu'
-													>
-									<f:selectItem	itemLabel='Selecione'
-													noSelectionOption='true'
-													/>
-									<f:selectItems	value='#{membroBean.listarHomensSolteiros()}'
-													var='membroConjuge'
-													itemLabel='#{membroConjuge.nome} #{membroConjuge.sobrenome}'
-													/>
-								</h:selectOneMenu>
-							</b:column>
-							
-							<b:column	col-lg='4'
-										col-md='4'
-										col-sm='6'
-										col-xs='12'
-										>
-								<br/>
-								<h:outputLabel	class='outputLabel' for='dataCasamento' value='Data do Casamento'/>
-								<b:datepicker 	id='dataCasamento'
-												placeholder='DD/MM/AAAA'
-												value='#{membroBean.membro.dataCasamento}'
-												/>
-							</b:column>
-						</b:container>
 					</b:row>
-					
-					<br/>
-					
-					<b:row	style='	border-top: solid;
-									width: 100%;
-									border-color: #CCCCCC;
-									margin: 0px;
-									padding: 0px;
-									'>
-						<table style='width: 100%;'>
-							<tr>
-								<td	style='	vertical-align: bottom;'>
-									<h3>
-										<b:iconAwesome name="fa fa-fw fa-map-marker"/>
-										Endereço
-									</h3>
-								</td>
-								<td	style='	vertical-align: bottom;
-											text-align: right;
-											line-height: 1px;
-											margin: 0px;
-											padding: 0px;'
-									>
-									<b:switch	value='#{membroBean.membro.gpsAddress}'
-												label=''
-												offText='Postal'
-												onText='GPS'
-												onColor='danger'
-												offColor='primary'
-												switchsize='mini'
-												binding='#{showGpsForm}'
-												>
-										<f:ajax event='change' render='@form' />
-									</b:switch>
-								</td>
-							</tr>
-						</table>
-					</b:row>
-					
-					<b:row>
-						<b:container	rendered='#{showGpsForm.value}'
-										style='	width: 100%;
-												margin: 0px;
-												padding: 0px;
-												'
-										>
-							<b:column	col-lg='4'
-										col-md='4'
-										col-sm='6'
-										col-xs='12'
-										>
-								<br/>
-								<h:outputLabel	class='outputLabel'	for='gpsAddress'
-												value='Coordenadas de GPS*'
-												/>
-								<b:inputText	id='gpsAddress'
-												value='#{membroBean.membro.enderecoLogradouro}'
-												placeholder='Digite as coordenadas do GPS'
-												requiered='true'
-												requiredMessage='Coordenadas de GPS: Campo obrigatório!'
-												/>
-							</b:column>
-						</b:container>
-					</b:row>
-					<b:row>
-						<b:container	rendered='#{!showGpsForm.value}'
-										style='	width: 100%;
-												margin: 0px;
-												padding: 0px;
-												'
-										>
-							<b:column	col-lg='3'
-										col-md='3'
-										col-sm='3'
-										col-xs='12'
-										>
-								<br/>
-								<h:outputLabel	class='outputLabel' value='CEP' for='cep'/>
-								<b:iconAwesome	name='fa-question-circle'
-												tooltip='Caso o sistema encontre o CEP digitado, os campos de endereço serão preenchidos automaticamente.'
-												onclick='alert("Caso o sistema encontre o CEP digitado, os campos de endereço serão preenchidos automaticamente.")'
-												style='	margin-left: 4px;'
-												/>
-								<b:inputText	id='cep'
-												binding='#{cep}'
-												maxlength='8'
-												onkeypress='return teclaNumerica(event.keyCode)'
-												value='#{membroBean.membro.enderecoCep}'
-												placeholder='Digite o CEP'
-												onblur='if(this.value != "") pesquisaCep(this.value);'
-												/>
-							</b:column>
-							
-							<b:column	col-lg='6'
-										col-md='6'
-										col-sm='9'
-										col-xs='12'
-										>
-								<br/>
-								<h:outputLabel	class='outputLabel' value='Endereço' for='logradouro'/>
-								<b:inputText	id='logradouro'
-												name='logradouro'
-												value='#{membroBean.membro.enderecoLogradouro}'
-												placeholder='Digite o nome da rua, avenida, etc.'
-												class='hidden-xs'
-												onblur='document.getElementById("input_form:logradouro2").value = document.getElementById("input_form:logradouro").value'
-												/>
-								<b:inputTextarea	id='logradouro2'
-													name='logradouro2'
-													value='#{membroBean.membro.enderecoLogradouro}'
-													placeholder='Digite o nome da rua, avenida, etc.'
-													class='visible-xs'
-													onblur='document.getElementById("input_form:logradouro").value = document.getElementById("input_form:logradouro2").value'
-													/>
-							</b:column>
-							
-							<b:column	col-lg='1'
-										col-md='1'
-										col-sm='2'
-										col-xs='5'
-										>
-								<br/>
-								<h:outputLabel	class='outputLabel' value='№' for='numero'/>
-								<b:inputText	id='numero'
-												value='#{membroBean.membro.enderecoNumero}'
-												onkeypress='return teclaNumerica(event.keyCode)'
-												maxlength='5'
-												placeholder='№'
-												/>
-							</b:column>
-							
-							<b:column	col-lg='2'
-										col-md='2'
-										col-sm='4'
-										col-xs='7'
-										>
-								<br/>
-								<h:outputLabel	class='outputLabel' value='Complemento' for='complemento'/>
-								<b:inputText	id='complemento'
-												value='#{membroBean.membro.enderecoComplemento}'
-												placeholder='Complemento'
-												/>
-							</b:column>
-							
-							<b:column	col-lg='3'
-										col-md='3'
-										col-sm='6'
-										col-xs='12'
-										>
-								<br/>
-								<h:outputLabel	class='outputLabel' value='Bairro' for='bairro'/>
-								<b:inputText	id='bairro'
-												value='#{membroBean.membro.enderecoBairro}'
-												placeholder='Bairro'
-												/>
-							</b:column>
-							
-							<b:column	col-lg='4'
-										col-md='4'
-										col-sm='6'
-										col-xs='12'
-										>
-								<br/>
-								<h:outputLabel	class='outputLabel' value='Cidade' for='cidade'/>
-								<b:inputText	id='cidade'
-												value='#{membroBean.membro.enderecoCidade}'
-												placeholder='Cidade'
-												/>
-							</b:column>
-							
-							<b:column	col-lg='1'
-										col-md='1'
-										col-sm='2'
-										col-xs='4'
-										>
-								<br/>
-								<h:outputLabel	class='outputLabel' value='UF' for='uf'/>
-								<b:inputText	id='uf'
-												maxlength='2'
-												value='#{membroBean.membro.enderecoEstado}'
-												placeholder='UF'
-												/>
-							</b:column>
-							
-							<b:column	col-lg='4'
-										col-md='4'
-										col-sm='4'
-										col-xs='12'
-										>
-								<br/>
-								<h:outputLabel	class='outputLabel' value='País' for='pais'/>
-								<b:inputText	id='pais'
-												value='#{membroBean.membro.enderecoPais}'
-												placeholder='País'
-												/>
-							</b:column>
-						</b:container>
-					</b:row>
+				</b:row>
 
 				<br/>
 
 				<b:row	style='	border-top: solid;
-								width: 100%;
 								border-color: #CCCCCC;
-								margin: 0px;
-								padding: 0px;
-								'>
+								'
+						>
 					<h3>
 						<b:iconAwesome name="fa fa-fw fa-phone"/>
 						Telefone
@@ -690,7 +679,7 @@
 					<b:column span='12'>
 						<b:iconAwesome	name='fa fa-plus fa-fw'
 										size='lg'
-										style='	color: #00CC00;					
+										style='	color: #0C0;					
 												'
 										>
 							<f:ajax	listener="#{membroBean.botaoAdicionarTelefone}"
@@ -704,11 +693,9 @@
 				<br/>
 				
 				<b:row	style='	border-top: solid;
-								width: 100%;
 								border-color: #CCCCCC;
-								margin: 0px;
-								padding: 0px;
-								'>
+								'
+						>
 					<h3>
 						<b:iconAwesome name="fa fa-fw fa-at"/>
 						E-mail
@@ -783,13 +770,8 @@
 				</b:row>
 				
 				<br/>
-				
-				<b:row	style='	border-top: solid;
-								width: 100%;
-								border-color: #CCCCCC;
-								margin: 0px;
-								padding: 0px;
-								'>
+
+				<b:row id='dadosMembro' class='splitRow'>
 					<table style='width: 100%;'>
 						<tr>
 							<td	style='	vertical-align: bottom;'>
@@ -799,24 +781,36 @@
 								</h3>
 							</td>
 							<td	style='	line-height: 1px;
-										color: #336;
-										min-width: 24px;
-										max-width: 24px;
+										color: #FFF;
+										min-width: 32px;
+										max-width: 32px;
 										'
 								>
-<!-- 								<b:switch	value='#{membroBean.membro.membro.directoryMember}' -->
-<!-- 											label='' -->
-<!-- 											offText='Normal' -->
-<!-- 											onText='Diretoria' -->
-<!-- 											onColor='danger' -->
-<!-- 											offColor='primary' -->
-<!-- 											switchsize='mini' -->
-<!-- 											binding='#{showDirectoryForm}' -->
-<!-- 											> -->
-<!-- 									<f:ajax event='change' render='@form' /> -->
-<!-- 								</b:switch> -->
+								<b:iconAwesome	name='fa-flash'
+													tooltip='Batizado'
+													onclick='alert("Selecione esta opção se o membro for batizado.")'
+													style='	border-radius: 100%;
+															background-color: #33F;
+															margin-left: -5px;
+															padding: 3.5px 7px;
+															'
+													/>
+								<b:selectBooleanCheckbox	id='baptized'
+															binding='#{showBaptizmDate}'
+															value='#{membroBean.membro.membro.directoryMember}'
+															style='	margin-left: 0px;'
+															>
+									<f:ajax event='change' render='dadosMembro' />
+								</b:selectBooleanCheckbox>
+							</td>
+							<td	style='	line-height: 1px;
+										color: #336;
+										min-width: 32px;
+										max-width: 32px;
+										'
+								>
 								<b:iconAwesome	name='fa-legal'
-													tooltip='Membro da diretoria / conselho fiscal'
+													tooltip='Membro da diretoria e conselho fiscal'
 													onclick='alert("Selecione esta opção caso o membro pertença à diretoria ou ao conselho fiscal.")'
 													style='	border-radius: 100%;
 															background-color: #CCCCFF;
@@ -829,25 +823,26 @@
 															value='#{membroBean.membro.membro.directoryMember}'
 															style='	margin-left: 0px;'
 															>
-									<f:ajax event='change' render='@form' />
+									<f:ajax event='change' render='diretoria' />
 								</b:selectBooleanCheckbox>
 							</td>
 							<td	style='	line-height: 1px;
 										color: #090;
-										max-width: 24px;
+										min-width: 16px;
+										max-width: 16px;
 										'
 								>
 								<b:iconAwesome	name='fa-thumbs-up'
 													tooltip='Líder de célula'
 													onclick='alert("Selecione esta opção caso o membro seja líder de célula.")'
 													style='	border-radius: 100%;
-															background-color: #CCFFCC;
+															background-color: #9c9;
 															margin-left: -5px;
 															padding: 3.5px;
 															'
 													/>
 								<b:selectBooleanCheckbox	id='celLeaderCheckBox'
-															value='#{membroBean.membro.membro.directoryMember}'
+															value='#{membroBean.membro.membro.leader}'
 															binding='#{showLeaderForm}'
 															onchange='setTrainee(#{!showLeaderForm.value})'
 															style='	margin-left: 0px;'
@@ -857,184 +852,179 @@
 							</td>
 						</tr>
 					</table>
-				</b:row>
-				<b:row>
-					<b:column	rendered='#{!showPresidentForm.value}'
-										col-lg='3'
-										col-md='3'
-										col-sm='6'
-										col-xs='12'
-										>
-						<br/>
-						<h:outputLabel	class='outputLabel' for='membroCelula' value='Célula' />
-						<h:selectOneMenu	id='membroCelula'
-											value='#{membroBean.membro.membro.celula}'
-											converter='omnifaces.SelectItemsConverter'
-											class='hSelectOneMenu'
-											required='true'
-											requiredMessage='Célula: Campo obrigatório!'
-											>
-							<f:selectItem	itemLabel='Selecione'
-											noSelectionOption='true'
-											/>
-							<f:selectItems	value='#{celulaBean.listar()}'
-											var='membroCelula'
-											itemLabel='#{membroCelula.nome} (#{membroCelula.sede.nome}#{membroCelula.sede.mainChurch ? "*" : ""})'
-											/>
-						</h:selectOneMenu>
-					</b:column>
-					<b:column	col-lg='4'
-								col-md='4'
-								col-sm='6'
-								col-xs='12'
-								>
-						<br/>
-						<h:outputLabel	for='dataMembresia'
-										value='Data da membresia'
-										class='outputLabel'
-										/>
-						<b:datepicker 	id='dataMembresia'
-										placeholder='DD/MM/AAAA'
-										value='#{membroBean.membro.membro.dataMembresia}'
-										/>
-					</b:column>
-				</b:row>
-				
-				
-				
-				
-				
-				
-				
-				<b:container	rendered='#{showDirectoryForm.value}'
-								style='	width: 100%;
-										margin: 0px;
-										padding: 0px;
-										'
-								>
-					<br/>
-					<b:row	style='	border-top: solid;
-							width: 100%;
-							border-color: #CCCCCC;
-							margin: 0px;
-							padding: 0px;
-							'>
-						<table style='width: 100%;'>
-							<tr>
-								<td	style='	vertical-align: bottom;'>
-									<h3>
-										<b:iconAwesome name="fa fa-fw fa-legal"/>
-										<br class='visible-xs'/>
-										Diretoria / <br class='visible-xs'/>
-										Conselho Fiscal
-									</h3>
-								</td>
-								<td	style='	vertical-align: bottom;
-											text-align: right;
-											line-height: 1px;
-											margin: 0px;
-											padding: 0px;'
-									>
-									<b:switch	id='directoryStatusChanger'
-												value='#{showDirectoryForm.value}'
-												label=''
-												offText='Inativo'
-												onText='Ativo'
-												onColor='danger'
-												offColor='primary'
-												switchsize='mini'
-												binding='#{directoryStatus}'
-												onchange='alertarAoDesligar(this, "Ao tornar inativo, o membro deixa de pertencer à diretoria, mantendo as informações atuais como histórico. Deseja continuar?")'
-												>
-										<f:ajax event='change' render='@form' />
-									</b:switch>
-								</td>
-							</tr>
-						</table>
-					</b:row>
 					<b:row>
-						<b:column	col-lg='4'
-									col-md='4'
+						<b:column	rendered='#{!showPresidentForm.value}'
+									col-lg='3'
+									col-md='3'
 									col-sm='6'
 									col-xs='12'
 									>
 							<br/>
-							<h:outputLabel	class='outputLabel' for='diretoriaCargo' value='Cargo' />
-							<h:selectOneMenu	id='diretoriaCargo'
-												value='#{membroBean.membro.membro.diretoriaCargo}'
-												class='hSelectOneMenu'
+							<h:outputLabel	class='outputLabel' for='membroCelula' value='Célula' />
+							<h:selectOneMenu	id='membroCelula'
+												value='#{membroBean.membro.membro.celula}'
+												converter='omnifaces.SelectItemsConverter'
+												class='hSelectOneMenu required'
+												required='true'
+												requiredMessage='Célula: Campo obrigatório!'
 												>
 								<f:selectItem	itemLabel='Selecione'
-												noSelectionOption='false'
+												noSelectionOption='true'
 												/>
-								<f:selectItem	itemLabel='Presidente'
-												itemValue='Presidente'
-												/>
-								<f:selectItem	itemLabel='Vice-Presidente'
-												itemValue='Vice-Presidente'
-												/>
-								<f:selectItem	itemLabel='1º Tesoureiro'
-												itemValue='1º Tesoureiro'
-												/>
-								<f:selectItem	itemLabel='2º Tesoureiro'
-												itemValue='2º Tesoureiro'
-												/>
-								<f:selectItem	itemLabel='1º Secretário'
-												itemValue='1º Secretário'
-												/>
-								<f:selectItem	itemLabel='2º Secretário'
-												itemValue='2º Secretário'
-												/>
-								<f:selectItem	itemLabel='Presidente (Conselho Fiscal)'
-												itemValue='Presidente (Conselho Fiscal)'
-												/>
-								<f:selectItem	itemLabel='1º Membro (Diretoria)'
-												itemValue='1º Membro (Diretoria)'
-												/>
-								<f:selectItem	itemLabel='2º Membro (Diretoria)'
-												itemValue='2º Membro (Diretoria)'
-												/>
-								<f:selectItem	itemLabel='3º Membro (Assembléia)'
-												itemValue='3º Membro (Assembléia)'
-												/>
-								<f:selectItem	itemLabel='4º Membro (Assembléia)'
-												itemValue='4º Membro (Assembléia)'
+								<f:selectItems	value='#{celulaBean.listar()}'
+												var='membroCelula'
+												itemLabel='#{membroCelula.nome} (#{membroCelula.sede.nome}#{membroCelula.sede.mainChurch ? "*" : ""})'
 												/>
 							</h:selectOneMenu>
 						</b:column>
-						<b:column	col-lg='4'
-									col-md='4'
+						<b:column	col-lg='3'
+									col-md='3'
 									col-sm='6'
 									col-xs='12'
 									>
 							<br/>
-							<h:outputLabel	for='dataDiretoriaPosse'
-											value='Data da posse'
+							<h:outputLabel	for='dataMembresia'
+											value='Data da membresia'
 											class='outputLabel'
 											/>
-							<b:datepicker 	id='dataDiretoriaPosse'
+							<b:datepicker 	id='dataMembresia'
 											placeholder='DD/MM/AAAA'
-											value='#{membroBean.membro.membro.dataDiretoriaEntrada}'
-											/>
+											value='#{membroBean.membro.membro.dataMembresia}'
+											>
+								<script>
+									requiredField("form:dataMembresia");
+								</script>
+							</b:datepicker>
 						</b:column>
-						<b:column	col-lg='4'
-									col-md='4'
+						<b:column	col-lg='3'
+									col-md='3'
 									col-sm='6'
 									col-xs='12'
-									rendered='#{!directoryStatus.value}'
+									rendered='#{showBaptizmDate.value}'
 									>
 							<br/>
-							<h:outputLabel	for='dataDiretoriaEntrega'
-											value='Data da entrega'
+							<h:outputLabel	for='dataBatismo'
+											value='Data do batismo'
 											class='outputLabel'
 											/>
-							<b:datepicker 	id='dataDiretoriaEntrega'
+							<b:datepicker 	id='dataBatismo'
 											placeholder='DD/MM/AAAA'
-											value='#{membroBean.membro.membro.dataDiretoriaSaida}'
-											/>
+											value='#{membroBean.membro.membro.dataBatismo}'
+											>
+							</b:datepicker>
 						</b:column>
 					</b:row>
-				</b:container>
+					<br/>
+					<b:row id='leaderForm'>
+						<b:row rendered='true' class='splitRow'>
+							<h3>
+								<b:iconAwesome name="fa fa-fw fa-users"/>
+								Liderança
+							</h3>
+							
+							<b:row rendered='#{showCordinatorForm.value}'>
+							
+								<b:row rendered='#{showPastorForm.value}'>
+		
+									<b:row rendered='#{showPresidentForm.value}'>
+									
+									</b:row>
+								</b:row>
+							</b:row>
+						</b:row>
+					</b:row>					
+				</b:row>
+
+				<br/>
+
+				<b:row	id='diretoria'>
+					<b:row	rendered='#{showDirectoryForm.value}'
+							class='splitRow'
+							>
+						<h3>
+							<b:iconAwesome name="fa fa-fw fa-legal"/>
+							<br class='visible-xs'/>
+							Diretoria / <br class='visible-xs'/>
+							Conselho Fiscal
+						</h3>
+					</b:row>
+					<b:row	rendered='#{showDirectoryForm.value}'>
+						<b:row id='diretoriaStatus'>
+							<b:column	col-lg='4'
+										col-md='4'
+										col-sm='6'
+										col-xs='12'
+										>
+								<br/>
+								<h:outputLabel	class='outputLabel' for='diretoriaCargo' value='Cargo*' />
+								<h:selectOneMenu	id='diretoriaCargo'
+													value='#{membroBean.membro.membro.diretoriaCargo}'
+													class='hSelectOneMenu required'
+													required='true'
+													requiredMessage='Diretoria: cargo é campo obrigatório.'
+													>
+									<f:selectItem	itemLabel='Selecione'
+													noSelectionOption='false'
+													/>
+									<f:selectItem	itemLabel='Presidente'
+													itemValue='Presidente'
+													/>
+									<f:selectItem	itemLabel='Vice-Presidente'
+													itemValue='Vice-Presidente'
+													/>
+									<f:selectItem	itemLabel='1º Tesoureiro'
+													itemValue='1º Tesoureiro'
+													/>
+									<f:selectItem	itemLabel='2º Tesoureiro'
+													itemValue='2º Tesoureiro'
+													/>
+									<f:selectItem	itemLabel='1º Secretário'
+													itemValue='1º Secretário'
+													/>
+									<f:selectItem	itemLabel='2º Secretário'
+													itemValue='2º Secretário'
+													/>
+									<f:selectItem	itemLabel='Presidente (Conselho Fiscal)'
+													itemValue='Presidente (Conselho Fiscal)'
+													/>
+									<f:selectItem	itemLabel='1º Membro (Diretoria)'
+													itemValue='1º Membro (Diretoria)'
+													/>
+									<f:selectItem	itemLabel='2º Membro (Diretoria)'
+													itemValue='2º Membro (Diretoria)'
+													/>
+									<f:selectItem	itemLabel='3º Membro (Assembléia)'
+													itemValue='3º Membro (Assembléia)'
+													/>
+									<f:selectItem	itemLabel='4º Membro (Assembléia)'
+													itemValue='4º Membro (Assembléia)'
+													/>
+								</h:selectOneMenu>
+							</b:column>
+							<b:column	col-lg='4'
+										col-md='4'
+										col-sm='6'
+										col-xs='12'
+										>
+								<br/>
+								<h:outputLabel	for='dataDiretoriaPosse'
+												value='Data da posse*'
+												class='outputLabel'
+												/>
+								<b:datepicker 	id='dataDiretoriaPosse'
+												placeholder='DD/MM/AAAA'
+												value='#{membroBean.membro.membro.dataDiretoriaEntrada}'
+												required='true'
+												requiredMessage='Diretoria: Data da posse é campo obrigatório.'
+												>
+									<script>
+										requiredField("form:dataDiretoriaPosse");
+									</script>
+								</b:datepicker>
+							</b:column>
+						</b:row>
+					</b:row>
+				</b:row>
 			</div>
 		</ui:define>
 	</ui:composition>

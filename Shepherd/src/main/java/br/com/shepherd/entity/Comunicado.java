@@ -8,7 +8,6 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -36,7 +35,7 @@ public class Comunicado implements Serializable{
 	 * e USUARIO
 	 */
 	// @NotNull
-	@OneToOne(fetch = FetchType.EAGER)
+	@OneToOne // (fetch = FetchType.EAGER)
 	private Sede				sede;
 
 	/*
@@ -44,7 +43,7 @@ public class Comunicado implements Serializable{
 	 * Membro..MINISTRO e USUARIO
 	 */
 	// @NotNull
-	@OneToOne(fetch = FetchType.EAGER)
+	@OneToOne // (fetch = FetchType.EAGER)
 	private Usuario				autor;
 
 	@Override

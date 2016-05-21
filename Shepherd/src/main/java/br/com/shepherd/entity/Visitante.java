@@ -29,7 +29,7 @@ public class Visitante implements Serializable{
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date				dataVisita;
 
-	@OneToOne(fetch = FetchType.LAZY)
+	@OneToOne // (fetch = FetchType.LAZY)
 	private Sede				sedeVisita;
 
 	// Situação
@@ -40,7 +40,7 @@ public class Visitante implements Serializable{
 
 	// Informações pessoais do visitante
 	@NotNull
-	@OneToOne(fetch = FetchType.LAZY)
+	@OneToOne // (fetch = FetchType.LAZY)
 	private Pessoa				pessoa;
 
 	// Informações do cadastrante
@@ -48,15 +48,15 @@ public class Visitante implements Serializable{
 	@OneToOne(fetch = FetchType.LAZY)
 	private Membro				membroCadastrante;
 
-	@OneToOne(fetch = FetchType.LAZY)
+	@OneToOne // (fetch = FetchType.LAZY)
 	private Celula				celula;
 
 	// Informações de reuniões
-	@ManyToMany(fetch = FetchType.LAZY)
+	@ManyToMany // (fetch = FetchType.LAZY)
 	private List<CelulaReuniao>	reunioesComparecidas;
 
 	// Atendimentos
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "visitanteAtendido")
+	@OneToMany(/* fetch = FetchType.LAZY, */ mappedBy = "visitanteAtendido")
 	private List<Atendimento>	atendimentosRecebidos;
 
 	// Comentários

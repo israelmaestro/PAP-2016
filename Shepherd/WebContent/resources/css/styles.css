@@ -1,3 +1,43 @@
+.splitRow{
+	border-top: solid;
+	border-color: #CCC;
+}
+
+.wrapped{
+	word-wrap: initial;
+}
+
+.idade{
+	padding: 6px 3px;
+	text-align: center
+}
+
+.row{
+	margin: 0px;
+	padding: 0px;
+}
+
+.column{
+	margin: 0px;
+	padding: 0px;
+}
+
+.required {
+	background-color: #FFC;
+}
+
+.emptyTableWarining {
+	color: #C93;
+	background-color: #FFC;
+	border: solid #C90;
+	border-radius: 8px;
+	text-align: center;
+	padding: 32px 8px 32px 8px;
+	font-size: xx-large;
+	font-weight: bold;
+	width: 90%;
+}
+
 .hSelectOneMenu {
 	width: 100%;
 	font-family: inherit;
@@ -6,11 +46,18 @@
 	border-radius: 4px;
 }
 
+.pDataTable {
+	font-size: 1.1em;
+	font-family: inherit;
+	border: solid #CCC;
+	border-radius: 4px;
+}
+
 .ui-datepicker {
-	width: 18em;
+	width: auto;
 	padding: .2em .2em 0;
 	display: none;
-	font-family: Lucida Console;
+	font-family: Lucida Console, monospace;
 }
 
 .pSelectCheckboxMenu {
@@ -26,15 +73,24 @@
 	width: 100%;
 	border: solid 1px #CCC;
 	cursor: pointer;
-	background-color: #FFF;
+	background-color: #FFFFFF;
+	background-image: none;
 	font-family: inherit;
 	font-size: 1em;
 	font-weight: normal;
 	border-radius: 4px;
+	font-family: inherit;
 }
 
 .ui-selectcheckboxmenu-label {
 	background-color: #FFF;
+}
+
+.ui-selectcheckboxmenu-header {
+	background-color: #FFF;
+	padding: 0px;
+	padding-left: 0.3em;
+	vertical-align: bottom;
 }
 
 label {
@@ -75,8 +131,6 @@ label {
 	min-height: 0px;
 	padding-left: 0px;
 	margin-bottom: 0;
-	/* font-weight: normal; */
-	/* cursor: pointer; */
 }
 
 .ui-selectcheckboxmenu .ui-selectcheckboxmenu-trigger .ui-icon {
@@ -85,8 +139,56 @@ label {
 	padding: 0px;
 }
 
+.ui-corner-right {
+	background-image: none;
+}
+
 #irmaos {
 	font-family: inherit;
 	font-size: 1em;
 	font-weight: normal;
+}
+
+.ui-button .ui-button-text {
+	line-height: inherit;
+	background-image: none;
+}
+
+.ui-datatable thead th, .ui-datatable tbody td, .ui-datatable tfoot td,
+	.ui-datatable tfoot th {
+	background-image: none;
+}
+
+.ui-state-default, .ui-widget-content .ui-state-default,
+	.ui-widget-header .ui-state-default {
+	background-image: none;
+	border-radius: 4px;
+	border: solid #CCC 1px;
+	height: auto;
+	margin: 0px;
+}
+
+.ui-widget {
+	font-size: 1.1em;
+}
+
+.ui-dialog.ui-widget-content .ui-dialog-content {
+	font-size: 1.2em;
+	font-family: inherit;
+	text-align: center;
+}
+
+.ui-dialog {
+	max-width: 99%;
+	word-wrap: break-word;
+}
+
+.ui-confirmdialog-yes {
+	width: 48px;
+	height: 48px;
+}
+
+.ui-confirmdialog-no {
+	width: 48px;
+	height: 48px;
 }

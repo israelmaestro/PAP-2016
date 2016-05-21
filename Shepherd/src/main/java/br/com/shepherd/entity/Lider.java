@@ -6,7 +6,6 @@ import java.util.Date;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
@@ -28,15 +27,15 @@ public class Lider implements Serializable{
 
 	// Informações pessoais do líder
 	@NotNull
-	@OneToOne(fetch = FetchType.EAGER)
+	@OneToOne // (fetch = FetchType.EAGER)
 	private Membro				membro;
 
 	// Atribuições
 	@NotNull
-	@OneToOne(fetch = FetchType.EAGER)
+	@OneToOne // (fetch = FetchType.EAGER)
 	private Celula				celula;
 
-	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToOne(/* fetch = FetchType.EAGER, */ cascade = CascadeType.ALL)
 	private Coordenador			coordenador;
 
 	@Column(columnDefinition = "timestamp")

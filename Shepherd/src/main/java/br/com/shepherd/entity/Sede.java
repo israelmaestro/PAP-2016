@@ -8,7 +8,6 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
@@ -41,13 +40,13 @@ public class Sede implements Serializable{
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date				dataFundacao;
 
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "sede")
+	@OneToMany(/* fetch = FetchType.EAGER, */ mappedBy = "sede")
 	private List<Celula>		celulas;
 
-	@OneToOne(fetch = FetchType.EAGER)
+	@OneToOne // (fetch = FetchType.EAGER)
 	private Ministro			presidente;
 
-	@OneToOne(fetch = FetchType.EAGER)
+	@OneToOne // (fetch = FetchType.EAGER)
 	private Sede				sedeMae;
 
 	// Informações de endereço
@@ -71,14 +70,14 @@ public class Sede implements Serializable{
 	private String				enderecoPais;
 
 	// Informações de telefone
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "sede", cascade = CascadeType.ALL)
+	@OneToMany(/* fetch = FetchType.EAGER, */ mappedBy = "sede", cascade = CascadeType.ALL)
 	private List<Telefone>		telefones;
 
 	// Informações de email
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "sede", cascade = CascadeType.ALL)
+	@OneToMany(/* fetch = FetchType.EAGER, */ mappedBy = "sede", cascade = CascadeType.ALL)
 	private List<Email>			emails;
 
-	@OneToMany(	fetch = FetchType.EAGER,
+	@OneToMany( /* fetch = FetchType.EAGER, */
 				mappedBy = "sede"/* , cascade = CascadeType.DETACH */)
 	private List<Comunicado>	comunicados;
 

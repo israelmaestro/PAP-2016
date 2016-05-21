@@ -5,7 +5,6 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
@@ -25,15 +24,15 @@ public class Atendimento implements Serializable{
 	private Date				dataHora;
 
 	// Informações gerais
-	@OneToOne(fetch = FetchType.LAZY)
+	@OneToOne // (fetch = FetchType.LAZY)
 	private Visitante			visitanteAtendido;
 
 	// Informações gerais
-	@OneToOne(fetch = FetchType.LAZY)
+	@OneToOne // (fetch = FetchType.LAZY)
 	private Membro				membroAtendido;
 
 	// Informações gerais
-	@OneToOne(fetch = FetchType.LAZY)
+	@OneToOne // (fetch = FetchType.LAZY)
 	private Membro				membroAtendente;
 
 	private String				status;

@@ -69,7 +69,7 @@
 							'
 					>
 				<b:row>
-					<b:column>
+					<b:column class='column'>
 						<table style='width: 100%;'
 											>
 							<tr>
@@ -82,19 +82,20 @@
 								</td>
 								<td	style='	vertical-align: bottom;
 											text-align: right;
-											line-height: 1px;
 											'
 									>
-									<b:switch	value='#{sedeBean.sede.mainChurch}'
+									<h:outputLabel	for='mainChurch'
+													value='Sede tipo' class='outputLabel'/>
+									<b:switch	id='mainChurch'
+												value='#{sedeBean.sede.mainChurch}'
 												binding='#{mainChurch}'
-												label='Sede Tipo'
 												offText='Filha'
 												onText='Mãe'
 												onColor='danger'
 												offColor='primary'
 												switchsize='mini'
 												>
-										<f:ajax event='change' render='@form' />
+										<f:ajax event='change' render='maeFilha' />
 									</b:switch>
 								</td>
 							</tr>
@@ -103,11 +104,7 @@
 				</b:row>
 			
 				<b:row	>
-					<b:container	style='	margin: 0px;
-											padding: 0px;
-											width: 100%;
-											'
-									>
+					<b:row>
 						<b:column	col-lg='3'
 									col-md='3'
 									col-sm='6'
@@ -115,17 +112,18 @@
 									>
 							<br/>
 							
-							<h:outputLabel	for='nome'
+							<h:outputLabel class='outputLabel'	for='nome'
 											value='Nome*'
 											/>
 							<b:inputText 	id='nome'
 											required='true'
 											requiredMessage='Nome: Campo obrigatório!'
 											value='#{sedeBean.sede.nome}'
-											style='background-color: #FFFFCC'
+											class='required wrapped'
 											placeholder='Nome'
+											tooltip='#{sedeBean.sede.nome}'
 											>
-
+								<f:ajax event='change' render='@this'/>
 								<f:facet name="prepend">
 									<h:outputText value='#{sedeBean.getProperty("convencao")}'/>
 								</f:facet>
@@ -138,7 +136,7 @@
 									col-xs='12'
 									>
 							<br/>
-							<h:outputLabel	for='cnpj'
+							<h:outputLabel class='outputLabel'	for='cnpj'
 											value='CNPJ'
 											/>
 							<b:inputText 	id='cnpj'
@@ -154,21 +152,22 @@
 									col-xs='12'
 									>
 							<br/>
-							<b:selectOneMenu	id='presidente'
-												label='Presidente'
+							<h:outputLabel class='outputLabel'	for='presidente'
+											value='Presidente'
+											/>
+							<h:selectOneMenu	id='presidente'
 												value='#{sedeBean.sede.presidente}'
 												converter='omnifaces.SelectItemsConverter'
-												enableFiltering='true'
-												filterPlaceholder='Procurar'
-												nonSelectedText='Selecione'
-												disableIfEmpty='true'
+												class='hSelectOneMenu'
 												>
-								<f:selectItem itemLabel='Selecione' itemDisabled='true'/>
+								<f:selectItem	itemLabel='Selecione'
+												noSelectionOption='true'
+												/>
 								<f:selectItems	value='#{membroBean.listarPresidentes()}'
 												var='presidente'
 												itemLabel='#{presidente.coordenador.lider.membro.pessoa.nome}'
 												/>
-							</b:selectOneMenu>
+							</h:selectOneMenu>
 						</b:column>
 													
 						<b:column	col-lg='3'
@@ -177,7 +176,7 @@
 									col-xs='12'
 									>
 							<br/>
-							<h:outputLabel	for='dataFuncacao'
+							<h:outputLabel class='outputLabel'	for='dataFuncacao'
 											value='Data da Fundação'
 											/>
 							<b:datepicker 	id='dataFuncacao'
@@ -185,90 +184,89 @@
 											value='#{sedeBean.sede.dataFundacao}'
 											/>
 						</b:column>
-					</b:container>
-						
-					<b:column	col-lg='3'
-								col-md='3'
-								col-sm='6'
-								col-xs='12'
-								>
-						<br/>
-						<b:selectMultiMenu 	id='celulas'
-											label='Células'
-											value='#{sedeBean.sede.celulas}'
-											converter='omnifaces.SelectItemsConverter'
-											enableFiltering='true'
-											filterPlaceholder='Procurar'
-											nonSelectedText='Selecione'
-											nSelectedText='Células selecionadas'
-											numberDisplayed='1'
-											disableIfEmpty='true'
-											allSelectedText='Todas'
-											fieldSize='lg'
-											style='	width: 200%;'
-											>
-							<f:selectItems	value='#{celulaBean.listar()}'
-											var='celula'
-											itemLabel='#{celula.nome}'
+					</b:row>
+					<b:row id='maeFilha'>
+						<b:column	col-lg='3'
+									col-md='3'
+									col-sm='6'
+									col-xs='12'
+									>
+							<br/>
+							<h:outputLabel	class='outputLabel'	for='celulas'
+											value='Células'
 											/>
-						</b:selectMultiMenu>
-					</b:column>
-					
-					<b:column	col-lg='3'
-								col-md='3'
-								col-sm='6'
-								col-xs='12'
-								rendered='#{!mainChurch.value}'
-								>
-						<br/>
-						<b:selectOneMenu	id='sedeMae'
-											label='Sede-Mãe'
-											value='#{sedeBean.sede.sedeMae}'
-											converter='omnifaces.SelectItemsConverter'
-											enableFiltering='true'
-											filterPlaceholder='Procurar'
-											nonSelectedText='Selecione'
-											disableIfEmpty='true'
-											>
-							<f:selectItem itemLabel='Selecione' itemDisabled='true'/>
-							<f:selectItems	value='#{sedeBean.listarMaes()}' var='sedeMae'
-											itemLabel='#{sedeMae.nome}'
+							<p:selectCheckboxMenu 	id='celulas'
+													label='#{null == sedeBean.sede.celulas || sedeBean.sede.celulas.size() == 0 ? "Selecione" : sedeBean.sede.celulas.size()} #{null == sedeBean.sede.celulas || sedeBean.sede.celulas.size() == 0 ? "" : "célula(es) selecionada(s)"}'
+													value='#{sedeBean.sede.celulas}'
+													converter='omnifaces.SelectItemsConverter'
+													filter="true"
+													filterMatchMode="contains"
+													showCheckbox="true"
+													>
+								<f:selectItems	value='#{celulaBean.listar()}'
+												var='celula'
+												itemLabel='#{celula.nome}'
+												/>
+							</p:selectCheckboxMenu>
+						</b:column>
+						
+						<b:column	col-lg='3'
+									col-md='3'
+									col-sm='6'
+									col-xs='12'
+									rendered='#{!mainChurch.value}'
+									>
+							<br/>
+							<h:outputLabel class='outputLabel'	for='sedeMae'
+											value='Sede-Mãe'
 											/>
-						</b:selectOneMenu>
-					</b:column>
-					
-					<b:column	col-lg='3'
-								col-md='3'
-								col-sm='12'
-								col-xs='12'
-								>
-						<br/>
+							<h:selectOneMenu	id='sedeMae'
+												value='#{sedeBean.sede.sedeMae}'
+												converter='omnifaces.SelectItemsConverter'
+												class='hSelectOneMenu required'
+												required='true'
+												requiredMessage='Sede-mãe: Campo obrigatório!'
+												>
+								<f:selectItem itemLabel='Selecione' noSelectionOption='true'/>
+								<f:selectItems	value='#{sedeBean.listarMaes()}' var='sedeMae'
+												itemLabel='#{sedeMae.nome}'
+												/>
+							</h:selectOneMenu>
+						</b:column>
 						
-						<h:outputLabel	for='paginaWeb'
-										value='Página da Web'
-										/>
-						<b:inputText 	id='paginaWeb'
-										value='#{sedeBean.sede.paginaWeb}'
-										placeholder='Página da Web'
-										/>
-					</b:column>
-					
-					<b:column	col-lg='3'
-								col-md='3'
-								col-sm='12'
-								col-xs='12'
-								>
-						<br/>
+						<b:column	col-lg='3'
+									col-md='3'
+									col-sm='12'
+									col-xs='12'
+									>
+							<br/>
+							
+							<h:outputLabel class='outputLabel'	for='paginaWeb'
+											value='Página da Web'
+											/>
+							<b:inputText 	id='paginaWeb'
+											value='#{sedeBean.sede.paginaWeb}'
+											placeholder='Página da Web'
+											/>
+						</b:column>
 						
-						<h:outputLabel	for='perfilRedeSocial'
-										value='Perfil de Rede Social'
-										/>
-						<b:inputText 	id='perfilRedeSocial'
-										value='#{sedeBean.sede.perfilRedeSocial}'
-										placeholder='Perfil de Rede Social'
-										/>
-										<br/>
-					</b:column>
+						<b:column	col-lg='3'
+									col-md='3'
+									col-sm='12'
+									col-xs='12'
+									>
+							<br/>
+							
+							<h:outputLabel class='outputLabel'	for='perfilRedeSocial'
+											value='Perfil de Rede Social'
+											/>
+							<b:inputText 	id='perfilRedeSocial'
+											value='#{sedeBean.sede.perfilRedeSocial}'
+											placeholder='Perfil de Rede Social'
+											/>
+											<br/>
+						</b:column>
+					</b:row>	
 				</b:row>
 				<b:row	style='	border-top: solid;
 								width: 100%;
@@ -298,19 +296,15 @@
 											switchsize='mini'
 											binding='#{showGpsForm}'
 											>
-									<f:ajax event='change' render='@form' />
+									<f:ajax event='change' render='showEndereco' />
 								</b:switch>
 							</td>
 						</tr>
 					</table>
 				</b:row>
 				
-				<b:row>
-					<b:container	rendered='#{showGpsForm.value}'
-									style='	width: 100%;
-											margin: 0px;
-											padding: 0px;
-											'
+				<b:row id='showEndereco'>
+					<b:row	rendered='#{showGpsForm.value}'
 									>
 						<b:column	col-lg='4'
 									col-md='4'
@@ -318,152 +312,153 @@
 									col-xs='12'
 									>
 							<br/>
-							<h:outputLabel	for='gpsAddress'
+							<h:outputLabel class='outputLabel'	for='gpsAddress'
 											value='Coordenadas de GPS*'
 											/>
 							<b:inputText	id='gpsAddress'
 											value='#{sedeBean.sede.enderecoLogradouro}'
 											placeholder='Digite as coordenadas do GPS'
-											requiered='true'
+											required='true'
 											requiredMessage='Coordenadas de GPS: Campo obrigatório!'
+											class='required'
 											/>
 						</b:column>
-					</b:container>
-				</b:row>
-				
-				<b:row>
-					<b:container	rendered='#{!showGpsForm.value}'
-									style='	width: 100%;
-											margin: 0px;
-											padding: 0px;
-											'
-									>
-						<b:column	col-lg='3'
-									col-md='3'
-									col-sm='3'
-									col-xs='12'
-									>
-							<br/>
-							<h:outputLabel value='CEP' for='cep'/>
-							<b:iconAwesome	name='fa-question-circle'
-											tooltip='Caso o sistema encontre o CEP digitado, os campos de endereço serão preenchidos automaticamente.'
-											onclick='alert("Caso o sistema encontre o CEP digitado, os campos de endereço serão preenchidos automaticamente.")'
-											style='	margin-left: 4px;'
-											/>
-							<b:inputText	id='cep'
-											binding='#{cep}'
-											maxlength='8'
-											onkeypress='return teclaNumerica(event.keyCode)'
-											value='#{sedeBean.sede.enderecoCep}'
-											placeholder='Digite o CEP'
-											onblur='if(this.value != "") pesquisaCep(this.value);'
-											/>
-						</b:column>
-						
-						<b:column	col-lg='6'
-									col-md='6'
-									col-sm='9'
-									col-xs='12'
-									>
-							<br/>
-							<h:outputLabel value='Endereço' for='logradouro'/>
-							<b:inputText	id='logradouro'
-											name='logradouro'
-											value='#{sedeBean.sede.enderecoLogradouro}'
-											placeholder='Digite o nome da rua, avenida, etc.'
-											class='hidden-xs'
-											onblur='document.getElementById("input_form:logradouro2").value = document.getElementById("input_form:logradouro").value'
-											/>
-							<b:inputTextarea	id='logradouro2'
-												name='logradouro2'
+					</b:row>
+					<b:row>
+						<b:row	rendered='#{!showGpsForm.value}'
+										style='	width: 100%;
+												margin: 0px;
+												padding: 0px;
+												'
+										>
+							<b:column	col-lg='3'
+										col-md='3'
+										col-sm='3'
+										col-xs='12'
+										>
+								<br/>
+								<h:outputLabel class='outputLabel' value='CEP' for='cep'/>
+								<b:iconAwesome	name='fa-question-circle'
+												tooltip='Caso o sistema encontre o CEP digitado, os campos de endereço serão preenchidos automaticamente.'
+												onclick='alert("Caso o sistema encontre o CEP digitado, os campos de endereço serão preenchidos automaticamente.")'
+												style='	margin-left: 4px;'
+												/>
+								<b:inputText	id='cep'
+												binding='#{cep}'
+												maxlength='8'
+												onkeypress='return teclaNumerica(event.keyCode)'
+												value='#{sedeBean.sede.enderecoCep}'
+												placeholder='Digite o CEP'
+												onblur='if(this.value != "") pesquisaCep(this.value);'
+												/>
+							</b:column>
+							
+							<b:column	col-lg='6'
+										col-md='6'
+										col-sm='9'
+										col-xs='12'
+										>
+								<br/>
+								<h:outputLabel class='outputLabel' value='Endereço' for='logradouro'/>
+								<b:inputText	id='logradouro'
+												name='logradouro'
 												value='#{sedeBean.sede.enderecoLogradouro}'
 												placeholder='Digite o nome da rua, avenida, etc.'
-												class='visible-xs'
-												onblur='document.getElementById("input_form:logradouro").value = document.getElementById("input_form:logradouro2").value'
+												class='hidden-xs'
+												onblur='document.getElementById("input_form:logradouro2").value = document.getElementById("input_form:logradouro").value'
 												/>
-						</b:column>
-						
-						<b:column	col-lg='1'
-									col-md='1'
-									col-sm='2'
-									col-xs='5'
-									>
-							<br/>
-							<h:outputLabel value='№' for='numero'/>
-							<b:inputText	id='numero'
-											value='#{sedeBean.sede.enderecoNumero}'
-											onkeypress='return teclaNumerica(event.keyCode)'
-											maxlength='5'
-											placeholder='№'
-											/>
-						</b:column>
-						
-						<b:column	col-lg='2'
-									col-md='2'
-									col-sm='4'
-									col-xs='7'
-									>
-							<br/>
-							<h:outputLabel value='Complemento' for='complemento'/>
-							<b:inputText	id='complemento'
-											value='#{sedeBean.sede.enderecoComplemento}'
-											placeholder='Complemento'
-											/>
-						</b:column>
-						
-						<b:column	col-lg='3'
-									col-md='3'
-									col-sm='6'
-									col-xs='12'
-									>
-							<br/>
-							<h:outputLabel value='Bairro' for='bairro'/>
-							<b:inputText	id='bairro'
-											value='#{sedeBean.sede.enderecoBairro}'
-											placeholder='Bairro'
-											/>
-						</b:column>
-						
-						<b:column	col-lg='4'
-									col-md='4'
-									col-sm='6'
-									col-xs='12'
-									>
-							<br/>
-							<h:outputLabel value='Cidade' for='cidade'/>
-							<b:inputText	id='cidade'
-											value='#{sedeBean.sede.enderecoCidade}'
-											placeholder='Cidade'
-											/>
-						</b:column>
-						
-						<b:column	col-lg='1'
-									col-md='1'
-									col-sm='2'
-									col-xs='4'
-									>
-							<br/>
-							<h:outputLabel value='UF' for='uf'/>
-							<b:inputText	id='uf'
-											maxlength='2'
-											value='#{sedeBean.sede.enderecoEstado}'
-											placeholder='UF'
-											/>
-						</b:column>
-						
-						<b:column	col-lg='4'
-									col-md='4'
-									col-sm='4'
-									col-xs='12'
-									>
-							<br/>
-							<h:outputLabel value='País' for='pais'/>
-							<b:inputText	id='pais'
-											value='#{sedeBean.sede.enderecoPais}'
-											placeholder='País'
-											/>
-						</b:column>
-					</b:container>
+								<b:inputTextarea	id='logradouro2'
+													name='logradouro2'
+													value='#{sedeBean.sede.enderecoLogradouro}'
+													placeholder='Digite o nome da rua, avenida, etc.'
+													class='visible-xs'
+													onblur='document.getElementById("input_form:logradouro").value = document.getElementById("input_form:logradouro2").value'
+													style='	margin-top: -8px;'
+													/>
+							</b:column>
+							
+							<b:column	col-lg='1'
+										col-md='1'
+										col-sm='2'
+										col-xs='5'
+										>
+								<br/>
+								<h:outputLabel class='outputLabel' value='№' for='numero'/>
+								<b:inputText	id='numero'
+												value='#{sedeBean.sede.enderecoNumero}'
+												onkeypress='return teclaNumerica(event.keyCode)'
+												maxlength='5'
+												placeholder='№'
+												/>
+							</b:column>
+							
+							<b:column	col-lg='2'
+										col-md='2'
+										col-sm='4'
+										col-xs='7'
+										>
+								<br/>
+								<h:outputLabel class='outputLabel' value='Complemento' for='complemento'/>
+								<b:inputText	id='complemento'
+												value='#{sedeBean.sede.enderecoComplemento}'
+												placeholder='Complemento'
+												/>
+							</b:column>
+							
+							<b:column	col-lg='3'
+										col-md='3'
+										col-sm='6'
+										col-xs='12'
+										>
+								<br/>
+								<h:outputLabel class='outputLabel' value='Bairro' for='bairro'/>
+								<b:inputText	id='bairro'
+												value='#{sedeBean.sede.enderecoBairro}'
+												placeholder='Bairro'
+												/>
+							</b:column>
+							
+							<b:column	col-lg='4'
+										col-md='4'
+										col-sm='6'
+										col-xs='12'
+										>
+								<br/>
+								<h:outputLabel class='outputLabel' value='Cidade' for='cidade'/>
+								<b:inputText	id='cidade'
+												value='#{sedeBean.sede.enderecoCidade}'
+												placeholder='Cidade'
+												/>
+							</b:column>
+							
+							<b:column	col-lg='1'
+										col-md='1'
+										col-sm='2'
+										col-xs='4'
+										>
+								<br/>
+								<h:outputLabel class='outputLabel' value='UF' for='uf'/>
+								<b:inputText	id='uf'
+												maxlength='2'
+												value='#{sedeBean.sede.enderecoEstado}'
+												placeholder='UF'
+												/>
+							</b:column>
+							
+							<b:column	col-lg='4'
+										col-md='4'
+										col-sm='4'
+										col-xs='12'
+										>
+								<br/>
+								<h:outputLabel class='outputLabel' value='País' for='pais'/>
+								<b:inputText	id='pais'
+												value='#{sedeBean.sede.enderecoPais}'
+												placeholder='País'
+												/>
+							</b:column>
+						</b:row>
+					</b:row>
 				</b:row>
 
 				<br/>
