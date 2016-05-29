@@ -14,12 +14,12 @@ import br.com.shepherd.entity.Pessoa;
 import br.com.shepherd.entity.PessoaCelula;
 
 @Stateless
-public class PessoaService{
+public class MembroService{
 
 	@PersistenceContext(name = "ShepherdDB")
 	private EntityManager entityManager;
 
-	public PessoaService(){
+	public MembroService(){
 
 	}
 
@@ -146,8 +146,7 @@ public class PessoaService{
 
 	@SuppressWarnings("unchecked")
 	public List<Pessoa> listar(){
-		return entityManager.createQuery("FROM Pessoa dbPessoa "
-											+ "ORDER BY dbPessoa.nome")
+		return entityManager.createQuery("FROM Pessoa dbPessoa " + "ORDER BY dbPessoa.nome")
 							.getResultList();
 	}
 
@@ -165,7 +164,7 @@ public class PessoaService{
 			MembrosCelulas = query.getResultList();
 
 			return MembrosCelulas;
-		}catch(NoResultException n){
+		} catch(NoResultException n){
 			return null;
 		}
 	}
@@ -200,16 +199,14 @@ public class PessoaService{
 
 	@SuppressWarnings("unchecked")
 	public List<Pessoa> listarHomens(){
-		return entityManager.createQuery("FROM Pessoa dbPessoa "
-											+ "AND dbPessoa.sexo = true "
+		return entityManager.createQuery("FROM Pessoa dbPessoa "+ "AND dbPessoa.sexo = true "
 											+ "ORDER BY dbPessoa.nome")
 							.getResultList();
 	}
 
 	@SuppressWarnings("unchecked")
 	public List<Pessoa> listarHomensSolteiros(){
-		return entityManager.createQuery("FROM Pessoa dbPessoa "
-											+ "AND dbPessoa.sexo = true "
+		return entityManager.createQuery("FROM Pessoa dbPessoa "+ "AND dbPessoa.sexo = true "
 											+ "AND dbPessoa.casada = false "
 											+ "ORDER BY dbPessoa.nome")
 							.getResultList();
@@ -217,16 +214,14 @@ public class PessoaService{
 
 	@SuppressWarnings("unchecked")
 	public List<Pessoa> listarMulheres(){
-		return entityManager.createQuery("FROM Pessoa dbPessoa "
-											+ "AND dbPessoa.sexo = false "
+		return entityManager.createQuery("FROM Pessoa dbPessoa "+ "AND dbPessoa.sexo = false "
 											+ "ORDER BY dbPessoa.nome")
 							.getResultList();
 	}
 
 	@SuppressWarnings("unchecked")
 	public List<Pessoa> listarMulheresSolteiras(){
-		return entityManager.createQuery("FROM Pessoa dbPessoa "
-											+ "AND dbPessoa.sexo = false "
+		return entityManager.createQuery("FROM Pessoa dbPessoa "+ "AND dbPessoa.sexo = false "
 											+ "AND dbPessoa.casada = false "
 											+ "ORDER BY dbPessoa.nome")
 							.getResultList();

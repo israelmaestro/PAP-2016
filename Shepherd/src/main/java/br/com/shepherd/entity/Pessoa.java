@@ -59,9 +59,6 @@ public class Pessoa implements Serializable{
 
 	@ManyToMany
 	private List<NEspecial>						nEspeciais;
-	//
-	// @OneToMany(mappedBy = "pessoa", cascade = CascadeType.ALL)
-	// private List<Endereco> enderecos;
 
 	@OneToOne(mappedBy = "pessoa", cascade = CascadeType.ALL)
 	private Endereco							endereco;
@@ -74,7 +71,7 @@ public class Pessoa implements Serializable{
 	@OneToMany(mappedBy = "pessoa", cascade = CascadeType.ALL)
 	private List<br.com.shepherd.entity.Email>	emails;
 
-	// Informações de email
+	// Informações ministeriais
 	@ManyToMany
 	private List<Ministerio>					ministerios;
 
@@ -102,7 +99,7 @@ public class Pessoa implements Serializable{
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date								dataBatismo;
 
-	@OneToMany(mappedBy = "pessoa")
+	@OneToMany(mappedBy = "pessoa", cascade = CascadeType.ALL)
 	private List<PessoaCelula>					pessoasCelulas;
 
 	@Column(length = 1000)
@@ -161,9 +158,10 @@ public class Pessoa implements Serializable{
 	 *
 	 * @param pTelefone
 	 */
-	public void addRelacionamentoCelula(PessoaCelula pPessoaCelula){
+	public void addRelacionamentoCelula(PessoaCelula pPessoaCelula, String pParticipacao){
 		pessoasCelulas.add(pPessoaCelula);
 		pPessoaCelula.setPessoa(this);
+		pPessoaCelula.setParticipacao(pParticipacao);
 	}
 
 	/**

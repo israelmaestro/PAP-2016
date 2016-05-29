@@ -30,7 +30,7 @@
 		</ui:define>
 		
 		<ui:define name='conteudo'>
-			<b:container	rendered='#{pessoaBean.listarMembros().size() == 0}'
+			<b:container	rendered='#{membroBean.listarMembros().size() == 0}'
 							class='emptyTableWarining'
 							>
 				<center>
@@ -39,12 +39,12 @@
 			</b:container>
 
 			<p:dataTable	id='membroLista'
-							value='#{pessoaBean.listarMembros()}'
+							value='#{membroBean.listarMembros()}'
 							var='membro'
 							update='@form'
 							emptyMessage='Nenhum membro encontrado.'
 							class='pDataTable'
-							rendered='#{pessoaBean.listarMembros().size() != 0}'
+							rendered='#{membroBean.listarMembros().size() != 0}'
 							paginator='true'
 							widgetVar='membroLista'
 							filteredValue=''

@@ -45,8 +45,7 @@ public class CelulaService{
 		}
 
 		// Consistir endereço
-		if(null != pCelula.getEndereco().getCep()
-			&& null != pCelula.getEndereco().getLogradouro()
+		if(null != pCelula.getEndereco().getCep()&& null != pCelula.getEndereco().getLogradouro()
 			&& null != pCelula.getEndereco().getNumero()
 			&& null != pCelula.getEndereco().getComplemento()
 			&& null != pCelula.getEndereco().getBairro()
@@ -130,7 +129,7 @@ public class CelulaService{
 			pCelula.setEndereco(null);
 		}
 
-		 //Validando chave única
+		// Validando chave única
 		// existente = buscaCriterio( "Celula", "nome", pCelula.getNome(),
 		// "sede",
 		// pCelula.getSede().getNome());
@@ -218,16 +217,16 @@ public class CelulaService{
 																		+ "."
 																		+ pCampo1
 																		+ ") = UPPER(:p1)")
-//												+ " AND "
-//												+ (pValor2 == null	? "db"+ pTabela
-//																		+ "."
-//																		+ pCampo2
-//																		+ " IS NULL"
-//																	: "UPPER(db"+ pTabela
-//																		+ "."
-//																		+ pCampo2
-//																		+ ") = UPPER(:p2)")
-												);
+		// + " AND "
+		// + (pValor2 == null ? "db"+ pTabela
+		// + "."
+		// + pCampo2
+		// + " IS NULL"
+		// : "UPPER(db"+ pTabela
+		// + "."
+		// + pCampo2
+		// + ") = UPPER(:p2)")
+		);
 		if(null != pValor1){
 			query.setParameter("p1", pValor1);
 		}

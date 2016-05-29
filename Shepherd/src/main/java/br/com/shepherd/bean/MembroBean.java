@@ -1,5 +1,6 @@
 package br.com.shepherd.bean;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;
 
@@ -13,56 +14,58 @@ import br.com.shepherd.entity.Email;
 import br.com.shepherd.entity.Pessoa;
 import br.com.shepherd.entity.PessoaCelula;
 import br.com.shepherd.entity.Telefone;
-import br.com.shepherd.service.PessoaService;
+import br.com.shepherd.service.MembroService;
 import br.com.shepherd.service.util.JSFUtil;
 
 @Named
 @SessionScoped
-public class PessoaBean implements Serializable{
+public class MembroBean implements Serializable{
 	private static final long	serialVersionUID	= 4229014895384999619L;
 
 	@EJB
 	@ManagedProperty("#{pessoaService}")
-	private PessoaService		pessoaService;
+	private MembroService		membroService;
 
-	private Pessoa				pessoa;
+	private Pessoa				membro;
 
-	private PessoaCelula		pessoaCelula;
-
-	public PessoaBean(){
-		pessoa = new Pessoa();
-		setPessoaCelula(new PessoaCelula());
+	public MembroBean() throws IOException{
+		membro = new Pessoa();
+		membro.addRelacionamentoCelula(new PessoaCelula(), JSFUtil.getProperty("funcaoMembro"));
 	}
 
-	public void botaoRemoverTelefone(Telefone pTelefone){
-		pessoa.removeTelefone(pTelefone);
+	public void addCelula(AjaxBehaviorEvent pAjax) throws IOException{
+		membro.addRelacionamentoCelula(new PessoaCelula(), JSFUtil.getProperty("funcaoMembro"));
 	}
 
 	public void botaoAdicionarTelefone(AjaxBehaviorEvent pAjax){
-		pessoa.addTelefone(new Telefone());
+		membro.addTelefone(new Telefone());
 	}
 
-	public void botaoRemoverEmail(Email pEmail){
-		pessoa.removeEmail(pEmail);
+	public void botaoRemoverTelefone(Telefone pTelefone){
+		membro.removeTelefone(pTelefone);
 	}
 
 	public void botaoAdicionarEmail(AjaxBehaviorEvent pAjax){
-		pessoa.addEmail(new Email());
+		membro.addEmail(new Email());
+	}
+
+	public void botaoRemoverEmail(Email pEmail){
+		membro.removeEmail(pEmail);
 	}
 
 	public String cadastrarMembro(){
 		try{
-			getPessoaCelula().setPessoa(pessoa);
-			getPessoaCelula().setParticipacao(JSFUtil.getProperty("funcaoMembro"));
 
-			pessoa.getPessoasCelulas().add(getPessoaCelula());
+			membroService.cadastrarMembro(membro);
 
-			pessoaService.cadastrarMembro(pessoa);
-
-			JSFUtil.addInfoMessage("Membro “"+ pessoa.getNome() + " " + pessoa.getSobrenome()
+			JSFUtil.addInfoMessage("Membro “"+ membro.getNome()
+									+ " "
+									+ membro.getSobrenome()
 									+ "” cadastrado com sucesso!");
 
-			pessoa = new Pessoa();
+			membro = new Pessoa();
+
+			membro.addRelacionamentoCelula(new PessoaCelula(), JSFUtil.getProperty("funcaoMembro"));
 
 			return "membroListar";
 		} catch(Exception e){
@@ -72,18 +75,20 @@ public class PessoaBean implements Serializable{
 	}
 
 	public void alterarMembro(Pessoa pPessoa){
-		pessoaService.alterarMembro(pPessoa);
+		membroService.alterarMembro(pPessoa);
 
-		JSFUtil.addInfoMessage("Membro “"+ pessoa.getNome() + " " + pessoa.getSobrenome()
+		JSFUtil.addInfoMessage("Membro “"+ membro.getNome()
+								+ " "
+								+ membro.getSobrenome()
 								+ "” alterado com sucesso.");
 	}
 
 	public List<PessoaCelula> listarMembros(){
-		return pessoaService.listarMembros();
+		return membroService.listarMembros();
 	}
 
 	public List<Pessoa> listar(){
-		return pessoaService.listar();
+		return membroService.listar();
 	}
 
 	// public List<Pessoa> listarExcluindo(Pessoa pPai, Pessoa pMae){
@@ -91,19 +96,19 @@ public class PessoaBean implements Serializable{
 	// }
 
 	public List<Pessoa> listarHomens(){
-		return pessoaService.listarHomens();
+		return membroService.listarHomens();
 	}
 
 	public List<Pessoa> listarHomensSolteiros(){
-		return pessoaService.listarHomensSolteiros();
+		return membroService.listarHomensSolteiros();
 	}
 
 	public List<Pessoa> listarMulheres(){
-		return pessoaService.listarMulheres();
+		return membroService.listarMulheres();
 	}
 
 	public List<Pessoa> listarMulheresSolteiras(){
-		return pessoaService.listarMulheresSolteiras();
+		return membroService.listarMulheresSolteiras();
 	}
 
 	// public List<Lider> listarLideres(){
@@ -119,25 +124,19 @@ public class PessoaBean implements Serializable{
 	// }
 
 	public void excluirMembro(Pessoa pPessoa){
-		pessoaService.excluir(pPessoa);
+		membroService.excluir(pPessoa);
 
-		JSFUtil.addInfoMessage("Membro “"+ pessoa.getNome() + " " + pessoa.getSobrenome()
+		JSFUtil.addInfoMessage("Membro “"+ membro.getNome()
+								+ " "
+								+ membro.getSobrenome()
 								+ "” excuído com sucesso.");
 	}
 
-	public Pessoa getPessoa(){
-		return pessoa;
+	public Pessoa getMembro(){
+		return membro;
 	}
 
-	public void setPessoa(Pessoa pPessoa){
-		pessoa = pPessoa;
-	}
-
-	public PessoaCelula getPessoaCelula(){
-		return pessoaCelula;
-	}
-
-	public void setPessoaCelula(PessoaCelula pPessoaCelula){
-		pessoaCelula = pPessoaCelula;
+	public void setMembro(Pessoa pMembro){
+		membro = pMembro;
 	}
 }
