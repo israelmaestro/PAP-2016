@@ -1,23 +1,38 @@
-.splitRow{
+.addElemento {
+	border: solid 1px #ccc;
+	border-radius: 4px;
+	padding-bottom: 16px;
+	margin-bottom: 8px;
+}
+
+.noMarginBottom {
+	margin-bottom: 0px;
+}
+
+.fullWidth {
+	width: 100%;
+}
+
+.splitRow {
 	border-top: solid;
 	border-color: #CCC;
 }
 
-.wrapped{
+.wrapped {
 	word-wrap: initial;
 }
 
-.idade{
+.idade {
 	padding: 6px 3px;
 	text-align: center
 }
 
-.row{
+.row {
 	margin: 0px;
 	padding: 0px;
 }
 
-.column{
+.column {
 	margin: 0px;
 	padding: 0px;
 }

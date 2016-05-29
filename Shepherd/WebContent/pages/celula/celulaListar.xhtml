@@ -92,7 +92,9 @@
 							priority='1'
 							>
 					<center>
-						<h:outputText value='#{celula.nome}'/>
+						<h:outputText	value='#{celula.nome}'
+										title='Nome: #{celula.nome}&#13;Frente: #{celula.frente.nome}&#13;Sede: #{sedeBean.getProperty("convencaoAbrev")} #{celula.sede.nome}'
+										/>
 					</center>
 				</p:column>
 				
@@ -108,7 +110,9 @@
 							priority='2'
 							>
 					<center>
-						<h:outputText value='#{sedeBean.getProperty("convencaoAbrev")} #{celula.sede.nome}#{celula.sede.mainChurch ? "*" : ""}'/>
+						<h:outputText	value='#{sedeBean.getProperty("convencaoAbrev")} #{celula.sede.nome}'
+										style='#{celula.sede.mae ? "font-weight: bold;" : ""}'
+										/>
 					</center>
 				</p:column>
 				

@@ -78,11 +78,19 @@
 					</center>
 				</p:column>
 				
+				<p:column	headerText='Presidente'
+							priority='3'
+							>
+					<center>
+						<h:outputText value='#{sede.presidente == null ? "NENHUM(A)" : sede.presidente}'/>
+					</center>
+				</p:column>
+				
 				<p:column	headerText='Tipo de Sede'
 							priority='2'
 							>
 					<center>
-						<h:outputText value='#{sede.mae == true ? "Mãe" : "Filha"}'/>
+						<h:outputText value='#{sede.mainChurch == true ? "Mãe" : "Filha"}'/>
 					</center>
 				</p:column>
 				

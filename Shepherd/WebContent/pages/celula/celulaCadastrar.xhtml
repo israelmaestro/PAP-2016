@@ -16,11 +16,7 @@
 			<b:message for='nome'/>
 			<b:message for='frente'/>
 			<b:message for='sede'/>
-			<b:message for='lideres'/>
-			<b:message for='coordenador'/>
-			<b:message for='membros'/>
 			<b:message for='dataAtivacao'/>
-			<b:message for='visitantes'/>
 			<b:message for='cep'/>
 			<b:message for='logradouro'/>
 			<b:message for='gpsAddress'/>
@@ -120,7 +116,7 @@
 													/>
 									<b:selectBooleanCheckbox	id='address'
 																binding='#{showAddress}'
-																value='#{celulaBean.celula.enderecoFixo}'
+																value='#{celulaBean.celula.comEnderecoFixo}'
 																style='	margin: 0px;'
 																>
 										<f:ajax event='change' render='endereco' />
@@ -143,10 +139,10 @@
 													/>
 									<b:selectBooleanCheckbox	id='permitirVisitante'
 																binding='#{showVisitorsMenu}'
-																value='#{celulaBean.celula.visitorsAllowed}'
+																value='#{celulaBean.celula.comVisitante}'
 																style='	margin: 0px;'
 																>
-										<f:ajax event='change' render='permitirVisitantes' />
+										<f:ajax event='change' render='participantes' />
 									</b:selectBooleanCheckbox>
 								</td>
 							</tr>
@@ -170,43 +166,15 @@
 										requiredMessage='Nome: Campo obrigatório'
 										value='#{celulaBean.celula.nome}'
 										placeholder='Nome'
+										
 										/>
 					</b:column>
+					
 					<b:column	col-lg='3'
 								col-md='3'
 								col-sm='6'
 								col-xs='12'
-								>
-						<br/>
-						<h:outputLabel	class='outputLabel' for='lideres' value='Líderes' />
-						<p:selectCheckboxMenu	id="lideres"
-												label='#{null == celulaBean.celula.lideres
-														|| celulaBean.celula.lideres.size() == 0
-															? "Selecione"
-															: celulaBean.celula.lideres.size()} 
-															#{null == celulaBean.celula.lideres
-																|| celulaBean.celula.lideres.size() == 0
-																	? ""
-																	: "líder(es) selecionado(s)"}'
-												value="#{celulaBean.celula.lideres}"
-												converter="omnifaces.SelectItemsConverter"
-												filter="true"
-												filterMatchMode="contains"
-												showCheckbox="true"
-												>
-							<f:ajax event='change' render='@this' />
-							<f:selectItems	value='#{membroBean.listarLideres()}'
-											var='lider'
-											itemLabel='#{lider.nome} #{lider.sobrenome}'
-											itemValue='#{lider}'
-											/>
-						</p:selectCheckboxMenu>
-						<br class='visible-sm'/>
-					</b:column>
-					<b:column	col-lg='3'
-								col-md='3'
-								col-sm='6'
-								col-xs='12'
+								style='margin-bottom: 10px;'
 								>
 						<br/>
 						<h:outputLabel	class='outputLabel' for='frente' value='Frente*' />
@@ -245,66 +213,12 @@
 											noSelectionOption='false'
 											/>
 							<f:selectItems	value='#{sedeBean.listar()}' var='sede'
-											itemLabel='#{sedeBean.getProperty("convencaoAbrev")} #{sede.nome}#{sede.mainChurch ? "*" : ""}'
-											/>
-						</h:selectOneMenu>
-					</b:column>
-				</b:row>
-				
-				<b:row id='permitirVisitantes'>
-					<b:column	col-lg='3'
-								col-md='3'
-								col-sm='6'
-								col-xs='12'
-								>
-						<br/>
-						<h:outputLabel	class='outputLabel' for='coordenador' value='Coordenador' />
-						<h:selectOneMenu	id='coordenador'
-											value='#{celulaBean.celula.coordenador}'
-											converter='omnifaces.SelectItemsConverter'
-											class='hSelectOneMenu'
-											>
-							<f:ajax event='change' render='@this' />
-							<f:selectItem	itemLabel='Selecione'
-											noSelectionOption='false'
-											/>
-							<f:selectItems	value='#{membroBean.listarCoordenadores()}' var='coordenador'
-											itemLabel='#{coordenador.lider.membro.pessoa.nome} #{coordenador.lider.membro.pessoa.sobrenome}'
+											itemLabel='#{sedeBean.getProperty("convencaoAbrev")} #{sede.nome}#{sede.mae ? "*" : ""}'
 											/>
 						</h:selectOneMenu>
 					</b:column>
 					<b:column	col-lg='3'
 								col-md='3'
-								col-sm='6'
-								col-xs='12'
-								>
-						<br/>
-						<h:outputLabel	class='outputLabel' for='membros' value='Membros' />
-						<p:selectCheckboxMenu	id="membros"
-												label='#{null == celulaBean.celula.membros
-															|| celulaBean.celula.membros.size() == 0
-																? "Selecione"
-																: celulaBean.celula.membros.size()} 
-																#{null == celulaBean.celula.membros
-																	|| celulaBean.celula.membros.size() == 0 
-																		? ""
-																		: "membro(s) selecionado(s)"}'
-												value="#{celulaBean.celula.membros}"
-												converter="omnifaces.SelectItemsConverter"
-												filter="true"
-												filterMatchMode="contains"
-												showCheckbox="true"
-												>
-							<f:ajax event='change' render='@this' />
-							<f:selectItems	value='#{membroBean.listar()}'
-											var='membro'
-											itemLabel='#{membro.nome} #{membro.sobrenome}'
-											itemValue='#{membro}'
-											/>
-						</p:selectCheckboxMenu>
-					</b:column>
-					<b:column	col-lg='3'
-								col-md='4'
 								col-sm='6'
 								col-xs='12'
 								>
@@ -321,43 +235,165 @@
 							</script>
 						</b:datepicker>
 					</b:column>
-					<b:column	col-lg='3'
-								col-md='3'
-								col-sm='6'
-								col-xs='12'
-								rendered='#{showVisitorsMenu.value}'
-								>
-						<br/>
-						<h:outputLabel	class='outputLabel' for='visitantes' value='Visitantes' />
-						<p:selectCheckboxMenu	id="visitantes"
-												label='#{null == celulaBean.celula.visitantes || celulaBean.celula.visitantes.size() == 0 ? "Selecione" : celulaBean.celula.visitantes.size()} #{null == celulaBean.celula.visitantes || celulaBean.celula.visitantes.size() == 0 ? "" : "visitante(s) selecionado(s)"}'
-												value="#{celulaBean.celula.visitantes}"
-												converter="omnifaces.SelectItemsConverter"
-												filter="true"
-												filterMatchMode="contains"
-												showCheckbox="true"
+				</b:row>
+
+				<br/>
+				
+				<b:row id='participantes' class='splitRow'>
+					<b:row	class='row'>
+						<h3>
+							<b:iconAwesome name="fa fa-fw fa-users"/>
+							<br class='visible-xs'/>
+							Participantes
+						</h3>
+						<h4 style='font-style: italic;'>
+							Adicione membros, <h:outputText value="visitantes," rendered='#{showVisitorsMenu.value}'/> liderança, co-liderança e coordenação
+						</h4>
+					</b:row>
+					<b:row id='atualizaRemover'>
+						<h:dataTable	id='tbParticipantes'
+										value='#{celulaBean.celula.pessoasCelulas}'
+										var='participante'
+										class='row'
+										>
+							<h:column >
+								<div	class=' row addElemento required'
+										>
+									<b:column	col-lg='4'
+												col-md='4'
+												col-sm='4'
+												col-xs='12'
+												
 												>
-							<f:ajax event='change' render='@this' />
-							<f:selectItems	value='#{membroBean.listar()}'
-											var='visitantes'
-											itemLabel='#{visitantes.nome} #{visitantes.sobrenome}'
-											itemValue='#{visitantes}'
-											/>
-						</p:selectCheckboxMenu>
-					</b:column>
+										<br/>
+										<h:outputLabel for='' class='hidden-xs outputLabel' value='Participante*' />
+										<h:selectOneMenu	id='participante'
+															value='#{participante.pessoa}'
+															converter='omnifaces.SelectItemsConverter'
+															class='hSelectOneMenu'
+															>
+											<f:ajax event='change' render='@this' />
+											<f:selectItem	itemLabel='Participante*'
+															noSelectionOption='false'
+															/>
+											<f:selectItems	value='#{pessoaBean.listar()}' var='pessoa'
+															itemLabel='#{pessoa.nome} #{pessoa.sobrenome}'
+															/>
+										</h:selectOneMenu>
+									</b:column>
+									<b:column	col-lg='4'
+												col-md='4'
+												col-sm='4'
+												col-xs='12'
+												id='comOuSemVisitante'
+												>
+										<br class='hidden-xs'/>
+										<h:outputLabel class='hidden-xs outputLabel' value='Participante*' />
+										<h:selectOneMenu	value='#{participante.participacao}'
+															converter='omnifaces.SelectItemsConverter'
+															class='hSelectOneMenu'
+															rendered='#{!showVisitorsMenu.value}'
+															>
+											<f:ajax event='change' render='@this' />
+											<f:selectItem	itemLabel='Participa como*'
+															noSelectionOption='false'
+															style='background-color: #FFF'
+															/>
+											<f:selectItem	itemValue='#{celulaBean.getProperty("funcaoMembro")}'
+															itemLabel='#{celulaBean.getProperty("funcaoMembro")}'
+															/>
+											<f:selectItem	itemValue='#{celulaBean.getProperty("funcaoLider")}'
+															itemLabel='#{celulaBean.getProperty("funcaoLider")}'
+															/>
+											<f:selectItem	itemValue='#{celulaBean.getProperty("funcaoCoordenador")}'
+															itemLabel='#{celulaBean.getProperty("funcaoCoordenador")}'
+															/>
+										</h:selectOneMenu>
+										<h:selectOneMenu	value='#{participante.participacao}'
+															converter='omnifaces.SelectItemsConverter'
+															class='hSelectOneMenu'
+															rendered='#{showVisitorsMenu.value}'
+															>
+											<f:ajax event='change' render='@this' />
+											<f:selectItem	itemLabel='Participa como*'
+															noSelectionOption='false'
+															style='background-color: #FFF'
+															/>
+											<f:selectItem	itemValue='#{celulaBean.getProperty("funcaoVisitante")}'
+															itemLabel='#{celulaBean.getProperty("funcaoVisitante")}'
+															/>
+											<f:selectItem	itemValue='#{celulaBean.getProperty("funcaoMembro")}'
+															itemLabel='#{celulaBean.getProperty("funcaoMembro")}'
+															/>
+											<f:selectItem	itemValue='#{celulaBean.getProperty("funcaoLider")}'
+															itemLabel='#{celulaBean.getProperty("funcaoLider")}'
+															/>
+											<f:selectItem	itemValue='#{celulaBean.getProperty("funcaoCoordenador")}'
+															itemLabel='#{celulaBean.getProperty("funcaoCoordenador")}'
+															/>
+										</h:selectOneMenu>
+									</b:column>
+									<b:column	col-lg='4'
+												col-md='4'
+												col-sm='4'
+												col-xs='12'
+												>
+										<br class='hidden-xs'/>
+										<h:outputLabel for='dataInicio' class='hidden-xs outputLabel' value='Participante*' />
+										<table class='fullWidth' style='margin-bottom: 16px;'>
+											<tr>
+												<td>
+													<b:datepicker 	id='dataInicio'
+																	placeholder='Data Inicial*'
+																	value='#{participante.dataInicio}'
+																	>
+													</b:datepicker>
+												</td>
+												<td	style='	text-align: right;
+															vertical-align: bottom
+															'
+													>
+													<b:iconAwesome	name='fa fa-trash fa-fw'
+																	size='lg'
+																	style='	color: #C00;
+																			margin-bottom: 10px;
+																			'
+																	>
+														<f:ajax	listener="#{celulaBean.botaoRemoverPessoa(participante)}"
+																immediate="true"
+																render="@form"
+																/>
+													</b:iconAwesome>
+												</td>
+											</tr>
+										</table>
+									</b:column>
+								</div>
+							</h:column>
+						</h:dataTable>
+						<b:column span='12'>
+							<br/>
+							<b:iconAwesome	name='fa fa-plus fa-fw'
+											size='lg'
+											style='	color: #0C0;					
+													'
+											>
+								<f:ajax	listener="#{celulaBean.botaoAdicionarPessoa}"
+										execute="tbParticipantes"
+										render="tbParticipantes"
+										/>
+							</b:iconAwesome>
+						</b:column>
+					</b:row>
 				</b:row>
 				
 				<b:row	id='endereco'
-								class='row'
-								>
-					<br/>
-					<br/>
-					<b:row	rendered='#{showAddress.value}'
-							style='	border-top: solid;
-									border-color: #CCCCCC;
-									'
+							class='row'
 							>
-						<table style='width: 100%;'>
+					<b:row	rendered='#{showAddress.value}'
+							>
+						<br/>
+						<table class='splitRow fullWidth'>
 							<tr>
 								<td	style='	vertical-align: bottom;'>
 									<h3>
@@ -370,7 +406,7 @@
 											line-height: 1px;
 											 margin: 0px; padding: 0px;'
 									>
-									<b:switch	value='#{celulaBean.celula.gpsAddress}'
+									<b:switch	value='#{celulaBean.celula.endereco.gps}'
 												label=''
 												offText='Postal'
 												onText='GPS'
@@ -402,7 +438,7 @@
 													value='Coordenadas de GPS*'
 													/>
 									<b:inputText	id='gpsAddress'
-													value='#{celulaBean.celula.enderecoLogradouro}'
+													value='#{celulaBean.celula.endereco.logradouro}'
 													placeholder='Digite as coordenadas do GPS'
 													required='true'
 													requiredMessage='Coordenadas de GPS: Campo obrigatório!'
@@ -434,7 +470,7 @@
 													binding='#{cep}'
 													maxlength='8'
 													onkeypress='return teclaNumerica(event.keyCode)'
-													value='#{celulaBean.celula.enderecoCep}'
+													value='#{celulaBean.celula.endereco.cep}'
 													placeholder='Digite o CEP'
 													onblur='if(this.value != "") pesquisaCep(this.value);'
 													/>
@@ -449,14 +485,14 @@
 									<h:outputLabel	class='outputLabel' value='Endereço' for='logradouro'/>
 									<b:inputText	id='logradouro'
 													name='logradouro'
-													value='#{celulaBean.celula.enderecoLogradouro}'
+													value='#{celulaBean.celula.endereco.logradouro}'
 													placeholder='Digite o nome da rua, avenida, etc.'
 													class='hidden-xs'
 													onblur='document.getElementById("input_form:logradouro2").value = document.getElementById("input_form:logradouro").value'
 													/>
 									<b:inputTextarea	id='logradouro2'
 														name='logradouro2'
-														value='#{celulaBean.celula.enderecoLogradouro}'
+														value='#{celulaBean.celula.endereco.logradouro}'
 														placeholder='Digite o nome da rua, avenida, etc.'
 														class='visible-xs'
 														onblur='document.getElementById("input_form:logradouro").value = document.getElementById("input_form:logradouro2").value'
@@ -471,7 +507,7 @@
 									<br/>
 									<h:outputLabel	class='outputLabel' value='№' for='numero'/>
 									<b:inputText	id='numero'
-													value='#{celulaBean.celula.enderecoNumero}'
+													value='#{celulaBean.celula.endereco.numero}'
 													onkeypress='return teclaNumerica(event.keyCode)'
 													maxlength='5'
 													placeholder='№'
@@ -486,7 +522,7 @@
 									<br/>
 									<h:outputLabel	class='outputLabel' value='Complemento' for='complemento'/>
 									<b:inputText	id='complemento'
-													value='#{celulaBean.celula.enderecoComplemento}'
+													value='#{celulaBean.celula.endereco.complemento}'
 													placeholder='Complemento'
 													/>
 								</b:column>
@@ -499,7 +535,7 @@
 									<br/>
 									<h:outputLabel	class='outputLabel' value='Bairro' for='bairro'/>
 									<b:inputText	id='bairro'
-													value='#{celulaBean.celula.enderecoBairro}'
+													value='#{celulaBean.celula.endereco.bairro}'
 													placeholder='Bairro'
 													/>
 								</b:column>
@@ -512,7 +548,7 @@
 									<br/>
 									<h:outputLabel	class='outputLabel' value='Cidade' for='cidade'/>
 									<b:inputText	id='cidade'
-													value='#{celulaBean.celula.enderecoCidade}'
+													value='#{celulaBean.celula.endereco.cidade}'
 													placeholder='Cidade'
 													/>
 								</b:column>
@@ -526,7 +562,7 @@
 									<h:outputLabel	class='outputLabel' value='UF' for='uf'/>
 									<b:inputText	id='uf'
 													maxlength='2'
-													value='#{celulaBean.celula.enderecoEstado}'
+													value='#{celulaBean.celula.endereco.estado}'
 													placeholder='UF'
 													/>
 								</b:column>
@@ -539,7 +575,7 @@
 									<br/>
 									<h:outputLabel	class='outputLabel' value='País' for='pais'/>
 									<b:inputText	id='pais'
-													value='#{celulaBean.celula.enderecoPais}'
+													value='#{celulaBean.celula.endereco.pais}'
 													placeholder='País'
 													/>
 								</b:column>

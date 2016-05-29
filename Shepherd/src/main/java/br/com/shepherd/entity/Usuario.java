@@ -33,9 +33,9 @@ public class Usuario implements Serializable{
 	@OneToOne(/* fetch = FetchType.EAGER, */ cascade = { CascadeType.PERSIST, CascadeType.MERGE })
 	private Perfil				perfil;
 
-	// @NotNull
-	@OneToOne // (fetch = FetchType.EAGER)
-	private Membro				membro;
+	// // @NotNull
+	// @OneToOne // (fetch = FetchType.EAGER)
+	// private Membro membro;
 
 	@OneToMany(/* fetch = FetchType.EAGER, */ mappedBy = "autor")
 	private List<Comunicado>	comunicados;
@@ -85,13 +85,5 @@ public class Usuario implements Serializable{
 
 	public void setPerfil(Perfil pPerfil){
 		perfil = pPerfil;
-	}
-
-	public Membro getMembro(){
-		return membro;
-	}
-
-	public void setMembro(Membro pMembro){
-		membro = pMembro;
 	}
 }

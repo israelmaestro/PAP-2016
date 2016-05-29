@@ -14,9 +14,9 @@
 	
 			<ui:define name='mensagensCampos'>
 				<b:message for='nome'/>
-				<b:message for='frenteLideres' />
+<!-- 				<b:message for='frenteLideres' /> -->
 				<b:message for='frenteCelulas' />
-				<b:message for='frenteParticipantes' />
+<!-- 				<b:message for='frenteParticipantes' /> -->
 				<b:message for='idadeMinima' />
 				<b:message for='idadeMaxima' />
 				<b:message for='descricao' />
@@ -92,39 +92,6 @@
 										style='	background-color: #FFFFCC;'
 										/>
 					</b:column>
-					
-					<b:column	col-lg='3'
-								col-md='4'
-								col-sm='6'
-								col-xs='12'
-								>
-						<br/>
-						<h:outputLabel	class='outputLabel' for='frenteLideres' value='Líderes' />
-						<p:selectCheckboxMenu	id="frenteLideres"
-												label='#{null == frenteBean.frente.lideres
-														|| frenteBean.frente.lideres.size() == 0
-															? "Selecione"
-															: frenteBean.frente.lideres.size()} 
-															#{null == frenteBean.frente.lideres
-																|| frenteBean.frente.lideres.size() == 0
-																	? ""
-																	: "líder(es) selecionado(s)"}'
-												value="#{frenteBean.frente.lideres}"
-												converter="omnifaces.SelectItemsConverter"
-												filter="true"
-												filterMatchMode="contains"
-												showCheckbox="true"
-												>
-							<f:ajax event='change' render='@this' />
-							<f:selectItems	value='#{membroBean.listar()}'
-											var='lider'
-											itemLabel='#{lider.nome} #{lider.sobrenome}'
-											itemValue='#{lider}'
-											/>
-						</p:selectCheckboxMenu>
-						<br class='visible-sm'/>
-					</b:column>
-					
 					<b:column	col-lg='3'
 								col-md='4'
 								col-sm='6'
@@ -156,38 +123,6 @@
 											/>
 						</p:selectCheckboxMenu>
 						<br class='visible-sm'/>
-					</b:column>
-					<b:column	col-lg='3'
-								col-md='4'
-								col-sm='6'
-								col-xs='12'
-								rendered='#{!showCellList.value}'
-								>
-						<br/>
-						<h:outputLabel	class='outputLabel' for='frenteParticipantes' value='Participantes' />
-						<p:selectCheckboxMenu	id="frenteParticipantes"
-												label='#{null == frenteBean.frente.participantes
-														|| frenteBean.frente.participantes.size() == 0
-															? "Selecione"
-															: frenteBean.frente.participantes.size()} 
-															#{null == frenteBean.frente.participantes
-																|| frenteBean.frente.participantes.size() == 0
-																	? ""
-																	: "participante(s) selecionado(s)"}'
-												value="#{frenteBean.frente.participantes}"
-												converter="omnifaces.SelectItemsConverter"
-												filter="true"
-												filterMatchMode="contains"
-												showCheckbox="true"
-												>
-							<f:ajax event='change' render='@this' />
-							<f:selectItems	value='#{membroBean.listar()}'
-											var='lider'
-											itemLabel='#{lider.nome} #{lider.sobrenome}'
-											itemValue='#{lider}'
-											/>
-						</p:selectCheckboxMenu>
-						<br class='visible-md visible sm'/>
 					</b:column>
 					<b:column	col-lg='3'
 								col-md='4'

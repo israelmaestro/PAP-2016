@@ -1,0 +1,268 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html	xmlns='http://www.w3.org/1999/xhtml'
+		xmlns:b='http://bootsfaces.net/ui'
+		xmlns:btr='http://butterfaces.larmic.de/components'
+		xmlns:f='http://java.sun.com/jsf/core'
+		xmlns:h='http://java.sun.com/jsf/html'
+		xmlns:p='http://primefaces.org/ui'
+		xmlns:pm='http://primefaces.org/mobile'
+		xmlns:pt='http://xmlns.jcp.org/jsf/passthrough'
+		xmlns:ui='http://java.sun.com/jsf/facelets'
+		>
+
+	<ui:composition template='/META-INF/resources/bootsfaces/jsfTemplate.xhtml'>
+	
+			<ui:define name='mensagensCampos'>
+				<b:message for='nome'/>
+				<b:message for='frenteLideres' />
+				<b:message for='frenteCelulas' />
+				<b:message for='frenteParticipantes' />
+				<b:message for='idadeMinima' />
+				<b:message for='idadeMaxima' />
+				<b:message for='descricao' />
+				<br/>
+			</ui:define>
+	
+			<ui:define name='tituloPagina'>Shepherd > Nova Frente</ui:define>
+			<ui:define name='tituloPrincipal'>
+				<b:iconAwesome name='fa fa-puzzle-piece fa-fw'/>
+				<br class='visible-xs'/>
+				Nova Frente
+			</ui:define>
+			<ui:define name='tituloSecundario'>
+				home > frentes > nova
+			</ui:define>
+			
+			<ui:define name='botoesAcao'>
+				<b:buttonGroup>
+					<b:button	value=''
+								onclick='location.href = "./frenteListar.jsf"'
+								iconAwesome='fa fa-arrow-left fa-fw'
+								/>
+					<btr:commandLink	action='#{frenteBean.cadastrar()}'
+										styleClass='btn btn-default'
+										>
+						<b:iconAwesome name='fa fa-check fa-fw'/>
+					</btr:commandLink>
+					<b:button	value=''
+								iconAwesome='fa fa-eraser fa-fw'
+								onclick='location.href = "./frenteCadastrar.jsf"'/>
+				</b:buttonGroup>
+			</ui:define>
+			
+			<ui:define name='conteudo'>
+				<b:row>
+					<b:column	col-lg='12'
+								col-md='12'
+								col-sm='12'
+								col-xs='12'
+								>
+						<br/>
+						<h:outputLabel	class='outputLabel'
+										value='Frente tipo'
+										/>
+						<b:switch	value='#{frenteBean.frente.cell}'
+									binding='#{showCellList}'
+									offText='Operacional'
+									onText='Célula'
+									onColor='danger'
+									offColor='primary'
+									switchsize='mini'
+									>
+							<f:ajax event='change' render='dados' />
+						</b:switch>
+					</b:column>
+				</b:row>
+				<b:row id='dados'>
+					<b:column	col-lg='3'
+								col-md='4'
+								col-sm='6'
+								col-xs='12'
+								>
+						<br/>
+						<h:outputLabel	for='nome'
+										value='Nome*'
+										class='outputLabel'
+										/>
+						<b:inputText 	id='nome'
+										required='true'
+										requiredMessage='Nome: Campo obrigatório'
+										value='#{frenteBean.frente.nome}'
+										placeholder='Nome'
+										style='	background-color: #FFFFCC;'
+										/>
+					</b:column>
+					
+					<b:column	col-lg='3'
+								col-md='4'
+								col-sm='6'
+								col-xs='12'
+								>
+						<br/>
+						<h:outputLabel	class='outputLabel' for='frenteLideres' value='Líderes' />
+						<p:selectCheckboxMenu	id="frenteLideres"
+												label='#{null == frenteBean.frente.lideres
+														|| frenteBean.frente.lideres.size() == 0
+															? "Selecione"
+															: frenteBean.frente.lideres.size()} 
+															#{null == frenteBean.frente.lideres
+																|| frenteBean.frente.lideres.size() == 0
+																	? ""
+																	: "líder(es) selecionado(s)"}'
+												value="#{frenteBean.frente.lideres}"
+												converter="omnifaces.SelectItemsConverter"
+												filter="true"
+												filterMatchMode="contains"
+												showCheckbox="true"
+												>
+							<f:ajax event='change' render='@this' />
+							<f:selectItems	value='#{membroBean.listar()}'
+											var='lider'
+											itemLabel='#{lider.nome} #{lider.sobrenome}'
+											itemValue='#{lider}'
+											/>
+						</p:selectCheckboxMenu>
+						<br class='visible-sm'/>
+					</b:column>
+					
+					<b:column	col-lg='3'
+								col-md='4'
+								col-sm='6'
+								col-xs='12'
+								rendered='#{showCellList.value}'
+								>
+						<br/>
+						<h:outputLabel	class='outputLabel' for='frenteCelulas' value='Células' />
+						<p:selectCheckboxMenu	id="frenteCelulas"
+												label='#{null == frenteBean.frente.celulas
+														|| frenteBean.frente.celulas.size() == 0
+															? "Selecione"
+															: frenteBean.frente.celulas.size()} 
+															#{null == frenteBean.frente.celulas
+																|| frenteBean.frente.celulas.size() == 0
+																	? ""
+																	: "célula(s) selecionado(s)"}'
+												value="#{frenteBean.frente.celulas}"
+												converter="omnifaces.SelectItemsConverter"
+												filter="true"
+												filterMatchMode="contains"
+												showCheckbox="true"
+												>
+							<f:ajax event='change' render='@this' />
+							<f:selectItems	value='#{celulaBean.listar()}'
+											var='celula'
+											itemLabel='#{celula.nome} (#{celula.frente} - #{celula.sede})'
+											itemValue='#{celula}'
+											/>
+						</p:selectCheckboxMenu>
+						<br class='visible-sm'/>
+					</b:column>
+					<b:column	col-lg='3'
+								col-md='4'
+								col-sm='6'
+								col-xs='12'
+								rendered='#{!showCellList.value}'
+								>
+						<br/>
+						<h:outputLabel	class='outputLabel' for='frenteParticipantes' value='Participantes' />
+						<p:selectCheckboxMenu	id="frenteParticipantes"
+												label='#{null == frenteBean.frente.participantes
+														|| frenteBean.frente.participantes.size() == 0
+															? "Selecione"
+															: frenteBean.frente.participantes.size()} 
+															#{null == frenteBean.frente.participantes
+																|| frenteBean.frente.participantes.size() == 0
+																	? ""
+																	: "participante(s) selecionado(s)"}'
+												value="#{frenteBean.frente.participantes}"
+												converter="omnifaces.SelectItemsConverter"
+												filter="true"
+												filterMatchMode="contains"
+												showCheckbox="true"
+												>
+							<f:ajax event='change' render='@this' />
+							<f:selectItems	value='#{membroBean.listar()}'
+											var='lider'
+											itemLabel='#{lider.nome} #{lider.sobrenome}'
+											itemValue='#{lider}'
+											/>
+						</p:selectCheckboxMenu>
+						<br class='visible-md visible sm'/>
+					</b:column>
+					<b:column	col-lg='3'
+								col-md='4'
+								col-sm='6'
+								col-xs='12'
+								>
+						<br/>
+						<h:outputLabel	value='Faixa Etária'
+										class='outputLabel'
+										/>
+						<table	cellspacing='2'
+								style='	width: 100%;
+										'
+								>
+							<tr>
+								<td style='	width: 50%;
+											padding-right: 10px;
+											'
+									>
+									<b:inputText	id='idadeMinima'
+													maxlength='2'
+													value='#{frenteBean.frente.idadeMinima}'
+													placeholder='Min.'
+													onkeypress='return teclaNumerica(event.keyCode)'
+													class='idade'
+													>
+										<f:facet name='append'>
+											<h:outputText value='ano(s)' class='idade'/>
+										</f:facet>
+									</b:inputText>
+								</td>
+								<td style='	width: 50%;
+											padding-left: 10px;
+											'
+									>
+									<b:inputText	id='idadeMaxima'
+													maxlength='2'
+													value='#{frenteBean.frente.idadeMaxima}'
+													placeholder='Máx.'
+													onkeypress='return teclaNumerica(event.keyCode)'
+													class='idade'
+													>
+										<f:facet name='append'>
+											<h:outputText value='ano(s)' />
+										</f:facet>
+									</b:inputText>
+								</td>
+							</tr>
+						</table>
+					</b:column>
+				</b:row>
+				
+				
+				<b:row>
+					<b:column	col-lg='12'
+								col-md='12'
+								col-sm='12'
+								col-xs='12'
+								>
+						<br/>
+						<h:outputLabel	for='descricao'
+										value='Descrição*'
+										class='outputLabel'
+										/>
+						<b:inputTextarea	id='descricao'
+											required='true'
+											requiredMessage='Descrição: Campo obrigatório'
+											value='#{frenteBean.frente.descricao}'
+											maxlength='255'
+											placeholder='Descrição'
+											style='	background-color: #FFFFCC;'
+											/>
+					</b:column>
+				</b:row>
+			</ui:define>
+	</ui:composition>
+
+</html>

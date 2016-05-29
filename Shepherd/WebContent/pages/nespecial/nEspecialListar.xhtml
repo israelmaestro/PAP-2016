@@ -74,7 +74,10 @@
 							priority='1'
 							>
 					<center>
-						<h:outputText value='#{nEspecial.nome}'/>
+						<h:outputText	value='#{nEspecial.nome}'
+										title='#{nEspecial.tipo}'
+										style=' #{nEspecial.deficiencia ? "color: #C00; font-weight: bold;" : ""}'
+										/>
 					</center>
 				</p:column>
 				
@@ -82,15 +85,19 @@
 							priority='2'
 							>
 					<center>
-						<h:outputText value='#{nEspecial.descricao}'/>
+						<h:outputText	value='#{nEspecial.descricao}'
+										style=' #{nEspecial.deficiencia ? "color: #C00; font-weight: bold;" : ""}'
+										/>
 					</center>
 				</p:column>
 				
-				<p:column	headerText='Deficiência'
+				<p:column	headerText='Classificação'
 							priority='3'
 							>
 					<center>
-						<h:outputText value='#{nEspecial.deficiencia ? "Sim" : "Não"}'/>
+						<h:outputText	value='#{nEspecial.deficiencia ? "Deficiência" : "Outro"}'
+										style=' #{nEspecial.deficiencia ? "color: #C00; font-weight: bold;" : ""}'
+										/>
 					</center>
 				</p:column>
 				

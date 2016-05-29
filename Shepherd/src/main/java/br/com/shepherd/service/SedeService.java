@@ -38,25 +38,12 @@ public class SedeService{
 		Sede existente = null;
 
 		// TODO: Resolver: Assembleias Gerais, Correspondências
-		// TODO: Resolver listas de telefones e emails
-		// TODO: Criar regras para sedes filhas. obrigatório selecionar sede mãe
 
 		// Consistir dados
 		if(null == pSede.getNome() || pSede.getNome().equals("")){
 			// Campo Nome obrigatório
 			throw new Exception("O cadastro possui campos obrigatórios não preenchidos!");
 		}
-
-		// if(null == pSede.getTelefoneDdi1()||
-		// pSede.getTelefoneDdi1().equals("")
-		// || null == pSede.getTelefoneNumero1()
-		// || pSede.getTelefoneNumero1().equals("")
-		// || null == pSede.getTelefoneTipo1()
-		// || pSede.getTelefoneTipo1().equals("")){
-		// // Campo Telefone1 obrigatório
-		// throw new Exception("O cadastro possui campos obrigatórios não
-		// preenchidos!");
-		// }
 
 		if(null == pSede.getEmails() || pSede.getEmails().isEmpty()){
 			// Campo Email obrigatório
@@ -83,9 +70,10 @@ public class SedeService{
 			pSede.setCelulas(null);
 		}
 
-		if(null == pSede.getPresidente() || pSede.getPresidente().toString().equals("")){
-			pSede.setPresidente(null);
-		}
+		// if(null == pSede.getPresidente() ||
+		// pSede.getPresidente().toString().equals("")){
+		// pSede.setPresidente(null);
+		// }
 
 		if(null == pSede.getPaginaWeb() || pSede.getPaginaWeb().equals("")){
 			pSede.setPaginaWeb(null);
@@ -95,7 +83,7 @@ public class SedeService{
 			pSede.setPerfilRedeSocial(null);
 		}
 
-		if(pSede.isMainChurch()){
+		if(pSede.isMae()){
 			pSede.setSedeMae(null);
 		} else{
 			if(null == pSede.getSedeMae() || pSede.getSedeMae().toString().equals("")){
@@ -106,56 +94,72 @@ public class SedeService{
 
 		pSede.setAtiva(true);
 
-		if(null == pSede.getEnderecoCep() || pSede.getEnderecoCep().equals("")){
-			if(pSede.isGpsAddress()){
-				if(null == pSede.getEnderecoLogradouro() || pSede.getEnderecoLogradouro().equals("")){
+		if(null == pSede.getEndereco().getCep() || pSede.getEndereco().getCep().equals("")){
+			if(pSede.getEndereco().isGps()){
+				if(null == pSede.getEndereco().getLogradouro()
+					|| pSede.getEndereco().getLogradouro().equals("")){
 					// Logradouro é campo obrigatório, caso seja endereço de GPS
 					throw new Exception("Coordenadas de GPS: Campo obrigatório!");
 				}
 			} else{
-				pSede.setEnderecoCep(null);
+				pSede.getEndereco().setCep(null);
 
-				if(null == pSede.getEnderecoLogradouro() || pSede.getEnderecoLogradouro().equals("")){
-					pSede.setEnderecoLogradouro(null);
+				if(null == pSede.getEndereco().getLogradouro()
+					|| pSede.getEndereco().getLogradouro().equals("")){
+					pSede.getEndereco().setLogradouro(null);
 				}
 
-				if(null == pSede.getEnderecoNumero() || pSede.getEnderecoNumero().equals("")){
-					pSede.setEnderecoNumero(null);
+				if(null == pSede.getEndereco().getNumero()
+					|| pSede.getEndereco().getNumero().equals("")){
+					pSede.getEndereco().setNumero(null);
 				}
 
-				if(null == pSede.getEnderecoComplemento() || pSede.getEnderecoComplemento().equals("")){
-					pSede.setEnderecoComplemento(null);
+				if(null == pSede.getEndereco().getComplemento()
+					|| pSede.getEndereco().getComplemento().equals("")){
+					pSede.getEndereco().setComplemento(null);
 				}
 
-				if(null == pSede.getEnderecoBairro() || pSede.getEnderecoBairro().equals("")){
-					pSede.setEnderecoBairro(null);
+				if(null == pSede.getEndereco().getBairro()
+					|| pSede.getEndereco().getBairro().equals("")){
+					pSede.getEndereco().setBairro(null);
 				}
 
-				if(null == pSede.getEnderecoCidade() || pSede.getEnderecoCidade().equals("")){
-					pSede.setEnderecoCidade(null);
+				if(null == pSede.getEndereco().getCidade()
+					|| pSede.getEndereco().getCidade().equals("")){
+					pSede.getEndereco().setCidade(null);
 				}
 
-				if(null == pSede.getEnderecoEstado() || pSede.getEnderecoEstado().equals("")){
-					pSede.setEnderecoEstado(null);
+				if(null == pSede.getEndereco().getEstado()
+					|| pSede.getEndereco().getEstado().equals("")){
+					pSede.getEndereco().setEstado(null);
 				}
 
-				if(null == pSede.getEnderecoPais() || pSede.getEnderecoPais().equals("")){
-					pSede.setEnderecoPais(null);
+				if(null == pSede.getEndereco().getPais()
+					|| pSede.getEndereco().getPais().equals("")){
+					pSede.getEndereco().setPais(null);
 				}
 			}
 		} else{
-			if(null == pSede.getEnderecoLogradouro() || pSede.getEnderecoLogradouro().equals("")){
+			if(null == pSede.getEndereco().getLogradouro()
+				|| pSede.getEndereco().getLogradouro().equals("")){
 				// Logradouro é campo obrigatório, caso haja CEP
 				throw new Exception("Endereço: Campo obrigatório quando há CEP!");
 			}
 
-			if(null == pSede.getEnderecoNumero() || pSede.getEnderecoNumero().equals("")){
-				// Logradouro é campo obrigatório, caso haja CEP
+			if(null == pSede.getEndereco().getNumero()
+				|| pSede.getEndereco().getNumero().equals("")){
+				// Número é campo obrigatório, caso haja CEP
 				throw new Exception("Número: Campo obrigatório quando há CEP!");
 			}
 
-			if(null == pSede.getEnderecoCidade() || pSede.getEnderecoCidade().equals("")){
-				// Logradouro é campo obrigatório, caso haja CEP
+			if(null == pSede.getEndereco().getComplemento()
+				|| pSede.getEndereco().getComplemento().equals("")){
+				// Complemento não é campo obrigatório, caso haja CEP
+				pSede.getEndereco().setComplemento(null);
+			}
+			if(null == pSede.getEndereco().getCidade()
+				|| pSede.getEndereco().getCidade().equals("")){
+				// Cidade é campo obrigatório, caso haja CEP
 				throw new Exception("Cidade: Campo obrigatório quando há CEP!");
 			}
 		}
@@ -191,7 +195,7 @@ public class SedeService{
 	@SuppressWarnings("unchecked")
 	public List<Sede> listarMaes(){
 		return entityManager.createQuery("FROM Sede dbSede"
-											+ " WHERE dbSede.isMainChurch IS TRUE"
+											+ " WHERE dbSede.mae IS TRUE"
 											+ " ORDER BY dbSede.nome")
 							.getResultList();
 	}

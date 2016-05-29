@@ -19,12 +19,6 @@
 			<b:message for='sexo'/>
 			<b:message for='rg'/>
 			<b:message for='cpf'/>
-			<b:message for='membroPai'/>
-			<b:message for='membroMae'/>
-			<b:message for='irmaos'/>
-			<b:message for='membroConjugeMulher'/>
-			<b:message for='membroConjugeHomem' />
-			<b:message for='dataCasamento' />
 			<b:message for='gpsAddress'/>
 			<b:message for='cep' />
 			<b:message for='logradouro' />
@@ -38,8 +32,6 @@
 			<b:message for='tbEmails' />
 			<b:message for='membroCelula' />
 			<b:message for='dataMembresia' />
-			<b:message for='diretoriaCargo' />
-			<b:message for='dataDiretoriaPosse' />
 			<br/>
 		</ui:define>
 		
@@ -59,7 +51,7 @@
 							onclick='location.href = "./membroListar.jsf"'
 							iconAwesome='fa fa-arrow-left fa-fw'
 							/>
-				<btr:commandLink	action='#{membroBean.cadastrar()}'
+				<btr:commandLink	action='#{pessoaBean.cadastrarMembro()}'
 									styleClass='btn btn-default'
 									>
 					<b:iconAwesome name='fa fa-check fa-fw'/>
@@ -134,10 +126,10 @@
 													/>
 									<b:selectBooleanCheckbox	id='relationshipCheckBox'
 																binding='#{showMateInfo}'
-																value='#{membroBean.membro.married}'
+																value='#{pessoaBean.pessoa.casada}'
 																style='	margin-left: 0px;'
 																>
-										<f:ajax event='change' render='familia' />
+<!-- 										<f:ajax event='change' render='familia' /> -->
 									</b:selectBooleanCheckbox>
 								</td>
 							</tr>
@@ -160,7 +152,7 @@
 						<b:inputText 	id='nome'
 										required='true'
 										requiredMessage='Nome: Campo obrigatório'
-										value='#{membroBean.membro.nome}'
+										value='#{pessoaBean.pessoa.nome}'
 										placeholder='Nome'
 										class='required'
 										/>
@@ -177,7 +169,7 @@
 						<b:inputText 	id='sobrenome'
 										required='true'
 										requiredMessage='Sobrenome: Campo obrigatório'
-										value='#{membroBean.membro.sobrenome}'
+										value='#{pessoaBean.pessoa.sobrenome}'
 										placeholder='Sobrenome'
 										class='required'
 										/>
@@ -191,7 +183,7 @@
 						<h:outputLabel	class='outputLabel' for='dataNasc' value='Data de Nascimento'/>
 						<b:datepicker 	id='dataNasc'
 										placeholder='DD/MM/AAAA'
-										value='#{membroBean.membro.dataNasc}'
+										value='#{pessoaBean.pessoa.dataNasc}'
 										/>
 					</b:column>
 					<b:column	col-lg='3'
@@ -215,13 +207,13 @@
 						</h:outputLabel>
 						<b:switch	id='sexo'
 									binding='#{membroSexo}'
-									value='#{membroBean.membro.sexo}'
+									value='#{pessoaBean.pessoa.sexo}'
 									offText='♀'
 									onText='♂'
 									onColor='primary'
 									offColor='danger'
 									>
-							<f:ajax event='change' render='familia' />
+<!-- 							<f:ajax event='change' render='familia' /> -->
 						</b:switch>
 					</b:column>
 				</b:row>
@@ -236,7 +228,7 @@
 										value='RG'
 										/>
 						<b:inputText 	id='rg'
-										value='#{membroBean.membro.rg}'
+										value='#{pessoaBean.pessoa.rg}'
 										placeholder='RG'
 										maxlength='9'
 										/>
@@ -253,7 +245,7 @@
 						<b:inputText	id='cpf'
 										onkeypress='return teclaNumerica(event.keyCode)'
 										maxlength='11'
-										value='#{membroBean.membro.cpf}'
+										value='#{pessoaBean.pessoa.cpf}'
 										placeholder='CPF'
 										/>
 					</b:column>
@@ -266,8 +258,8 @@
 						<br/>
 						<h:outputLabel	class='outputLabel' for='nEspeciais' value='Necessidades Especiais' />
 						<p:selectCheckboxMenu	id="nEspecial"
-												label='#{null == membroBean.membro.nEspeciais || membroBean.membro.nEspeciais.size() == 0 ? "Selecione" : membroBean.membro.nEspeciais.size()} #{null == membroBean.membro.nEspeciais || membroBean.membro.nEspeciais.size() == 0 ? "" : "necessidade(s) selecionada(s)"}'
-												value="#{membroBean.membro.nEspeciais}"
+												label='#{null == pessoaBean.pessoa.nEspeciais || pessoaBean.pessoa.nEspeciais.size() == 0 ? "Selecione" : pessoaBean.pessoa.nEspeciais.size()} #{null == pessoaBean.pessoa.nEspeciais || pessoaBean.pessoa.nEspeciais.size() == 0 ? "" : "necessidade(s) selecionada(s)"}'
+												value="#{pessoaBean.pessoa.nEspeciais}"
 												converter="omnifaces.SelectItemsConverter"
 												filter="true"
 												filterMatchMode="contains"
@@ -282,149 +274,9 @@
 						</p:selectCheckboxMenu>
 					</b:column>
 				</b:row>
-				
+
 				<br/>
-				
-				<b:row	style='	border-top: solid;
-								border-color: #CCCCCC;
-								'>
-					<h3>
-						<b:iconAwesome name="fa fa-fw fa-sitemap"/>
-						Família
-					</h3>
-				</b:row>
-				<b:row id='familia'>
-					<b:column	col-lg='4'
-								col-md='4'
-								col-sm='6'
-								col-xs='12'
-								>
-						<br/>
-						<h:outputLabel	class='outputLabel' for='membroPai' value='Pai' />
-						<h:selectOneMenu	id='membroPai'
-											value='#{membroBean.membro.pai}'
-											converter='omnifaces.SelectItemsConverter'
-											class='hSelectOneMenu'
-											>
-							<f:selectItem	itemLabel='Selecione'
-											noSelectionOption='false'
-											/>
-							<f:selectItems	value='#{membroBean.listarHomens()}' var='membroPai'
-											itemLabel='#{membroPai.nome} #{membroPai.sobrenome}'
-											binding='#{membroPai}'
-											/>
-							<f:ajax event='change' render='@this' />
-						</h:selectOneMenu>
-					</b:column>
-					<b:column	col-lg='4'
-								col-md='4'
-								col-sm='6'
-								col-xs='12'
-								>
-						<br/>
-						<h:outputLabel	class='outputLabel' for='membroMae' value='Mãe' />
-						<h:selectOneMenu	id='membroMae'
-											value='#{membroBean.membro.mae}'
-											converter='omnifaces.SelectItemsConverter'
-											class='hSelectOneMenu'
-											>
-							<f:selectItem	itemLabel='Selecione'
-											noSelectionOption='false'
-											/>
-							<f:selectItems	value='#{membroBean.listarMulheres()}' var='membroMae'
-											itemLabel='#{membroMae.nome} #{membroMae.sobrenome}'
-											binding='#{membroMae}'
-											/>
-							<f:ajax event='change' render='@this' />
-						</h:selectOneMenu>
-					</b:column>
-					<b:column	col-lg='4'
-								col-md='4'
-								col-sm='6'
-								col-xs='12'
-								>
-						<br/>
-						<h:outputLabel	class='outputLabel' for='irmaos' value='Irmãos' />
-						<p:selectCheckboxMenu	id="irmaos"
-												label='#{null == membroBean.membro.irmaos || membroBean.membro.irmaos.size() == 0 ? "Selecione" : membroBean.membro.irmaos.size()} #{null == membroBean.membro.irmaos || membroBean.membro.irmaos.size() == 0 ? "" : "irmão(s) selecionado(s)"}'
-												value="#{membroBean.membro.irmaos}"
-												converter="omnifaces.SelectItemsConverter"
-												filter="true"
-												filterMatchMode="contains"
-												showCheckbox="true"
-												>
-							<f:ajax event='change' render='@this' />
-							<f:selectItems	value='#{membroBean.listarExcluindo(membroBean.membro.pai, membroBean.membro.mae)}'
-											var='membrsIrmaos'
-											itemLabel='#{membrsIrmaos.nome} #{membrsIrmaos.sobrenome}'
-											itemValue='#{membrsIrmaos}'
-											/>
-						</p:selectCheckboxMenu>
-					</b:column>
-					<b:container	style='	width: 100%;
-											margin: 0px;
-											padding: 0px;
-											'
-									rendered='#{showMateInfo.value}'
-									>
-						<b:column	col-lg='4'
-									col-md='4'
-									col-sm='6'
-									col-xs='12'
-									>
-							<br/>
-							<h:outputLabel	class='outputLabel' for='membroConjuge' value='Cônjuge*' />
-							<h:selectOneMenu	id='membroConjugeMulher'
-												rendered='#{membroSexo.value}'
-												value='#{membroBean.membro.conjuge}'
-												converter='omnifaces.SelectItemsConverter'
-												class='hSelectOneMenu required'
-												required='true'
-												requiredMessage='Cônjuge: selecione o cônjuge ou deslique a opção de casamento.'
-												>
-								<f:selectItem	itemLabel='Selecione'
-												noSelectionOption='true'
-												/>
-								<f:selectItems	value='#{membroBean.listarMulheresSolteiras()}'
-												var='membroConjuge'
-												itemLabel='#{membroConjuge.nome} #{membroConjuge.sobrenome}'
-												/>
-							</h:selectOneMenu>
-							<h:selectOneMenu	id='membroConjugeHomem'
-												rendered='#{!membroSexo.value}'
-												value='#{membroBean.membro.conjuge}'
-												converter='omnifaces.SelectItemsConverter'
-												class='hSelectOneMenu'
-												required='true'
-												requiredMessage='Cônjuge: selecione o cônjuge ou deslique a opção de casamento.'
-												>
-								<f:selectItem	itemLabel='Selecione'
-												noSelectionOption='true'
-												/>
-								<f:selectItems	value='#{membroBean.listarHomensSolteiros()}'
-												var='membroConjuge'
-												itemLabel='#{membroConjuge.nome} #{membroConjuge.sobrenome}'
-												/>
-							</h:selectOneMenu>
-						</b:column>
-						
-						<b:column	col-lg='4'
-									col-md='4'
-									col-sm='6'
-									col-xs='12'
-									>
-							<br/>
-							<h:outputLabel	class='outputLabel' for='dataCasamento' value='Data do Casamento'/>
-							<b:datepicker 	id='dataCasamento'
-											placeholder='DD/MM/AAAA'
-											value='#{membroBean.membro.dataCasamento}'
-											/>
-						</b:column>
-					</b:container>
-				</b:row>
-					
-				<br/>
-					
+
 				<b:row	style='	border-top: solid;
 								border-color: #CCCCCC;
 								'>
@@ -442,7 +294,7 @@
 										margin: 0px;
 										padding: 0px;'
 								>
-								<b:switch	value='#{membroBean.membro.gpsAddress}'
+								<b:switch	value='#{pessoaBean.pessoa.endereco.gps}'
 											label=''
 											offText='Postal'
 											onText='GPS'
@@ -471,7 +323,7 @@
 											value='Coordenadas de GPS*'
 											/>
 							<b:inputText	id='gpsAddress'
-											value='#{membroBean.membro.enderecoLogradouro}'
+											value='#{pessoaBean.pessoa.endereco.logradouro}'
 											placeholder='Digite as coordenadas do GPS'
 											required='true'
 											requiredMessage='Coordenadas de GPS: Campo obrigatório!'
@@ -498,7 +350,7 @@
 											binding='#{cep}'
 											maxlength='8'
 											onkeypress='return teclaNumerica(event.keyCode)'
-											value='#{membroBean.membro.enderecoCep}'
+											value='#{pessoaBean.pessoa.endereco.cep}'
 											placeholder='Digite o CEP'
 											onblur='if(this.value != "") pesquisaCep(this.value);'
 											/>
@@ -513,14 +365,14 @@
 							<h:outputLabel	class='outputLabel' value='Endereço' for='logradouro'/>
 							<b:inputText	id='logradouro'
 											name='logradouro'
-											value='#{membroBean.membro.enderecoLogradouro}'
+											value='#{pessoaBean.pessoa.endereco.logradouro}'
 											placeholder='Digite o nome da rua, avenida, etc.'
 											class='hidden-xs'
 											onblur='document.getElementById("input_form:logradouro2").value = document.getElementById("input_form:logradouro").value'
 											/>
 							<b:inputTextarea	id='logradouro2'
 												name='logradouro2'
-												value='#{membroBean.membro.enderecoLogradouro}'
+												value='#{pessoaBean.pessoa.endereco.logradouro}'
 												placeholder='Digite o nome da rua, avenida, etc.'
 												class='visible-xs'
 												onblur='document.getElementById("input_form:logradouro").value = document.getElementById("input_form:logradouro2").value'
@@ -535,7 +387,7 @@
 							<br/>
 							<h:outputLabel	class='outputLabel' value='№' for='numero'/>
 							<b:inputText	id='numero'
-											value='#{membroBean.membro.enderecoNumero}'
+											value='#{pessoaBean.pessoa.endereco.numero}'
 											onkeypress='return teclaNumerica(event.keyCode)'
 											maxlength='5'
 											placeholder='№'
@@ -550,7 +402,7 @@
 							<br/>
 							<h:outputLabel	class='outputLabel' value='Complemento' for='complemento'/>
 							<b:inputText	id='complemento'
-											value='#{membroBean.membro.enderecoComplemento}'
+											value='#{pessoaBean.pessoa.endereco.complemento}'
 											placeholder='Complemento'
 											/>
 						</b:column>
@@ -563,7 +415,7 @@
 							<br/>
 							<h:outputLabel	class='outputLabel' value='Bairro' for='bairro'/>
 							<b:inputText	id='bairro'
-											value='#{membroBean.membro.enderecoBairro}'
+											value='#{pessoaBean.pessoa.endereco.bairro}'
 											placeholder='Bairro'
 											/>
 						</b:column>
@@ -576,7 +428,7 @@
 							<br/>
 							<h:outputLabel	class='outputLabel' value='Cidade' for='cidade'/>
 							<b:inputText	id='cidade'
-											value='#{membroBean.membro.enderecoCidade}'
+											value='#{pessoaBean.pessoa.endereco.cidade}'
 											placeholder='Cidade'
 											/>
 						</b:column>
@@ -590,7 +442,7 @@
 							<h:outputLabel	class='outputLabel' value='UF' for='uf'/>
 							<b:inputText	id='uf'
 											maxlength='2'
-											value='#{membroBean.membro.enderecoEstado}'
+											value='#{pessoaBean.pessoa.endereco.estado}'
 											placeholder='UF'
 											/>
 						</b:column>
@@ -603,7 +455,7 @@
 							<br/>
 							<h:outputLabel	class='outputLabel' value='País' for='pais'/>
 							<b:inputText	id='pais'
-											value='#{membroBean.membro.enderecoPais}'
+											value='#{pessoaBean.pessoa.endereco.pais}'
 											placeholder='País'
 											/>
 						</b:column>
@@ -623,7 +475,7 @@
 				</b:row>
 				<b:row>
 					<h:dataTable	id='tbTelefones'
-									value='#{membroBean.membro.telefones}'
+									value='#{pessoaBean.pessoa.telefones}'
 									var='telefone'
 									style='	width: 100%;'
 									>
@@ -665,7 +517,7 @@
 																	margin-bottom: 12px;
 																	'
 															>
-												<f:ajax	listener="#{membroBean.botaoRemoverTelefone(telefone)}"
+												<f:ajax	listener="#{pessoaBean.botaoRemoverTelefone(telefone)}"
 														immediate="true"
 														render="@form"
 														/>
@@ -682,7 +534,7 @@
 										style='	color: #0C0;					
 												'
 										>
-							<f:ajax	listener="#{membroBean.botaoAdicionarTelefone}"
+							<f:ajax	listener="#{pessoaBean.botaoAdicionarTelefone}"
 									execute="tbTelefones"
 									render="tbTelefones"
 									/>
@@ -704,7 +556,7 @@
 				
 				<b:row>
 					<h:dataTable	id='tbEmails'
-									value='#{membroBean.membro.emails}'
+									value='#{pessoaBean.pessoa.emails}'
 									var='email'
 									style='	width: 100%;'
 									>
@@ -744,7 +596,7 @@
 																	margin-bottom: 12px;
 																	'
 															>
-												<f:ajax	listener="#{membroBean.botaoRemoverEmail(email)}"
+												<f:ajax	listener="#{pessoaBean.botaoRemoverEmail(email)}"
 														immediate="true"
 														render="@form"
 														/>
@@ -761,7 +613,7 @@
 										style='	color: #00CC00;					
 												'
 										>
-							<f:ajax	listener="#{membroBean.botaoAdicionarEmail}"
+							<f:ajax	listener="#{pessoaBean.botaoAdicionarEmail}"
 									execute="tbEmails"
 									render="tbEmails"
 									/>
@@ -797,59 +649,13 @@
 													/>
 								<b:selectBooleanCheckbox	id='baptized'
 															binding='#{showBaptizmDate}'
-															value='#{membroBean.membro.membro.directoryMember}'
+															value='#{pessoaBean.pessoa.batizada}'
 															style='	margin-left: 0px;'
 															>
 									<f:ajax event='change' render='dadosMembro' />
 								</b:selectBooleanCheckbox>
 							</td>
-							<td	style='	line-height: 1px;
-										color: #336;
-										min-width: 32px;
-										max-width: 32px;
-										'
-								>
-								<b:iconAwesome	name='fa-legal'
-													tooltip='Membro da diretoria e conselho fiscal'
-													onclick='alert("Selecione esta opção caso o membro pertença à diretoria ou ao conselho fiscal.")'
-													style='	border-radius: 100%;
-															background-color: #CCCCFF;
-															margin-left: -5px;
-															padding: 3.5px;
-															'
-													/>
-								<b:selectBooleanCheckbox	id='directoryCheckBox'
-															binding='#{showDirectoryForm}'
-															value='#{membroBean.membro.membro.directoryMember}'
-															style='	margin-left: 0px;'
-															>
-									<f:ajax event='change' render='diretoria' />
-								</b:selectBooleanCheckbox>
-							</td>
-							<td	style='	line-height: 1px;
-										color: #090;
-										min-width: 16px;
-										max-width: 16px;
-										'
-								>
-								<b:iconAwesome	name='fa-thumbs-up'
-													tooltip='Líder de célula'
-													onclick='alert("Selecione esta opção caso o membro seja líder de célula.")'
-													style='	border-radius: 100%;
-															background-color: #9c9;
-															margin-left: -5px;
-															padding: 3.5px;
-															'
-													/>
-								<b:selectBooleanCheckbox	id='celLeaderCheckBox'
-															value='#{membroBean.membro.membro.leader}'
-															binding='#{showLeaderForm}'
-															onchange='setTrainee(#{!showLeaderForm.value})'
-															style='	margin-left: 0px;'
-															>
-									<f:ajax event='change' render='@form' />
-								</b:selectBooleanCheckbox>
-							</td>
+
 						</tr>
 					</table>
 					<b:row>
@@ -862,7 +668,7 @@
 							<br/>
 							<h:outputLabel	class='outputLabel' for='membroCelula' value='Célula' />
 							<h:selectOneMenu	id='membroCelula'
-												value='#{membroBean.membro.membro.celula}'
+												value='#{pessoaBean.pessoaCelula.celula}'
 												converter='omnifaces.SelectItemsConverter'
 												class='hSelectOneMenu required'
 												required='true'
@@ -873,7 +679,7 @@
 												/>
 								<f:selectItems	value='#{celulaBean.listar()}'
 												var='membroCelula'
-												itemLabel='#{membroCelula.nome} (#{membroCelula.sede.nome}#{membroCelula.sede.mainChurch ? "*" : ""})'
+												itemLabel='#{membroCelula.nome} (#{membroCelula.sede.nome}#{membroCelula.sede.mae ? "*" : ""})'
 												/>
 							</h:selectOneMenu>
 						</b:column>
@@ -889,7 +695,7 @@
 											/>
 							<b:datepicker 	id='dataMembresia'
 											placeholder='DD/MM/AAAA'
-											value='#{membroBean.membro.membro.dataMembresia}'
+											value='#{pessoaBean.pessoaCelula.dataInicio}'
 											>
 								<script>
 									requiredField("form:dataMembresia");
@@ -909,121 +715,30 @@
 											/>
 							<b:datepicker 	id='dataBatismo'
 											placeholder='DD/MM/AAAA'
-											value='#{membroBean.membro.membro.dataBatismo}'
+											value='#{pessoaBean.pessoa.dataBatismo}'
 											>
 							</b:datepicker>
 						</b:column>
 					</b:row>
 					<br/>
-					<b:row id='leaderForm'>
-						<b:row rendered='true' class='splitRow'>
-							<h3>
-								<b:iconAwesome name="fa fa-fw fa-users"/>
-								Liderança
-							</h3>
+<!-- 					<b:row id='leaderForm'> -->
+<!-- 						<b:row rendered='true' class='splitRow'> -->
+<!-- 							<h3> -->
+<!-- 								<b:iconAwesome name="fa fa-fw fa-users"/> -->
+<!-- 								Liderança -->
+<!-- 							</h3> -->
 							
-							<b:row rendered='#{showCordinatorForm.value}'>
+<!-- 							<b:row rendered='#{showCordinatorForm.value}'> -->
 							
-								<b:row rendered='#{showPastorForm.value}'>
+<!-- 								<b:row rendered='#{showPastorForm.value}'> -->
 		
-									<b:row rendered='#{showPresidentForm.value}'>
+<!-- 									<b:row rendered='#{showPresidentForm.value}'> -->
 									
-									</b:row>
-								</b:row>
-							</b:row>
-						</b:row>
-					</b:row>					
-				</b:row>
-
-				<br/>
-
-				<b:row	id='diretoria'>
-					<b:row	rendered='#{showDirectoryForm.value}'
-							class='splitRow'
-							>
-						<h3>
-							<b:iconAwesome name="fa fa-fw fa-legal"/>
-							<br class='visible-xs'/>
-							Diretoria / <br class='visible-xs'/>
-							Conselho Fiscal
-						</h3>
-					</b:row>
-					<b:row	rendered='#{showDirectoryForm.value}'>
-						<b:row id='diretoriaStatus'>
-							<b:column	col-lg='4'
-										col-md='4'
-										col-sm='6'
-										col-xs='12'
-										>
-								<br/>
-								<h:outputLabel	class='outputLabel' for='diretoriaCargo' value='Cargo*' />
-								<h:selectOneMenu	id='diretoriaCargo'
-													value='#{membroBean.membro.membro.diretoriaCargo}'
-													class='hSelectOneMenu required'
-													required='true'
-													requiredMessage='Diretoria: cargo é campo obrigatório.'
-													>
-									<f:selectItem	itemLabel='Selecione'
-													noSelectionOption='false'
-													/>
-									<f:selectItem	itemLabel='Presidente'
-													itemValue='Presidente'
-													/>
-									<f:selectItem	itemLabel='Vice-Presidente'
-													itemValue='Vice-Presidente'
-													/>
-									<f:selectItem	itemLabel='1º Tesoureiro'
-													itemValue='1º Tesoureiro'
-													/>
-									<f:selectItem	itemLabel='2º Tesoureiro'
-													itemValue='2º Tesoureiro'
-													/>
-									<f:selectItem	itemLabel='1º Secretário'
-													itemValue='1º Secretário'
-													/>
-									<f:selectItem	itemLabel='2º Secretário'
-													itemValue='2º Secretário'
-													/>
-									<f:selectItem	itemLabel='Presidente (Conselho Fiscal)'
-													itemValue='Presidente (Conselho Fiscal)'
-													/>
-									<f:selectItem	itemLabel='1º Membro (Diretoria)'
-													itemValue='1º Membro (Diretoria)'
-													/>
-									<f:selectItem	itemLabel='2º Membro (Diretoria)'
-													itemValue='2º Membro (Diretoria)'
-													/>
-									<f:selectItem	itemLabel='3º Membro (Assembléia)'
-													itemValue='3º Membro (Assembléia)'
-													/>
-									<f:selectItem	itemLabel='4º Membro (Assembléia)'
-													itemValue='4º Membro (Assembléia)'
-													/>
-								</h:selectOneMenu>
-							</b:column>
-							<b:column	col-lg='4'
-										col-md='4'
-										col-sm='6'
-										col-xs='12'
-										>
-								<br/>
-								<h:outputLabel	for='dataDiretoriaPosse'
-												value='Data da posse*'
-												class='outputLabel'
-												/>
-								<b:datepicker 	id='dataDiretoriaPosse'
-												placeholder='DD/MM/AAAA'
-												value='#{membroBean.membro.membro.dataDiretoriaEntrada}'
-												required='true'
-												requiredMessage='Diretoria: Data da posse é campo obrigatório.'
-												>
-									<script>
-										requiredField("form:dataDiretoriaPosse");
-									</script>
-								</b:datepicker>
-							</b:column>
-						</b:row>
-					</b:row>
+<!-- 									</b:row> -->
+<!-- 								</b:row> -->
+<!-- 							</b:row> -->
+<!-- 						</b:row> -->
+<!-- 					</b:row> -->
 				</b:row>
 			</div>
 		</ui:define>

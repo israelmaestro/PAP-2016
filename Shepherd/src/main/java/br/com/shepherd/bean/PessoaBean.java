@@ -9,28 +9,29 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.inject.Named;
 
-import br.com.shepherd.entity.Coordenador;
 import br.com.shepherd.entity.Email;
-import br.com.shepherd.entity.Lider;
-import br.com.shepherd.entity.Ministro;
 import br.com.shepherd.entity.Pessoa;
+import br.com.shepherd.entity.PessoaCelula;
 import br.com.shepherd.entity.Telefone;
-import br.com.shepherd.service.MembroService;
+import br.com.shepherd.service.PessoaService;
 import br.com.shepherd.service.util.JSFUtil;
 
 @Named
 @SessionScoped
-public class MembroBean implements Serializable{
+public class PessoaBean implements Serializable{
 	private static final long	serialVersionUID	= 4229014895384999619L;
 
 	@EJB
-	@ManagedProperty("#{membroService}")
-	private MembroService		membroService;
+	@ManagedProperty("#{pessoaService}")
+	private PessoaService		pessoaService;
 
 	private Pessoa				pessoa;
 
-	public MembroBean(){
+	private PessoaCelula		pessoaCelula;
+
+	public PessoaBean(){
 		pessoa = new Pessoa();
+		setPessoaCelula(new PessoaCelula());
 	}
 
 	public void botaoRemoverTelefone(Telefone pTelefone){
@@ -49,9 +50,14 @@ public class MembroBean implements Serializable{
 		pessoa.addEmail(new Email());
 	}
 
-	public String cadastrar(){
+	public String cadastrarMembro(){
 		try{
-			membroService.cadastrar(pessoa);
+			getPessoaCelula().setPessoa(pessoa);
+			getPessoaCelula().setParticipacao(JSFUtil.getProperty("funcaoMembro"));
+
+			pessoa.getPessoasCelulas().add(getPessoaCelula());
+
+			pessoaService.cadastrarMembro(pessoa);
 
 			JSFUtil.addInfoMessage("Membro “"+ pessoa.getNome() + " " + pessoa.getSobrenome()
 									+ "” cadastrado com sucesso!");
@@ -65,61 +71,73 @@ public class MembroBean implements Serializable{
 		}
 	}
 
-	public void alterar(Pessoa pPessoa){
-		membroService.alterar(pPessoa);
+	public void alterarMembro(Pessoa pPessoa){
+		pessoaService.alterarMembro(pPessoa);
 
 		JSFUtil.addInfoMessage("Membro “"+ pessoa.getNome() + " " + pessoa.getSobrenome()
 								+ "” alterado com sucesso.");
 	}
 
-	public List<Pessoa> listar(){
-		return membroService.listar();
+	public List<PessoaCelula> listarMembros(){
+		return pessoaService.listarMembros();
 	}
 
-	public List<Pessoa> listarExcluindo(Pessoa pPai, Pessoa pMae){
-		return membroService.listarExcluindo(pPai, pMae);
+	public List<Pessoa> listar(){
+		return pessoaService.listar();
 	}
+
+	// public List<Pessoa> listarExcluindo(Pessoa pPai, Pessoa pMae){
+	// return pessoaService.listarExcluindo(pPai, pMae);
+	// }
 
 	public List<Pessoa> listarHomens(){
-		return membroService.listarHomens();
+		return pessoaService.listarHomens();
 	}
 
 	public List<Pessoa> listarHomensSolteiros(){
-		return membroService.listarHomensSolteiros();
+		return pessoaService.listarHomensSolteiros();
 	}
 
 	public List<Pessoa> listarMulheres(){
-		return membroService.listarMulheres();
+		return pessoaService.listarMulheres();
 	}
 
 	public List<Pessoa> listarMulheresSolteiras(){
-		return membroService.listarMulheresSolteiras();
+		return pessoaService.listarMulheresSolteiras();
 	}
 
-	public List<Lider> listarLideres(){
-		return membroService.listarLideres();
-	}
+	// public List<Lider> listarLideres(){
+	// return pessoaService.listarLideres();
+	// }
 
-	public List<Coordenador> listarCoordenadores(){
-		return membroService.listarCoordenadores();
-	}
+	// public List<Coordenador> listarCoordenadores(){
+	// return pessoaService.listarCoordenadores();
+	// }
 
-	public List<Ministro> listarPresidentes(){
-		return membroService.listarPresidentes();
-	}
+	// public List<Ministro> listarPresidentes(){
+	// return pessoaService.listarPresidentes();
+	// }
 
-	public void excluir(Pessoa pPessoa){
-		membroService.excluir(pPessoa);
+	public void excluirMembro(Pessoa pPessoa){
+		pessoaService.excluir(pPessoa);
 
 		JSFUtil.addInfoMessage("Membro “"+ pessoa.getNome() + " " + pessoa.getSobrenome()
 								+ "” excuído com sucesso.");
 	}
 
-	public Pessoa getMembro(){
+	public Pessoa getPessoa(){
 		return pessoa;
 	}
 
-	public void setMembro(Pessoa pMembro){
-		pessoa = pMembro;
+	public void setPessoa(Pessoa pPessoa){
+		pessoa = pPessoa;
+	}
+
+	public PessoaCelula getPessoaCelula(){
+		return pessoaCelula;
+	}
+
+	public void setPessoaCelula(PessoaCelula pPessoaCelula){
+		pessoaCelula = pPessoaCelula;
 	}
 }

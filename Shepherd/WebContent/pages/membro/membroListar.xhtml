@@ -14,7 +14,7 @@
 		<ui:define name='mensagensCampos'/>
 		<ui:define name='tituloPagina'>Shepherd > Lista de Membros</ui:define>
 		<ui:define name='tituloPrincipal'>
-			<b:iconAwesome name='fa fa-wheelchair fa-fw'/>
+			<b:iconAwesome name='fa fa-users fa-fw'/>
 			<br class='visible-xs'/>
 			Lista de Membros
 		</ui:define>
@@ -30,7 +30,7 @@
 		</ui:define>
 		
 		<ui:define name='conteudo'>
-			<b:container	rendered='#{membroBean.listar().size() == 0}'
+			<b:container	rendered='#{pessoaBean.listarMembros().size() == 0}'
 							class='emptyTableWarining'
 							>
 				<center>
@@ -39,12 +39,12 @@
 			</b:container>
 
 			<p:dataTable	id='membroLista'
-							value='#{membroBean.listar()}'
+							value='#{pessoaBean.listarMembros()}'
 							var='membro'
 							update='@form'
 							emptyMessage='Nenhum membro encontrado.'
 							class='pDataTable'
-							rendered='#{membroBean.listar().size() != 0}'
+							rendered='#{pessoaBean.listarMembros().size() != 0}'
 							paginator='true'
 							widgetVar='membroLista'
 							filteredValue=''
@@ -75,14 +75,14 @@
 							priority='1'
 							>
 					<center>
-						<h:outputText value='#{membro.nome} #{membro.sobrenome}'/>
+						<h:outputText value='#{membro.pessoa.nome} #{membro.pessoa.sobrenome}'/>
 					</center>
 				</p:column>
 				<p:column	headerText='Célula'
 							priority='2'
 							>
 					<center>
-						<h:outputText value='#{membro.membro.celula.nome}'/>
+						<h:outputText value='#{membro.celula.nome}'/>
 					</center>
 				</p:column>
 				
@@ -90,7 +90,7 @@
 							priority='3'
 							>
 					<center>
-						<h:outputText value='#{membro.membro.celula.frente.nome}'/>
+						<h:outputText value='#{membro.celula.frente.nome}'/>
 					</center>
 				</p:column>
 
@@ -98,7 +98,7 @@
 							priority='4'
 							>
 					<center>
-						<h:outputText value='#{membro.membro.celula.sede.nome}'/>
+						<h:outputText value='#{sedeBean.getProperty("convencaoAbrev")} #{membro.celula.sede.nome}#{membro.celula.sede.mae ? "*" : ""}'/>
 					</center>
 				</p:column>
 				
@@ -120,14 +120,14 @@
 											disabled='true'
 											/>
 						<p:commandButton	update='@form'
-											action='#{membroBean.excluir(membro)}'
+											action='#{pessoaBean.excluirMembro(membro.pessoa)}'
 											icon='fa fa-fw fa-trash'
 											style='	color: #cc0000;
 													'
 											disabled='true'
 											>
 							<p:confirm	header='Excluir'
-										message='Excluir o membro “#{membro.nome} #{membro.sobrenome}”?'
+										message='Excluir o membro “#{membro.pessoa.nome} #{membro.pessoa.sobrenome}”?'
 										icon='ui-icon-blank'
 										/>
 						</p:commandButton>

@@ -67,7 +67,7 @@
 						>
 					<b:row>
 						<b:column>
-							<b:switch	value='#{celulaBean.celulaTemp.active}'
+							<b:switch	value='#{celulaBean.celulaTemp.ativa}'
 										label='Status'
 										offText='Inativa'
 										onText='Ativa'
@@ -124,7 +124,7 @@
 														/>
 										<b:selectBooleanCheckbox	id='address'
 																	binding='#{showAddress}'
-																	value='#{celulaBean.celulaTemp.enderecoFixo}'
+																	value='#{celulaBean.celulaTemp.comEnderecoFixo}'
 																	>
 											<f:ajax event='change' render='@form' />
 										</b:selectBooleanCheckbox>
@@ -257,7 +257,7 @@
 								<br/>
 								<b:selectOneMenu	id='coordenador'
 													label='Coordenador(a)'
-													value='#{celulaBean.celulaTemp.coordenador}'
+													value='#{celulaBean.celulaTemp.pessoasCelulas}'
 													converter='omnifaces.SelectItemsConverter'
 													enableFiltering='true'
 													filterPlaceholder='Procurar'
@@ -265,7 +265,7 @@
 													disableIfEmpty='true'
 													>
 									<f:selectItem itemLabel='Selecione' itemDisabled='true'/>
-									<f:selectItems	value='#{membroBean.listarCoordenadores()}'
+									<f:selectItems	value='#{membroBean.listar()}'
 													var='coordenador'
 													itemLabel='#{coordenador.lider.membro.pessoa.nome} #{coordenador.lider.membro.pessoa.sobrenome}'
 													/>
@@ -354,7 +354,7 @@
 												line-height: 1px;
 												 margin: 0px; padding: 0px;'
 										>
-										<b:switch	value='#{celulaBean.celulaTemp.gpsAddress}'
+										<b:switch	value='#{celulaBean.celulaTemp.endereco.gps}'
 													label=''
 													offText='Postal'
 													onText='GPS'
@@ -410,7 +410,7 @@
 													value='Coordenadas de GPS*'
 													/>
 									<b:inputText	id='gpsAddress'
-													value='#{celulaBean.celulaTemp.enderecoLogradouro}'
+													value='#{celulaBean.celulaTemp.endereco.logradouro}'
 													placeholder='Digite as coordenadas do GPS'
 													required='true'
 													requiredMessage='Coordenadas de GPS: Campo obrigatório!'
@@ -442,7 +442,7 @@
 													binding='#{cep}'
 													maxlength='8'
 													onkeypress='return teclaNumerica(event.keyCode)'
-													value='#{celulaBean.celulaTemp.enderecoCep}'
+													value='#{celulaBean.celulaTemp.endereco.cep}'
 													placeholder='Digite o CEP'
 													onblur='if(this.value != "") pesquisaCep(this.value);'
 													/>
@@ -457,14 +457,14 @@
 									<h:outputLabel value='Endereço' for='logradouro'/>
 									<b:inputText	id='logradouro'
 													name='logradouro'
-													value='#{celulaBean.celulaTemp.enderecoLogradouro}'
+													value='#{celulaBean.celulaTemp.endereco.logradouro}'
 													placeholder='Digite o nome da rua, avenida, etc.'
 													class='hidden-xs'
 													onblur='document.getElementById("input_form:logradouro2").value = document.getElementById("input_form:logradouro").value'
 													/>
 									<b:inputTextarea	id='logradouro2'
 														name='logradouro2'
-														value='#{celulaBean.celulaTemp.enderecoLogradouro}'
+														value='#{celulaBean.celulaTemp.endereco.logradouro}'
 														placeholder='Digite o nome da rua, avenida, etc.'
 														class='visible-xs'
 														onblur='document.getElementById("input_form:logradouro").value = document.getElementById("input_form:logradouro2").value'
@@ -479,7 +479,7 @@
 									<br/>
 									<h:outputLabel value='№' for='numero'/>
 									<b:inputText	id='numero'
-													value='#{celulaBean.celulaTemp.enderecoNumero}'
+													value='#{celulaBean.celulaTemp.endereco.numero}'
 													onkeypress='return teclaNumerica(event.keyCode)'
 													maxlength='5'
 													placeholder='№'
@@ -494,7 +494,7 @@
 									<br/>
 									<h:outputLabel value='Complemento' for='complemento'/>
 									<b:inputText	id='complemento'
-													value='#{celulaBean.celulaTemp.enderecoComplemento}'
+													value='#{celulaBean.celulaTemp.endereco.complemento}'
 													placeholder='Complemento'
 													/>
 								</b:column>
@@ -507,7 +507,7 @@
 									<br/>
 									<h:outputLabel value='Bairro' for='bairro'/>
 									<b:inputText	id='bairro'
-													value='#{celulaBean.celulaTemp.enderecoBairro}'
+													value='#{celulaBean.celulaTemp.endereco.bairro}'
 													placeholder='Bairro'
 													/>
 								</b:column>
@@ -520,7 +520,7 @@
 									<br/>
 									<h:outputLabel value='Cidade' for='cidade'/>
 									<b:inputText	id='cidade'
-													value='#{celulaBean.celulaTemp.enderecoCidade}'
+													value='#{celulaBean.celulaTemp.endereco.cidade}'
 													placeholder='Cidade'
 													/>
 								</b:column>
@@ -534,7 +534,7 @@
 									<h:outputLabel value='UF' for='uf'/>
 									<b:inputText	id='uf'
 													maxlength='2'
-													value='#{celulaBean.celulaTemp.enderecoEstado}'
+													value='#{celulaBean.celulaTemp.endereco.estado}'
 													placeholder='UF'
 													/>
 								</b:column>
@@ -547,7 +547,7 @@
 									<br/>
 									<h:outputLabel value='País' for='pais'/>
 									<b:inputText	id='pais'
-													value='#{celulaBean.celulaTemp.enderecoPais}'
+													value='#{celulaBean.celulaTemp.endereco.pais}'
 													placeholder='País'
 													/>
 								</b:column>

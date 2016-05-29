@@ -40,46 +40,25 @@ public class Sede implements Serializable{
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date				dataFundacao;
 
-	@OneToMany(/* fetch = FetchType.EAGER, */ mappedBy = "sede")
+	@OneToMany(mappedBy = "sede")
 	private List<Celula>		celulas;
 
-	@OneToOne // (fetch = FetchType.EAGER)
-	private Ministro			presidente;
-
-	@OneToOne // (fetch = FetchType.EAGER)
+	@OneToOne
 	private Sede				sedeMae;
 
-	// Informações de endereço
-	@Column(length = 8)
-	private String				enderecoCep;
-
-	private String				enderecoLogradouro;
-
-	@Column(length = 5)
-	private Integer				enderecoNumero;
-
-	private String				enderecoComplemento;
-
-	private String				enderecoBairro;
-
-	private String				enderecoCidade;
-
-	@Column(length = 2)
-	private String				enderecoEstado;
-
-	private String				enderecoPais;
+	@OneToOne(mappedBy = "sede", cascade = CascadeType.ALL)
+	private Endereco			endereco;
 
 	// Informações de telefone
-	@OneToMany(/* fetch = FetchType.EAGER, */ mappedBy = "sede", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "sede", cascade = CascadeType.ALL)
 	private List<Telefone>		telefones;
 
 	// Informações de email
-	@OneToMany(/* fetch = FetchType.EAGER, */ mappedBy = "sede", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "sede", cascade = CascadeType.ALL)
 	private List<Email>			emails;
 
-	@OneToMany( /* fetch = FetchType.EAGER, */
-				mappedBy = "sede"/* , cascade = CascadeType.DETACH */)
-	private List<Comunicado>	comunicados;
+	// @OneToMany(mappedBy = "sede")
+	// private List<Comunicado> comunicados;
 
 	@URL
 	private String				paginaWeb;
@@ -94,18 +73,17 @@ public class Sede implements Serializable{
 
 	// Flags
 	@NotNull
-	private boolean				isMainChurch		= false;
+	private boolean				mae					= false;
 
 	@NotNull
-	private boolean				isAtiva				= false;
+	private boolean				ativa				= false;
 
-	@NotNull
-	private boolean				isGpsAddress		= false;
-
+	// construtor e afins
 	public Sede(){
+		endereco = new Endereco();
+		endereco.setSede(this);
 		telefones = new ArrayList<Telefone>();
 		emails = new ArrayList<Email>();
-		setComunicados(new ArrayList<Comunicado>());
 	}
 
 	@Override
@@ -128,6 +106,45 @@ public class Sede implements Serializable{
 		return true;
 	}
 
+	/**
+	 * Adiciona 1 telefone à sede
+	 *
+	 * @param pTelefone
+	 */
+	public void addTelefone(Telefone pTelefone){
+		telefones.add(pTelefone);
+		pTelefone.setSede(this);
+	}
+
+	/**
+	 * Remove 1 telefone da sede
+	 *
+	 * @param pTelefone
+	 */
+	public void removeTelefone(Telefone pTelefone){
+		telefones.remove(pTelefone);
+	}
+
+	/**
+	 * Adiciona 1 email à sede
+	 *
+	 * @param pEmail
+	 */
+	public void addEmail(Email pEmail){
+		emails.add(pEmail);
+		pEmail.setSede(this);
+	}
+
+	/**
+	 * Remove 1 email da sede
+	 *
+	 * @param pEmail
+	 */
+	public void removeEmail(Email pEmail){
+		emails.remove(pEmail);
+	}
+
+	// Getters e Setters
 	public Integer getId(){
 		return id;
 	}
@@ -168,14 +185,6 @@ public class Sede implements Serializable{
 		celulas = pCelulas;
 	}
 
-	public Ministro getPresidente(){
-		return presidente;
-	}
-
-	public void setPresidente(Ministro pPresidente){
-		presidente = pPresidente;
-	}
-
 	public Sede getSedeMae(){
 		return sedeMae;
 	}
@@ -184,68 +193,12 @@ public class Sede implements Serializable{
 		sedeMae = pSedeMae;
 	}
 
-	public String getEnderecoCep(){
-		return enderecoCep;
+	public Endereco getEndereco(){
+		return endereco;
 	}
 
-	public void setEnderecoCep(String pEnderecoCep){
-		enderecoCep = pEnderecoCep;
-	}
-
-	public String getEnderecoLogradouro(){
-		return enderecoLogradouro;
-	}
-
-	public void setEnderecoLogradouro(String pEnderecoLogradouro){
-		enderecoLogradouro = pEnderecoLogradouro;
-	}
-
-	public Integer getEnderecoNumero(){
-		return enderecoNumero;
-	}
-
-	public void setEnderecoNumero(Integer pEnderecoNumero){
-		enderecoNumero = pEnderecoNumero;
-	}
-
-	public String getEnderecoComplemento(){
-		return enderecoComplemento;
-	}
-
-	public void setEnderecoComplemento(String pEnderecoComplemento){
-		enderecoComplemento = pEnderecoComplemento;
-	}
-
-	public String getEnderecoBairro(){
-		return enderecoBairro;
-	}
-
-	public void setEnderecoBairro(String pEnderecoBairro){
-		enderecoBairro = pEnderecoBairro;
-	}
-
-	public String getEnderecoCidade(){
-		return enderecoCidade;
-	}
-
-	public void setEnderecoCidade(String pEnderecoCidade){
-		enderecoCidade = pEnderecoCidade;
-	}
-
-	public String getEnderecoEstado(){
-		return enderecoEstado;
-	}
-
-	public void setEnderecoEstado(String pEnderecoEstado){
-		enderecoEstado = pEnderecoEstado;
-	}
-
-	public String getEnderecoPais(){
-		return enderecoPais;
-	}
-
-	public void setEnderecoPais(String pEnderecoPais){
-		enderecoPais = pEnderecoPais;
+	public void setEndereco(Endereco pEndereco){
+		endereco = pEndereco;
 	}
 
 	public List<Telefone> getTelefones(){
@@ -262,14 +215,6 @@ public class Sede implements Serializable{
 
 	public void setEmails(List<Email> pEmails){
 		emails = pEmails;
-	}
-
-	public List<Comunicado> getComunicados(){
-		return comunicados;
-	}
-
-	public void setComunicados(List<Comunicado> pComunicados){
-		comunicados = pComunicados;
 	}
 
 	public String getPaginaWeb(){
@@ -296,45 +241,19 @@ public class Sede implements Serializable{
 		comentarios = pComentarios;
 	}
 
-	public boolean isMainChurch(){
-		return isMainChurch;
+	public boolean isMae(){
+		return mae;
 	}
 
-	public void setMainChurch(boolean pIsMainChurch){
-		isMainChurch = pIsMainChurch;
+	public void setMae(boolean pMae){
+		mae = pMae;
 	}
 
 	public boolean isAtiva(){
-		return isAtiva;
+		return ativa;
 	}
 
-	public void setAtiva(boolean pIsAtiva){
-		isAtiva = pIsAtiva;
-	}
-
-	public boolean isGpsAddress(){
-		return isGpsAddress;
-	}
-
-	public void setGpsAddress(boolean pIsGpsAddress){
-		isGpsAddress = pIsGpsAddress;
-	}
-
-	public void addTelefone(Telefone pTelefone){
-		telefones.add(pTelefone);
-		pTelefone.setSede(this);
-	}
-
-	public void removeTelefone(Telefone pTelefone){
-		telefones.remove(pTelefone);
-	}
-
-	public void addEmail(Email pEmail){
-		emails.add(pEmail);
-		pEmail.setSede(this);
-	}
-
-	public void removeEmail(Email pEmail){
-		emails.remove(pEmail);
+	public void setAtiva(boolean pAtiva){
+		ativa = pAtiva;
 	}
 }

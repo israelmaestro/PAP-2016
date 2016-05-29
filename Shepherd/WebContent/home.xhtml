@@ -10,16 +10,26 @@
 		>
 
 	<ui:composition template='/META-INF/resources/bootsfaces/jsfTemplateSemBotoes.xhtml'>
-	
-			<ui:define name='tituloPagina'>Shepherd > Home</ui:define>
-			<ui:define name='tituloPrincipal'>
-				<i class='fa fa-home fa-fw' />
-				Home
-			</ui:define>
-			<ui:define name='tituloSecundario'>
-				<a href='/Shepherd/home.jsf'>
-					Página Inicial
-				</a>
-			</ui:define>
+		<ui:define name='tituloPagina'>Shepherd > Home</ui:define>
+		<ui:define name='tituloPrincipal'>
+			<i class='fa fa-home fa-fw' />
+			Home
+		</ui:define>
+		<ui:define name='tituloSecundario'>
+			<a href='/Shepherd/home.jsf'>
+				Página Inicial
+			</a>
+		</ui:define>
+		<ui:define name='conteudo'>
+			<h:selectOneMenu	class='hSelectOneMenu'
+								value=''
+								converter='omnifaces.SelectItemsConverter'
+								var='ministerio'
+								>
+				<f:selectItems	value='#{ministerioBean.listar()}'
+								var='ministerio'
+								itemLabel='#{ministerio.nome}'/>
+			</h:selectOneMenu>
+		</ui:define>
 	</ui:composition>
 </html>

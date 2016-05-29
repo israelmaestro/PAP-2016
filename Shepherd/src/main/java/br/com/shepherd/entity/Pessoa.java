@@ -13,7 +13,6 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
-import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -23,119 +22,99 @@ import javax.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
-@Table(uniqueConstraints = {
-								@UniqueConstraint(columnNames = {
-																	"nome", "sobrenome", "dataNasc",
-																	"rg", "cpf", "sexo"
-								})
-})
+@Table(uniqueConstraints = { @UniqueConstraint(columnNames = {	"nome",
+																"sobrenome",
+																"dataNasc",
+																"rg",
+																"cpf",
+																"sexo" }) })
 public class Pessoa implements Serializable{
-	private static final long	serialVersionUID	= 4400200519765426304L;
+	private static final long					serialVersionUID		= 4400200519765426304L;
 
 	@Id
 	@GeneratedValue
-	private Integer				id;
+	private Integer								id;
 
 	// Dados pessoais
 	@NotNull
 	@NotEmpty
-	private String				nome;
+	private String								nome;
 
 	@NotNull
 	@NotEmpty
-	private String				sobrenome;
+	private String								sobrenome;
 
 	@Column(columnDefinition = "timestamp")
 	@Temporal(TemporalType.TIMESTAMP)
-	private Date				dataNasc;
-
-	@Column(length = 11, unique = true)
-	private String				cpf;
-
-	@Column(length = 9, unique = true)
-	private String				rg;
+	private Date								dataNasc;
 
 	@NotNull
-	private boolean								sexo				= true;
+	private boolean								sexo					= true;
+
+	@Column(length = 9, unique = true)
+	private String								rg;
+
+	@Column(length = 11, unique = true)
+	private String								cpf;
 
 	@ManyToMany
-	private List<NEspecial>		nEspeciais;
+	private List<NEspecial>						nEspeciais;
+	//
+	// @OneToMany(mappedBy = "pessoa", cascade = CascadeType.ALL)
+	// private List<Endereco> enderecos;
 
-	// Informações de endereço
-	@Column(length = 8)
-	private String				enderecoCep;
-
-	private String				enderecoLogradouro;
-
-	@Column(length = 5)
-	private Integer				enderecoNumero;
-
-	private String				enderecoComplemento;
-
-	private String				enderecoBairro;
-
-	private String				enderecoCidade;
-
-	@Column(length = 2)
-	private String				enderecoEstado;
-
-	private String				enderecoPais;
+	@OneToOne(mappedBy = "pessoa", cascade = CascadeType.ALL)
+	private Endereco							endereco;
 
 	// Informações de telefone
 	@OneToMany(mappedBy = "pessoa", cascade = CascadeType.ALL)
-	private List<Telefone>		telefones;
+	private List<Telefone>						telefones;
 
 	// Informações de email
 	@OneToMany(mappedBy = "pessoa", cascade = CascadeType.ALL)
 	private List<br.com.shepherd.entity.Email>	emails;
 
+	// Informações de email
+	@ManyToMany
+	private List<Ministerio>					ministerios;
+
 	// Flags
 	@NotNull
-	private boolean				ativo				= false;
+	private boolean								ativa					= false;
 
 	@NotNull
-	private boolean				isMember			= false;
+	private boolean								ordenadaAoMinisterio	= false;
 
 	@NotNull
-	private boolean				isVisitor			= false;
+	private boolean								minEspecifico			= false;
 
 	@NotNull
-	private boolean				isMarried			= false;
+	private boolean								batizada				= false;
 
 	@NotNull
-	private boolean				isGpsAddress		= false;
-
-	// Informações de parentesco
-	@OneToOne
-	private Pessoa				pai;
-
-	@OneToOne
-	private Pessoa				mae;
-
-	@OneToMany
-	private List<Pessoa>		irmaos;
-
-	@OneToOne
-	@PrimaryKeyJoinColumn
-	private Pessoa				conjuge;
+	private boolean								casada					= false;
 
 	@Column(columnDefinition = "timestamp")
 	@Temporal(TemporalType.TIMESTAMP)
-	private Date				dataCasamento;
+	private Date								dataCasamento;
 
-	// Informações eclesiásticas
-	@OneToOne(cascade = CascadeType.ALL)
-	private Membro								membro;
+	@Column(columnDefinition = "timestamp")
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date								dataBatismo;
 
-	// @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	// private Visitante visitante;
+	@OneToMany(mappedBy = "pessoa")
+	private List<PessoaCelula>					pessoasCelulas;
+
+	@Column(length = 1000)
+	private String								comentarios;
 
 	// Construtor e afins
 	public Pessoa(){
-		membro = new Membro();
-		// visitante = new Visitante();
+		endereco = new Endereco();
+		endereco.setPessoa(this);
 		telefones = new ArrayList<Telefone>();
 		emails = new ArrayList<Email>();
+		pessoasCelulas = new ArrayList<PessoaCelula>();
 	}
 
 	@Override
@@ -157,7 +136,84 @@ public class Pessoa implements Serializable{
 		} else if(!id.equals(other.id)){ return false; }
 		return true;
 	}
+	//
+	// /**
+	// * Adiciona 1 endereço na pessoa
+	// *
+	// * @param pEndereco
+	// */
+	// public void addEndereco(Endereco pEndereco){
+	// enderecos.add(pEndereco);
+	// pEndereco.setPessoa(this);
+	// }
+	//
+	// /**
+	// * Remove 1 endereço da pessoa
+	// *
+	// * @param pEndereco
+	// */
+	// public void removeEndereco(Endereco pEndereco){
+	// enderecos.remove(pEndereco);
+	// }
 
+	/**
+	 * Adiciona 1 relacionamento com a célula
+	 *
+	 * @param pTelefone
+	 */
+	public void addRelacionamentoCelula(PessoaCelula pPessoaCelula){
+		pessoasCelulas.add(pPessoaCelula);
+		pPessoaCelula.setPessoa(this);
+	}
+
+	/**
+	 * Remove 1 relacionamento com a célula
+	 *
+	 * @param pTelefone
+	 */
+	public void removeRelacionamentoCelula(PessoaCelula pPessoaCelula){
+		pessoasCelulas.remove(pPessoaCelula);
+	}
+
+	/**
+	 * Adiciona 1 telefone na pessoa
+	 *
+	 * @param pTelefone
+	 */
+	public void addTelefone(Telefone pTelefone){
+		telefones.add(pTelefone);
+		pTelefone.setPessoa(this);
+	}
+
+	/**
+	 * Remove 1 telefone da pessoa
+	 *
+	 * @param pTelefone
+	 */
+	public void removeTelefone(Telefone pTelefone){
+		telefones.remove(pTelefone);
+	}
+
+	/**
+	 * Adiciona 1 email na pessoa
+	 *
+	 * @param pEmail
+	 */
+	public void addEmail(br.com.shepherd.entity.Email pEmail){
+		emails.add(pEmail);
+		pEmail.setPessoa(this);
+	}
+
+	/**
+	 * Remove 1 email da pessoa
+	 *
+	 * @param pEmail
+	 */
+	public void removeEmail(br.com.shepherd.entity.Email pEmail){
+		emails.remove(pEmail);
+	}
+
+	// Getters e setters
 	public Integer getId(){
 		return id;
 	}
@@ -190,12 +246,12 @@ public class Pessoa implements Serializable{
 		dataNasc = pDataNasc;
 	}
 
-	public String getCpf(){
-		return cpf;
+	public boolean isSexo(){
+		return sexo;
 	}
 
-	public void setCpf(String pCpf){
-		cpf = pCpf;
+	public void setSexo(boolean pSexo){
+		sexo = pSexo;
 	}
 
 	public String getRg(){
@@ -206,12 +262,12 @@ public class Pessoa implements Serializable{
 		rg = pRg;
 	}
 
-	public boolean getSexo(){
-		return sexo;
+	public String getCpf(){
+		return cpf;
 	}
 
-	public void setSexo(boolean pSexo){
-		sexo = pSexo;
+	public void setCpf(String pCpf){
+		cpf = pCpf;
 	}
 
 	public List<NEspecial> getnEspeciais(){
@@ -222,68 +278,12 @@ public class Pessoa implements Serializable{
 		nEspeciais = pNEspeciais;
 	}
 
-	public String getEnderecoCep(){
-		return enderecoCep;
+	public Endereco getEndereco(){
+		return endereco;
 	}
 
-	public void setEnderecoCep(String pEnderecoCep){
-		enderecoCep = pEnderecoCep;
-	}
-
-	public String getEnderecoLogradouro(){
-		return enderecoLogradouro;
-	}
-
-	public void setEnderecoLogradouro(String pEnderecoLogradouro){
-		enderecoLogradouro = pEnderecoLogradouro;
-	}
-
-	public Integer getEnderecoNumero(){
-		return enderecoNumero;
-	}
-
-	public void setEnderecoNumero(Integer pEnderecoNumero){
-		enderecoNumero = pEnderecoNumero;
-	}
-
-	public String getEnderecoComplemento(){
-		return enderecoComplemento;
-	}
-
-	public void setEnderecoComplemento(String pEnderecoComplemento){
-		enderecoComplemento = pEnderecoComplemento;
-	}
-
-	public String getEnderecoBairro(){
-		return enderecoBairro;
-	}
-
-	public void setEnderecoBairro(String pEnderecoBairro){
-		enderecoBairro = pEnderecoBairro;
-	}
-
-	public String getEnderecoCidade(){
-		return enderecoCidade;
-	}
-
-	public void setEnderecoCidade(String pEnderecoCidade){
-		enderecoCidade = pEnderecoCidade;
-	}
-
-	public String getEnderecoEstado(){
-		return enderecoEstado;
-	}
-
-	public void setEnderecoEstado(String pEnderecoEstado){
-		enderecoEstado = pEnderecoEstado;
-	}
-
-	public String getEnderecoPais(){
-		return enderecoPais;
-	}
-
-	public void setEnderecoPais(String pEnderecoPais){
-		enderecoPais = pEnderecoPais;
+	public void setEndereco(Endereco pEndereco){
+		endereco = pEndereco;
 	}
 
 	public List<Telefone> getTelefones(){
@@ -302,76 +302,52 @@ public class Pessoa implements Serializable{
 		emails = pEmails;
 	}
 
-	public boolean isAtivo(){
-		return ativo;
+	public List<Ministerio> getMinisterios(){
+		return ministerios;
 	}
 
-	public void setAtivo(boolean pAtivo){
-		ativo = pAtivo;
+	public void setMinisterios(List<Ministerio> pMinisterios){
+		ministerios = pMinisterios;
 	}
 
-	public boolean isMember(){
-		return isMember;
+	public boolean isAtiva(){
+		return ativa;
 	}
 
-	public void setMember(boolean pIsMember){
-		isMember = pIsMember;
+	public void setAtiva(boolean pAtiva){
+		ativa = pAtiva;
 	}
 
-	public boolean isVisitor(){
-		return isVisitor;
+	public boolean isOrdenadaAoMinisterio(){
+		return ordenadaAoMinisterio;
 	}
 
-	public void setVisitor(boolean pIsVisitor){
-		isVisitor = pIsVisitor;
+	public void setOrdenadaAoMinisterio(boolean pOrdenadaAoMinisterio){
+		ordenadaAoMinisterio = pOrdenadaAoMinisterio;
 	}
 
-	public boolean isMarried(){
-		return isMarried;
+	public boolean isMinEspecifico(){
+		return minEspecifico;
 	}
 
-	public void setMarried(boolean pIsMarried){
-		isMarried = pIsMarried;
+	public void setMinEspecifico(boolean pMinEspecifico){
+		minEspecifico = pMinEspecifico;
 	}
 
-	public boolean isGpsAddress(){
-		return isGpsAddress;
+	public boolean isBatizada(){
+		return batizada;
 	}
 
-	public void setGpsAddress(boolean pIsGpsAddress){
-		isGpsAddress = pIsGpsAddress;
+	public void setBatizada(boolean pBatizada){
+		batizada = pBatizada;
 	}
 
-	public Pessoa getPai(){
-		return pai;
+	public boolean isCasada(){
+		return casada;
 	}
 
-	public void setPai(Pessoa pPai){
-		pai = pPai;
-	}
-
-	public Pessoa getMae(){
-		return mae;
-	}
-
-	public void setMae(Pessoa pMae){
-		mae = pMae;
-	}
-
-	public List<Pessoa> getIrmaos(){
-		return irmaos;
-	}
-
-	public void setIrmaos(List<Pessoa> pIrmaos){
-		irmaos = pIrmaos;
-	}
-
-	public Pessoa getConjuge(){
-		return conjuge;
-	}
-
-	public void setConjuge(Pessoa pConjuge){
-		conjuge = pConjuge;
+	public void setCasada(boolean pCasada){
+		casada = pCasada;
 	}
 
 	public Date getDataCasamento(){
@@ -382,37 +358,27 @@ public class Pessoa implements Serializable{
 		dataCasamento = pDataCasamento;
 	}
 
-	public Membro getMembro(){
-		return membro;
+	public Date getDataBatismo(){
+		return dataBatismo;
 	}
 
-	public void setMembro(Membro pMembro){
-		membro = pMembro;
-	}
-	//
-	// public Visitante getVisitante(){
-	// return visitante;
-	// }
-	//
-	// public void setVisitante(Visitante pVisitante){
-	// visitante = pVisitante;
-	// }
-
-	public void addTelefone(Telefone pTelefone){
-		telefones.add(pTelefone);
-		pTelefone.setPessoa(this);
+	public void setDataBatismo(Date pDataBatismo){
+		dataBatismo = pDataBatismo;
 	}
 
-	public void removeTelefone(Telefone pTelefone){
-		telefones.remove(pTelefone);
+	public List<PessoaCelula> getPessoasCelulas(){
+		return pessoasCelulas;
 	}
 
-	public void addEmail(br.com.shepherd.entity.Email pEmail){
-		emails.add(pEmail);
-		pEmail.setPessoa(this);
+	public void setPessoasCelulas(List<PessoaCelula> pPessoasCelulas){
+		pessoasCelulas = pPessoasCelulas;
 	}
 
-	public void removeEmail(br.com.shepherd.entity.Email pEmail){
-		emails.remove(pEmail);
+	public String getComentarios(){
+		return comentarios;
+	}
+
+	public void setComentarios(String pComentarios){
+		comentarios = pComentarios;
 	}
 }

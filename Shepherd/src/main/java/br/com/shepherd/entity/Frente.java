@@ -6,7 +6,6 @@ import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
@@ -34,13 +33,14 @@ public class Frente implements Serializable{
 
 	// TODO: Devolver a anotação quando o membro for implementado.
 	// @NotNull
-	@ManyToMany // (fetch = FetchType.EAGER)
-	private List<Membro>		lideres;
+	// @ManyToMany // (fetch = FetchType.EAGER)
+	// private List<Membro> lideres;
 
-	@ManyToMany(/* fetch = FetchType.EAGER, */ mappedBy = "frentesParticipadas")
-	private List<Membro>		participantes;
+	// @ManyToMany(/* fetch = FetchType.EAGER, */ mappedBy =
+	// "frentesParticipadas")
+	// private List<Membro> participantes;
 
-	@OneToMany(/* fetch = FetchType.EAGER, */ mappedBy = "frente")
+	@OneToMany(mappedBy = "frente")
 	private List<Celula>		celulas;
 
 	private Integer				idadeMinima;
@@ -97,22 +97,6 @@ public class Frente implements Serializable{
 
 	public void setDescricao(String pDescricao){
 		descricao = pDescricao;
-	}
-
-	public List<Membro> getLideres(){
-		return lideres;
-	}
-
-	public void setLideres(List<Membro> pLideres){
-		lideres = pLideres;
-	}
-
-	public List<Membro> getParticipantes(){
-		return participantes;
-	}
-
-	public void setParticipantes(List<Membro> pParticipantes){
-		participantes = pParticipantes;
 	}
 
 	public List<Celula> getCelulas(){

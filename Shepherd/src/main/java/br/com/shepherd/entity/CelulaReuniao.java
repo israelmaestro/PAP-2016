@@ -2,13 +2,11 @@ package br.com.shepherd.entity;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -35,14 +33,16 @@ public class CelulaReuniao implements Serializable{
 
 	private String				titulo;
 
-	@OneToOne // (fetch = FetchType.LAZY)
-	private Membro				anfitriao;
+	// @OneToOne // (fetch = FetchType.LAZY)
+	// private Membro anfitriao;
 
-	@ManyToMany(/* fetch = FetchType.LAZY, */ mappedBy = "reunioesComparecidas")
-	private List<Membro>		membrosComparecidos;
+	// @ManyToMany(/* fetch = FetchType.LAZY, */ mappedBy =
+	// "reunioesComparecidas")
+	// private List<Membro> membrosComparecidos;
 
-	@ManyToMany(/* fetch = FetchType.LAZY, */ mappedBy = "reunioesComparecidas")
-	private List<Visitante>		visitantesComparecidos;
+	// @ManyToMany(/* fetch = FetchType.LAZY, */ mappedBy =
+	// "reunioesComparecidas")
+	// private List<Visitante> visitantesComparecidos;
 
 	@OneToOne // (fetch = FetchType.LAZY)
 	private Celula				celula;
@@ -118,30 +118,6 @@ public class CelulaReuniao implements Serializable{
 
 	public void setTitulo(String pTitulo){
 		titulo = pTitulo;
-	}
-
-	public Membro getAnfitriao(){
-		return anfitriao;
-	}
-
-	public void setAnfitriao(Membro pAnfitriao){
-		anfitriao = pAnfitriao;
-	}
-
-	public List<Membro> getMembrosComparecidos(){
-		return membrosComparecidos;
-	}
-
-	public void setMembrosComparecidos(List<Membro> pMembrosComparecidos){
-		membrosComparecidos = pMembrosComparecidos;
-	}
-
-	public List<Visitante> getVisitantesComparecidos(){
-		return visitantesComparecidos;
-	}
-
-	public void setVisitantesComparecidos(List<Visitante> pVisitantesComparecidos){
-		visitantesComparecidos = pVisitantesComparecidos;
 	}
 
 	public Celula getCelula(){

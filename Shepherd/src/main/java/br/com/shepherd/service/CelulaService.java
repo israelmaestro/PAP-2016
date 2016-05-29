@@ -9,7 +9,6 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 import br.com.shepherd.entity.Celula;
-import br.com.shepherd.entity.Sede;
 
 /**
  * Realiza serviços diversos para a entidade Celula.
@@ -38,7 +37,7 @@ public class CelulaService{
 		}
 
 		// Atribuir valores padrão
-		pCelula.setActive(true);
+		pCelula.setAtiva(true);
 
 		if(null != pCelula.getComentarios() || pCelula.getComentarios().equals("")){
 			// Tornar nulo
@@ -46,74 +45,105 @@ public class CelulaService{
 		}
 
 		// Consistir endereço
-		if(null == pCelula.getEnderecoCep() || pCelula.getEnderecoCep().equals("")){
-			if(pCelula.isGpsAddress()){
-				if(null == pCelula.getEnderecoLogradouro() || pCelula.getEnderecoLogradouro().equals("")){
-					// Logradouro é campo obrigatório, caso seja endereço de GPS
-					throw new Exception("Coordenadas de GPS: Campo obrigatório!");
+		if(null != pCelula.getEndereco().getCep()
+			&& null != pCelula.getEndereco().getLogradouro()
+			&& null != pCelula.getEndereco().getNumero()
+			&& null != pCelula.getEndereco().getComplemento()
+			&& null != pCelula.getEndereco().getBairro()
+			&& null != pCelula.getEndereco().getCidade()
+			&& null != pCelula.getEndereco().getEstado()
+			&& null != pCelula.getEndereco().getPais()){
+			if(null == pCelula.getEndereco().getCep() || pCelula.getEndereco().getCep().equals("")){
+				if(pCelula.getEndereco().isGps()){
+					if(null != pCelula.getEndereco().getLogradouro()
+						|| !pCelula.getEndereco().getLogradouro().equals("")){
+						pCelula.getEndereco().setCep(null);
+						pCelula.getEndereco().setNumero(null);
+						pCelula.getEndereco().setComplemento(null);
+						pCelula.getEndereco().setBairro(null);
+						pCelula.getEndereco().setCidade(null);
+						pCelula.getEndereco().setEstado(null);
+						pCelula.getEndereco().setPais(null);
+					} else{
+						// Logradouro é campo obrigatório, caso seja endereço de
+						// GPS
+						throw new Exception("Coordenadas de GPS: Campo obrigatório!");
+					}
+				} else{
+					pCelula.getEndereco().setCep(null);
+
+					if(null == pCelula.getEndereco().getLogradouro()
+						|| pCelula.getEndereco().getLogradouro().equals("")){
+						pCelula.getEndereco().setLogradouro(null);
+					}
+
+					if(null == pCelula.getEndereco().getNumero()
+						|| pCelula.getEndereco().getNumero().equals("")){
+						pCelula.getEndereco().setNumero(null);
+					}
+
+					if(null == pCelula.getEndereco().getComplemento()
+						|| pCelula.getEndereco().getComplemento().equals("")){
+						pCelula.getEndereco().setComplemento(null);
+					}
+
+					if(null == pCelula.getEndereco().getBairro()
+						|| pCelula.getEndereco().getBairro().equals("")){
+						pCelula.getEndereco().setBairro(null);
+					}
+
+					if(null == pCelula.getEndereco().getCidade()
+						|| pCelula.getEndereco().getCidade().equals("")){
+						pCelula.getEndereco().setCidade(null);
+					}
+
+					if(null == pCelula.getEndereco().getEstado()
+						|| pCelula.getEndereco().getEstado().equals("")){
+						pCelula.getEndereco().setEstado(null);
+					}
+
+					if(null == pCelula.getEndereco().getPais()
+						|| pCelula.getEndereco().getPais().equals("")){
+						pCelula.getEndereco().setPais(null);
+					}
 				}
 			} else{
-				pCelula.setEnderecoCep(null);
-
-				if(null == pCelula.getEnderecoLogradouro() || pCelula.getEnderecoLogradouro().equals("")){
-					pCelula.setEnderecoLogradouro(null);
+				if(null == pCelula.getEndereco().getLogradouro()
+					|| pCelula.getEndereco().getLogradouro().equals("")){
+					// Logradouro é campo obrigatório, caso haja CEP
+					throw new Exception("Endereço: Campo obrigatório quando há CEP!");
 				}
 
-				if(null == pCelula.getEnderecoNumero() || pCelula.getEnderecoNumero().equals("")){
-					pCelula.setEnderecoNumero(null);
+				if(null == pCelula.getEndereco().getNumero()
+					|| pCelula.getEndereco().getNumero().equals("")){
+					// Logradouro é campo obrigatório, caso haja CEP
+					throw new Exception("Número: Campo obrigatório quando há CEP!");
 				}
 
-				if(null == pCelula.getEnderecoComplemento() || pCelula.getEnderecoComplemento().equals("")){
-					pCelula.setEnderecoComplemento(null);
-				}
-
-				if(null == pCelula.getEnderecoBairro() || pCelula.getEnderecoBairro().equals("")){
-					pCelula.setEnderecoBairro(null);
-				}
-
-				if(null == pCelula.getEnderecoCidade() || pCelula.getEnderecoCidade().equals("")){
-					pCelula.setEnderecoCidade(null);
-				}
-
-				if(null == pCelula.getEnderecoEstado() || pCelula.getEnderecoEstado().equals("")){
-					pCelula.setEnderecoEstado(null);
-				}
-
-				if(null == pCelula.getEnderecoPais() || pCelula.getEnderecoPais().equals("")){
-					pCelula.setEnderecoPais(null);
+				if(null == pCelula.getEndereco().getCidade()
+					|| pCelula.getEndereco().getCidade().equals("")){
+					// Logradouro é campo obrigatório, caso haja CEP
+					throw new Exception("Cidade: Campo obrigatório quando há CEP!");
 				}
 			}
 		} else{
-			if(null == pCelula.getEnderecoLogradouro() || pCelula.getEnderecoLogradouro().equals("")){
-				// Logradouro é campo obrigatório, caso haja CEP
-				throw new Exception("Endereço: Campo obrigatório quando há CEP!");
-			}
-
-			if(null == pCelula.getEnderecoNumero() || pCelula.getEnderecoNumero().equals("")){
-				// Logradouro é campo obrigatório, caso haja CEP
-				throw new Exception("Número: Campo obrigatório quando há CEP!");
-			}
-
-			if(null == pCelula.getEnderecoCidade() || pCelula.getEnderecoCidade().equals("")){
-				// Logradouro é campo obrigatório, caso haja CEP
-				throw new Exception("Cidade: Campo obrigatório quando há CEP!");
-			}
+			pCelula.setEndereco(null);
 		}
 
-		// Validando chave única
-		// existente = buscaCriterio("Celula", "nome", pCelula.getNome(),
+		 //Validando chave única
+		// existente = buscaCriterio( "Celula", "nome", pCelula.getNome(),
 		// "sede",
-		// pCelula.getSede());
-		//
+		// pCelula.getSede().getNome());
+
 		// if(existente == null){
 		entityManager.persist(pCelula);
-		//
+
 		return pCelula;
 		// } else{
-		// throw new Exception("Celula “"+ pCelula.getNome()
-		// + (pCelula.getSede() == null ? ""
-		// : "” na sede “" + pCelula.getSede())
-		// + "” já está cadastrada! Escolha outro nome, ou outra sede.");
+		// throw new Exception("Célula “"+ pCelula.getNome()
+		// + "” ná cadastrada na sede “"
+		// + pCelula.getSede()
+		// + "”! Escolha outro nome, ou outra sede.");
 		// }
 	}
 
@@ -175,7 +205,7 @@ public class CelulaService{
 	 * @return
 	 */
 	public Celula buscaCriterio(String pTabela, String pCampo1, String pValor1, String pCampo2,
-								Sede pValor2){
+								String pValor2){
 		Query query = entityManager.createQuery("FROM "+ pTabela
 												+ " db"
 												+ pTabela
@@ -188,15 +218,16 @@ public class CelulaService{
 																		+ "."
 																		+ pCampo1
 																		+ ") = UPPER(:p1)")
-												+ " AND "
-												+ (pValor2 == null	? "db"+ pTabela
-																		+ "."
-																		+ pCampo2
-																		+ " IS NULL"
-																	: "UPPER(db"+ pTabela
-																		+ "."
-																		+ pCampo2
-																		+ ") = UPPER(:p2)"));
+//												+ " AND "
+//												+ (pValor2 == null	? "db"+ pTabela
+//																		+ "."
+//																		+ pCampo2
+//																		+ " IS NULL"
+//																	: "UPPER(db"+ pTabela
+//																		+ "."
+//																		+ pCampo2
+//																		+ ") = UPPER(:p2)")
+												);
 		if(null != pValor1){
 			query.setParameter("p1", pValor1);
 		}

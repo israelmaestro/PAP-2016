@@ -15,7 +15,7 @@
 		<ui:define name='mensagensCampos'>
 			<b:message for='nome'/>
 			<b:message for='cnpj'/>
-<!-- 			<b:message for='presidente'/> -->
+			<b:message for='presidente'/>
 			<b:message for='dataFuncacao' />
 			<b:message for='celulas' />
 			<b:message for='sedeMae' />
@@ -84,11 +84,11 @@
 											text-align: right;
 											'
 									>
-									<h:outputLabel	for='mae'
+									<h:outputLabel	for='mainChurch'
 													value='Sede tipo' class='outputLabel'/>
-									<b:switch	id='mae'
-												value='#{sedeBean.sede.mae}'
-												binding='#{mae}'
+									<b:switch	id='mainChurch'
+												value='#{sedeBean.sede.mainChurch}'
+												binding='#{mainChurch}'
 												offText='Filha'
 												onText='Mãe'
 												onColor='danger'
@@ -152,6 +152,30 @@
 									col-xs='12'
 									>
 							<br/>
+							<h:outputLabel class='outputLabel'	for='presidente'
+											value='Presidente'
+											/>
+							<h:selectOneMenu	id='presidente'
+												value='#{sedeBean.sede.presidente}'
+												converter='omnifaces.SelectItemsConverter'
+												class='hSelectOneMenu'
+												>
+								<f:selectItem	itemLabel='Selecione'
+												noSelectionOption='true'
+												/>
+								<f:selectItems	value='#{membroBean.listarPresidentes()}'
+												var='presidente'
+												itemLabel='#{presidente.coordenador.lider.membro.pessoa.nome}'
+												/>
+							</h:selectOneMenu>
+						</b:column>
+													
+						<b:column	col-lg='3'
+									col-md='3'
+									col-sm='6'
+									col-xs='12'
+									>
+							<br/>
 							<h:outputLabel class='outputLabel'	for='dataFuncacao'
 											value='Data da Fundação'
 											/>
@@ -190,7 +214,7 @@
 									col-md='3'
 									col-sm='6'
 									col-xs='12'
-									rendered='#{!mae.value}'
+									rendered='#{!mainChurch.value}'
 									>
 							<br/>
 							<h:outputLabel class='outputLabel'	for='sedeMae'
@@ -263,7 +287,7 @@
 										line-height: 1px;
 										 margin: 0px; padding: 0px;'
 								>
-								<b:switch	value='#{sedeBean.sede.endereco.gps}'
+								<b:switch	value='#{sedeBean.sede.gpsAddress}'
 											label=''
 											offText='Postal'
 											onText='GPS'
@@ -292,11 +316,11 @@
 											value='Coordenadas de GPS*'
 											/>
 							<b:inputText	id='gpsAddress'
-											value='#{sedeBean.sede.endereco.logradouro}'
+											value='#{sedeBean.sede.enderecoLogradouro}'
 											placeholder='Digite as coordenadas do GPS'
 											required='true'
-											class='required'
 											requiredMessage='Coordenadas de GPS: Campo obrigatório!'
+											class='required'
 											/>
 						</b:column>
 					</b:row>
@@ -323,7 +347,7 @@
 												binding='#{cep}'
 												maxlength='8'
 												onkeypress='return teclaNumerica(event.keyCode)'
-												value='#{sedeBean.sede.endereco.cep}'
+												value='#{sedeBean.sede.enderecoCep}'
 												placeholder='Digite o CEP'
 												onblur='if(this.value != "") pesquisaCep(this.value);'
 												/>
@@ -338,22 +362,18 @@
 								<h:outputLabel class='outputLabel' value='Endereço' for='logradouro'/>
 								<b:inputText	id='logradouro'
 												name='logradouro'
-												value='#{sedeBean.sede.endereco.logradouro}'
+												value='#{sedeBean.sede.enderecoLogradouro}'
 												placeholder='Digite o nome da rua, avenida, etc.'
-												class='hidden-xs required'
+												class='hidden-xs'
 												onblur='document.getElementById("input_form:logradouro2").value = document.getElementById("input_form:logradouro").value'
-												required='true'
-												requiredMessage='Endereço: Campo obrigatório!'
 												/>
 								<b:inputTextarea	id='logradouro2'
 													name='logradouro2'
-													value='#{sedeBean.sede.endereco.logradouro}'
+													value='#{sedeBean.sede.enderecoLogradouro}'
 													placeholder='Digite o nome da rua, avenida, etc.'
-													class='visible-xs required'
+													class='visible-xs'
 													onblur='document.getElementById("input_form:logradouro").value = document.getElementById("input_form:logradouro2").value'
 													style='	margin-top: -8px;'
-													required='true'
-													requiredMessage='Endereço: Campo obrigatório!'
 													/>
 							</b:column>
 							
@@ -365,13 +385,10 @@
 								<br/>
 								<h:outputLabel class='outputLabel' value='№' for='numero'/>
 								<b:inputText	id='numero'
-												value='#{sedeBean.sede.endereco.numero}'
+												value='#{sedeBean.sede.enderecoNumero}'
 												onkeypress='return teclaNumerica(event.keyCode)'
 												maxlength='5'
 												placeholder='№'
-												required='true'
-												class='required'
-												requiredMessage='№: Campo obrigatório!'
 												/>
 							</b:column>
 							
@@ -383,7 +400,7 @@
 								<br/>
 								<h:outputLabel class='outputLabel' value='Complemento' for='complemento'/>
 								<b:inputText	id='complemento'
-												value='#{sedeBean.sede.endereco.complemento}'
+												value='#{sedeBean.sede.enderecoComplemento}'
 												placeholder='Complemento'
 												/>
 							</b:column>
@@ -396,7 +413,7 @@
 								<br/>
 								<h:outputLabel class='outputLabel' value='Bairro' for='bairro'/>
 								<b:inputText	id='bairro'
-												value='#{sedeBean.sede.endereco.bairro}'
+												value='#{sedeBean.sede.enderecoBairro}'
 												placeholder='Bairro'
 												/>
 							</b:column>
@@ -409,11 +426,8 @@
 								<br/>
 								<h:outputLabel class='outputLabel' value='Cidade' for='cidade'/>
 								<b:inputText	id='cidade'
-												value='#{sedeBean.sede.endereco.cidade}'
+												value='#{sedeBean.sede.enderecoCidade}'
 												placeholder='Cidade'
-												required='true'
-												class='required'
-												requiredMessage='Cidade: Campo obrigatório!'
 												/>
 							</b:column>
 							
@@ -426,7 +440,7 @@
 								<h:outputLabel class='outputLabel' value='UF' for='uf'/>
 								<b:inputText	id='uf'
 												maxlength='2'
-												value='#{sedeBean.sede.endereco.estado}'
+												value='#{sedeBean.sede.enderecoEstado}'
 												placeholder='UF'
 												/>
 							</b:column>
@@ -439,7 +453,7 @@
 								<br/>
 								<h:outputLabel class='outputLabel' value='País' for='pais'/>
 								<b:inputText	id='pais'
-												value='#{sedeBean.sede.endereco.pais}'
+												value='#{sedeBean.sede.enderecoPais}'
 												placeholder='País'
 												/>
 							</b:column>

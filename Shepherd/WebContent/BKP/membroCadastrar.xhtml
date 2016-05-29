@@ -1,0 +1,139 @@
+<!--
+							<td	style='	line-height: 1px;
+										color: #336;
+										min-width: 32px;
+										max-width: 32px;
+										'
+								>
+								<b:iconAwesome	name='fa-legal'
+													tooltip='Membro da diretoria e conselho fiscal'
+													onclick='alert("Selecione esta opção caso o membro pertença à diretoria ou ao conselho fiscal.")'
+													style='	border-radius: 100%;
+															background-color: #CCCCFF;
+															margin-left: -5px;
+															padding: 3.5px;
+															'
+													/>
+								<b:selectBooleanCheckbox	id='directoryCheckBox'
+															binding='#{showDirectoryForm}'
+															value='#{pessoaBean.pessoa.membro.directoryMember}'
+															style='	margin-left: 0px;'
+															>
+									<f:ajax event='change' render='diretoria' />
+								</b:selectBooleanCheckbox>
+							</td>
+							<td	style='	line-height: 1px;
+										color: #090;
+										min-width: 16px;
+										max-width: 16px;
+										'
+								>
+								<b:iconAwesome	name='fa-thumbs-up'
+													tooltip='Líder de célula'
+													onclick='alert("Selecione esta opção caso o membro seja líder de célula.")'
+													style='	border-radius: 100%;
+															background-color: #9c9;
+															margin-left: -5px;
+															padding: 3.5px;
+															'
+													/>
+								<b:selectBooleanCheckbox	id='celLeaderCheckBox'
+															value='#{pessoaBean.pessoa.membro.leader}'
+															binding='#{showLeaderForm}'
+															onchange='setTrainee(#{!showLeaderForm.value})'
+															style='	margin-left: 0px;'
+															>
+									<f:ajax event='change' render='@form' />
+								</b:selectBooleanCheckbox>
+							</td>
+-->
+
+<!--
+				<b:row	id='diretoria'>
+					<b:row	rendered='#{showDirectoryForm.value}'
+							class='splitRow'
+							>
+						<h3>
+							<b:iconAwesome name="fa fa-fw fa-legal"/>
+							<br class='visible-xs'/>
+							Diretoria / <br class='visible-xs'/>
+							Conselho Fiscal
+						</h3>
+					</b:row>
+					<b:row	rendered='#{showDirectoryForm.value}'>
+						<b:row id='diretoriaStatus'>
+							<b:column	col-lg='4'
+										col-md='4'
+										col-sm='6'
+										col-xs='12'
+										>
+								<br/>
+								<h:outputLabel	class='outputLabel' for='diretoriaCargo' value='Cargo*' />
+								<h:selectOneMenu	id='diretoriaCargo'
+													value='#{pessoaBean.pessoa.diretoriaCargo}'
+													class='hSelectOneMenu required'
+													required='true'
+													requiredMessage='Diretoria: cargo é campo obrigatório.'
+													>
+									<f:selectItem	itemLabel='Selecione'
+													noSelectionOption='false'
+													/>
+									<f:selectItem	itemLabel='Presidente'
+													itemValue='Presidente'
+													/>
+									<f:selectItem	itemLabel='Vice-Presidente'
+													itemValue='Vice-Presidente'
+													/>
+									<f:selectItem	itemLabel='1º Tesoureiro'
+													itemValue='1º Tesoureiro'
+													/>
+									<f:selectItem	itemLabel='2º Tesoureiro'
+													itemValue='2º Tesoureiro'
+													/>
+									<f:selectItem	itemLabel='1º Secretário'
+													itemValue='1º Secretário'
+													/>
+									<f:selectItem	itemLabel='2º Secretário'
+													itemValue='2º Secretário'
+													/>
+									<f:selectItem	itemLabel='Presidente (Conselho Fiscal)'
+													itemValue='Presidente (Conselho Fiscal)'
+													/>
+									<f:selectItem	itemLabel='1º Membro (Diretoria)'
+													itemValue='1º Membro (Diretoria)'
+													/>
+									<f:selectItem	itemLabel='2º Membro (Diretoria)'
+													itemValue='2º Membro (Diretoria)'
+													/>
+									<f:selectItem	itemLabel='3º Membro (Assembléia)'
+													itemValue='3º Membro (Assembléia)'
+													/>
+									<f:selectItem	itemLabel='4º Membro (Assembléia)'
+													itemValue='4º Membro (Assembléia)'
+													/>
+								</h:selectOneMenu>
+							</b:column>
+							<b:column	col-lg='4'
+										col-md='4'
+										col-sm='6'
+										col-xs='12'
+										>
+								<br/>
+								<h:outputLabel	for='dataDiretoriaPosse'
+												value='Data da posse*'
+												class='outputLabel'
+												/>
+								<b:datepicker 	id='dataDiretoriaPosse'
+												placeholder='DD/MM/AAAA'
+												value='#{pessoaBean.pessoa.pessoa.dataDiretoriaEntrada}'
+												required='true'
+												requiredMessage='Diretoria: Data da posse é campo obrigatório.'
+												>
+									<script>
+										requiredField("form:dataDiretoriaPosse");
+									</script>
+								</b:datepicker>
+							</b:column>
+						</b:row>
+					</b:row>
+-->

@@ -30,7 +30,7 @@ public class NEspecial implements Serializable{
 	@NotNull
 	private String				descricao;
 
-	@ManyToMany(/* fetch = FetchType.EAGER, */ mappedBy = "nEspeciais")
+	@ManyToMany(mappedBy = "nEspeciais")
 	private List<Pessoa>		pessoas;
 
 	@NotNull

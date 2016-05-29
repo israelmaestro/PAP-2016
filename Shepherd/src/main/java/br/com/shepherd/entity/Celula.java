@@ -1,9 +1,11 @@
 package br.com.shepherd.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -17,8 +19,7 @@ import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 
 @Entity
-@Table(uniqueConstraints = { @UniqueConstraint(columnNames = {	"nome",
-																"sede_id" }) })
+@Table(uniqueConstraints = { @UniqueConstraint(columnNames = { "nome", "sede_id" }) })
 public class Celula implements Serializable{
 	private static final long	serialVersionUID	= -7390302449224224794L;
 
@@ -30,31 +31,16 @@ public class Celula implements Serializable{
 	@NotNull
 	private String				nome;
 
-	@OneToMany(/* fetch = FetchType.EAGER, */ mappedBy = "celula")
-	private List<Membro>		membros;
-
-	@OneToMany(/* fetch = FetchType.EAGER, */ mappedBy = "celula")
-	private List<Visitante>		visitantes;
-
-	// @NotNull
-	@OneToMany(/* fetch = FetchType.EAGER, */ mappedBy = "celula")
-	private List<Lider>			lideres;
-
-	// @NotNull
-	@OneToMany(/* fetch = FetchType.EAGER, */ mappedBy = "celula")
-	private List<CelulaReuniao>	reunioes;
-
-	// @NotNull
-	@OneToOne // (fetch = FetchType.EAGER)
-	private Coordenador			coordenador;
-
-	// @NotNull
-	@OneToOne // (fetch = FetchType.EAGER)
+	@NotNull
+	@OneToOne
 	private Frente				frente;
 
-	// @NotNull
-	@OneToOne // (fetch = FetchType.EAGER)
+	@NotNull
+	@OneToOne
 	private Sede				sede;
+
+	@OneToOne(mappedBy = "celula", cascade = CascadeType.ALL)
+	private Endereco			endereco;
 
 	@Column(columnDefinition = "timestamp")
 	@Temporal(TemporalType.TIMESTAMP)
@@ -65,38 +51,23 @@ public class Celula implements Serializable{
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date				dataDesativacao;
 
-	private boolean				isActive			= false;
-
-	private boolean				isVisitorsAllowed	= false;
-
-	private boolean				isEnderecoFixo		= false;
-
-	private boolean				isGpsAddress		= false;
-
-	// Informações de endereço
-	@Column(length = 8)
-	private String				enderecoCep;
-
-	private String				enderecoLogradouro;
-
-	@Column(length = 5)
-	private Integer				enderecoNumero;
-
-	private String				enderecoComplemento;
-
-	private String				enderecoBairro;
-
-	private String				enderecoCidade;
-
-	@Column(length = 2)
-	private String				enderecoEstado;
-
-	private String				enderecoPais;
+	@OneToMany(mappedBy = "celula")
+	private List<PessoaCelula>	pessoasCelulas;
 
 	@Column(length = 1000)
 	private String				comentarios;
 
+	private boolean				ativa				= false;
+
+	private boolean				comVisitante		= false;
+
+	private boolean				comEnderecoFixo		= false;
+
+	// Construtor e afins
 	public Celula(){
+		endereco = new Endereco();
+		endereco.setCelula(this);
+		pessoasCelulas = new ArrayList<PessoaCelula>();
 	}
 
 	@Override
@@ -119,6 +90,26 @@ public class Celula implements Serializable{
 		return true;
 	}
 
+	/**
+	 * Adiciona 1 pessoa na célula
+	 *
+	 * @param pPessoaCelula
+	 */
+	public void addPessoa(PessoaCelula pPessoaCelula){
+		pessoasCelulas.add(pPessoaCelula);
+		pPessoaCelula.setCelula(this);
+	}
+
+	/**
+	 * Remove 1 pessoa na célula
+	 *
+	 * @param pPessoaCelula
+	 */
+	public void removePessoa(PessoaCelula pPessoaCelula){
+		pessoasCelulas.remove(pPessoaCelula);
+	}
+
+	// Getters e setters
 	public Integer getId(){
 		return id;
 	}
@@ -133,46 +124,6 @@ public class Celula implements Serializable{
 
 	public void setNome(String pNome){
 		nome = pNome;
-	}
-
-	public List<Membro> getMembros(){
-		return membros;
-	}
-
-	public void setMembros(List<Membro> pMembros){
-		membros = pMembros;
-	}
-
-	public List<Lider> getLideres(){
-		return lideres;
-	}
-
-	public void setLideres(List<Lider> pLideres){
-		lideres = pLideres;
-	}
-
-	public List<Visitante> getVisitantes(){
-		return visitantes;
-	}
-
-	public void setVisitantes(List<Visitante> pVisitantes){
-		visitantes = pVisitantes;
-	}
-
-	public List<CelulaReuniao> getReunioes(){
-		return reunioes;
-	}
-
-	public void setReunioes(List<CelulaReuniao> pReunioes){
-		reunioes = pReunioes;
-	}
-
-	public Coordenador getCoordenador(){
-		return coordenador;
-	}
-
-	public void setCoordenador(Coordenador pCoordenador){
-		coordenador = pCoordenador;
 	}
 
 	public Frente getFrente(){
@@ -191,6 +142,14 @@ public class Celula implements Serializable{
 		sede = pSede;
 	}
 
+	public Endereco getEndereco(){
+		return endereco;
+	}
+
+	public void setEndereco(Endereco pEndereco){
+		endereco = pEndereco;
+	}
+
 	public Date getDataAtivação(){
 		return dataAtivação;
 	}
@@ -207,100 +166,12 @@ public class Celula implements Serializable{
 		dataDesativacao = pDataDesativacao;
 	}
 
-	public boolean isActive(){
-		return isActive;
+	public List<PessoaCelula> getPessoasCelulas(){
+		return pessoasCelulas;
 	}
 
-	public void setActive(boolean pIsActive){
-		isActive = pIsActive;
-	}
-
-	public boolean isVisitorsAllowed(){
-		return isVisitorsAllowed;
-	}
-
-	public void setVisitorsAllowed(boolean pIsVisitorsAllowed){
-		isVisitorsAllowed = pIsVisitorsAllowed;
-	}
-
-	public boolean isEnderecoFixo(){
-		return isEnderecoFixo;
-	}
-
-	public void setEnderecoFixo(boolean pIsEnderecoFixo){
-		isEnderecoFixo = pIsEnderecoFixo;
-	}
-
-	public boolean isGpsAddress(){
-		return isGpsAddress;
-	}
-
-	public void setGpsAddress(boolean pIsGpsAddress){
-		isGpsAddress = pIsGpsAddress;
-	}
-
-	public String getEnderecoCep(){
-		return enderecoCep;
-	}
-
-	public void setEnderecoCep(String pEnderecoCep){
-		enderecoCep = pEnderecoCep;
-	}
-
-	public String getEnderecoLogradouro(){
-		return enderecoLogradouro;
-	}
-
-	public void setEnderecoLogradouro(String pEnderecoLogradouro){
-		enderecoLogradouro = pEnderecoLogradouro;
-	}
-
-	public Integer getEnderecoNumero(){
-		return enderecoNumero;
-	}
-
-	public void setEnderecoNumero(Integer pEnderecoNumero){
-		enderecoNumero = pEnderecoNumero;
-	}
-
-	public String getEnderecoComplemento(){
-		return enderecoComplemento;
-	}
-
-	public void setEnderecoComplemento(String pEnderecoComplemento){
-		enderecoComplemento = pEnderecoComplemento;
-	}
-
-	public String getEnderecoBairro(){
-		return enderecoBairro;
-	}
-
-	public void setEnderecoBairro(String pEnderecoBairro){
-		enderecoBairro = pEnderecoBairro;
-	}
-
-	public String getEnderecoCidade(){
-		return enderecoCidade;
-	}
-
-	public void setEnderecoCidade(String pCidade){
-		enderecoCidade = pCidade;
-	}
-
-	public String getEnderecoEstado(){
-		return enderecoEstado;
-	}
-
-	public void setEnderecoEstado(String pEnderecoEstado){
-		enderecoEstado = pEnderecoEstado;
-	}
-
-	public String getEnderecoPais(){
-		return enderecoPais;
-	}
-
-	public void setEnderecoPais(String pEnderecoPais){
-		enderecoPais = pEnderecoPais;
+	public void setPessoasCelulas(List<PessoaCelula> pPessoasCelulas){
+		pessoasCelulas = pPessoasCelulas;
 	}
 
 	public String getComentarios(){
@@ -309,5 +180,29 @@ public class Celula implements Serializable{
 
 	public void setComentarios(String pComentarios){
 		comentarios = pComentarios;
+	}
+
+	public boolean isAtiva(){
+		return ativa;
+	}
+
+	public void setAtiva(boolean pAtiva){
+		ativa = pAtiva;
+	}
+
+	public boolean isComVisitante(){
+		return comVisitante;
+	}
+
+	public void setComVisitante(boolean pComVisitante){
+		comVisitante = pComVisitante;
+	}
+
+	public boolean isComEnderecoFixo(){
+		return comEnderecoFixo;
+	}
+
+	public void setComEnderecoFixo(boolean pComEnderecoFixo){
+		comEnderecoFixo = pComEnderecoFixo;
 	}
 }

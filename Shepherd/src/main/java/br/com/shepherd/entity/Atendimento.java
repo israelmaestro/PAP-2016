@@ -7,7 +7,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -24,16 +23,16 @@ public class Atendimento implements Serializable{
 	private Date				dataHora;
 
 	// Informações gerais
-	@OneToOne // (fetch = FetchType.LAZY)
-	private Visitante			visitanteAtendido;
+	// @OneToOne // (fetch = FetchType.LAZY)
+	// private Visitante visitanteAtendido;
 
 	// Informações gerais
-	@OneToOne // (fetch = FetchType.LAZY)
-	private Membro				membroAtendido;
+	// @OneToOne // (fetch = FetchType.LAZY)
+	// private Membro membroAtendido;
 
 	// Informações gerais
-	@OneToOne // (fetch = FetchType.LAZY)
-	private Membro				membroAtendente;
+	// @OneToOne // (fetch = FetchType.LAZY)
+	// private Membro membroAtendente;
 
 	private String				status;
 
@@ -100,30 +99,6 @@ public class Atendimento implements Serializable{
 
 	public void setDataHora(Date pDataHora){
 		dataHora = pDataHora;
-	}
-
-	public Visitante getVisitanteAtendido(){
-		return visitanteAtendido;
-	}
-
-	public void setVisitanteAtendido(Visitante pVisitanteAtendido){
-		visitanteAtendido = pVisitanteAtendido;
-	}
-
-	public Membro getMembroAtendido(){
-		return membroAtendido;
-	}
-
-	public void setMembroAtendido(Membro pMembroAtendido){
-		membroAtendido = pMembroAtendido;
-	}
-
-	public Membro getMembroAtendente(){
-		return membroAtendente;
-	}
-
-	public void setMembroAtendente(Membro pMembroAtendente){
-		membroAtendente = pMembroAtendente;
 	}
 
 	public String getStatus(){
