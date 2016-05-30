@@ -10,10 +10,10 @@
 			<property name='hibernate.dialect' value='org.hibernate.dialect.PostgreSQLDialect' />
 
 			<!-- SOMENTE EM AMBIENTE DE DESENVOLVIMENTO -->
-			<property name='hibernate.show_sql' value='true' />
+			<property name='hibernate.show_sql' value='false' />
 
 			<!-- SOMENTE EM AMBIENTE DE DESENVOLVIMENTO -->
-			<property name='hibernate.format_sql' value='true' />
+			<property name='hibernate.format_sql' value='false' />
 
 			<!-- SOMENTE EM AMBIENTE DE DESENVOLVIMENTO -->
 			<property name='hibernate.hbm2ddl.auto' value='update' />

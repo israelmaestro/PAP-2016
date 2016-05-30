@@ -21,12 +21,12 @@
 		<ui:define name='tituloSecundario'>home > membros > listar</ui:define>
 		
 		<ui:define name='botoesAcao'>
-			<b:buttonGroup>
-				<b:button	value=''
-							onclick='location.href = "./membroCadastrar.jsf"'
-							iconAwesome='fa fa-plus fa-fw'
-							/>
-			</b:buttonGroup>
+				<b:buttonGroup>
+					<b:button	value=''
+								onclick='location.href = "./membroCadastrar.jsf"'
+								iconAwesome='fa fa-plus fa-fw'
+								/>
+				</b:buttonGroup>
 		</ui:define>
 		
 		<ui:define name='conteudo'>
@@ -38,121 +38,157 @@
 				</center>
 			</b:container>
 
-			<p:dataTable	id='membroLista'
-							value='#{membroBean.listarMembros()}'
-							var='membro'
-							update='@form'
-							emptyMessage='Nenhum membro encontrado.'
-							class='pDataTable'
+			<b:container	id='mostrarMembros'
+							class='row fullWidth'
 							rendered='#{membroBean.listarMembros().size() != 0}'
-							paginator='true'
-							widgetVar='membroLista'
-							filteredValue=''
-							rows='10'
-							paginatorAlwaysVisible='false'
-							rowsPerPageTemplate='10, 50, 100, 200'
 							>
-				<f:facet name='header'>
-					<p:outputPanel>
-						<b:row>
-							<b:column	col-lg='12'
-										col-md='12'
-										col-sm='12'
-										col-xs='12'
+				<b:row>
+					<p:selectOneButton	class='fullWidth'
+										binding='#{showItems}'
 										>
-								<b:inputText	id='filtroGlobal'
-												onkeyup="PF('membroLista').filter()"
-												placeholder='Pesquisar'	
-												style='	font-family: inherit;
-														font-weight: normal;
-														'
-												/>
-							</b:column>
-						</b:row>
-					</p:outputPanel>
-				</f:facet>
-				<p:column	headerText='Nome'
-							priority='1'
-							>
-					<center>
-						<h:outputText value='#{membro.pessoa.nome} #{membro.pessoa.sobrenome}'/>
-					</center>
-				</p:column>
-				<p:column	headerText='Célula'
-							priority='2'
-							>
-					<center>
-						<h:outputText value='#{membro.celula.nome}'/>
-					</center>
-				</p:column>
-				
-				<p:column	headerText='Frente'
-							priority='3'
-							>
-					<center>
-						<h:outputText value='#{membro.celula.frente.nome}'/>
-					</center>
-				</p:column>
+						<f:ajax event='change' render='mostrarMembros'/>
+						<f:selectItem itemValue='lista' itemLabel='Lista'/>
+						<f:selectItem itemValue='mapa' itemLabel='Mapa'/>
+					</p:selectOneButton>
+				</b:row>
 
-				<p:column	headerText='Sede'
-							priority='4'
+				<br/>
+
+				<b:row>
+					<p:gmap	id="geoMap"
+							rendered='#{showItems.value == "mapa"}'
+							widgetVar="geoMap"
+							center='-25.0936322,-50.1524482'
+							zoom="15"
+							type="ROADMAP"
+							model="#{geocodeView.geoModel}"
+							fitBounds="true"
+							class='map'
 							>
-					<center>
-						<h:outputText value='#{sedeBean.getProperty("convencaoAbrev")} #{membro.celula.sede.nome}#{membro.celula.sede.mae ? "*" : ""}'/>
-					</center>
-				</p:column>
-				
-				<p:column	headerText='Opções'
-							priority='1'
-							>
-					<center>
-						<p:commandButton	update='@form'
-											onclick='alert("Visualização AINDA NÃO IMPLEMENTADA!")'
-											icon='fa fa-fw fa-eye'
-											alt='Visualizar'
-											disabled='true'
-											/>
-						<p:commandButton	update='@form'
-											onclick='alert("ALTERAÇÃO AINDA NÃO IMPLEMENTADA!")'
-											icon='fa fa-fw fa-pencil'
-											style='	color: #009900;
-													'
-											disabled='true'
-											/>
-						<p:commandButton	update='@form'
-											action='#{pessoaBean.excluirMembro(membro.pessoa)}'
-											icon='fa fa-fw fa-trash'
-											style='	color: #cc0000;
-													'
-											disabled='true'
-											>
-							<p:confirm	header='Excluir'
-										message='Excluir o membro “#{membro.pessoa.nome} #{membro.pessoa.sobrenome}”?'
-										icon='ui-icon-blank'
-										/>
-						</p:commandButton>
-					</center>
-					
-					<p:confirmDialog	global='true'
-										closable='false'
-										>
-						<center>
-							<p:commandButton	styleClass='ui-confirmdialog-yes'
-												icon='fa fa-fw fa-check'
-												update='membroLista'
-												style='	color: #900;
-														'
+						<p:ajax	event="geocode"
+								listener="#{geocodeView.onGeocode}"
+								update="@this" />
+					</p:gmap>
+				</b:row>
+				<b:row>
+					<p:dataTable	id='membroLista'
+									value='#{membroBean.listarMembros()}'
+									var='membro'
+									update='@form'
+									emptyMessage='Nenhum membro encontrado.'
+									class='pDataTable'
+									rendered='#{showItems.value == "lista"}'
+									paginator='true'
+									widgetVar='membroLista'
+									filteredValue=''
+									rows='10'
+									paginatorAlwaysVisible='false'
+									rowsPerPageTemplate='10, 50, 100, 200'
+									>
+						<f:facet name='header'>
+							<p:outputPanel>
+								<b:row>
+									<b:column	col-lg='12'
+												col-md='12'
+												col-sm='12'
+												col-xs='12'
+												>
+										<b:inputText	id='filtroGlobal'
+														onkeyup="PF('membroLista').filter()"
+														placeholder='Pesquisar'	
+														style='	font-family: inherit;
+																font-weight: normal;
+																'
+														/>
+									</b:column>
+								</b:row>
+							</p:outputPanel>
+						</f:facet>
+						<p:column	headerText='Nome'
+									priority='1'
+									>
+							<center>
+								<h:outputText value='#{membro.pessoa.nome} #{membro.pessoa.sobrenome}'/>
+							</center>
+						</p:column>
+						<p:column	headerText='Célula'
+									priority='2'
+									>
+							<center>
+								<h:outputText value='#{membro.celula.nome}'/>
+							</center>
+						</p:column>
+						
+						<p:column	headerText='Frente'
+									priority='3'
+									>
+							<center>
+								<h:outputText value='#{membro.celula.frente.nome}'/>
+							</center>
+						</p:column>
+		
+						<p:column	headerText='Sede'
+									priority='4'
+									>
+							<center>
+								<h:outputText value='#{sedeBean.getProperty("convencaoAbrev")} #{membro.celula.sede.nome}#{membro.celula.sede.mae ? "*" : ""}'/>
+							</center>
+						</p:column>
+						
+						<p:column	headerText='Opções'
+									priority='1'
+									>
+							<center>
+								<p:commandButton	update='@form'
+													onclick='alert("Visualização AINDA NÃO IMPLEMENTADA!")'
+													icon='fa fa-fw fa-eye'
+													alt='Visualizar'
+													disabled='true'
+													/>
+								<p:commandButton	update='@form'
+													onclick='alert("ALTERAÇÃO AINDA NÃO IMPLEMENTADA!")'
+													icon='fa fa-fw fa-pencil'
+													style='	color: #009900;
+															'
+													disabled='true'
+													/>
+								<p:commandButton	update='@form'
+													action='#{pessoaBean.excluirMembro(membro.pessoa)}'
+													icon='fa fa-fw fa-trash'
+													style='	color: #cc0000;
+															'
+													disabled='true'
+													>
+									<p:confirm	header='Excluir'
+												message='Excluir o membro “#{membro.pessoa.nome} #{membro.pessoa.sobrenome}”?'
+												icon='ui-icon-blank'
 												/>
-							<p:commandButton	styleClass='ui-confirmdialog-no'
-												icon='fa fa-fw fa-close'
-												update='membroLista'
-												style='	color: #009;
-														'
-												/>
-						</center>
-					</p:confirmDialog>
-				</p:column>
-			</p:dataTable>
+								</p:commandButton>
+							</center>
+							
+							<p:confirmDialog	global='true'
+												closable='false'
+												>
+								<center>
+									<p:commandButton	styleClass='ui-confirmdialog-yes'
+														icon='fa fa-fw fa-check'
+														update='membroLista'
+														style='	color: #900;
+																'
+														/>
+									<p:commandButton	styleClass='ui-confirmdialog-no'
+														icon='fa fa-fw fa-close'
+														update='membroLista'
+														style='	color: #009;
+																'
+														/>
+								</center>
+							</p:confirmDialog>
+						</p:column>
+					</p:dataTable>
+				</b:row>
+			</b:container>
+
 		</ui:define>
 	</ui:composition>
 </html>

@@ -1,3 +1,13 @@
+function geocode(){
+	PF('geoMap').geocode(document.getElementById('address').value);
+}
+
+function reverseGeocode(){
+	var lat = document.getElementById('lat').value, lng = document.getElementById('lng').value;
+
+	PF('revGeoMap').reverseGeocode(lat, lng);
+}
+
 function requiredField(id){
 	document.getElementById(id).style.backgroundColor = "#FFC";
 }
