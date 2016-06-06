@@ -42,13 +42,16 @@
 							class='row fullWidth'
 							rendered='#{membroBean.listarMembros().size() != 0}'
 							>
-				<b:row>
-					<p:selectOneButton	class='fullWidth'
+				<b:row style='text-align: center;'>
+					<p:selectOneButton	value='lista'
+										class='fullWidth bold'
 										binding='#{showItems}'
+										immediate='true'
 										>
 						<f:ajax event='change' render='mostrarMembros'/>
 						<f:selectItem itemValue='lista' itemLabel='Lista'/>
 						<f:selectItem itemValue='mapa' itemLabel='Mapa'/>
+						<f:selectItem itemValue='grafico' itemLabel='Gráficos'/>
 					</p:selectOneButton>
 				</b:row>
 

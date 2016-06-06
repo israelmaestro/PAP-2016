@@ -50,6 +50,10 @@ public class Endereco implements Serializable{
 
 	private String				pais;
 
+	private double				latitude;
+
+	private double				longitude;
+
 	public Endereco(){
 	}
 
@@ -184,5 +188,21 @@ public class Endereco implements Serializable{
 
 	public void setPais(String pPais){
 		pais = pPais;
+	}
+
+	public double getLatitude(){
+		return latitude;
+	}
+
+	public void setLatitude(double pLatitude){
+		latitude = pLatitude;
+	}
+
+	public double getLongitude(){
+		return longitude;
+	}
+
+	public void setLongitude(double pLongitude){
+		longitude = pLongitude;
 	}
 }

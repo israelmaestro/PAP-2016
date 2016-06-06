@@ -1,11 +1,32 @@
-function geocode(){
-	PF('geoMap').geocode(document.getElementById('address').value);
-}
+function localizaCoordenadas(){
+	PF("mapa").geocode(null);
 
-function reverseGeocode(){
-	var lat = document.getElementById('lat').value, lng = document.getElementById('lng').value;
+	var endereco = document.getElementById("input_form:logradouro").value + " "
+					+ document.getElementById("input_form:numero").value
+					+ " "
+					+ document.getElementById("input_form:bairro").value
+					+ " "
+					+ document.getElementById("input_form:cidade").value
+					+ " "
+					+ document.getElementById("input_form:uf").value
+					+ " "
+					+ document.getElementById("input_form:cep").value
+					+ " "
+					+ document.getElementById("input_form:pais").value;
 
-	PF('revGeoMap').reverseGeocode(lat, lng);
+	// var endereco = PF("logradouro").jq.val() + " "
+	// + PF("numero").jq.val()
+	// + " "
+	// + PF("bairro").jq.val()
+	// + " "
+	// + PF("cidade").jq.val()
+	// + " "
+	// + PF("uf").jq.val()
+	// + " "
+	// + PF("cep").jq.val()
+	// + " "
+	// + PF("pais").jq.val();
+	PF("mapa").geocode(endereco);
 }
 
 function requiredField(id){
