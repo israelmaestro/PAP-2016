@@ -13,7 +13,6 @@
 		<ui:define name='mensagensCampos'>
 			<b:message for='nome'/>
 			<b:message for='cnpj'/>
-<!-- 			<b:message for='presidente'/> -->
 			<b:message for='dataFuncacao' />
 			<b:message for='celulas' />
 			<b:message for='sedeMae' />
@@ -46,12 +45,13 @@
 		<ui:define name='botoesAcao'>
 			<b:buttonGroup>
 				<b:button	value=''
-							onclick='location.href = "./sedeListar.jsf"'
 							iconAwesome='fa fa-arrow-left fa-fw'
+							onclick='location.href = "./sedeListar.jsf"'
 							/>
 				<btr:commandLink	action='#{sedeBean.cadastrar()}'
 									styleClass='btn btn-default'
 									>
+					<f:setPropertyActionListener value='#{gmap.posicaoCentralTxt}' target="#{sedeBean.sede.endereco.coordenadas}"/>				
 					<b:iconAwesome name='fa fa-check fa-fw'/>
 				</btr:commandLink>
 				<b:button	value=''
@@ -73,7 +73,7 @@
 							<tr>
 								<td	style='	vertical-align: bottom;'>
 									<h3>
-										<b:iconAwesome name="fa fa-fw fa-info-circle"/>
+										<b:iconAwesome name='fa fa-fw fa-info-circle'/>
 										<br class='visible-xs'/>
 										Dados gerais
 									</h3>
@@ -103,9 +103,9 @@
 			
 				<b:row	>
 					<b:row>
-						<b:column	col-lg='3'
-									col-md='3'
-									col-sm='6'
+						<b:column	col-lg='4'
+									col-md='4'
+									col-sm='5'
 									col-xs='12'
 									>
 							<br/>
@@ -122,15 +122,15 @@
 											tooltip='#{sedeBean.sede.nome}'
 											>
 								<f:ajax event='change' render='@this'/>
-								<f:facet name="prepend">
+								<f:facet name='prepend'>
 									<h:outputText value='#{sedeBean.getProperty("convencao")}'/>
 								</f:facet>
 							</b:inputText>
 						</b:column>
 						
-						<b:column	col-lg='3'
-									col-md='3'
-									col-sm='6'
+						<b:column	col-lg='4'
+									col-md='4'
+									col-sm='3'
 									col-xs='12'
 									>
 							<br/>
@@ -144,9 +144,9 @@
 											onkeydown='return teclaNumerica(event.keyCode)'
 											/>
 						</b:column>
-						<b:column	col-lg='3'
-									col-md='3'
-									col-sm='6'
+						<b:column	col-lg='4'
+									col-md='4'
+									col-sm='4'
 									col-xs='12'
 									>
 							<br/>
@@ -173,9 +173,9 @@
 													label='#{null == sedeBean.sede.celulas || sedeBean.sede.celulas.size() == 0 ? "Selecione" : sedeBean.sede.celulas.size()} #{null == sedeBean.sede.celulas || sedeBean.sede.celulas.size() == 0 ? "" : "célula(es) selecionada(s)"}'
 													value='#{sedeBean.sede.celulas}'
 													converter='omnifaces.SelectItemsConverter'
-													filter="true"
-													filterMatchMode="contains"
-													showCheckbox="true"
+													filter='true'
+													filterMatchMode='contains'
+													showCheckbox='true'
 													>
 								<f:selectItems	value='#{celulaBean.listar()}'
 												var='celula'
@@ -208,9 +208,11 @@
 							</h:selectOneMenu>
 						</b:column>
 						
+<!-- 						<b:container class='visible-sm' rendered='#{!mae.value}'/> -->
+						
 						<b:column	col-lg='3'
 									col-md='3'
-									col-sm='12'
+									col-sm='6'
 									col-xs='12'
 									>
 							<br/>
@@ -226,7 +228,7 @@
 						
 						<b:column	col-lg='3'
 									col-md='3'
-									col-sm='12'
+									col-sm='6'
 									col-xs='12'
 									>
 							<br/>
@@ -242,18 +244,20 @@
 						</b:column>
 					</b:row>	
 				</b:row>
-				<b:row	style='	border-top: solid;
-								width: 100%;
-								border-color: #CCCCCC;
-								margin: 0px;
-								padding: 0px;
-								'>
-					<table style='width: 100%;'>
+				
+				<b:row	class='row splitRow fullWidth'>
+					<table class='fullWidth'>
 						<tr>
 							<td	style='	vertical-align: bottom;'>
 								<h3>
-									<b:iconAwesome name="fa fa-fw fa-map-marker"/>
+									<b:iconAwesome name='fa fa-fw fa-map-marker'/>
 									Endereço
+									<b:button value=''
+											iconAwesome='fa fa-eraser fa-fw'
+											onclick='limparEndereco()'
+											size='xs'
+											tooltip='Clique para limpar os campos de endereço'
+											/>
 								</h3>
 							</td>
 							<td	style='	vertical-align: bottom;
@@ -277,7 +281,7 @@
 					</table>
 				</b:row>
 				
-				<b:row class='row'>
+				<b:row id='endereco' class='row'>
 					<b:column	col-lg='9'
 								col-md='9'
 								col-sm='9'
@@ -288,9 +292,9 @@
 							<b:row	rendered='#{showGpsForm.value}'
 									class='row'
 									>
-								<b:column	col-lg='4'
-											col-md='4'
-											col-sm='6'
+								<b:column	col-lg='12'
+											col-md='12'
+											col-sm='12'
 											col-xs='12'
 											>
 									<br/>
@@ -298,21 +302,23 @@
 													value='Coordenadas de GPS*'
 													/>
 									<b:inputText	id='gpsAddress'
-													value='#{sedeBean.sede.endereco.logradouro}'
-													placeholder='Digite as coordenadas do GPS'
-													required='true'
+													value='#{sedeBean.sede.endereco.coordenadas}'
+													placeholder='Formato: ±9.9*, ±9.9*'
 													class='required'
+													required='true'
 													requiredMessage='Coordenadas de GPS: Campo obrigatório!'
-													/>
+													onblur='setMapaCode()'
+													>
+										<script type='text/javascript'>
+											document.getElementById("input_form:gpsAddress").value = document.getElementById("form:code").value;
+										</script>
+									</b:inputText>
 								</b:column>
 							</b:row>
 							<b:row>
 								<b:row	rendered='#{!showGpsForm.value}'
-												style='	width: 100%;
-														margin: 0px;
-														padding: 0px;
-														'
-												>
+										class='row fullWidth'
+										>
 									<b:column	col-lg='2'
 												col-md='2'
 												col-sm='3'
@@ -326,7 +332,6 @@
 														style='	margin-left: 4px;'
 														/>
 										<b:inputText	id='cep'
-														widgetVar='cep'
 														binding='#{cep}'
 														maxlength='8'
 														onkeypress='return teclaNumerica(event.keyCode)'
@@ -345,7 +350,6 @@
 										<br/>
 										<h:outputLabel class='outputLabel' value='Endereço' for='logradouro'/>
 										<b:inputText	id='logradouro'
-														widgetVar='logradouro'
 														name='logradouro'
 														value='#{sedeBean.sede.endereco.logradouro}'
 														placeholder='Rua / Avenida / Praça / etc.'
@@ -374,7 +378,6 @@
 										<br/>
 										<h:outputLabel class='outputLabel' value='№' for='numero'/>
 										<b:inputText	id='numero'
-														widgetVar='numero'
 														onblur='localizaCoordenadas()'
 														value='#{sedeBean.sede.endereco.numero}'
 														onkeypress='return teclaNumerica(event.keyCode)'
@@ -407,7 +410,6 @@
 										<br/>
 										<h:outputLabel class='outputLabel' value='Bairro' for='bairro'/>
 										<b:inputText	id='bairro'
-														widgetVar='bairro'
 														onblur='localizaCoordenadas()'
 														value='#{sedeBean.sede.endereco.bairro}'
 														placeholder='Bairro'
@@ -422,7 +424,6 @@
 										<br/>
 										<h:outputLabel class='outputLabel' value='Cidade' for='cidade'/>
 										<b:inputText	id='cidade'
-														widgetVar='cidade'
 														onblur='localizaCoordenadas()'
 														value='#{sedeBean.sede.endereco.cidade}'
 														placeholder='Cidade'
@@ -440,7 +441,6 @@
 										<br/>
 										<h:outputLabel class='outputLabel' value='UF' for='uf'/>
 										<b:inputText	id='uf'
-														widgetVar='uf'
 														onblur='localizaCoordenadas()'
 														maxlength='2'
 														value='#{sedeBean.sede.endereco.estado}'
@@ -457,7 +457,6 @@
 										<br/>
 										<h:outputLabel class='outputLabel' value='País' for='pais'/>
 										<b:inputText	id='pais'
-														widgetVar='pais'
 														onblur='localizaCoordenadas()'
 														value='#{sedeBean.sede.endereco.pais}'
 														placeholder='País'
@@ -477,17 +476,26 @@
 						<br class='visible-sm visible-xs'/>
 						<br class='visible-sm'/>
 						#{gmapBean.marcarMapa(false, false, true)}
-						<p:gmap	id="mapaId"
-								widgetVar="mapa"
-								center="#{gmap.posicaoCentral}"
-								zoom="17"
-								type="ROADMAP"
-								style="width:100%; height: 200px;"
-								model="#{gmap.mapModel}"
+						<p:gmap	id='mapaId'
+								widgetVar='mapa'
+								center='#{gmap.posicaoCentral}'
+								scrollWheel='false'
+								draggable='false'
+								zoom='16'
+								type='ROADMAP'
+								style='width:100%; height: 200px;'
+								model='#{gmap.mapModel}'
 								class='mapContainer'
 								>
-							<p:ajax event="geocode" listener="#{gmap.onGeocode}"  update="mapaId"/>
+							<p:ajax event='geocode' listener='#{gmap.onGeocode}'  update='mapaId, code'/>
 						</p:gmap>
+						<center>
+							<h:inputText	id='code'
+											value='#{gmap.posicaoCentral}'
+											readonly='true'
+											class='mapCodeFooter'
+											/>
+						</center>
 					</b:column>
 				</b:row>
 				
@@ -502,7 +510,7 @@
 								padding: 0px;
 								'>
 					<h3>
-						<b:iconAwesome name="fa fa-fw fa-phone"/>
+						<b:iconAwesome name='fa fa-fw fa-phone'/>
 						Telefone
 					</h3>
 				</b:row>
@@ -550,9 +558,9 @@
 																	margin-bottom: 12px;
 																	'
 															>
-												<f:ajax	listener="#{sedeBean.botaoRemoverTelefone(telefone)}"
-														immediate="true"
-														render="@form"
+												<f:ajax	listener='#{sedeBean.botaoRemoverTelefone(telefone)}'
+														immediate='true'
+														render='@form'
 														/>
 											</b:iconAwesome>
 										</td>
@@ -567,9 +575,9 @@
 										style='	color: #00CC00;					
 												'
 										>
-							<f:ajax	listener="#{sedeBean.botaoAdicionarTelefone}"
-									execute="tbTelefones"
-									render="tbTelefones"
+							<f:ajax	listener='#{sedeBean.botaoAdicionarTelefone}'
+									execute='tbTelefones'
+									render='tbTelefones'
 									/>
 						</b:iconAwesome>
 					</b:column>
@@ -584,7 +592,7 @@
 								padding: 0px;
 								'>
 					<h3>
-						<b:iconAwesome name="fa fa-fw fa-at"/>
+						<b:iconAwesome name='fa fa-fw fa-at'/>
 						E-mail
 					</h3>
 				</b:row>
@@ -631,9 +639,9 @@
 																	margin-bottom: 12px;
 																	'
 															>
-												<f:ajax	listener="#{sedeBean.botaoRemoverEmail(email)}"
-														immediate="true"
-														render="@form"
+												<f:ajax	listener='#{sedeBean.botaoRemoverEmail(email)}'
+														immediate='true'
+														render='@form'
 														/>
 											</b:iconAwesome>
 										</td>
@@ -648,9 +656,9 @@
 										style='	color: #00CC00;					
 												'
 										>
-							<f:ajax	listener="#{sedeBean.botaoAdicionarEmail}"
-									execute="tbEmails"
-									render="tbEmails"
+							<f:ajax	listener='#{sedeBean.botaoAdicionarEmail}'
+									execute='tbEmails'
+									render='tbEmails'
 									/>
 						</b:iconAwesome>
 					</b:column>
@@ -665,7 +673,7 @@
 								padding: 0px;
 								'>
 						<h3>
-							<b:iconAwesome name="fa fa-fw fa-sticky-note-o"/>
+							<b:iconAwesome name='fa fa-fw fa-sticky-note-o'/>
 							Comentários
 						</h3>
 				</b:row>

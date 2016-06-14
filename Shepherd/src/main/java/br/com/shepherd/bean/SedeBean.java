@@ -1,4 +1,3 @@
-
 package br.com.shepherd.bean;
 
 import java.io.IOException;
@@ -53,8 +52,8 @@ public class SedeBean implements Serializable{
 	}
 
 	public String cadastrar(){
+
 		try{
-			// sede.setTelefones(tels);
 			sedeService.cadastrar(sede);
 
 			JSFUtil.addInfoMessage("Sede “" + sede.getNome() + "” cadastrada com sucesso!");

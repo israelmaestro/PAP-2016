@@ -14,9 +14,6 @@
 	
 			<ui:define name='mensagensCampos'>
 				<b:message for='nome'/>
-<!-- 				<b:message for='frenteLideres' /> -->
-				<b:message for='frenteCelulas' />
-<!-- 				<b:message for='frenteParticipantes' /> -->
 				<b:message for='idadeMinima' />
 				<b:message for='idadeMaxima' />
 				<b:message for='descricao' />
@@ -51,18 +48,29 @@
 			</ui:define>
 			
 			<ui:define name='conteudo'>
-				<b:row>
-					<b:column	col-lg='12'
-								col-md='12'
-								col-sm='12'
+				<b:row id='dados'>
+					<b:column	class='column'
+								col-lg='10'
+								col-md='9'
+								col-sm='9'
 								col-xs='12'
 								>
-						<br/>
+						<h3>
+							<b:iconAwesome name='fa fa-fw fa-info-circle'/>
+							Dados gerais
+						</h3>
+					</b:column>
+					<b:column	class='column'
+								col-lg='2'
+								col-md='3'
+								col-sm='3'
+								col-xs='12'
+								style='text-align: right'
+								>
 						<h:outputLabel	class='outputLabel'
 										value='Frente tipo'
 										/>
 						<b:switch	value='#{frenteBean.frente.cell}'
-									binding='#{showCellList}'
 									offText='Operacional'
 									onText='Célula'
 									onColor='danger'
@@ -73,9 +81,9 @@
 						</b:switch>
 					</b:column>
 				</b:row>
-				<b:row id='dados'>
+				<b:row>
 					<b:column	col-lg='3'
-								col-md='4'
+								col-md='3'
 								col-sm='6'
 								col-xs='12'
 								>
@@ -89,43 +97,57 @@
 										requiredMessage='Nome: Campo obrigatório'
 										value='#{frenteBean.frente.nome}'
 										placeholder='Nome'
-										style='	background-color: #FFFFCC;'
+										class='required'
 										/>
 					</b:column>
 					<b:column	col-lg='3'
-								col-md='4'
+								col-md='3'
 								col-sm='6'
 								col-xs='12'
-								rendered='#{showCellList.value}'
 								>
 						<br/>
-						<h:outputLabel	class='outputLabel' for='frenteCelulas' value='Células' />
-						<p:selectCheckboxMenu	id="frenteCelulas"
-												label='#{null == frenteBean.frente.celulas
-														|| frenteBean.frente.celulas.size() == 0
-															? "Selecione"
-															: frenteBean.frente.celulas.size()} 
-															#{null == frenteBean.frente.celulas
-																|| frenteBean.frente.celulas.size() == 0
-																	? ""
-																	: "célula(s) selecionado(s)"}'
-												value="#{frenteBean.frente.celulas}"
-												converter="omnifaces.SelectItemsConverter"
-												filter="true"
-												filterMatchMode="contains"
-												showCheckbox="true"
-												>
-							<f:ajax event='change' render='@this' />
-							<f:selectItems	value='#{celulaBean.listar()}'
-											var='celula'
-											itemLabel='#{celula.nome} (#{celula.frente} - #{celula.sede})'
-											itemValue='#{celula}'
+						<h:outputLabel	for='sede'
+										value='Sede*'
+										class='outputLabel'
+										/>
+						<h:selectOneMenu	id='sede'
+											value='#{frenteBean.frente.sede}'
+											converter='omnifaces.SelectItemsConverter'
+											class='hSelectOneMenu required'
+											required='true'
+											requiredMessage='Sede: Campo obrigatório!'
+											>
+							<f:selectItem itemLabel='Selecione' noSelectionOption='true'/>
+							<f:selectItems	value='#{sedeBean.listar()}' var='sede'
+											itemLabel='#{sedeBean.getProperty("convencaoAbrev")} #{sede.nome} #{sede.mae ? "(mãe)" : ""}'
 											/>
-						</p:selectCheckboxMenu>
+						</h:selectOneMenu>
+						<br class='visible-sm'/>
 						<br class='visible-sm'/>
 					</b:column>
 					<b:column	col-lg='3'
-								col-md='4'
+								col-md='3'
+								col-sm='6'
+								col-xs='12'
+								>
+						<br/>
+						<h:outputLabel	class='outputLabel' for='dataAtivacao' value='Data de Ativação*'/>
+						<b:datepicker 	id='dataAtivacao'
+										placeholder='DD/MM/AAAA'
+										value='#{frenteBean.frente.dataAtivacao}'
+										required='true'
+										requiredMessage='Data da Ativação: Campo obrigatório!'
+										showButtonPanel='true'
+										changeMonth='true'
+										changeYear='true'
+										>
+							<script>
+								requiredField("form:dataAtivacao");
+							</script>
+						</b:datepicker>
+					</b:column>
+					<b:column	col-lg='3'
+								col-md='3'
 								col-sm='6'
 								col-xs='12'
 								>
@@ -138,32 +160,27 @@
 										'
 								>
 							<tr>
-								<td style='	width: 50%;
-											padding-right: 10px;
-											'
-									>
+								<td	style='padding-right: 2px;'>
 									<b:inputText	id='idadeMinima'
 													maxlength='2'
 													value='#{frenteBean.frente.idadeMinima}'
 													placeholder='Min.'
 													onkeypress='return teclaNumerica(event.keyCode)'
-													class='halfPadding'
+													class='halfPadding margin-right'
 													>
 										<f:facet name='append'>
 											<h:outputText value='ano(s)' class='idade'/>
 										</f:facet>
 									</b:inputText>
 								</td>
-								<td style='	width: 50%;
-											padding-left: 10px;
-											'
+								<td style='padding-left: 2px;'
 									>
 									<b:inputText	id='idadeMaxima'
 													maxlength='2'
 													value='#{frenteBean.frente.idadeMaxima}'
 													placeholder='Máx.'
 													onkeypress='return teclaNumerica(event.keyCode)'
-													class='idade'
+													class='halfPadding'
 													>
 										<f:facet name='append'>
 											<h:outputText value='ano(s)' />

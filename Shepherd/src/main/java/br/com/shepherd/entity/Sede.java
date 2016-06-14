@@ -41,6 +41,9 @@ public class Sede implements Serializable{
 	private Date				dataFundacao;
 
 	@OneToMany(mappedBy = "sede")
+	private List<Frente>		frentes;
+
+	@OneToMany(mappedBy = "sede")
 	private List<Celula>		celulas;
 
 	@OneToOne
@@ -71,6 +74,9 @@ public class Sede implements Serializable{
 
 	// TODO: Lista de assembleias gerais
 
+	@OneToMany(mappedBy = "sede", cascade = CascadeType.ALL)
+	private List<PessoaSede>	pessoasSedes;
+
 	// Flags
 	@NotNull
 	private boolean				mae					= false;
@@ -84,6 +90,7 @@ public class Sede implements Serializable{
 		endereco.setSede(this);
 		telefones = new ArrayList<Telefone>();
 		emails = new ArrayList<Email>();
+		pessoasSedes = new ArrayList<PessoaSede>();
 	}
 
 	@Override
@@ -104,6 +111,25 @@ public class Sede implements Serializable{
 			if(other.id != null){ return false; }
 		} else if(!id.equals(other.id)){ return false; }
 		return true;
+	}
+
+	/**
+	 * Adiciona 1 pessoa na sede
+	 *
+	 * @param pPessoaSede
+	 */
+	public void addPessoa(PessoaSede pPessoaSede){
+		pessoasSedes.add(pPessoaSede);
+		pPessoaSede.setSede(this);
+	}
+
+	/**
+	 * Remove 1 pessoa da sede
+	 *
+	 * @param pPessoaSede
+	 */
+	public void removePessoa(PessoaSede pPessoaSede){
+		pessoasSedes.remove(pPessoaSede);
 	}
 
 	/**
@@ -177,6 +203,14 @@ public class Sede implements Serializable{
 		dataFundacao = pDataFundacao;
 	}
 
+	public List<Frente> getFrentes(){
+		return frentes;
+	}
+
+	public void setFrentes(List<Frente> pFrentes){
+		frentes = pFrentes;
+	}
+
 	public List<Celula> getCelulas(){
 		return celulas;
 	}
@@ -239,6 +273,14 @@ public class Sede implements Serializable{
 
 	public void setComentarios(String pComentarios){
 		comentarios = pComentarios;
+	}
+
+	public List<PessoaSede> getPessoasSedes(){
+		return pessoasSedes;
+	}
+
+	public void setPessoasSedes(List<PessoaSede> pPessoasSedes){
+		pessoasSedes = pPessoasSedes;
 	}
 
 	public boolean isMae(){

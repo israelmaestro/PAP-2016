@@ -1,6 +1,8 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html>
 <html	xmlns='http://www.w3.org/1999/xhtml'
+		xmlns:b='http://bootsfaces.net/ui'
+		xmlns:btr='http://butterfaces.larmic.de/components'
 		xmlns:f='http://java.sun.com/jsf/core'
 		xmlns:h='http://java.sun.com/jsf/html'
 		xmlns:p='http://primefaces.org/ui'
@@ -17,9 +19,12 @@
 	</h:head>
 	<h:body>
 		<h:form>
-		<h:outputLabel value="Teste" />
-		<p:gmap id="gmap" center="Av Ana Rita 79 Uvaranas Ponta Grossa" zoom="15" type="TERRAIN" style="width:100%;height:400px"
-                    mapTypeControl="false" navigationControl="false" />
+        <p:calendar	id="inline"
+        			value=""
+        			mode='inline'
+        			navigator='true'
+        			pattern='MM/dd/yyyy hh:mm'
+					/>
 	</h:form>
 	</h:body>
 </html>

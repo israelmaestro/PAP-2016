@@ -26,6 +26,12 @@ public class Endereco implements Serializable{
 	@OneToOne
 	private Pessoa				pessoa;
 
+	@OneToOne
+	private CelulaReuniao		celulaReuniao;
+
+	@OneToOne
+	private Atendimento			atendimento;
+
 	private String				descricao;
 
 	@NotNull
@@ -50,11 +56,114 @@ public class Endereco implements Serializable{
 
 	private String				pais;
 
-	private double				latitude;
-
-	private double				longitude;
+	private String				coordenadas;
 
 	public Endereco(){
+	}
+
+	/**
+	 * Consiste os atributos do endereço
+	 *
+	 * @throws Exception
+	 */
+	public void consistir() throws Exception{
+		if(gps){
+			if(null == coordenadas || coordenadas.equals("")){
+				// Campo de coordenadas vazio
+				throw new Exception("Coordenadas: Campo obrigatório quando o endereço é do tipo GPS.");
+			} else if(!coordenadas.matches("([+-]?\\d+\\.?\\d+)\\s*,\\s*([+-]?\\d+\\.?\\d+)")){
+				// Campo de coordenadas incorreto
+				throw new Exception("Coordenadas: Preencha corretamente o campo (±9.9*, ±9.9*).");
+			} else{
+				coordenadas = coordenadas.trim();
+				logradouro = null;
+				numero = null;
+				complemento = null;
+				bairro = null;
+				cidade = null;
+				estado = null;
+				pais = null;
+			}
+		} else{
+			if(null != logradouro || !logradouro.equals("")){
+				logradouro = logradouro.trim();
+
+				if(null == numero || numero.equals("")){
+					// Rua sem número
+					throw new Exception("Endereço incompleto! Preencha o campo “№”.");
+				}
+
+				if(null == cidade || cidade.equals("")){
+					// Rua sem cidade
+					throw new Exception("Endereço incompleto! Preencha o campo “Cidade”.");
+				} else{
+					cidade = cidade.trim();
+				}
+			} else{
+				logradouro = null;
+
+				numero = null;
+
+				complemento = null;
+
+				if(null == cidade || cidade.equals("")){
+					cidade = null;
+				} else{
+					cidade = cidade.trim();
+				}
+			}
+
+			if(null == complemento || complemento.equals("")){
+				complemento = null;
+			} else{
+				complemento = complemento.trim();
+			}
+
+			if(null == estado || estado.equals("")){
+				complemento = null;
+			} else{
+				estado = estado.trim();
+			}
+
+			if(null == cep || cep.equals("")){
+				cep = null;
+			} else{
+				cep = cep.trim();
+			}
+
+			if(null == pais || pais.equals("")){
+				pais = null;
+			} else{
+				pais = pais.trim();
+			}
+		}
+	}
+
+	/**
+	 * Verifica se o endereço está vazio
+	 *
+	 * @return
+	 */
+	public boolean isEmpty(){
+		if((null == logradouro || logradouro.equals(""))&& (null == numero || numero.equals(""))
+			&& (null == complemento || complemento.equals(""))
+			&& (null == bairro || bairro.equals(""))
+			&& (null == cidade || cidade.equals(""))
+			&& (null == estado || estado.equals(""))
+			&& (null == cep || cep.equals(""))
+			&& (null == pais || pais.equals(""))){
+			if(isGps()){
+				if(null == coordenadas || coordenadas.equals("")){
+					return true;
+				} else{
+					return false;
+				}
+			} else{
+				return true;
+			}
+		} else{
+			return false;
+		}
 	}
 
 	@Override
@@ -108,6 +217,22 @@ public class Endereco implements Serializable{
 
 	public void setPessoa(Pessoa pPessoa){
 		pessoa = pPessoa;
+	}
+
+	public CelulaReuniao getCelulaReuniao(){
+		return celulaReuniao;
+	}
+
+	public void setCelulaReuniao(CelulaReuniao pCelulaReuniao){
+		celulaReuniao = pCelulaReuniao;
+	}
+
+	public Atendimento getAtendimento(){
+		return atendimento;
+	}
+
+	public void setAtendimento(Atendimento pAtendimento){
+		atendimento = pAtendimento;
 	}
 
 	public String getDescricao(){
@@ -190,19 +315,11 @@ public class Endereco implements Serializable{
 		pais = pPais;
 	}
 
-	public double getLatitude(){
-		return latitude;
+	public String getCoordenadas(){
+		return coordenadas;
 	}
 
-	public void setLatitude(double pLatitude){
-		latitude = pLatitude;
-	}
-
-	public double getLongitude(){
-		return longitude;
-	}
-
-	public void setLongitude(double pLongitude){
-		longitude = pLongitude;
+	public void setCoordenadas(String pCoordenadas){
+		coordenadas = pCoordenadas;
 	}
 }

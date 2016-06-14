@@ -37,6 +37,8 @@ public class Gmap implements Serializable{
 	 */
 	private LatLng				posicaoCentral;
 
+	private String				posicaoCentralTxt;
+
 	/**
 	 * Construtor
 	 *
@@ -62,7 +64,9 @@ public class Gmap implements Serializable{
 		centrarMapa = pCentrarMapa;
 	}
 
-	public void onGeocode(GeocodeEvent event){
+	public	void
+
+	onGeocode(GeocodeEvent event){
 		if(!acumula){
 			mapModel = new DefaultMapModel();
 		}
@@ -118,7 +122,16 @@ public class Gmap implements Serializable{
 	}
 
 	public String getPosicaoCentral(){
-		return posicaoCentral.getLat() + ", " + posicaoCentral.getLng();
+		posicaoCentralTxt = posicaoCentral.getLat() + ", " + posicaoCentral.getLng();
+		return posicaoCentralTxt;
+	}
+
+	public String getPosicaoCentralTxt(){
+		return posicaoCentralTxt;
+	}
+
+	public void setPosicaoCentralTxt(String pPosicaoCentralTxt){
+		posicaoCentralTxt = pPosicaoCentralTxt;
 	}
 
 

@@ -14,8 +14,8 @@ import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 
 @Entity
-@Table(name = "Pessoa_Celula")
-public class PessoaCelula implements Serializable{
+@Table(name = "Pessoa_Frente")
+public class PessoaFrente implements Serializable{
 	private static final long	serialVersionUID	= 5590231584975359435L;
 
 	@Id
@@ -26,22 +26,24 @@ public class PessoaCelula implements Serializable{
 	private Pessoa				pessoa;
 
 	@ManyToOne
-	private Celula				celula;
+	private Frente				frente;
 
-	// Participação: Membro / Visitante / Líder / Coordenador
+	// Participação: Voluntário / Líder
 	@NotNull
 	private String				participacao;
 
 	@Column(columnDefinition = "timestamp")
 	@Temporal(TemporalType.TIMESTAMP)
-	@NotNull
-	private Date				dataInicio;
+	private Date				dataEntrada;
 
 	@Column(columnDefinition = "timestamp")
 	@Temporal(TemporalType.TIMESTAMP)
-	private Date				dataFim;
+	private Date				dataSaida;
 
-	public PessoaCelula(){
+	/*
+	 * Construtor e afins
+	 */
+	public PessoaFrente(){
 	}
 
 	@Override
@@ -57,27 +59,36 @@ public class PessoaCelula implements Serializable{
 		if(this == obj){ return true; }
 		if(obj == null){ return false; }
 		if(getClass() != obj.getClass()){ return false; }
-		PessoaCelula other = (PessoaCelula) obj;
+		PessoaFrente other = (PessoaFrente) obj;
 		if(id == null){
 			if(other.id != null){ return false; }
 		} else if(!id.equals(other.id)){ return false; }
 		return true;
 	}
 
+	// Getters e Setters
+	public Integer getId(){
+		return id;
+	}
+
+	public void setId(Integer pId){
+		id = pId;
+	}
+
 	public Pessoa getPessoa(){
 		return pessoa;
 	}
 
+	public Frente getFrente(){
+		return frente;
+	}
+
+	public void setFrente(Frente pFrente){
+		frente = pFrente;
+	}
+
 	public void setPessoa(Pessoa pPessoa){
 		pessoa = pPessoa;
-	}
-
-	public Celula getCelula(){
-		return celula;
-	}
-
-	public void setCelula(Celula pCelula){
-		celula = pCelula;
 	}
 
 	public String getParticipacao(){
@@ -88,19 +99,19 @@ public class PessoaCelula implements Serializable{
 		participacao = pParticipacao;
 	}
 
-	public Date getDataInicio(){
-		return dataInicio;
+	public Date getDataEntrada(){
+		return dataEntrada;
 	}
 
-	public void setDataInicio(Date pDataInicio){
-		dataInicio = pDataInicio;
+	public void setDataEntrada(Date pDataEntrada){
+		dataEntrada = pDataEntrada;
 	}
 
-	public Date getDataFim(){
-		return dataFim;
+	public Date getDataSaida(){
+		return dataSaida;
 	}
 
-	public void setDataFim(Date pDataFim){
-		dataFim = pDataFim;
+	public void setDataSaida(Date pDataSaida){
+		dataSaida = pDataSaida;
 	}
 }

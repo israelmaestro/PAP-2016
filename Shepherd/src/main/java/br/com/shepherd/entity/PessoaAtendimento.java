@@ -1,21 +1,17 @@
 package br.com.shepherd.entity;
 
 import java.io.Serializable;
-import java.util.Date;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 
 @Entity
-@Table(name = "Pessoa_Celula")
-public class PessoaCelula implements Serializable{
+@Table(name = "Pessoa_Atendimento")
+public class PessoaAtendimento implements Serializable{
 	private static final long	serialVersionUID	= 5590231584975359435L;
 
 	@Id
@@ -26,22 +22,16 @@ public class PessoaCelula implements Serializable{
 	private Pessoa				pessoa;
 
 	@ManyToOne
-	private Celula				celula;
+	private Atendimento			atendimento;
 
-	// Participação: Membro / Visitante / Líder / Coordenador
+	// Participação: Atendente / Atendido
 	@NotNull
 	private String				participacao;
 
-	@Column(columnDefinition = "timestamp")
-	@Temporal(TemporalType.TIMESTAMP)
-	@NotNull
-	private Date				dataInicio;
-
-	@Column(columnDefinition = "timestamp")
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date				dataFim;
-
-	public PessoaCelula(){
+	/*
+	 * Construtor e afins
+	 */
+	public PessoaAtendimento(){
 	}
 
 	@Override
@@ -57,27 +47,36 @@ public class PessoaCelula implements Serializable{
 		if(this == obj){ return true; }
 		if(obj == null){ return false; }
 		if(getClass() != obj.getClass()){ return false; }
-		PessoaCelula other = (PessoaCelula) obj;
+		PessoaAtendimento other = (PessoaAtendimento) obj;
 		if(id == null){
 			if(other.id != null){ return false; }
 		} else if(!id.equals(other.id)){ return false; }
 		return true;
 	}
 
+	// Getters e Setters
+	public Integer getId(){
+		return id;
+	}
+
+	public void setId(Integer pId){
+		id = pId;
+	}
+
 	public Pessoa getPessoa(){
 		return pessoa;
 	}
 
+	public Atendimento getAtendimento(){
+		return atendimento;
+	}
+
+	public void setAtendimento(Atendimento pAtendimento){
+		atendimento = pAtendimento;
+	}
+
 	public void setPessoa(Pessoa pPessoa){
 		pessoa = pPessoa;
-	}
-
-	public Celula getCelula(){
-		return celula;
-	}
-
-	public void setCelula(Celula pCelula){
-		celula = pCelula;
 	}
 
 	public String getParticipacao(){
@@ -86,21 +85,5 @@ public class PessoaCelula implements Serializable{
 
 	public void setParticipacao(String pParticipacao){
 		participacao = pParticipacao;
-	}
-
-	public Date getDataInicio(){
-		return dataInicio;
-	}
-
-	public void setDataInicio(Date pDataInicio){
-		dataInicio = pDataInicio;
-	}
-
-	public Date getDataFim(){
-		return dataFim;
-	}
-
-	public void setDataFim(Date pDataFim){
-		dataFim = pDataFim;
 	}
 }

@@ -1,0 +1,479 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html	xmlns='http://www.w3.org/1999/xhtml'
+		xmlns:b='http://bootsfaces.net/ui'
+		xmlns:btr='http://butterfaces.larmic.de/components'
+		xmlns:f='http://java.sun.com/jsf/core'
+		xmlns:h='http://java.sun.com/jsf/html'
+		xmlns:p='http://primefaces.org/ui'
+		xmlns:pm='http://primefaces.org/mobile'
+		xmlns:pt='http://xmlns.jcp.org/jsf/passthrough'
+		xmlns:ui='http://java.sun.com/jsf/facelets'
+		>
+
+	<ui:composition template='/META-INF/resources/bootsfaces/jsfTemplate.xhtml'>
+
+		<ui:define name='mensagensCampos'>
+			<b:message for='titulo'/>
+			<b:message for='celula'/>
+			<b:message for='dataHora'/>
+			<b:message for='cep'/>
+			<b:message for='logradouro'/>
+			<b:message for='gpsAddress'/>
+			<b:message for='logradouro2'/>
+			<b:message for='numero'/>
+			<b:message for='complemento'/>
+			<b:message for='bairro'/>
+			<b:message for='cidade'/>
+			<b:message for='uf'/>
+			<b:message for='pais'/>
+			<b:message for='comentarios'/>
+			<br/>
+		</ui:define>
+
+		<ui:define name='tituloPagina'>
+			Shepherd > Nova  Célula
+		</ui:define>
+
+		<ui:define name='tituloPrincipal'>
+			<b:iconAwesome name='fa fa-sitemap fa-fw'/>
+			<br class='visible-xs'/>
+			Nova Reunião de Célula
+		</ui:define>
+
+		<ui:define name='tituloSecundario'>
+			home > reunião de célula > nova
+		</ui:define>
+
+		<ui:define name='botoesAcao'>
+			<b:buttonGroup>
+				<b:button	value=''
+							onclick='location.href = "./celulaListar.jsf"'
+							iconAwesome='fa fa-arrow-left fa-fw'
+							/>
+				<btr:commandLink	action='#'
+									styleClass='btn btn-default'
+									>
+					<b:iconAwesome name='fa fa-check fa-fw'/>
+				</btr:commandLink>
+				<b:button	value=''
+							iconAwesome='fa fa-eraser fa-fw'
+							onclick='location.href = "./celulaReuniaoCadastrar.jsf"'/>
+			</b:buttonGroup>
+		</ui:define>
+			
+		<ui:define name='conteudo'>
+			<div	style='	margin-left: 0px;
+							margin-right: 0px;
+							padding-left: 0px;
+							'
+					>
+				<b:row>
+					<b:column	class='column'
+								col-lg='12'
+								col-md='12'
+								col-sm='12'
+								col-xs='12'
+								>
+						<h3>
+							<b:iconAwesome name="fa fa-fw fa-info-circle"/>
+							<br class='visible-xs'/>
+							Dados gerais
+						</h3>
+					</b:column>
+				</b:row>
+				<b:row>
+					<b:column	col-lg='3'
+								col-md='3'
+								col-sm='6'
+								col-xs='12'
+								>
+						<br/>
+						<h:outputLabel	class='outputLabel' for='titulo'
+										value='Título'
+										/>
+						<b:inputText 	id='titulo'
+										value=''
+										placeholder='Título da Reunião'
+										
+										/>
+					</b:column>
+					<b:column	col-lg='3'
+								col-md='3'
+								col-sm='6'
+								col-xs='12'
+								style='margin-bottom: 10px;'
+								>
+						<br/>
+						<h:outputLabel	class='outputLabel' for='celula' value='Célula*' />
+						<h:selectOneMenu	id='celula'
+											value=''
+											converter='omnifaces.SelectItemsConverter'
+											class='hSelectOneMenu required'
+											required='true'
+											requiredMessage='Célula: Campo obrigatório!'
+											>
+							<f:ajax event='change' render='@this' />
+							<f:selectItem	itemLabel='Selecione'
+											noSelectionOption='false'
+											/>
+							<f:selectItems	value='#{celulaBean.listar()}' var='celula'
+											itemLabel='#{celula.nome} (#{sedeBean.getProperty("convencaoAbrev")} #{celula.sede.nome}#{celula.sede.mae ? "*" : ""})'
+											/>
+						</h:selectOneMenu>
+					</b:column>
+					<b:column	col-lg='3'
+								col-md='3'
+								col-sm='6'
+								col-xs='12'
+								>
+						<br/>
+						<h:outputLabel	class='outputLabel' for='dataHora' value='Data e Hora*'/>
+						<btr:calendar	id='dataHora'
+										hideLabel='true'
+										value=''
+										pickDate='true'
+										pickTime='true'
+										sideBySide='false'
+										language='pt_br'
+										placeholder='DD/MM/AAAA HH:MM'
+										required='true'
+										requiredMessage='Datae Hora: Campo obrigatório!'
+										style='background-color: #FFC'
+										>
+							<f:ajax event='change' execute='@this' render='output'/>
+						</btr:calendar>
+					</b:column>
+				</b:row>
+
+				<b:row id='chamada' class='splitRow'>
+					<b:row	class='row'>
+						<h3>
+							<b:iconAwesome name="fa fa-fw fa-check"/>
+							<br class='visible-xs'/>
+							Chamada
+						</h3>
+					</b:row>
+					<b:row id='atualizaRemover'>
+						<p:dataTable	id='tbChamada'
+										value='#{membroBean.listarMembros()}'
+										var='participante'
+										class='pDataTable'
+										>
+							<p:column	headerText='Nome'
+										priority='1'
+										class='pColumn'
+										>
+								<h:outputText value='#{participante.pessoa.nome} #{participante.pessoa.sobrenome}' />
+							</p:column>
+							<p:column	headerText='Presente'
+										priority='1'
+										class='pColumn'
+										>
+								<p:selectBooleanCheckbox value='#{participante.pessoa.batizada}'/>
+							</p:column>
+							<p:column	headerText='Anfitrião'
+										priority='1'
+										class='pColumn'
+										>
+								<p:selectBooleanCheckbox value='#{participante.pessoa.casada}'/>
+							</p:column>
+						</p:dataTable>
+					</b:row>
+				</b:row>
+
+				<br/><br/>
+				
+				<b:row	id='endereco'
+						class='row'
+						>
+					<b:row	class='row splitRow fullWidth'>
+						<table class='fullWidth'>
+							<tr>
+								<td	style='	vertical-align: bottom;'>
+									<h3>
+										<b:iconAwesome name='fa fa-fw fa-map-marker'/>
+										Endereço
+										<b:button	value='' size='xs'
+													iconAwesome='fa fa-eraser fa-fw'
+													onclick='limparEndereco()'
+													tooltip='Clique para limpar os campos de endereço'
+													/>
+									</h3>
+								</td>
+								<td	style='	vertical-align: bottom;
+											text-align: right;
+											line-height: 1px;
+											margin: 0px; padding: 0px;'
+									>
+									<b:switch	value=''
+												label=''
+												offText='Postal'
+												onText='GPS'
+												onColor='danger'
+												offColor='primary'
+												switchsize='mini'
+												binding='#{showGpsForm}'
+												>
+										<f:ajax event='change' render='showEndereco' />
+									</b:switch>
+								</td>
+							</tr>
+						</table>
+					</b:row>
+					<b:row>
+						<b:column>
+							<p:selectOneButton	value='outro'
+												class='bold'
+												binding='#{showItems}'
+												immediate='true'
+												>						
+								<f:ajax event='change' render=''/>
+								<f:selectItem itemValue='anfitriao' itemLabel='Anfitrião'/>
+								<f:selectItem itemValue='sede' itemLabel='Sede'/>
+								<f:selectItem itemValue='outro' itemLabel='Outro'/>
+							</p:selectOneButton>
+						</b:column>
+					</b:row>
+				
+				<b:row class='row'>
+					<b:column	col-lg='9'
+								col-md='9'
+								col-sm='9'
+								col-xs='12'
+								class='column'
+								>
+						<b:row id='showEndereco'>
+							<b:row	rendered='#{showGpsForm.value}'
+									class='row'
+									>
+								<b:column	col-lg='12'
+											col-md='12'
+											col-sm='12'
+											col-xs='12'
+											>
+									<br/>
+									<h:outputLabel class='outputLabel'	for='gpsAddress'
+													value='Coordenadas de GPS*'
+													/>
+									<b:inputText	id='gpsAddress'
+													value=''
+													placeholder='Formato: ±9.9*, ±9.9*'
+													class='required'
+													required='true'
+													requiredMessage='Coordenadas de GPS: Campo obrigatório!'
+													onblur='setMapaCode()'
+													>
+										<script type='text/javascript'>
+											document.getElementById("input_form:gpsAddress").value = document.getElementById("form:code").value;
+										</script>
+									</b:inputText>
+								</b:column>
+							</b:row>
+							<b:row>
+								<b:row	rendered='#{!showGpsForm.value}'
+										class='row fullWidth'
+										>
+									<b:column	col-lg='2'
+												col-md='2'
+												col-sm='3'
+												col-xs='12'
+												>
+										<br/>
+										<h:outputLabel class='outputLabel' value='CEP' for='cep'/>
+										<b:iconAwesome	name='fa-question-circle'
+														tooltip='Caso o sistema encontre o CEP digitado, os campos de endereço serão preenchidos automaticamente.'
+														onclick='alert("Caso o sistema encontre o CEP digitado, os campos de endereço serão preenchidos automaticamente.")'
+														style='	margin-left: 4px;'
+														/>
+										<b:inputText	id='cep'
+														binding='#{cep}'
+														maxlength='8'
+														onkeypress='return teclaNumerica(event.keyCode)'
+														value=''
+														placeholder='CEP'
+														onblur='if(this.value != "") pesquisaCep(this.value); localizaCoordenadas();'
+														class='halfPadding'
+														/>
+									</b:column>
+									<b:column	col-lg='6'
+												col-md='5'
+												col-sm='9'
+												col-xs='12'
+												>
+										<br/>
+										<h:outputLabel class='outputLabel' value='Endereço' for='logradouro'/>
+										<b:inputText	id='logradouro'
+														name='logradouro'
+														value=''
+														placeholder='Rua / Avenida / Praça / etc.'
+														class='hidden-xs required'
+														onblur='document.getElementById("input_form:logradouro2").value = document.getElementById("input_form:logradouro").value; localizaCoordenadas();'
+														required='true'
+														requiredMessage='Endereço: Campo obrigatório!'
+														/>
+										<b:inputTextarea	id='logradouro2'
+															name='logradouro2'
+															value=''
+															placeholder='Digite o nome da rua, avenida, etc.'
+															class='visible-xs required'
+															onblur='document.getElementById("input_form:logradouro").value = document.getElementById("input_form:logradouro2").value; localizaCoordenadas();'
+															style='	margin-top: -8px;'
+															required='true'
+															requiredMessage='Endereço: Campo obrigatório!'
+															/>
+									</b:column>
+									
+									<b:column	col-lg='2'
+												col-md='2'
+												col-sm='2'
+												col-xs='5'
+												>
+										<br/>
+										<h:outputLabel class='outputLabel' value='№' for='numero'/>
+										<b:inputText	id='numero'
+														onblur='localizaCoordenadas()'
+														value=''
+														onkeypress='return teclaNumerica(event.keyCode)'
+														maxlength='5'
+														placeholder='№'
+														required='true'
+														class='required halfPadding'
+														requiredMessage='№: Campo obrigatório!'
+														/>
+									</b:column>
+									
+									<b:column	col-lg='2'
+												col-md='3'
+												col-sm='4'
+												col-xs='7'
+												>
+										<br/>
+										<h:outputLabel class='outputLabel' value='Complemento' for='complemento'/>
+										<b:inputText	id='complemento'
+														value=''
+														placeholder='Complemento'
+														/>
+									</b:column>
+									
+									<b:column	col-lg='3'
+												col-md='3'
+												col-sm='6'
+												col-xs='12'
+												>
+										<br/>
+										<h:outputLabel class='outputLabel' value='Bairro' for='bairro'/>
+										<b:inputText	id='bairro'
+														onblur='localizaCoordenadas()'
+														value=''
+														placeholder='Bairro'
+														/>
+									</b:column>
+									
+									<b:column	col-lg='4'
+												col-md='4'
+												col-sm='6'
+												col-xs='12'
+												>
+										<br/>
+										<h:outputLabel class='outputLabel' value='Cidade' for='cidade'/>
+										<b:inputText	id='cidade'
+														onblur='localizaCoordenadas()'
+														value=''
+														placeholder='Cidade'
+														required='true'
+														class='required'
+														requiredMessage='Cidade: Campo obrigatório!'
+														/>
+									</b:column>
+								
+									<b:column	col-lg='1'
+												col-md='1'
+												col-sm='2'
+												col-xs='4'
+												>
+										<br/>
+										<h:outputLabel class='outputLabel' value='UF' for='uf'/>
+										<b:inputText	id='uf'
+														onblur='localizaCoordenadas()'
+														maxlength='2'
+														value=''
+														placeholder='UF'
+														class='halfPaddingMono'
+														/>
+									</b:column>
+									
+									<b:column	col-lg='4'
+												col-md='4'
+												col-sm='4'
+												col-xs='8'
+												>
+										<br/>
+										<h:outputLabel class='outputLabel' value='País' for='pais'/>
+										<b:inputText	id='pais'
+														onblur='localizaCoordenadas()'
+														value=''
+														placeholder='País'
+														/>
+									</b:column>
+								</b:row>
+							</b:row>
+						</b:row>
+					</b:column>
+					<b:column	col-lg='3'
+								col-md='3'
+								col-sm='3'
+								col-xs='12'
+								>
+						<br class='visible-sm visible-xs'/>
+						<br class='visible-sm'/>
+						#{gmapBean.marcarMapa(false, false, true)}
+						<p:gmap	id='mapaId'
+								widgetVar='mapa'
+								center='#{gmap.posicaoCentral}'
+								scrollWheel='false'
+								draggable='false'
+								zoom='16'
+								type='ROADMAP'
+								style='width:100%; height: 200px;'
+								model='#{gmap.mapModel}'
+								class='mapContainer'
+								>
+							<p:ajax event='geocode' listener='#{gmap.onGeocode}'  update='mapaId, code'/>
+						</p:gmap>
+						<center>
+							<h:inputText	id='code'
+											value='#{gmap.posicaoCentral}'
+											readonly='true'
+											class='mapCodeFooter'
+											/>
+						</center>
+					</b:column>
+				</b:row>
+			</b:row>
+			<br/>
+			<b:row	style='	border-top: solid;
+							border-color: #CCCCCC;
+							'>
+					<h3>
+						<i class="fa fa-fw fa-sticky-note-o"/>
+						Comentários
+					</h3>
+			</b:row>
+				<b:row>
+					<b:column	col-lg='12'
+								col-md='12'
+								col-sm='12'
+								col-xs='12'
+								style='	margin: 0px;'
+								>
+						<b:inputTextarea	id='comentarios'
+											value='#{celulaBean.celula.comentarios}'
+											maxlength='1000'
+											placeholder='Digite os comentários aqui.'
+											/>
+					</b:column>
+				</b:row>
+			</div>
+		</ui:define>
+	</ui:composition>
+</html>

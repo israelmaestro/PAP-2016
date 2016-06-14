@@ -99,8 +99,31 @@ public class Pessoa implements Serializable{
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date								dataBatismo;
 
+	@Column(columnDefinition = "timestamp")
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date								dataOrdenacao;
+
+	@Column(columnDefinition = "timestamp")
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date								dataOrdenacaoEspecifica;
+
+	/*
+	 * Informações eclesiásticas
+	 */
 	@OneToMany(mappedBy = "pessoa", cascade = CascadeType.ALL)
 	private List<PessoaCelula>					pessoasCelulas;
+
+	@OneToMany(mappedBy = "pessoa", cascade = CascadeType.ALL)
+	private List<PessoaAtendimento>				pessoasAtendimentos;
+
+	@OneToMany(mappedBy = "pessoa", cascade = CascadeType.ALL)
+	private List<PessoaFrente>				pessoasFrentes;
+
+	@OneToMany(mappedBy = "pessoa", cascade = CascadeType.ALL)
+	private List<PessoaSede>					pessoasSedes;
+
+	@OneToMany(mappedBy = "pessoa", cascade = CascadeType.ALL)
+	private List<RegistroPresenca>				registroPresencas;
 
 	@Column(length = 1000)
 	private String								comentarios;
@@ -112,6 +135,9 @@ public class Pessoa implements Serializable{
 		telefones = new ArrayList<Telefone>();
 		emails = new ArrayList<Email>();
 		pessoasCelulas = new ArrayList<PessoaCelula>();
+		pessoasSedes = new ArrayList<PessoaSede>();
+		pessoasAtendimentos = new ArrayList<PessoaAtendimento>();
+		pessoasFrentes = new ArrayList<PessoaFrente>();
 	}
 
 	@Override
@@ -133,30 +159,55 @@ public class Pessoa implements Serializable{
 		} else if(!id.equals(other.id)){ return false; }
 		return true;
 	}
-	//
-	// /**
-	// * Adiciona 1 endereço na pessoa
-	// *
-	// * @param pEndereco
-	// */
-	// public void addEndereco(Endereco pEndereco){
-	// enderecos.add(pEndereco);
-	// pEndereco.setPessoa(this);
-	// }
-	//
-	// /**
-	// * Remove 1 endereço da pessoa
-	// *
-	// * @param pEndereco
-	// */
-	// public void removeEndereco(Endereco pEndereco){
-	// enderecos.remove(pEndereco);
-	// }
+
+	/**
+	 * Adiciona 1 relacionamento com Atendimento
+	 *
+	 * @param pPessoaAtendimento
+	 * @param pParticipacao
+	 */
+	public void addRelacionamentoAtendimento(	PessoaAtendimento pPessoaAtendimento,
+												String pParticipacao){
+		pessoasAtendimentos.add(pPessoaAtendimento);
+		pPessoaAtendimento.setPessoa(this);
+		pPessoaAtendimento.setParticipacao(pParticipacao);
+	}
+
+	/**
+	 * Remove 1 relacionamento de Atendimento
+	 *
+	 * @param pAtendimento
+	 */
+	public void removeRelacionamentoAtendimento(PessoaAtendimento pAtendimento){
+		pessoasAtendimentos.remove(pAtendimento);
+	}
+
+	/**
+	 * Adiciona 1 relacionamento com Frente
+	 *
+	 * @param pPessoaFrente
+	 * @param pParticipacao
+	 */
+	public void addRelacionamentoFrente(PessoaFrente pPessoaFrente, String pParticipacao){
+		pessoasFrentes.add(pPessoaFrente);
+		pPessoaFrente.setPessoa(this);
+		pPessoaFrente.setParticipacao(pParticipacao);
+	}
+
+	/**
+	 * Remove 1 relacionamento de Frente
+	 *
+	 * @param pFrente
+	 */
+	public void removeRelacionamentoFrente(PessoaFrente pFrente){
+		pessoasFrentes.remove(pFrente);
+	}
 
 	/**
 	 * Adiciona 1 relacionamento com a célula
 	 *
-	 * @param pTelefone
+	 * @param pPessoaCelula
+	 * @param pParticipacao
 	 */
 	public void addRelacionamentoCelula(PessoaCelula pPessoaCelula, String pParticipacao){
 		pessoasCelulas.add(pPessoaCelula);
@@ -167,10 +218,31 @@ public class Pessoa implements Serializable{
 	/**
 	 * Remove 1 relacionamento com a célula
 	 *
-	 * @param pTelefone
+	 * @param pPessoaCelula
 	 */
 	public void removeRelacionamentoCelula(PessoaCelula pPessoaCelula){
 		pessoasCelulas.remove(pPessoaCelula);
+	}
+
+	/**
+	 * Adiciona 1 relacionamento com a sede
+	 *
+	 * @param pPessoaSede
+	 * @param pParticipacao
+	 */
+	public void addRelacionamentoSede(PessoaSede pPessoaSede, String pParticipacao){
+		pessoasSedes.add(pPessoaSede);
+		pPessoaSede.setPessoa(this);
+		pPessoaSede.setParticipacao(pParticipacao);
+	}
+
+	/**
+	 * Remove 1 relacionamento com a sede
+	 *
+	 * @param pPessoaSede
+	 */
+	public void removeRelacionamentoSede(PessoaSede pPessoaSede){
+		pessoasSedes.remove(pPessoaSede);
 	}
 
 	/**
@@ -179,6 +251,8 @@ public class Pessoa implements Serializable{
 	 * @param pTelefone
 	 */
 	public void addTelefone(Telefone pTelefone){
+		// for(Telefone fTelefone : telefones){
+		// }
 		telefones.add(pTelefone);
 		pTelefone.setPessoa(this);
 	}
@@ -364,12 +438,60 @@ public class Pessoa implements Serializable{
 		dataBatismo = pDataBatismo;
 	}
 
+	public Date getDataOrdenacao(){
+		return dataOrdenacao;
+	}
+
+	public void setDataOrdenacao(Date pDataOrdenacao){
+		dataOrdenacao = pDataOrdenacao;
+	}
+
+	public Date getDataOrdenacaoEspecifica(){
+		return dataOrdenacaoEspecifica;
+	}
+
+	public void setDataOrdenacaoEspecifica(Date pDataOrdenacaoEspecifica){
+		dataOrdenacaoEspecifica = pDataOrdenacaoEspecifica;
+	}
+
 	public List<PessoaCelula> getPessoasCelulas(){
 		return pessoasCelulas;
 	}
 
 	public void setPessoasCelulas(List<PessoaCelula> pPessoasCelulas){
 		pessoasCelulas = pPessoasCelulas;
+	}
+
+	public List<PessoaAtendimento> getPessoasAtendimentos(){
+		return pessoasAtendimentos;
+	}
+
+	public void setPessoasAtendimentos(List<PessoaAtendimento> pPessoasAtendimentos){
+		pessoasAtendimentos = pPessoasAtendimentos;
+	}
+
+	public List<PessoaFrente> getPessoasFrentes(){
+		return pessoasFrentes;
+	}
+
+	public void setPessoasFrentes(List<PessoaFrente> pPessoasFrentes){
+		pessoasFrentes = pPessoasFrentes;
+	}
+
+	public List<PessoaSede> getPessoasSedes(){
+		return pessoasSedes;
+	}
+
+	public void setPessoasSedes(List<PessoaSede> pPessoasSedes){
+		pessoasSedes = pPessoasSedes;
+	}
+
+	public List<RegistroPresenca> getRegistroPresencas(){
+		return registroPresencas;
+	}
+
+	public void setRegistroPresencas(List<RegistroPresenca> pRegistroPresencas){
+		registroPresencas = pRegistroPresencas;
 	}
 
 	public String getComentarios(){

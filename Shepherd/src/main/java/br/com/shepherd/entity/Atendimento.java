@@ -1,12 +1,17 @@
 package br.com.shepherd.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -22,42 +27,29 @@ public class Atendimento implements Serializable{
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date				dataHora;
 
-	// Informações gerais
-	// @OneToOne // (fetch = FetchType.LAZY)
-	// private Visitante visitanteAtendido;
+	@OneToOne(mappedBy = "celula", cascade = CascadeType.ALL)
+	private Endereco				endereco;
 
-	// Informações gerais
-	// @OneToOne // (fetch = FetchType.LAZY)
-	// private Membro membroAtendido;
-
-	// Informações gerais
-	// @OneToOne // (fetch = FetchType.LAZY)
-	// private Membro membroAtendente;
-
+	/*
+	 * Status: Novo / Pendente / Agendado / Reagendado / Finalizado
+	 */
 	private String				status;
 
 	@Column(length = 1000)
 	private String				comentarios;
 
-	// Informações de endereço
-	@Column(length = 8)
-	private String				enderecoCep;
+	// TODO: Colocar endereço
 
-	private String				enderecoLogradouro;
+	// TODO: Verificar se vai funcionar o casacade
+	@OneToMany(mappedBy = "atendimento", cascade = CascadeType.ALL)
+	private List<PessoaAtendimento>	pessoasAtendimentos;
 
-	@Column(length = 5)
-	private Integer				enderecoNumero;
-
-	private String				enderecoComplemento;
-
-	private String				enderecoBairro;
-
-	private String				enderecoCidade;
-
-	@Column(length = 2)
-	private String				enderecoEstado;
-
-	private String				enderecoPais;
+	// Construtor e afins
+	public Atendimento(){
+		endereco = new Endereco();
+		endereco.setAtendimento(this);
+		pessoasAtendimentos = new ArrayList<PessoaAtendimento>();
+	}
 
 	@Override
 	public int hashCode(){
@@ -81,10 +73,26 @@ public class Atendimento implements Serializable{
 		return true;
 	}
 
-	// Construtor e afins
-	public Atendimento(){
+	/**
+	 * Adiciona 1 pessoa no atendimento
+	 *
+	 * @param pPessoaAtendimento
+	 */
+	public void addPessoa(PessoaAtendimento pPessoaAtendimento){
+		pessoasAtendimentos.add(pPessoaAtendimento);
+		pPessoaAtendimento.setAtendimento(this);
 	}
 
+	/**
+	 * Remove 1 pessoa do atendimento
+	 *
+	 * @param pPessoaAtendimento
+	 */
+	public void removePessoa(PessoaAtendimento pPessoaAtendimento){
+		pessoasAtendimentos.remove(pPessoaAtendimento);
+	}
+
+	// Getters e Setters
 	public Integer getId(){
 		return id;
 	}
@@ -115,69 +123,5 @@ public class Atendimento implements Serializable{
 
 	public void setComentarios(String pComentarios){
 		comentarios = pComentarios;
-	}
-
-	public String getEnderecoCep(){
-		return enderecoCep;
-	}
-
-	public void setEnderecoCep(String pEnderecoCep){
-		enderecoCep = pEnderecoCep;
-	}
-
-	public String getEnderecoLogradouro(){
-		return enderecoLogradouro;
-	}
-
-	public void setEnderecoLogradouro(String pEnderecoLogradouro){
-		enderecoLogradouro = pEnderecoLogradouro;
-	}
-
-	public Integer getEnderecoNumero(){
-		return enderecoNumero;
-	}
-
-	public void setEnderecoNumero(Integer pEnderecoNumero){
-		enderecoNumero = pEnderecoNumero;
-	}
-
-	public String getEnderecoComplemento(){
-		return enderecoComplemento;
-	}
-
-	public void setEnderecoComplemento(String pEnderecoComplemento){
-		enderecoComplemento = pEnderecoComplemento;
-	}
-
-	public String getEnderecoBairro(){
-		return enderecoBairro;
-	}
-
-	public void setEnderecoBairro(String pEnderecoBairro){
-		enderecoBairro = pEnderecoBairro;
-	}
-
-	public String getEnderecoCidade(){
-		return enderecoCidade;
-	}
-
-	public void setEnderecoCidade(String pEnderecoCidade){
-		enderecoCidade = pEnderecoCidade;
-	}
-
-	public String getEnderecoEstado(){
-		return enderecoEstado;
-	}
-
-	public void setEnderecoEstado(String pEnderecoEstado){
-		enderecoEstado = pEnderecoEstado;
-	}
-
-	public String getEnderecoPais(){
-		return enderecoPais;
-	}
-
-	public void setEnderecoPais(String pEnderecoPais){
-		enderecoPais = pEnderecoPais;
 	}
 }

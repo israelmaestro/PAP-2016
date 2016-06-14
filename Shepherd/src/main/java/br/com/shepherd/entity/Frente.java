@@ -1,22 +1,25 @@
 package br.com.shepherd.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 
 @Entity
-@Table(uniqueConstraints = {
-								@UniqueConstraint(columnNames = {
-																	"nome"
-								})
-})
+@Table(uniqueConstraints = { @UniqueConstraint(columnNames = { "nome", "sede_id" }) })
 public class Frente implements Serializable{
 	private static final long	serialVersionUID	= 6248982972855786486L;
 
@@ -31,14 +34,21 @@ public class Frente implements Serializable{
 	@NotNull
 	private String				descricao;
 
-	// TODO: Devolver a anotação quando o membro for implementado.
-	// @NotNull
-	// @ManyToMany // (fetch = FetchType.EAGER)
-	// private List<Membro> lideres;
+	@NotNull
+	private boolean				ativa				= false;
 
-	// @ManyToMany(/* fetch = FetchType.EAGER, */ mappedBy =
-	// "frentesParticipadas")
-	// private List<Membro> participantes;
+	@NotNull
+	@OneToOne
+	private Sede				sede;
+
+	@Column(columnDefinition = "timestamp")
+	@Temporal(TemporalType.TIMESTAMP)
+	// @NotNull
+	private Date				dataAtivacao;
+
+	@Column(columnDefinition = "timestamp")
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date				dataDesativacao;
 
 	@OneToMany(mappedBy = "frente")
 	private List<Celula>		celulas;
@@ -51,8 +61,13 @@ public class Frente implements Serializable{
 	@NotNull
 	private boolean				isCell				= false;
 
+	// TODO: Verificar se vai funcionar o casacade
+	@OneToMany(mappedBy = "frente", cascade = CascadeType.ALL)
+	private List<PessoaFrente>	pessoasFrentes;
+
 	// Construtor e afins
 	public Frente(){
+		pessoasFrentes = new ArrayList<PessoaFrente>();
 	}
 
 	@Override
@@ -75,6 +90,28 @@ public class Frente implements Serializable{
 		return true;
 	}
 
+	/**
+	 * Adiciona 1 relacionamento com Pessoa
+	 *
+	 * @param pPessoaFrente
+	 * @param pParticipacao
+	 */
+	public void addRelacionamentoFrente(PessoaFrente pPessoaFrente, String pParticipacao){
+		pessoasFrentes.add(pPessoaFrente);
+		pPessoaFrente.setFrente(this);
+		pPessoaFrente.setParticipacao(pParticipacao);
+	}
+
+	/**
+	 * Remove 1 relacionamento de Pessoa
+	 *
+	 * @param pPessoa
+	 */
+	public void removeRelacionamentoFrente(PessoaFrente pPessoa){
+		pessoasFrentes.remove(pPessoa);
+	}
+
+	// Getters e Setters
 	public Integer getId(){
 		return id;
 	}
@@ -97,6 +134,38 @@ public class Frente implements Serializable{
 
 	public void setDescricao(String pDescricao){
 		descricao = pDescricao;
+	}
+
+	public boolean isAtiva(){
+		return ativa;
+	}
+
+	public void setAtiva(boolean pAtiva){
+		ativa = pAtiva;
+	}
+
+	public Sede getSede(){
+		return sede;
+	}
+
+	public void setSede(Sede pSede){
+		sede = pSede;
+	}
+
+	public Date getDataAtivacao(){
+		return dataAtivacao;
+	}
+
+	public void setDataAtivacao(Date pDataAtivacao){
+		dataAtivacao = pDataAtivacao;
+	}
+
+	public Date getDataDesativacao(){
+		return dataDesativacao;
+	}
+
+	public void setDataDesativacao(Date pDataDesativacao){
+		dataDesativacao = pDataDesativacao;
 	}
 
 	public List<Celula> getCelulas(){
@@ -129,5 +198,13 @@ public class Frente implements Serializable{
 
 	public void setCell(boolean pIsCell){
 		isCell = pIsCell;
+	}
+
+	public List<PessoaFrente> getPessoasFrentes(){
+		return pessoasFrentes;
+	}
+
+	public void setPessoasFrentes(List<PessoaFrente> pPessoasFrentes){
+		pessoasFrentes = pPessoasFrentes;
 	}
 }

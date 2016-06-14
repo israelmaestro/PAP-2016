@@ -51,8 +51,12 @@ public class Celula implements Serializable{
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date				dataDesativacao;
 
-	@OneToMany(mappedBy = "celula")
+	// TODO: Verificar se vai funcionar o casacade
+	@OneToMany(mappedBy = "celula", cascade = CascadeType.ALL)
 	private List<PessoaCelula>	pessoasCelulas;
+
+	@OneToMany(mappedBy = "celula", cascade = CascadeType.ALL)
+	private List<CelulaReuniao>	reunioes;
 
 	@Column(length = 1000)
 	private String				comentarios;
@@ -101,7 +105,7 @@ public class Celula implements Serializable{
 	}
 
 	/**
-	 * Remove 1 pessoa na célula
+	 * Remove 1 pessoa da célula
 	 *
 	 * @param pPessoaCelula
 	 */
@@ -172,6 +176,14 @@ public class Celula implements Serializable{
 
 	public void setPessoasCelulas(List<PessoaCelula> pPessoasCelulas){
 		pessoasCelulas = pPessoasCelulas;
+	}
+
+	public List<CelulaReuniao> getReunioes(){
+		return reunioes;
+	}
+
+	public void setReunioes(List<CelulaReuniao> pReunioes){
+		reunioes = pReunioes;
 	}
 
 	public String getComentarios(){

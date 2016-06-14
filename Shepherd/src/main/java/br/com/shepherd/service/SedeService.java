@@ -94,74 +94,11 @@ public class SedeService{
 
 		pSede.setAtiva(true);
 
-		if(null == pSede.getEndereco().getCep() || pSede.getEndereco().getCep().equals("")){
-			if(pSede.getEndereco().isGps()){
-				if(null == pSede.getEndereco().getLogradouro()
-					|| pSede.getEndereco().getLogradouro().equals("")){
-					// Logradouro é campo obrigatório, caso seja endereço de GPS
-					throw new Exception("Coordenadas de GPS: Campo obrigatório!");
-				}
-			} else{
-				pSede.getEndereco().setCep(null);
+		pSede.getEndereco().consistir();
 
-				if(null == pSede.getEndereco().getLogradouro()
-					|| pSede.getEndereco().getLogradouro().equals("")){
-					pSede.getEndereco().setLogradouro(null);
-				}
-
-				if(null == pSede.getEndereco().getNumero()
-					|| pSede.getEndereco().getNumero().equals("")){
-					pSede.getEndereco().setNumero(null);
-				}
-
-				if(null == pSede.getEndereco().getComplemento()
-					|| pSede.getEndereco().getComplemento().equals("")){
-					pSede.getEndereco().setComplemento(null);
-				}
-
-				if(null == pSede.getEndereco().getBairro()
-					|| pSede.getEndereco().getBairro().equals("")){
-					pSede.getEndereco().setBairro(null);
-				}
-
-				if(null == pSede.getEndereco().getCidade()
-					|| pSede.getEndereco().getCidade().equals("")){
-					pSede.getEndereco().setCidade(null);
-				}
-
-				if(null == pSede.getEndereco().getEstado()
-					|| pSede.getEndereco().getEstado().equals("")){
-					pSede.getEndereco().setEstado(null);
-				}
-
-				if(null == pSede.getEndereco().getPais()
-					|| pSede.getEndereco().getPais().equals("")){
-					pSede.getEndereco().setPais(null);
-				}
-			}
-		} else{
-			if(null == pSede.getEndereco().getLogradouro()
-				|| pSede.getEndereco().getLogradouro().equals("")){
-				// Logradouro é campo obrigatório, caso haja CEP
-				throw new Exception("Endereço: Campo obrigatório quando há CEP!");
-			}
-
-			if(null == pSede.getEndereco().getNumero()
-				|| pSede.getEndereco().getNumero().equals("")){
-				// Número é campo obrigatório, caso haja CEP
-				throw new Exception("Número: Campo obrigatório quando há CEP!");
-			}
-
-			if(null == pSede.getEndereco().getComplemento()
-				|| pSede.getEndereco().getComplemento().equals("")){
-				// Complemento não é campo obrigatório, caso haja CEP
-				pSede.getEndereco().setComplemento(null);
-			}
-			if(null == pSede.getEndereco().getCidade()
-				|| pSede.getEndereco().getCidade().equals("")){
-				// Cidade é campo obrigatório, caso haja CEP
-				throw new Exception("Cidade: Campo obrigatório quando há CEP!");
-			}
+		if(pSede.getEndereco()
+				.isEmpty()){
+			throw new Exception("Endereço possui campos obrigatórios.");
 		}
 
 		// Verificar se a sede já existe

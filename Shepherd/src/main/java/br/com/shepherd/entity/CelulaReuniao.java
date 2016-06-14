@@ -1,30 +1,28 @@
 package br.com.shepherd.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
-@Table
-// (uniqueConstraints = {
-// @UniqueConstraint(columnNames = {
-// "nome", "frente", "sede"
-// })
-// })
+@Table(name = "celula_reuniao")
 public class CelulaReuniao implements Serializable{
 	private static final long	serialVersionUID	= -7390302449224224794L;
 
+	// Id =
 	@Id
-	@GeneratedValue
-	private Integer				id;
+	private String				id;
 
 	// Dados da Reunião
 	@Column(columnDefinition = "timestamp")
@@ -33,47 +31,20 @@ public class CelulaReuniao implements Serializable{
 
 	private String				titulo;
 
-	// @OneToOne // (fetch = FetchType.LAZY)
-	// private Membro anfitriao;
-
-	// @ManyToMany(/* fetch = FetchType.LAZY, */ mappedBy =
-	// "reunioesComparecidas")
-	// private List<Membro> membrosComparecidos;
-
-	// @ManyToMany(/* fetch = FetchType.LAZY, */ mappedBy =
-	// "reunioesComparecidas")
-	// private List<Visitante> visitantesComparecidos;
-
-	@OneToOne // (fetch = FetchType.LAZY)
+	@OneToOne
 	private Celula				celula;
 
-	// Flags
-	private boolean				isGpsAddress;
+	@OneToOne(mappedBy = "celulaReuniao", cascade = CascadeType.ALL)
+	private Endereco			endereco;
 
-	// Informações de endereço
-	@Column(length = 8)
-	private String				enderecoCep;
-
-	private String				enderecoLogradouro;
-
-	@Column(length = 5)
-	private Integer				enderecoNumero;
-
-	private String				enderecoComplemento;
-
-	private String				enderecoBairro;
-
-	private String				enderecoCidade;
-
-	@Column(length = 2)
-	private String				enderecoEstado;
-
-	private String				enderecoPais;
+	@OneToMany(mappedBy = "celulaReuniao", cascade = CascadeType.ALL)
+	private List<RegistroPresenca>	presencas;
 
 	@Column(length=1000)
 	private String				comentarios;
 
 	public CelulaReuniao(){
+		setPresencas(new ArrayList<RegistroPresenca>());
 	}
 
 	@Override
@@ -96,11 +67,11 @@ public class CelulaReuniao implements Serializable{
 		return true;
 	}
 
-	public Integer getId(){
+	public String getId(){
 		return id;
 	}
 
-	public void setId(Integer pId){
+	public void setId(String pId){
 		id = pId;
 	}
 
@@ -128,76 +99,20 @@ public class CelulaReuniao implements Serializable{
 		celula = pCelula;
 	}
 
-	public boolean isGpsAddress(){
-		return isGpsAddress;
+	public Endereco getEndereco(){
+		return endereco;
 	}
 
-	public void setGpsAddress(boolean pIsGpsAddress){
-		isGpsAddress = pIsGpsAddress;
+	public void setEndereco(Endereco pEndereco){
+		endereco = pEndereco;
 	}
 
-	public String getEnderecoCep(){
-		return enderecoCep;
+	public List<RegistroPresenca> getPresencas(){
+		return presencas;
 	}
 
-	public void setEnderecoCep(String pEnderecoCep){
-		enderecoCep = pEnderecoCep;
-	}
-
-	public String getEnderecoLogradouro(){
-		return enderecoLogradouro;
-	}
-
-	public void setEnderecoLogradouro(String pEnderecoLogradouro){
-		enderecoLogradouro = pEnderecoLogradouro;
-	}
-
-	public Integer getEnderecoNumero(){
-		return enderecoNumero;
-	}
-
-	public void setEnderecoNumero(Integer pEnderecoNumero){
-		enderecoNumero = pEnderecoNumero;
-	}
-
-	public String getEnderecoComplemento(){
-		return enderecoComplemento;
-	}
-
-	public void setEnderecoComplemento(String pEnderecoComplemento){
-		enderecoComplemento = pEnderecoComplemento;
-	}
-
-	public String getEnderecoBairro(){
-		return enderecoBairro;
-	}
-
-	public void setEnderecoBairro(String pEnderecoBairro){
-		enderecoBairro = pEnderecoBairro;
-	}
-
-	public String getEnderecoCidade(){
-		return enderecoCidade;
-	}
-
-	public void setEnderecoCidade(String pEnderecoCidade){
-		enderecoCidade = pEnderecoCidade;
-	}
-
-	public String getEnderecoEstado(){
-		return enderecoEstado;
-	}
-
-	public void setEnderecoEstado(String pEnderecoEstado){
-		enderecoEstado = pEnderecoEstado;
-	}
-
-	public String getEnderecoPais(){
-		return enderecoPais;
-	}
-
-	public void setEnderecoPais(String pEnderecoPais){
-		enderecoPais = pEnderecoPais;
+	public void setPresencas(List<RegistroPresenca> pPresencas){
+		presencas = pPresencas;
 	}
 
 	public String getComentarios(){
