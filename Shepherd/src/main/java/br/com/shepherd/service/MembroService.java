@@ -150,7 +150,7 @@ public class MembroService{
 							.getResultList();
 	}
 
-	// TODO alterar código para trazer lista de membros
+	// TODO: Resolver problema de exclusão
 	@SuppressWarnings("unchecked")
 	public List<PessoaCelula> listarMembros(){
 		List<PessoaCelula> MembrosCelulas = new ArrayList<PessoaCelula>();
@@ -158,7 +158,7 @@ public class MembroService{
 		try{
 			Query query = entityManager.createQuery("FROM PessoaCelula dbPessoaCelula "
 													+ "WHERE UPPER(dbPessoaCelula.participacao) = UPPER(:p1) "
-													+ "ORDER BY dbPessoaCelula.pessoa.nome");
+													+ "ORDER BY dbPessoaCelula.pessoa.nome, dbPessoaCelula.pessoa.sobrenome");
 			query.setParameter("p1", "MEMBRO");
 
 			MembrosCelulas = query.getResultList();

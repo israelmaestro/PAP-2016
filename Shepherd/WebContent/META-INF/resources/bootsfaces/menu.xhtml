@@ -11,6 +11,19 @@
 		xmlns:ui='http://java.sun.com/jsf/facelets'
 		>
 	<ui:composition>
+			<b:dropMenu	value='Atendimentos'
+						iconAwesome='fa fa-calendar-check-o'
+						style='	width: 100%;'
+						>
+				<b:navLink	value='Listar Atendimentos'
+							href='/Shepherd/pages/atendimento/atendimentoListar.jsf'
+							iconAwesome='fa fa-list fa-fw'
+							/>
+				<b:navLink	value='Novo Atendimento'
+							href='/Shepherd/pages/atendimento/atendimentoCadastrar.jsf'
+							iconAwesome='fa fa-plus fa-fw'
+							/>
+			</b:dropMenu>
 			<b:dropMenu	value='Células'
 						iconAwesome='fa fa-sitemap'
 						style='	width: 100%;'
@@ -117,6 +130,19 @@
 							/>
 				<b:navLink	value='Nova Sede'
 							href='/Shepherd/pages/sede/sedeCadastrar.jsf'
+							iconAwesome='fa fa-plus fa-fw'
+							/>
+			</b:dropMenu>
+			<b:dropMenu	value='Visitantes'
+						iconAwesome='fa fa-child fa-fw'
+						style='	width: 100%;'
+						>
+				<b:navLink	value='Listar Visitantes'
+							href='/Shepherd/pages/visitante/visitanteListar.jsf'
+							iconAwesome='fa fa-list fa-fw'
+							/>
+				<b:navLink	value='Novo Visitante'
+							href='/Shepherd/pages/visitante/visitanteCadastrar.jsf'
 							iconAwesome='fa fa-plus fa-fw'
 							/>
 			</b:dropMenu>

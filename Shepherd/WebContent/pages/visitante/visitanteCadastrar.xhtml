@@ -1,0 +1,1015 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html	xmlns='http://www.w3.org/1999/xhtml'
+		xmlns:b='http://bootsfaces.net/ui'
+		xmlns:btr='http://butterfaces.larmic.de/components'
+		xmlns:f='http://java.sun.com/jsf/core'
+		xmlns:h='http://java.sun.com/jsf/html'
+		xmlns:p='http://primefaces.org/ui'
+		xmlns:pm='http://primefaces.org/mobile'
+		xmlns:pt='http://xmlns.jcp.org/jsf/passthrough'
+		xmlns:ui='http://java.sun.com/jsf/facelets'
+		>
+
+	<ui:composition template='/META-INF/resources/bootsfaces/jsfTemplate.xhtml'>
+
+		<ui:define name='mensagensCampos'>
+			<b:message for='nome'/>
+			<b:message for='sobrenome'/>
+			<b:message for='dataNasc' />
+			<b:message for='sexo'/>
+			<b:message for='rg'/>
+			<b:message for='cpf'/>
+			<b:message for='gpsAddress'/>
+			<b:message for='cep' />
+			<b:message for='logradouro' />
+			<b:message for='numero' />
+			<b:message for='complemento' />
+			<b:message for='bairro' />
+			<b:message for='cidade' />
+			<b:message for='uf' />
+			<b:message for='pais' />
+			<b:message for='tbTelefones'/>
+			<b:message for='tbEmails' />
+			<br/>
+		</ui:define>
+		
+		<ui:define name='tituloPagina'>Shepherd > Novo Membro</ui:define>
+		<ui:define name='tituloPrincipal'>
+			<b:iconAwesome name='fa fa-child fa-fw'/>
+			<br class='visible-xs'/>
+			Novo Visitante
+		</ui:define>
+		<ui:define name='tituloSecundario'>
+			home > visitantes > novo
+		</ui:define>
+			
+		<ui:define name='botoesAcao'>
+			<b:buttonGroup>
+				<b:button	value=''
+							onclick='location.href = "./visitanteListar.jsf"'
+							iconAwesome='fa fa-arrow-left fa-fw'
+							/>
+				<btr:commandLink	action='#{membroBean.cadastrarMembro()}'
+									styleClass='btn btn-default'
+									>
+					<b:iconAwesome name='fa fa-check fa-fw'/>
+				</btr:commandLink>
+				<b:button	value=''
+							iconAwesome='fa fa-eraser fa-fw'
+							onclick='location.href = "./visitanteCadastrar.jsf"'/>
+			</b:buttonGroup>
+		</ui:define>
+			
+		<ui:define name='conteudo'>
+			<div>
+				<b:row>
+					<b:column	class='column'
+								col-lg='10'
+								col-md='10'
+								col-sm='9'
+								col-xs='6'
+								>
+						<h3>
+							<b:iconAwesome name="fa fa-fw fa-child"/>
+							<br class='visible-xs'/>
+							Dados pessoais
+						</h3>
+					</b:column>
+					
+					<b:column	id='checkAtendimento'
+								col-lg='2'
+								col-md='2'
+								col-sm='3'
+								col-xs='6'
+								class='column'
+								>
+						<table	class='fullWidth row'
+								>
+							<tr>
+								<td	style='	line-height: 0px;
+											color: #960;'
+									>
+									<div style='float: right;'>
+										<b:iconAwesome	name='fa-calendar-check-o'
+														tooltip='Com atendimento'
+														onclick='alert("Selecione esta opção caso o visitante deseje um atendimento.")'
+														rendered='#{!visitando.value}'
+														style='	border-radius: 100%;
+																background-color: #FF3;
+																margin-left: -5px;
+																padding: 3.25px;
+																border: solid 0.5px #FC0;
+																'
+														/>
+										<b:selectBooleanCheckbox	id='comAtendimento'
+																	binding='#{dadosAtendimento}'
+																	rendered='#{!visitando.value}'
+																	style='	margin-left: 0px;'
+																	>
+											<f:ajax event='change' render='' />
+										</b:selectBooleanCheckbox>
+									</div>
+								</td>
+								<td	style='	line-height: 1px;
+											color: #03F;'
+									>
+									<div style='float: right;'>
+										<b:iconAwesome	name='fa-wheelchair'
+														tooltip='Necesidades Especiais'
+														onclick='alert("Selecione esta opção caso o membro possua alguma necessidade especial.")'
+														style='	border-radius: 100%;
+																background-color: #99CCFF;
+																margin-left: -4px;
+																padding: 3.5px;
+																'
+														/>
+										<b:selectBooleanCheckbox	id='neCheckBox'
+																	binding='#{showNeMenu}'
+																	style='	margin-left: 0px;'
+																	>
+											<f:ajax event='change' render='nEspeciaisMostrar' />
+										</b:selectBooleanCheckbox>
+									</div>
+								</td>
+								<td	style='	line-height: 1px;
+											color: #FF3333;'
+									>
+									<div style='float: right;'>
+										<b:iconAwesome	name='fa-heart'
+														tooltip='Casado / Não-casado'
+														onclick='alert("Selecione esta opção caso o membro seja casado.")'
+														style='	border-radius: 100%;
+																background-color: #FFCCCC;
+																margin-left: -5px;
+																padding: 3.5px;
+																'
+														/>
+										<b:selectBooleanCheckbox	id='relationshipCheckBox'
+																	binding='#{showMateInfo}'
+																	value='#{membroBean.membro.casada}'
+																	style='	margin-left: 0px;'
+																	>
+	<!-- 										<f:ajax event='change' render='familia' /> -->
+										</b:selectBooleanCheckbox>
+									</div>
+								</td>
+							</tr>
+						</table>
+					</b:column>
+				</b:row>
+
+				<b:row>
+					<b:column	col-lg='3'
+								col-md='3'
+								col-sm='6'
+								col-xs='12'
+								>
+						<br/>
+						<h:outputLabel	class='outputLabel' for='nome'
+										value='Nome*'
+										/>
+						<b:inputText 	id='nome'
+										required='true'
+										requiredMessage='Nome: Campo obrigatório'
+										value='#{membroBean.membro.nome}'
+										placeholder='Nome'
+										class='required'
+										/>
+					</b:column>
+					<b:column	col-lg='3'
+								col-md='3'
+								col-sm='6'
+								col-xs='12'
+								>
+						<br/>
+						<h:outputLabel	class='outputLabel'	for='sobrenome'
+										value='Sobrenome*'
+										/>
+						<b:inputText 	id='sobrenome'
+										required='true'
+										requiredMessage='Sobrenome: Campo obrigatório'
+										value='#{membroBean.membro.sobrenome}'
+										placeholder='Sobrenome'
+										class='required'
+										/>
+					</b:column>
+					<b:column	col-lg='3'
+								col-md='3'
+								col-sm='6'
+								col-xs='12'
+								>
+						<br/>
+						<h:outputLabel	class='outputLabel' for='dataNasc' value='Data de Nascimento'/>
+						<b:datepicker 	id='dataNasc'
+										placeholder='DD/MM/AAAA'
+										value='#{membroBean.membro.dataNasc}'
+										showButtonPanel='true'
+										changeMonth='true'
+										changeYear='true'
+										/>
+					</b:column>
+					<b:column	col-lg='1'
+								col-md='1'
+								col-sm='3'
+								col-xs='5'
+								style='	text-align: left;
+										padding-right: 2px;'
+								>
+						<br/>
+						<h:outputLabel	class='outputLabel'	for='sexo'
+										value='Sexo'
+										style='	margin-bottom: 0px;
+												'
+										>
+							<b:iconAwesome	name='fa-question-circle'
+											for='sexo'
+											tooltip='Selecione o sexo: Masculino (♂) ou Feminino (♀)'
+											tooltipDelayHide='3000'
+											onclick='alert("Selecione o sexo:\n Masculino (♂)\n Feminino (♀)")'
+											style='	margin-left: 4px;'
+											/>
+						</h:outputLabel>
+						<b:switch	id='sexo'
+									binding='#{membroSexo}'
+									value='#{membroBean.membro.sexo}'
+									offText='♀'
+									onText='♂'
+									onColor='primary'
+									offColor='danger'
+									>
+<!-- 							<f:ajax event='change' render='familia' /> -->
+						</b:switch>
+					</b:column>
+					<b:column	col-lg='2'
+								col-md='2'
+								col-sm='3'
+								col-xs='7'
+								style='	text-align: right;
+										padding-left: 2px;'
+								>
+						<br/>
+						<h:outputLabel	class='outputLabel'	for='visitando'
+										value='Visitando'
+										style='	margin-bottom: 0px;
+												'
+										>
+							<b:iconAwesome	name='fa-question-circle'
+											for='visitando'
+											tooltip='Selecione se está visitando a sede ou uma célula'
+											tooltipDelayHide='3000'
+											onclick='alert("Selecione se está visitando a sede ou uma célula")'
+											style='	margin-left: 4px;'
+											/>
+						</h:outputLabel>
+						<b:switch	id='visitando'
+									binding='#{visitando}'
+									value='#{membroBean.membro.sexo}'
+									offText='Sede'
+									onText='Célula'
+									onColor='info'
+									offColor='warning'
+									>
+							<f:ajax event='change' render='nEspeciaisMostrar, checkAtendimento, mostrarDadosCelula' />
+						</b:switch>
+					</b:column>
+				</b:row>
+				<b:row id='nEspeciaisMostrar'>
+					<b:column	col-lg='3'
+								col-md='3'
+								col-sm='6'
+								col-xs='12'
+								>
+						<br/>
+						<h:outputLabel	class='outputLabel'	for='rg'
+										value='RG'
+										/>
+						<b:inputText 	id='rg'
+										value='#{membroBean.membro.rg}'
+										placeholder='RG'
+										maxlength='9'
+										/>
+					</b:column>
+					<b:column	col-lg='3'
+								col-md='3'
+								col-sm='6'
+								col-xs='12'
+								>
+						<br/>
+						<h:outputLabel	class='outputLabel'	for='cpf'
+										value='CPF'
+										/>
+						<b:inputText	id='cpf'
+										onkeypress='return teclaNumerica(event.keyCode)'
+										maxlength='11'
+										value='#{membroBean.membro.cpf}'
+										placeholder='CPF'
+										/>
+					</b:column>
+					<b:column	col-lg='3'
+								col-md='3'
+								col-sm='6'
+								col-xs='12'
+								rendered='#{showNeMenu.value}'
+								>
+						<br/>
+						<h:outputLabel	class='outputLabel' for='nEspecial' value='Necessidades Especiais' />
+						<p:selectCheckboxMenu	id="nEspecial"
+												label='#{null == membroBean.membro.nEspeciais || membroBean.membro.nEspeciais.size() == 0 ? "Selecione" : membroBean.membro.nEspeciais.size()} #{null == membroBean.membro.nEspeciais || membroBean.membro.nEspeciais.size() == 0 ? "" : "necessidade(s) selecionada(s)"}'
+												value="#{membroBean.membro.nEspeciais}"
+												converter="omnifaces.SelectItemsConverter"
+												filter="true"
+												filterMatchMode="contains"
+												showCheckbox="true"
+												>
+							<f:ajax event='change' render='@this' />
+							<f:selectItems	value='#{nEspecialBean.listar()}'
+											var='nEspecial'
+											itemLabel='#{nEspecial.nome}'
+											itemValue='#{nEspecial}'
+											/>
+						</p:selectCheckboxMenu>
+					</b:column>
+					<b:column	col-lg='3'
+								col-md='3'
+								col-sm='6'
+								col-xs='12'
+								rendered='#{!visitando.value}'
+								>
+						<br/>
+						<h:outputLabel class='outputLabel'	for='sedeVisitada'
+										value='Sede Visitada*'
+										/>
+						<h:selectOneMenu	id='sedeVisitada'
+											value='#{sedeBean.sede.sedeMae}'
+											converter='omnifaces.SelectItemsConverter'
+											class='hSelectOneMenu required'
+											required='true'
+											requiredMessage='Sede Visitada: Campo obrigatório!'
+											>
+							<f:selectItem itemLabel='Selecione' noSelectionOption='true'/>
+							<f:selectItems	value='#{sedeBean.listarMaes()}' var='sedeMae'
+											itemLabel='#{sedeMae.nome}'
+											/>
+						</h:selectOneMenu>
+						<b:container rendered='#{showNeMenu.value}' style='width: 0px'>
+							<br class='visible-lg visible-md'/>
+						</b:container>
+					</b:column>
+					<b:column	col-lg='3'
+								col-md='3'
+								col-sm='6'
+								col-xs='12'
+								rendered='#{!visitando.value}'
+								>
+						<br/>
+						<h:outputLabel class='outputLabel'	for='eventoVisitado'
+										value='Evento Visitado*'
+										/>
+						<h:selectOneMenu	id='eventoVisitado'
+											value='#{sedeBean.sede.sedeMae}'
+											converter='omnifaces.SelectItemsConverter'
+											class='hSelectOneMenu required'
+											required='true'
+											requiredMessage='Evento Visitado: Campo obrigatório!'
+											>
+							<f:selectItem itemLabel='Selecione' noSelectionOption='true'/>
+							<f:selectItems	value='#{sedeBean.listarMaes()}' var='sedeMae'
+											itemLabel='#{sedeMae.nome}'
+											/>
+						</h:selectOneMenu>
+						<b:container rendered='#{!showNeMenu.value}' style='width:0px;'>
+							<br class='visible-lg visible-md'/>
+						</b:container>
+					</b:column>
+					<b:column	col-lg='3'
+								col-md='3'
+								col-sm='6'
+								col-xs='12'
+								rendered='#{!visitando.value}'
+								>
+						<br/>
+						<h:outputLabel class='outputLabel'	for='situacao'
+										value='Situação*'
+										/>
+						<h:selectOneMenu	id='situacao'
+											value='#{sedeBean.sede.sedeMae}'
+											converter='omnifaces.SelectItemsConverter'
+											class='hSelectOneMenu required'
+											required='true'
+											requiredMessage='Evento Visitado: Campo obrigatório!'
+											>
+							<f:selectItem itemLabel='Selecione' noSelectionOption='true'/>
+							<f:selectItems	value='#{sedeBean.listarMaes()}' var='sedeMae'
+											itemLabel='#{sedeMae.nome}'
+											/>
+						</h:selectOneMenu>
+					</b:column>
+					<b:column	col-lg='3'
+								col-md='3'
+								col-sm='6'
+								col-xs='12'
+								rendered='#{!visitando.value}'
+								>
+						<br/>
+						<h:outputLabel	class='outputLabel' for='dataVisita' value='Data da visita*'/>
+						<b:datepicker 	id='dataVisita'
+										placeholder='DD/MM/AAAA'
+										value='#{membroBean.membro.dataNasc}'
+										showButtonPanel='true'
+										changeMonth='true'
+										changeYear='true'
+										>
+							<script>
+								requiredField("form:dataVisita");
+							</script>
+						</b:datepicker>
+					</b:column>
+					<b:column	col-lg='3'
+								col-md='6'
+								col-sm='6'
+								col-xs='12'
+								rendered='#{!visitando.value}'
+								>
+						<br/>
+						<h:outputLabel	class='outputLabel'	for='acompanhado'
+										value='Acompanhado'
+										style='	margin-bottom: 0px;
+												'
+										>
+							<b:iconAwesome	name='fa-question-circle'
+											for='acompanhado'
+											tooltip='Selecione se o visitante veio acompanhado'
+											tooltipDelayHide='3000'
+											onclick='alert("Selecione se o visitante veio acompanhado")'
+											style='	margin-left: 4px;'
+											/>
+						</h:outputLabel>
+						<b:switch	id='acompanhado'
+									value='#{membroBean.membro.sexo}'
+									offText='Desacompanhado'
+									onText='Acompanhado'
+									onColor='primary'
+									offColor='danger'
+									/>
+					</b:column>
+				</b:row>
+
+				<br/>
+
+				<b:row	class='row splitRow fullWidth'>
+					<table class='fullWidth'>
+						<tr>
+							<td	style='	vertical-align: bottom;'>
+								<h3>
+									<b:iconAwesome name='fa fa-fw fa-map-marker'/>
+									Endereço
+									<b:button value=''
+											iconAwesome='fa fa-eraser fa-fw'
+											onclick='limparEndereco()'
+											size='xs'
+											tooltip='Clique para limpar os campos de endereço'
+											/>
+								</h3>
+							</td>
+							<td	style='	vertical-align: bottom;
+										text-align: right;
+										line-height: 1px;
+										 margin: 0px; padding: 0px;'
+								>
+								<b:switch	value='#{membroBean.membro.endereco.gps}'
+											label=''
+											offText='Postal'
+											onText='GPS'
+											onColor='danger'
+											offColor='primary'
+											switchsize='mini'
+											binding='#{showGpsForm}'
+											>
+									<f:ajax event='change' render='showEndereco' />
+								</b:switch>
+							</td>
+						</tr>
+					</table>
+				</b:row>
+				
+				<b:row id='endereco' class='row'>
+					<b:column	col-lg='9'
+								col-md='9'
+								col-sm='9'
+								col-xs='12'
+								class='column'
+								>
+						<b:row id='showEndereco'>
+							<b:row	rendered='#{showGpsForm.value}'
+									class='row'
+									>
+								<b:column	col-lg='12'
+											col-md='12'
+											col-sm='12'
+											col-xs='12'
+											>
+									<br/>
+									<h:outputLabel class='outputLabel'	for='gpsAddress'
+													value='Coordenadas de GPS*'
+													/>
+									<b:inputText	id='gpsAddress'
+													value='#{membroBean.membro.endereco.coordenadas}'
+													placeholder='Formato: ±9.9*, ±9.9*'
+													class='required'
+													required='true'
+													requiredMessage='Coordenadas de GPS: Campo obrigatório!'
+													onblur='setMapaCode()'
+													>
+										<script type='text/javascript'>
+											document.getElementById("input_form:gpsAddress").value = document.getElementById("form:code").value;
+										</script>
+									</b:inputText>
+								</b:column>
+							</b:row>
+							<b:row>
+								<b:row	rendered='#{!showGpsForm.value}'
+										class='row fullWidth'
+										>
+									<b:column	col-lg='2'
+												col-md='2'
+												col-sm='3'
+												col-xs='12'
+												>
+										<br/>
+										<h:outputLabel class='outputLabel' value='CEP' for='cep'/>
+										<b:iconAwesome	name='fa-question-circle'
+														tooltip='Caso o sistema encontre o CEP digitado, os campos de endereço serão preenchidos automaticamente.'
+														onclick='alert("Caso o sistema encontre o CEP digitado, os campos de endereço serão preenchidos automaticamente.")'
+														style='	margin-left: 4px;'
+														/>
+										<b:inputText	id='cep'
+														binding='#{cep}'
+														maxlength='8'
+														onkeypress='return teclaNumerica(event.keyCode)'
+														value='#{membroBean.membro.endereco.cep}'
+														placeholder='CEP'
+														onblur='if(this.value != "") pesquisaCep(this.value); localizaCoordenadas();'
+														class='halfPadding'
+														/>
+									</b:column>
+									
+									<b:column	col-lg='6'
+												col-md='5'
+												col-sm='9'
+												col-xs='12'
+												>
+										<br/>
+										<h:outputLabel class='outputLabel' value='Endereço' for='logradouro'/>
+										<b:inputText	id='logradouro'
+														name='logradouro'
+														value='#{membroBean.membro.endereco.logradouro}'
+														placeholder='Rua / Avenida / Praça / etc.'
+														class='hidden-xs required'
+														onblur='document.getElementById("input_form:logradouro2").value = document.getElementById("input_form:logradouro").value; localizaCoordenadas();'
+														required='true'
+														requiredMessage='Endereço: Campo obrigatório!'
+														/>
+										<b:inputTextarea	id='logradouro2'
+															name='logradouro2'
+															value='#{membroBean.membro.endereco.logradouro}'
+															placeholder='Digite o nome da rua, avenida, etc.'
+															class='visible-xs required'
+															onblur='document.getElementById("input_form:logradouro").value = document.getElementById("input_form:logradouro2").value; localizaCoordenadas();'
+															style='	margin-top: -8px;'
+															required='true'
+															requiredMessage='Endereço: Campo obrigatório!'
+															/>
+									</b:column>
+									
+									<b:column	col-lg='2'
+												col-md='2'
+												col-sm='2'
+												col-xs='5'
+												>
+										<br/>
+										<h:outputLabel class='outputLabel' value='№' for='numero'/>
+										<b:inputText	id='numero'
+														onblur='localizaCoordenadas()'
+														value='#{membroBean.membro.endereco.numero}'
+														onkeypress='return teclaNumerica(event.keyCode)'
+														maxlength='5'
+														placeholder='№'
+														required='true'
+														class='required halfPadding'
+														requiredMessage='№: Campo obrigatório!'
+														/>
+									</b:column>
+									
+									<b:column	col-lg='2'
+												col-md='3'
+												col-sm='4'
+												col-xs='7'
+												>
+										<br/>
+										<h:outputLabel class='outputLabel' value='Complemento' for='complemento'/>
+										<b:inputText	id='complemento'
+														value='#{membroBean.membro.endereco.complemento}'
+														placeholder='Complemento'
+														/>
+									</b:column>
+									
+									<b:column	col-lg='3'
+												col-md='3'
+												col-sm='6'
+												col-xs='12'
+												>
+										<br/>
+										<h:outputLabel class='outputLabel' value='Bairro' for='bairro'/>
+										<b:inputText	id='bairro'
+														onblur='localizaCoordenadas()'
+														value='#{membroBean.membro.endereco.bairro}'
+														placeholder='Bairro'
+														/>
+									</b:column>
+									
+									<b:column	col-lg='4'
+												col-md='4'
+												col-sm='6'
+												col-xs='12'
+												>
+										<br/>
+										<h:outputLabel class='outputLabel' value='Cidade' for='cidade'/>
+										<b:inputText	id='cidade'
+														onblur='localizaCoordenadas()'
+														value='#{membroBean.membro.endereco.cidade}'
+														placeholder='Cidade'
+														required='true'
+														class='required'
+														requiredMessage='Cidade: Campo obrigatório!'
+														/>
+									</b:column>
+									
+									<b:column	col-lg='1'
+												col-md='1'
+												col-sm='2'
+												col-xs='4'
+												>
+										<br/>
+										<h:outputLabel class='outputLabel' value='UF' for='uf'/>
+										<b:inputText	id='uf'
+														onblur='localizaCoordenadas()'
+														maxlength='2'
+														value='#{membroBean.membro.endereco.estado}'
+														placeholder='UF'
+														class='halfPaddingMono'
+														/>
+									</b:column>
+									
+									<b:column	col-lg='4'
+												col-md='4'
+												col-sm='4'
+												col-xs='8'
+												>
+										<br/>
+										<h:outputLabel class='outputLabel' value='País' for='pais'/>
+										<b:inputText	id='pais'
+														onblur='localizaCoordenadas()'
+														value='#{membroBean.membro.endereco.pais}'
+														placeholder='País'
+														/>
+									</b:column>
+								</b:row>
+							</b:row>
+						</b:row>
+					</b:column>
+					
+					
+					<b:column	col-lg='3'
+								col-md='3'
+								col-sm='3'
+								col-xs='12'
+								>
+						<br class='visible-sm visible-xs'/>
+						<br class='visible-sm'/>
+						#{gmapBean.marcarMapa(false, false, true)}
+						<p:gmap	id='mapaId'
+								widgetVar='mapa'
+								center='#{gmap.posicaoCentral}'
+								scrollWheel='false'
+								draggable='false'
+								zoom='16'
+								type='ROADMAP'
+								style='width:100%; height: 200px;'
+								model='#{gmap.mapModel}'
+								class='mapContainer'
+								>
+							<p:ajax event='geocode' listener='#{gmap.onGeocode}'  update='mapaId, code'/>
+						</p:gmap>
+						<center>
+							<h:inputText	id='code'
+											value='#{gmap.posicaoCentral}'
+											readonly='true'
+											class='mapCodeFooter'
+											/>
+						</center>
+					</b:column>
+				</b:row>
+
+				<br/>
+
+				<b:row	style='	border-top: solid;
+								border-color: #CCCCCC;
+								'
+						>
+					<h3>
+						<b:iconAwesome name="fa fa-fw fa-phone"/>
+						Telefone
+					</h3>
+				</b:row>
+				<b:row>
+					<h:dataTable	id='tbTelefones'
+									value='#{membroBean.membro.telefones}'
+									var='telefone'
+									style='	width: 100%;'
+									>
+						<h:column>
+							<b:column	col-lg='3'
+										col-md='3'
+										col-sm='6'
+										col-xs='12'
+										>
+								<br/>
+								<b:inputText	value='#{telefone.numero}'
+												placeholder='DDI + Código + Número'
+												maxlength='32'
+												onkeypress='return teclaNumerica(event.keyCode);'
+												/>
+							</b:column>
+							<b:column	col-lg='3'
+										col-md='3'
+										col-sm='6'
+										col-xs='12'
+										>
+								<br class='hidden-xs'/>
+								<table	style='	width: 100%;
+												'
+										>
+									<tr>
+										<td>
+											<b:inputText	value='#{telefone.descricao}'
+															placeholder='Descrição'
+															/>
+										</td>
+										<td	style='	vertical-align: middle;
+													text-align: right;
+													'
+											>
+											<b:iconAwesome	name='fa fa-trash fa-fw'
+															size='lg'
+															style='	color: #CC0000;
+																	margin-bottom: 12px;
+																	'
+															>
+												<f:ajax	listener="#{membroBean.botaoRemoverTelefone(telefone)}"
+														immediate="true"
+														render="@form"
+														/>
+											</b:iconAwesome>
+										</td>
+									</tr>
+								</table>
+							</b:column>
+						</h:column>
+					</h:dataTable>
+					<b:column span='12'>
+						<b:iconAwesome	name='fa fa-plus fa-fw'
+										size='lg'
+										style='	color: #0C0;					
+												'
+										>
+							<f:ajax	listener="#{membroBean.botaoAdicionarTelefone}"
+									execute="tbTelefones"
+									render="tbTelefones"
+									/>
+						</b:iconAwesome>
+					</b:column>
+				</b:row>
+
+				<br/>
+				
+				<b:row	style='	border-top: solid;
+								border-color: #CCCCCC;
+								'
+						>
+					<h3>
+						<b:iconAwesome name="fa fa-fw fa-at"/>
+						E-mail
+					</h3>
+				</b:row>
+				
+				<b:row>
+					<h:dataTable	id='tbEmails'
+									value='#{membroBean.membro.emails}'
+									var='email'
+									style='	width: 100%;'
+									>
+						<h:column>
+							<b:column	col-lg='3'
+										col-md='3'
+										col-sm='6'
+										col-xs='12'
+										>
+								<br/>
+								<b:inputText	value='#{email.conta}'
+												placeholder='E-Mail'
+												/>
+							</b:column>
+							<b:column	col-lg='3'
+										col-md='3'
+										col-sm='6'
+										col-xs='12'
+										>
+								<br class='hidden-xs'/>
+								<table	style='	width: 100%;
+												'
+										>
+									<tr>
+										<td>
+											<b:inputText	value='#{email.descricao}'
+															placeholder='Descrição'
+															/>
+										</td>
+										<td	style='	vertical-align: middle;
+													text-align: right;
+													'
+											>
+											<b:iconAwesome	name='fa fa-trash fa-fw'
+															size='lg'
+															style='	color: #CC0000;
+																	margin-bottom: 12px;
+																	'
+															>
+												<f:ajax	listener="#{membroBean.botaoRemoverEmail(email)}"
+														immediate="true"
+														render="@form"
+														/>
+											</b:iconAwesome>
+										</td>
+									</tr>
+								</table>
+							</b:column>
+						</h:column>
+					</h:dataTable>
+					<b:column span='12'>
+						<b:iconAwesome	name='fa fa-plus fa-fw'
+										size='lg'
+										style='	color: #00CC00;					
+												'
+										>
+							<f:ajax	listener="#{membroBean.botaoAdicionarEmail}"
+									execute="tbEmails"
+									render="tbEmails"
+									/>
+						</b:iconAwesome>
+					</b:column>
+				</b:row>
+				
+				<br/>
+
+				<b:row id='mostrarDadosCelula' class='row'>
+					<b:row	id='dadosVisitanteCelula'
+							class='splitRow'
+							rendered='#{visitando.value}'
+							>
+						<table style='width: 100%;'>
+							<tr>
+								<td	style='	vertical-align: bottom;'>
+									<h3>
+										<b:iconAwesome name="fa fa-fw fa-sitemap"/>
+										Célula
+									</h3>
+								</td>
+								<td	style='	line-height: 1px;
+											color: #FFF;
+											min-width: 16px;
+											max-width: 16px;
+											'
+									>
+									<div style='float: right;'>
+										<b:iconAwesome	name='fa-flash'
+															tooltip='Batizado'
+															onclick='alert("Selecione esta opção se o membro for batizado.")'
+															style='	border-radius: 100%;
+																	background-color: #33F;
+																	margin-left: -5px;
+																	padding: 3.5px 7px;
+																	'
+															/>
+										<b:selectBooleanCheckbox	id='baptized'
+																	binding='#{showBaptizmDate}'
+																	value='#{membroBean.membro.batizada}'
+																	style='	margin-left: 0px;'
+																	>
+											<f:ajax event='change' render='dadosVisitanteCelula' />
+										</b:selectBooleanCheckbox>
+									</div>
+								</td>
+							</tr>
+						</table>
+						<b:row>
+							<h:dataTable	id='tbMembresia'
+											value='#{membroBean.membro.pessoasCelulas}'
+											var='celula'
+											style='width: auto;'
+											>
+								<h:column>
+									<br/>
+									<div	class=' row addElemento required'
+											>
+										<b:column	col-lg='4'
+													col-md='4'
+													col-sm='4'
+													col-xs='12'
+													>
+											<br/>
+											<h:outputLabel	class='outputLabel' value='Célula*' />
+											<h:selectOneMenu	value='#{celula.celula}'
+																converter='omnifaces.SelectItemsConverter'
+																class='hSelectOneMenu'
+																>
+												<f:selectItem	itemLabel='Selecione'
+																noSelectionOption='true'
+																/>
+												<f:selectItems	value='#{celulaBean.listar()}'
+																var='membroCelula'
+																itemLabel='#{membroCelula.nome} (#{membroCelula.sede.nome}#{membroCelula.sede.mae ? "*" : ""})'
+																/>
+											</h:selectOneMenu>
+											<br class='hidden-xs'/>
+										</b:column>
+										<b:column	col-lg='4'
+													col-md='4'
+													col-sm='4'
+													col-xs='12'
+													>
+											<br/>
+											<h:outputLabel	value='Data da membresia*'
+															class='outputLabel'
+															/>
+											<b:datepicker 	placeholder='DD/MM/AAAA'
+															value='#{celula.dataInicio}'
+															showButtonPanel='true'
+															changeMonth='true'
+															changeYear='true'
+															/>
+											<br/>
+										</b:column>
+										<b:column	col-lg='4'
+													col-md='4'
+													col-sm='4'
+													col-xs='12'
+													rendered='#{showBaptizmDate.value}'
+													>
+											<br class='hidden-xs'/>
+											<h:outputLabel	for='dataBatismo'
+															value='Data do batismo'
+															class='outputLabel'
+															/>
+											<b:datepicker 	id='dataBatismo'
+															placeholder='DD/MM/AAAA'
+															value='#{membroBean.membro.dataBatismo}'
+															showButtonPanel='true'
+															changeMonth='true'
+															changeYear='true'
+															/>
+											<br/>
+										</b:column>
+									</div>
+								</h:column>
+							</h:dataTable>
+						</b:row>
+						<br/>
+					</b:row>
+					<b:row	style='	border-top: solid;
+									border-color: #CCCCCC;
+									'>
+							<h3>
+								<i class="fa fa-fw fa-sticky-note-o"/>
+								Comentários
+							</h3>
+					</b:row>
+					<b:row>
+						<b:column	col-lg='12'
+									col-md='12'
+									col-sm='12'
+									col-xs='12'
+									style='	margin: 0px;'
+									>
+							<b:inputTextarea	id='comentarios'
+												value='#{membroBean.membro.comentarios}'
+												maxlength='1000'
+												placeholder='Digite os comentários aqui.'
+												/>
+						</b:column>
+					</b:row>
+				</b:row>
+			</div>
+		</ui:define>
+	</ui:composition>
+
+</html>

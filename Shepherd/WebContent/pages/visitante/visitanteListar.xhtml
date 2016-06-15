@@ -12,18 +12,18 @@
 
 	<ui:composition template='/META-INF/resources/bootsfaces/jsfTemplate.xhtml'>
 		<ui:define name='mensagensCampos'/>
-		<ui:define name='tituloPagina'>Shepherd > Lista de Membros</ui:define>
+		<ui:define name='tituloPagina'>Shepherd > Lista de Visitantes</ui:define>
 		<ui:define name='tituloPrincipal'>
 			<b:iconAwesome name='fa fa-users fa-fw'/>
 			<br class='visible-xs'/>
-			Lista de Membros
+			Lista de Visitantes
 		</ui:define>
-		<ui:define name='tituloSecundario'>home > membros > listar</ui:define>
+		<ui:define name='tituloSecundario'>home > visitantes > listar</ui:define>
 		
 		<ui:define name='botoesAcao'>
 				<b:buttonGroup>
 					<b:button	value=''
-								onclick='location.href = "./membroCadastrar.jsf"'
+								onclick='location.href = "./visitanteCadastrar.jsf"'
 								iconAwesome='fa fa-plus fa-fw'
 								/>
 				</b:buttonGroup>
@@ -75,7 +75,6 @@
 				</b:row>
 				<b:row>
 					<p:dataTable	id='membroLista'
-									widgetVar='membroLista'
 									value='#{membroBean.listarMembros()}'
 									var='membro'
 									update='@form'
@@ -83,6 +82,7 @@
 									class='pDataTable'
 									rendered='#{showItems.value == "lista"}'
 									paginator='true'
+									widgetVar='membroLista'
 									filteredValue=''
 									rows='10'
 									paginatorAlwaysVisible='false'
@@ -90,15 +90,21 @@
 									>
 						<f:facet name='header'>
 							<p:outputPanel>
-								<p:inputText	id='filtroGlobal'
-												onkeyup="PF('membroLista').filter()"
-												placeholder='Pesquisar'	
-												style='	font-family: inherit;
-														font-weight: normal;
-														width: 100%;
-														padding: 6px 12px;
-														'
-												/>
+								<b:row>
+									<b:column	col-lg='12'
+												col-md='12'
+												col-sm='12'
+												col-xs='12'
+												>
+										<b:inputText	id='filtroGlobal'
+														onkeyup="PF('membroLista').filter()"
+														placeholder='Pesquisar'	
+														style='	font-family: inherit;
+																font-weight: normal;
+																'
+														/>
+									</b:column>
+								</b:row>
 							</p:outputPanel>
 						</f:facet>
 						<p:column	headerText='Nome'
