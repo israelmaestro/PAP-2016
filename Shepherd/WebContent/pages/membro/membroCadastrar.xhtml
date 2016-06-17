@@ -181,6 +181,9 @@
 						<b:datepicker 	id='dataNasc'
 										placeholder='DD/MM/AAAA'
 										value='#{membroBean.membro.dataNasc}'
+										showButtonPanel='true'
+										changeMonth='true'
+										changeYear='true'
 										/>
 					</b:column>
 					<b:column	col-lg='3'
@@ -728,7 +731,7 @@
 					<b:row>
 						<h:dataTable	id='tbMembresia'
 										value='#{membroBean.membro.pessoasCelulas}'
-										var='celula'
+										var='relacionamento'
 										style='width: auto;'
 										>
 							<h:column>
@@ -742,7 +745,7 @@
 												>
 										<br/>
 										<h:outputLabel	class='outputLabel' value='Célula*' />
-										<h:selectOneMenu	value='#{celula.celula}'
+										<h:selectOneMenu	value='#{relacionamento.celula}'
 															converter='omnifaces.SelectItemsConverter'
 															class='hSelectOneMenu'
 															>
@@ -766,7 +769,10 @@
 														class='outputLabel'
 														/>
 										<b:datepicker 	placeholder='DD/MM/AAAA'
-														value='#{celula.dataInicio}'
+														value='#{relacionamento.dataInicio}'
+														showButtonPanel='true'
+														changeMonth='true'
+														changeYear='true'
 														/>
 										<br/>
 									</b:column>
@@ -784,8 +790,10 @@
 										<b:datepicker 	id='dataBatismo'
 														placeholder='DD/MM/AAAA'
 														value='#{membroBean.membro.dataBatismo}'
-														>
-										</b:datepicker>
+														showButtonPanel='true'
+														changeMonth='true'
+														changeYear='true'
+														/>
 										<br/>
 									</b:column>
 								</div>
