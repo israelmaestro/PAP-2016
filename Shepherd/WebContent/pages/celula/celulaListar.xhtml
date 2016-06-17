@@ -26,25 +26,7 @@
 							onclick='location.href = "./celulaCadastrar.jsf"'
 							iconAwesome='fa fa-plus fa-fw'
 							/>
-				<b:button	value=''
-							onclick='location.href = "./celulaListar.jsf"'
-							iconAwesome='fa fa-list fa-fw'
-							/>
-				<b:button	value=''
-							onclick='mostrarImagem("mapaTeste.png")'
-							iconAwesome='fa fa-globe fa-fw'
-							/>
-				<b:button	value=''
-							onclick='mostrarImagem("graficoTeste.png")'
-							iconAwesome='fa fa-line-chart fa-fw'
-							/>
 			</b:buttonGroup>
-			<script type="text/javascript">
-				function mostrarImagem(x){
-					var image = "#{facesContext.externalContext.requestContextPath}/resources/genericImages/" + x;
-					document.getElementById("form:principal").innerHTML = '<img src="' + image + '" style="width: 100%; height: auto;"></img>';
-				}
-			</script>
 		</ui:define>
 			
 		<ui:define name='conteudo'>
@@ -73,9 +55,12 @@
 							priority='1'
 							>
 					<center>
-						<h:outputText	value='#{celula.nome}'
-										title='Nome: #{celula.nome}&#13;Frente: #{celula.frente.nome}&#13;Sede: #{sedeBean.getProperty("convencaoAbrev")} #{celula.sede.nome}'
-										/>
+						<p:commandLink onclick='alert("VISUALIZAÇÃO DO OBJETO SELECIONADO")'>
+							<h:outputText	value='#{celula.nome}'
+											title='Nome: #{celula.nome}&#13;Frente: #{celula.frente.nome}&#13;Sede: #{sedeBean.getProperty("convencaoAbrev")} #{celula.sede.nome}'
+											style='#{celula.sede.mae ? "font-weight: bold;" : ""}'
+											/>
+						</p:commandLink>
 					</center>
 				</p:column>
 				
@@ -83,7 +68,11 @@
 							priority='3'
 							>
 					<center>
-						<h:outputText value='#{celula.frente.nome}'/>
+						<p:commandLink onclick='alert("VISUALIZAÇÃO DO OBJETO SELECIONADO")'>
+							<h:outputText	value='#{celula.frente.nome}'
+											style='#{celula.sede.mae ? "font-weight: bold;" : ""}'
+											/>
+						</p:commandLink>
 					</center>
 				</p:column>
 				
@@ -91,9 +80,11 @@
 							priority='2'
 							>
 					<center>
-						<h:outputText	value='#{sedeBean.getProperty("convencaoAbrev")} #{celula.sede.nome}'
-										style='#{celula.sede.mae ? "font-weight: bold;" : ""}'
-										/>
+						<p:commandLink onclick='alert("VISUALIZAÇÃO DO OBJETO SELECIONADO")'>
+							<h:outputText	value='#{sedeBean.getProperty("convencaoAbrev")} #{celula.sede.nome}'
+											style='#{celula.sede.mae ? "font-weight: bold;" : ""}'
+											/>
+						</p:commandLink>
 					</center>
 				</p:column>
 				
@@ -101,11 +92,9 @@
 							priority='1'
 							>
 					<center>
-						<p:commandButton	update='@form'
-											onclick='alert("Visualização AINDA NÃO IMPLEMENTADA!")'
-											icon='fa fa-fw fa-eye'
-											alt='Visualizar'
-											disabled='true'
+						<p:commandButton	onclick='location.href = "./celulaReuniaoListar.jsf"'
+											icon='fa fa-calendar'
+											alt='Visualizar Reuniões'
 											/>
 						<p:commandButton	ajax='false'
 											action='#{celulaBean.prepararAlteracao(celula)}'

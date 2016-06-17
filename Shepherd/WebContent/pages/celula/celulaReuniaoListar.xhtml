@@ -12,18 +12,22 @@
 
 	<ui:composition template='/META-INF/resources/bootsfaces/jsfTemplate.xhtml'>
 		<ui:define name='mensagensCampos'/>
-		<ui:define name='tituloPagina'>Shepherd > Lista de Atendimentos</ui:define>
+		<ui:define name='tituloPagina'>Shepherd > Lista de Células</ui:define>
 		<ui:define name='tituloPrincipal'>
-			<b:iconAwesome name='fa fa-calendar-check-o fa-fw'/>
+			<b:iconAwesome name='fa fa-calendar fa-fw'/>
 			<br class='visible-xs'/>
-			Lista de Atendimentos
+			Lista de Reuniões de Célula
 		</ui:define>
-		<ui:define name='tituloSecundario'>home > atendimentos > listar</ui:define>
+		<ui:define name='tituloSecundario'>home > células > reuniões > listar</ui:define>
 		
 		<ui:define name='botoesAcao'>
 			<b:buttonGroup>
 				<b:button	value=''
-							onclick='location.href = "./atendimentoCadastrar.jsf"'
+							onclick='location.href = "./celulaListar.jsf"'
+							iconAwesome='fa fa-arrow-left fa-fw'
+							/>
+				<b:button	value=''
+							onclick='location.href = "./celulaCadastrar.jsf"'
 							iconAwesome='fa fa-plus fa-fw'
 							/>
 			</b:buttonGroup>
@@ -84,9 +88,9 @@
 							>
 					<center>
 						<p:commandButton	update='@form'
-											onclick='alert("Visualização AINDA NÃO IMPLEMENTADA!")'
-											icon='fa fa-fw fa-eye'
-											alt='Visualizar'
+											onclick='./'
+											icon='fa fa-eye'
+											alt='Visualizar Reuniões'
 											disabled='true'
 											/>
 						<p:commandButton	ajax='false'

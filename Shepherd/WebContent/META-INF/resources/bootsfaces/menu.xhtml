@@ -26,8 +26,12 @@
 			</b:dropMenu>
 			<b:dropMenu	value='Células'
 						iconAwesome='fa fa-sitemap'
-						style='	width: 100%;'
+						style='	width: 100%; border-radius-top: 100%'
 						>
+				<h:outputLabel class='menuLabel'>
+					<b:iconAwesome name='fa fa-sitemap'/>
+					Células
+				</h:outputLabel>
 				<b:navLink	value='Listar Células'
 							href='/Shepherd/pages/celula/celulaListar.jsf'
 							iconAwesome='fa fa-list fa-fw'
@@ -36,12 +40,10 @@
 							href='/Shepherd/pages/celula/celulaCadastrar.jsf'
 							iconAwesome='fa fa-plus fa-fw'
 							/>
-			</b:dropMenu>
-			<b:dropMenu	value='Reuniões de Células'
-						iconAwesome='fa fa-sitemap'
-						style='	width: 100%;'
-						
-						>
+				<h:outputLabel class='menuLabel'>
+					<b:iconAwesome name='fa fa-calendar'/>
+					Reuniões
+				</h:outputLabel>
 				<b:navLink	value='Listar Reuniões'
 							href='/Shepherd/pages/celula/celulaListar.jsf'
 							iconAwesome='fa fa-list fa-fw'

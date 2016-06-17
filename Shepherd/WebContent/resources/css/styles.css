@@ -1,4 +1,55 @@
-.pColumn{
+.nav>li>a:hover, .nav>li>a:focus {
+	background-color: #FFF;
+	color: #000;
+}
+
+.navbar-nav
+.open
+.dropdown-menu {
+	background-color: #000;
+}
+
+.navbar-nav>li>.dropdown-menu {
+	background-color: #000;
+}
+
+.dropdown-menu>li>a {
+	color: #999;
+}
+
+.navbar-nav>li>a {
+	color: #CCC;
+}
+
+.nav .open>a, .nav .open>a:hover, .nav .open>a:focus {
+	background-color: #000;
+	color: #FFF;
+	border-top-left-radius: 4px;
+	border-top-right-radius: 4px;
+	padding-bottom: 0px;
+}
+
+.dropdown-menu {
+	position: static;
+	float: none;
+	width: auto;
+	margin-top: 0;
+	background-color: transparent;
+	border: 0;
+	box-shadow: none;
+}
+
+.menuLabel {
+	text-align: center;
+	font-size: 0.8em;
+	font-weight: bold;
+	color: #CCC;
+	background: transparent;
+	background: radial-gradient(#333, transparent);
+	width: 100%;
+}
+
+.pColumn {
 	text-align: center;
 }
 
@@ -65,11 +116,11 @@
 	word-wrap: initial;
 }
 
-.noMarginLeft{
+.noMarginLeft {
 	margin-left: 0px;
 }
 
-.noMarginRight{
+.noMarginRight {
 	margin-right: 0px;
 }
 
