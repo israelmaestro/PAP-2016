@@ -9,19 +9,20 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 import br.com.shepherd.entity.Sede;
+import br.com.shepherd.service.util.SedeUtils;
 
 /**
  * Realiza serviços diversos para a entidade Sede.
  *
  * @author Israel Oliveira Santos
- *
  * @methods cadastrar, alterar, excluir
  */
 @Stateless
 public class SedeService{
-
 	@PersistenceContext(name = "ShepherdDB")
 	private EntityManager entityManager;
+
+	SedeUtils				sedeUtils = new SedeUtils();
 
 	public SedeService(){
 	}
@@ -34,77 +35,38 @@ public class SedeService{
 	 * @throws Exception
 	 */
 	public Sede cadastrar(Sede pSede) throws Exception{
+		pSede.setAtiva(true);
 
 		Sede existente = null;
 
 		// TODO: Resolver: Assembleias Gerais, Correspondências
 
-		// Consistir dados
-		if(null == pSede.getNome() || pSede.getNome().equals("")){
-			// Campo Nome obrigatório
-			throw new Exception("O cadastro possui campos obrigatórios não preenchidos!");
-		}
+		pSede = sedeUtils.consistir(pSede);
 
-		if(null == pSede.getEmails() || pSede.getEmails().isEmpty()){
-			// Campo Email obrigatório
-			throw new Exception("E-mail! Cadastre pelo menos um endereço");
-		}
-
-		// Atribuir valores padrão
-		if(null == pSede.getCnpj() || pSede.getCnpj().equals("")){
-			pSede.setCnpj(null);
-		} else{
+		// Verificando chave única para CNPJ
+		if(null != pSede.getCnpj()){
 			existente = buscaCriterio("Sede", "cnpj", pSede.getCnpj());
 
 			if(existente != null){
 				// Validar chave única para CNPJ
 				throw new Exception("O CNPJ “" + pSede.getCnpj() + "” já existe no cadastro!");
 			}
-		}
-
-		if(null == pSede.getDataFundacao() || pSede.getDataFundacao().toString().equals("")){
-			pSede.setDataFundacao(null);
-		}
-
-		if(null == pSede.getCelulas() || pSede.getCelulas().toString().equals("")){
-			pSede.setCelulas(null);
-		}
-
-		// if(null == pSede.getPresidente() ||
-		// pSede.getPresidente().toString().equals("")){
-		// pSede.setPresidente(null);
-		// }
-
-		if(null == pSede.getPaginaWeb() || pSede.getPaginaWeb().equals("")){
-			pSede.setPaginaWeb(null);
-		}
-
-		if(null == pSede.getPerfilRedeSocial() || pSede.getPerfilRedeSocial().equals("")){
-			pSede.setPerfilRedeSocial(null);
-		}
-
-		if(pSede.isMae()){
-			pSede.setSedeMae(null);
 		} else{
-			if(null == pSede.getSedeMae() || pSede.getSedeMae().toString().equals("")){
-				// Sede filha não possui Sede Mãe
-				throw new Exception("Nenhuma Sede-Mãe selecionada! Obrigatório para Sede-Filha!");
-			}
+			pSede.setCnpj(null);
 		}
 
-		pSede.setAtiva(true);
-
-		pSede.getEndereco().consistir();
-
-		if(pSede.getEndereco()
-				.isEmpty()){
-			throw new Exception("Endereço possui campos obrigatórios.");
+		// Verificar se há mais de uma sede-mãe na mesma cidade
+		if(pSede.isMae()
+			&& !isUnicaMae(pSede.getEndereco()
+								.getCidade())){
+			throw new Exception("Não pode haver mais de uma sede-mãe na mesma cidade!");
 		}
+
 
 		// Verificar se a sede já existe
 		existente = buscaCriterio("Sede", "nome", pSede.getNome(), "cnpj", pSede.getCnpj());
 
-		if(existente == null){
+		if(null == existente){
 			entityManager.persist(pSede);
 
 			return pSede;
@@ -217,5 +179,34 @@ public class SedeService{
 		} catch(NoResultException n){
 			return null;
 		}
+	}
+
+	/**
+	 * Verifica se a sede, sendo mãe, é a única na cidade
+	 *
+	 * @param pCidade
+	 * @return true (é unica) / false (não é única)
+	 */
+	public boolean isUnicaMae(String pCidade){
+		boolean tResult = true;
+
+		Query query = entityManager.createQuery("FROM Sede dbSede WHERE dbSede.mae = true "
+												+ "AND UPPER(dbSede.endereco.cidade) = UPPER(:p1)");
+
+		query.setParameter("p1", pCidade);
+
+		try{
+			Sede tSede = (Sede) query.getSingleResult();
+
+			if(tSede.isMae() && tSede.isAtiva() && tSede.getEndereco().getCidade().equals(pCidade)){
+				tResult = false;
+			} else{
+				tResult = true;
+			}
+		} catch(NoResultException n){
+			tResult = true;
+		}
+
+		return tResult;
 	}
 }

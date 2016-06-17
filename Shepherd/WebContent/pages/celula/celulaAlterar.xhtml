@@ -265,7 +265,7 @@
 													disableIfEmpty='true'
 													>
 									<f:selectItem itemLabel='Selecione' itemDisabled='true'/>
-									<f:selectItems	value='#{membroBean.listar()}'
+									<f:selectItems	value='#{membroBean.listarTodos()}'
 													var='coordenador'
 													itemLabel='#{coordenador.lider.membro.pessoa.nome} #{coordenador.lider.membro.pessoa.sobrenome}'
 													/>
@@ -291,7 +291,7 @@
 													fieldSize='lg'
 													style='	width: 200%;'
 													>
-									<f:selectItems	value='#{membroBean.listar()}}'
+									<f:selectItems	value='#{membroBean.listarTodos()}}'
 													var='membro'
 													itemLabel='#{membro.nome} #{membro.sobrenome}'
 													/>

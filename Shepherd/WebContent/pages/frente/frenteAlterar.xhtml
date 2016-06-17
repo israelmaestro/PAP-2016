@@ -113,7 +113,7 @@
 											disableIfEmpty='true'
 											allSelectedText='Todos os membros'
 											>
-							<f:selectItems	value='#{membroBean.listar()}'
+							<f:selectItems	value='#{membroBean.listarTodos()}'
 											var='frenteLideres'
 											itemLabel='#{frenteLideres.membro.pessoa.nome} #{frenteLideres.membro.pessoa.sobrenome}'
 											/>
@@ -169,7 +169,7 @@
 											allSelectedText='Todas os membros'
 											fieldSize='lg'
 											>
-							<f:selectItems	value='#{membroBean.listar()}'
+							<f:selectItems	value='#{membroBean.listarTodos()}'
 											var='frenteParticipantes'
 											itemLabel='#{frenteParticipantes.nome} #{frenteParticipantes.sobrenome}'
 											/>

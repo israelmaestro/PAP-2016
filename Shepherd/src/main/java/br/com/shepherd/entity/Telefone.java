@@ -21,12 +21,15 @@ public class Telefone implements Serializable{
 
 	private String				descricao;
 
-	@OneToOne // (fetch = FetchType.LAZY)
+	@OneToOne
 	private Sede				sede;
 
-	@OneToOne // (fetch = FetchType.LAZY)
+	@OneToOne
 	private Pessoa				pessoa;
 
+	/*
+	 * Construtor e afins
+	 */
 	public Telefone(){
 	}
 
@@ -50,6 +53,9 @@ public class Telefone implements Serializable{
 		return true;
 	}
 
+	/*
+	 * Getters e Setters
+	 */
 	public Integer getId(){
 		return id;
 	}

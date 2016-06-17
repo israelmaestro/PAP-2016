@@ -20,12 +20,15 @@ public class Email implements Serializable{
 
 	private String				descricao;
 
-	@OneToOne // (fetch = FetchType.LAZY)
+	@OneToOne
 	private Sede					sede;
 
-	@OneToOne // (fetch = FetchType.LAZY)
+	@OneToOne
 	private Pessoa				pessoa;
 
+	/*
+	 * Construtor e afins
+	 */
 	public Email(){
 	}
 
@@ -49,6 +52,9 @@ public class Email implements Serializable{
 		return true;
 	}
 
+	/*
+	 * Getters e Setters
+	 */
 	public Integer getId(){
 		return id;
 	}

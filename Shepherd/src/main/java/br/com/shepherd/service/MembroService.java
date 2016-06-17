@@ -12,147 +12,44 @@ import javax.persistence.Query;
 
 import br.com.shepherd.entity.Pessoa;
 import br.com.shepherd.entity.PessoaCelula;
+import br.com.shepherd.service.util.PessoaUtils;
 
 @Stateless
 public class MembroService{
-
 	@PersistenceContext(name = "ShepherdDB")
 	private EntityManager entityManager;
+
+	PessoaUtils				pessoaUtils = new PessoaUtils();
 
 	public MembroService(){
 
 	}
 
-	public Pessoa cadastrarMembro(Pessoa pPessoa) throws Exception{
-
-		// Tornar ativo
+	public Pessoa cadastrar(Pessoa pPessoa) throws Exception{
+		// Ativar novo membro
 		pPessoa.setAtiva(true);
 
-		// Eliminando espaços vazios
-		pPessoa.setNome(pPessoa.getNome().trim());
-		pPessoa.setSobrenome(pPessoa.getSobrenome().trim());
-
-		if(null != pPessoa.getRg()){
-			if(!pPessoa.getRg().equals("")){
-				pPessoa.setRg(pPessoa.getRg().trim());
-			} else{
-				pPessoa.setRg(null);
-			}
-		}
-
-		if(null != pPessoa.getCpf()){
-			if(!pPessoa.getCpf().equals("")){
-				pPessoa.setCpf(pPessoa.getCpf().trim());
-			} else{
-				pPessoa.setCpf(null);
-			}
-		}
-
-		// Consistir endereço
-		if(null != pPessoa.getEndereco().getCep()&& null != pPessoa.getEndereco().getLogradouro()
-			&& null != pPessoa.getEndereco().getNumero()
-			&& null != pPessoa.getEndereco().getComplemento()
-			&& null != pPessoa.getEndereco().getBairro()
-			&& null != pPessoa.getEndereco().getCidade()
-			&& null != pPessoa.getEndereco().getEstado()
-			&& null != pPessoa.getEndereco().getPais()){
-			if(null == pPessoa.getEndereco().getCep() || pPessoa.getEndereco().getCep().equals("")){
-				if(pPessoa.getEndereco().isGps()){
-					if(null != pPessoa.getEndereco().getLogradouro()
-						|| !pPessoa.getEndereco().getLogradouro().equals("")){
-						pPessoa.getEndereco().setCep(null);
-						pPessoa.getEndereco().setNumero(null);
-						pPessoa.getEndereco().setComplemento(null);
-						pPessoa.getEndereco().setBairro(null);
-						pPessoa.getEndereco().setCidade(null);
-						pPessoa.getEndereco().setEstado(null);
-						pPessoa.getEndereco().setPais(null);
-					} else{
-						// Logradouro é campo obrigatório, caso seja endereço de
-						// GPS
-						throw new Exception("Coordenadas de GPS: Campo obrigatório!");
-					}
-				} else{
-					pPessoa.getEndereco().setCep(null);
-
-					if(null == pPessoa.getEndereco().getLogradouro()
-						|| pPessoa.getEndereco().getLogradouro().equals("")){
-						pPessoa.getEndereco().setLogradouro(null);
-					}
-
-					if(null == pPessoa.getEndereco().getNumero()
-						|| pPessoa.getEndereco().getNumero().equals("")){
-						pPessoa.getEndereco().setNumero(null);
-					}
-
-					if(null == pPessoa.getEndereco().getComplemento()
-						|| pPessoa.getEndereco().getComplemento().equals("")){
-						pPessoa.getEndereco().setComplemento(null);
-					}
-
-					if(null == pPessoa.getEndereco().getBairro()
-						|| pPessoa.getEndereco().getBairro().equals("")){
-						pPessoa.getEndereco().setBairro(null);
-					}
-
-					if(null == pPessoa.getEndereco().getCidade()
-						|| pPessoa.getEndereco().getCidade().equals("")){
-						pPessoa.getEndereco().setCidade(null);
-					}
-
-					if(null == pPessoa.getEndereco().getEstado()
-						|| pPessoa.getEndereco().getEstado().equals("")){
-						pPessoa.getEndereco().setEstado(null);
-					}
-
-					if(null == pPessoa.getEndereco().getPais()
-						|| pPessoa.getEndereco().getPais().equals("")){
-						pPessoa.getEndereco().setPais(null);
-					}
-				}
-			} else{
-				if(null == pPessoa.getEndereco().getLogradouro()
-					|| pPessoa.getEndereco().getLogradouro().equals("")){
-					// Logradouro é campo obrigatório, caso haja CEP
-					throw new Exception("Endereço: Campo obrigatório quando há CEP!");
-				}
-
-				if(null == pPessoa.getEndereco().getNumero()
-					|| pPessoa.getEndereco().getNumero().equals("")){
-					// Logradouro é campo obrigatório, caso haja CEP
-					throw new Exception("Número: Campo obrigatório quando há CEP!");
-				}
-
-				if(null == pPessoa.getEndereco().getCidade()
-					|| pPessoa.getEndereco().getCidade().equals("")){
-					// Logradouro é campo obrigatório, caso haja CEP
-					throw new Exception("Cidade: Campo obrigatório quando há CEP!");
-				}
-			}
-		} else{
-			pPessoa.setEndereco(null);
-		}
+		pPessoa = pessoaUtils.consistir(pPessoa);
 
 		entityManager.persist(pPessoa);
 
 		return pPessoa;
 	}
 
-	public Pessoa alterarMembro(Pessoa pPessoa){
+	public Pessoa alterar(Pessoa pPessoa){
 		entityManager.merge(pPessoa);
 
 		return pPessoa;
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<Pessoa> listar(){
+	public List<Pessoa> listarTodos(){
 		return entityManager.createQuery("FROM Pessoa dbPessoa " + "ORDER BY dbPessoa.nome")
 							.getResultList();
 	}
 
-	// TODO: Resolver problema de exclusão
 	@SuppressWarnings("unchecked")
-	public List<PessoaCelula> listarMembros(){
+	public List<PessoaCelula> listar(){
 		List<PessoaCelula> MembrosCelulas = new ArrayList<PessoaCelula>();
 
 		try{

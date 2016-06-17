@@ -49,9 +49,10 @@
 							onclick='location.href = "./membroListar.jsf"'
 							iconAwesome='fa fa-arrow-left fa-fw'
 							/>
-				<btr:commandLink	action='#{membroBean.cadastrarMembro()}'
+				<btr:commandLink	action='#{membroBean.cadastrar()}'
 									styleClass='btn btn-default'
 									>
+					<f:setPropertyActionListener value='#{gmap.posicaoCentralTxt}' target="#{membroBean.membro.endereco.coordenadas}"/>				
 					<b:iconAwesome name='fa fa-check fa-fw'/>
 				</btr:commandLink>
 				<b:button	value=''
@@ -125,9 +126,7 @@
 																	binding='#{showMateInfo}'
 																	value='#{membroBean.membro.casada}'
 																	style='	margin-left: 0px;'
-																	>
-	<!-- 										<f:ajax event='change' render='familia' /> -->
-										</b:selectBooleanCheckbox>
+																	/>
 									</div>
 								</td>
 							</tr>
@@ -275,22 +274,25 @@
 
 				<br/>
 
-				<b:row	style='	border-top: solid;
-								border-color: #CCCCCC;
-								'>
-					<table style='width: 100%;'>
+				<b:row	class='row splitRow fullWidth'>
+					<table class='fullWidth'>
 						<tr>
 							<td	style='	vertical-align: bottom;'>
 								<h3>
-									<b:iconAwesome name="fa fa-fw fa-map-marker"/>
+									<b:iconAwesome name='fa fa-fw fa-map-marker'/>
 									Endereço
+									<b:button value=''
+											iconAwesome='fa fa-eraser fa-fw'
+											onclick='limparEndereco()'
+											size='xs'
+											tooltip='Clique para limpar os campos de endereço'
+											/>
 								</h3>
 							</td>
 							<td	style='	vertical-align: bottom;
 										text-align: right;
 										line-height: 1px;
-										margin: 0px;
-										padding: 0px;'
+										 margin: 0px; padding: 0px;'
 								>
 								<b:switch	value='#{membroBean.membro.endereco.gps}'
 											label=''
@@ -301,163 +303,229 @@
 											switchsize='mini'
 											binding='#{showGpsForm}'
 											>
-									<f:ajax event='change' render='endereco' />
+									<f:ajax event='change' render='showEndereco' />
 								</b:switch>
 							</td>
 						</tr>
 					</table>
 				</b:row>
-					
-				<b:row id='endereco'>
-					<b:row	rendered='#{showGpsForm.value}'
-									>
-						<b:column	col-lg='4'
-									col-md='4'
-									col-sm='6'
-									col-xs='12'
-									>
-							<br/>
-							<h:outputLabel	class='outputLabel'	for='gpsAddress'
-											value='Coordenadas de GPS*'
-											/>
-							<b:inputText	id='gpsAddress'
-											value='#{membroBean.membro.endereco.logradouro}'
-											placeholder='Digite as coordenadas do GPS'
-											required='true'
-											requiredMessage='Coordenadas de GPS: Campo obrigatório!'
-											class='required'
-											/>
-						</b:column>
-					</b:row>
-					<b:row	rendered='#{!showGpsForm.value}'
+				
+				<b:row id='endereco' class='row'>
+					<b:column	col-lg='9'
+								col-md='9'
+								col-sm='9'
+								col-xs='12'
+								class='column'
+								>
+						<b:row id='showEndereco'>
+							<b:row	rendered='#{showGpsForm.value}'
 									class='row'
 									>
-						<b:column	col-lg='3'
-									col-md='3'
-									col-sm='3'
-									col-xs='12'
-									>
-							<br/>
-							<h:outputLabel	class='outputLabel' value='CEP' for='cep'/>
-							<b:iconAwesome	name='fa-question-circle'
-											tooltip='Caso o sistema encontre o CEP digitado, os campos de endereço serão preenchidos automaticamente.'
-											onclick='alert("Caso o sistema encontre o CEP digitado, os campos de endereço serão preenchidos automaticamente.")'
-											style='	margin-left: 4px;'
+								<b:column	col-lg='12'
+											col-md='12'
+											col-sm='12'
+											col-xs='12'
+											>
+									<br/>
+									<h:outputLabel class='outputLabel'	for='gpsAddress'
+													value='Coordenadas de GPS*'
+													/>
+									<b:inputText	id='gpsAddress'
+													value='#{membroBean.membro.endereco.coordenadas}'
+													placeholder='Formato: ±9.9*, ±9.9*'
+													class='required'
+													required='true'
+													requiredMessage='Coordenadas de GPS: Campo obrigatório!'
+													onblur='setMapaCode()'
+													>
+										<script type='text/javascript'>
+											document.getElementById("input_form:gpsAddress").value = document.getElementById("form:code").value;
+										</script>
+									</b:inputText>
+								</b:column>
+							</b:row>
+							<b:row>
+								<b:row	rendered='#{!showGpsForm.value}'
+										class='row fullWidth'
+										>
+									<b:column	col-lg='2'
+												col-md='2'
+												col-sm='3'
+												col-xs='12'
+												>
+										<br/>
+										<h:outputLabel class='outputLabel' value='CEP' for='cep'/>
+										<b:iconAwesome	name='fa-question-circle'
+														tooltip='Caso o sistema encontre o CEP digitado, os campos de endereço serão preenchidos automaticamente.'
+														onclick='alert("Caso o sistema encontre o CEP digitado, os campos de endereço serão preenchidos automaticamente.")'
+														style='	margin-left: 4px;'
+														/>
+										<b:inputText	id='cep'
+														binding='#{cep}'
+														maxlength='8'
+														onkeypress='return teclaNumerica(event.keyCode)'
+														value='#{membroBean.membro.endereco.cep}'
+														placeholder='CEP'
+														onblur='if(this.value != "") pesquisaCep(this.value); localizaCoordenadas();'
+														class='halfPadding'
+														/>
+									</b:column>
+									
+									<b:column	col-lg='6'
+												col-md='5'
+												col-sm='9'
+												col-xs='12'
+												>
+										<br/>
+										<h:outputLabel class='outputLabel' value='Endereço' for='logradouro'/>
+										<b:inputText	id='logradouro'
+														name='logradouro'
+														value='#{membroBean.membro.endereco.logradouro}'
+														placeholder='Rua / Avenida / Praça / etc.'
+														class='hidden-xs required'
+														onblur='document.getElementById("input_form:logradouro2").value = document.getElementById("input_form:logradouro").value; localizaCoordenadas();'
+														required='true'
+														requiredMessage='Endereço: Campo obrigatório!'
+														/>
+										<b:inputTextarea	id='logradouro2'
+															name='logradouro2'
+															value='#{membroBean.membro.endereco.logradouro}'
+															placeholder='Digite o nome da rua, avenida, etc.'
+															class='visible-xs required'
+															onblur='document.getElementById("input_form:logradouro").value = document.getElementById("input_form:logradouro2").value; localizaCoordenadas();'
+															style='	margin-top: -8px;'
+															required='true'
+															requiredMessage='Endereço: Campo obrigatório!'
+															/>
+									</b:column>
+									
+									<b:column	col-lg='2'
+												col-md='2'
+												col-sm='2'
+												col-xs='5'
+												>
+										<br/>
+										<h:outputLabel class='outputLabel' value='№' for='numero'/>
+										<b:inputText	id='numero'
+														onblur='localizaCoordenadas()'
+														value='#{membroBean.membro.endereco.numero}'
+														onkeypress='return teclaNumerica(event.keyCode)'
+														maxlength='5'
+														placeholder='№'
+														required='true'
+														class='required halfPadding'
+														requiredMessage='№: Campo obrigatório!'
+														/>
+									</b:column>
+									
+									<b:column	col-lg='2'
+												col-md='3'
+												col-sm='4'
+												col-xs='7'
+												>
+										<br/>
+										<h:outputLabel class='outputLabel' value='Complemento' for='complemento'/>
+										<b:inputText	id='complemento'
+														value='#{membroBean.membro.endereco.complemento}'
+														placeholder='Complemento'
+														/>
+									</b:column>
+									
+									<b:column	col-lg='3'
+												col-md='3'
+												col-sm='6'
+												col-xs='12'
+												>
+										<br/>
+										<h:outputLabel class='outputLabel' value='Bairro' for='bairro'/>
+										<b:inputText	id='bairro'
+														onblur='localizaCoordenadas()'
+														value='#{membroBean.membro.endereco.bairro}'
+														placeholder='Bairro'
+														/>
+									</b:column>
+									
+									<b:column	col-lg='4'
+												col-md='4'
+												col-sm='6'
+												col-xs='12'
+												>
+										<br/>
+										<h:outputLabel class='outputLabel' value='Cidade' for='cidade'/>
+										<b:inputText	id='cidade'
+														onblur='localizaCoordenadas()'
+														value='#{membroBean.membro.endereco.cidade}'
+														placeholder='Cidade'
+														required='true'
+														class='required'
+														requiredMessage='Cidade: Campo obrigatório!'
+														/>
+									</b:column>
+									
+									<b:column	col-lg='1'
+												col-md='1'
+												col-sm='2'
+												col-xs='4'
+												>
+										<br/>
+										<h:outputLabel class='outputLabel' value='UF' for='uf'/>
+										<b:inputText	id='uf'
+														onblur='localizaCoordenadas()'
+														maxlength='2'
+														value='#{membroBean.membro.endereco.estado}'
+														placeholder='UF'
+														class='halfPaddingMono'
+														/>
+									</b:column>
+									
+									<b:column	col-lg='4'
+												col-md='4'
+												col-sm='4'
+												col-xs='8'
+												>
+										<br/>
+										<h:outputLabel class='outputLabel' value='País' for='pais'/>
+										<b:inputText	id='pais'
+														onblur='localizaCoordenadas()'
+														value='#{membroBean.membro.endereco.pais}'
+														placeholder='País'
+														/>
+									</b:column>
+								</b:row>
+							</b:row>
+						</b:row>
+					</b:column>
+					
+					
+					<b:column	col-lg='3'
+								col-md='3'
+								col-sm='3'
+								col-xs='12'
+								>
+						<br class='visible-sm visible-xs'/>
+						<br class='visible-sm'/>
+						#{gmapBean.marcarMapa(false, false, true)}
+						<p:gmap	id='mapaId'
+								widgetVar='mapa'
+								center='#{gmap.posicaoCentral}'
+								scrollWheel='false'
+								draggable='false'
+								zoom='16'
+								type='ROADMAP'
+								style='width:100%; height: 200px;'
+								model='#{gmap.mapModel}'
+								class='mapContainer'
+								>
+							<p:ajax event='geocode' listener='#{gmap.onGeocode}'  update='mapaId, code'/>
+						</p:gmap>
+						<center>
+							<h:inputText	id='code'
+											value='#{gmap.posicaoCentral}'
+											readonly='true'
+											class='mapCodeFooter'
 											/>
-							<b:inputText	id='cep'
-											binding='#{cep}'
-											maxlength='8'
-											onkeypress='return teclaNumerica(event.keyCode)'
-											value='#{membroBean.membro.endereco.cep}'
-											placeholder='Digite o CEP'
-											onblur='if(this.value != "") pesquisaCep(this.value);'
-											/>
-						</b:column>
-						
-						<b:column	col-lg='6'
-									col-md='6'
-									col-sm='9'
-									col-xs='12'
-									>
-							<br/>
-							<h:outputLabel	class='outputLabel' value='Endereço' for='logradouro'/>
-							<b:inputText	id='logradouro'
-											name='logradouro'
-											value='#{membroBean.membro.endereco.logradouro}'
-											placeholder='Digite o nome da rua, avenida, etc.'
-											class='hidden-xs'
-											onblur='document.getElementById("input_form:logradouro2").value = document.getElementById("input_form:logradouro").value'
-											/>
-							<b:inputTextarea	id='logradouro2'
-												name='logradouro2'
-												value='#{membroBean.membro.endereco.logradouro}'
-												placeholder='Digite o nome da rua, avenida, etc.'
-												class='visible-xs'
-												onblur='document.getElementById("input_form:logradouro").value = document.getElementById("input_form:logradouro2").value'
-												/>
-						</b:column>
-						
-						<b:column	col-lg='1'
-									col-md='1'
-									col-sm='2'
-									col-xs='5'
-									>
-							<br/>
-							<h:outputLabel	class='outputLabel' value='№' for='numero'/>
-							<b:inputText	id='numero'
-											value='#{membroBean.membro.endereco.numero}'
-											onkeypress='return teclaNumerica(event.keyCode)'
-											maxlength='5'
-											placeholder='№'
-											/>
-						</b:column>
-						
-						<b:column	col-lg='2'
-									col-md='2'
-									col-sm='4'
-									col-xs='7'
-									>
-							<br/>
-							<h:outputLabel	class='outputLabel' value='Complemento' for='complemento'/>
-							<b:inputText	id='complemento'
-											value='#{membroBean.membro.endereco.complemento}'
-											placeholder='Complemento'
-											/>
-						</b:column>
-						
-						<b:column	col-lg='3'
-									col-md='3'
-									col-sm='6'
-									col-xs='12'
-									>
-							<br/>
-							<h:outputLabel	class='outputLabel' value='Bairro' for='bairro'/>
-							<b:inputText	id='bairro'
-											value='#{membroBean.membro.endereco.bairro}'
-											placeholder='Bairro'
-											/>
-						</b:column>
-						
-						<b:column	col-lg='4'
-									col-md='4'
-									col-sm='6'
-									col-xs='12'
-									>
-							<br/>
-							<h:outputLabel	class='outputLabel' value='Cidade' for='cidade'/>
-							<b:inputText	id='cidade'
-											value='#{membroBean.membro.endereco.cidade}'
-											placeholder='Cidade'
-											/>
-						</b:column>
-						
-						<b:column	col-lg='1'
-									col-md='1'
-									col-sm='2'
-									col-xs='4'
-									>
-							<br/>
-							<h:outputLabel	class='outputLabel' value='UF' for='uf'/>
-							<b:inputText	id='uf'
-											maxlength='2'
-											value='#{membroBean.membro.endereco.estado}'
-											placeholder='UF'
-											/>
-						</b:column>
-						
-						<b:column	col-lg='4'
-									col-md='4'
-									col-sm='4'
-									col-xs='12'
-									>
-							<br/>
-							<h:outputLabel	class='outputLabel' value='País' for='pais'/>
-							<b:inputText	id='pais'
-											value='#{membroBean.membro.endereco.pais}'
-											placeholder='País'
-											/>
-						</b:column>
-					</b:row>
+						</center>
+					</b:column>
 				</b:row>
 
 				<br/>
