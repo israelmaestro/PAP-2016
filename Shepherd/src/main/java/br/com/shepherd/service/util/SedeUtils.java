@@ -55,53 +55,55 @@ public class SedeUtils{
 		}
 
 		// Consistir lista de Emails
-		List<Email> tEmails = new ArrayList<Email>();
+		if(null != pSede.getEmails()){
+			if(!pSede.getEmails().isEmpty()){
+				List<Email> tEmails = new ArrayList<Email>();
+				for(Email pEmail : pSede.getEmails()){
+					pEmail = emailUtils.consistir(pEmail);
 
-		for(Email pEmail : pSede.getEmails()){
-			pEmail = emailUtils.consistir(pEmail);
+					if(null == pEmail || emailUtils.isEmpty(pEmail)){
+						pSede.getEmails().remove(pEmail);
+					} else{
+						tEmails.add(pEmail);
+					}
+				}
+				if(!tEmails.isEmpty()){
+					pSede.setEmails(tEmails);
+					tEmails = new ArrayList<Email>();
+				}
 
-			if(emailUtils.isEmpty(pEmail)){
-				pSede.getEmails().remove(pEmail);
+				if(pSede.getEmails().isEmpty()){
+					pSede.setEmails(null);
+				}
 			} else{
-				tEmails.add(pEmail);
+				pSede.setEmails(null);
 			}
-		}
-
-		if(!tEmails.isEmpty()){
-			pSede.setEmails(tEmails);
-			tEmails = new ArrayList<Email>();
-		}
-
-		if(pSede.getEmails().isEmpty()){
-		throw new Exception("E-mail! Cadastre pelo menos um endereço!");
 		}
 
 		// Consistir lista de Telefones
-		List<Telefone> tTelefones = new ArrayList<Telefone>();
+		if(null != pSede.getTelefones()){
+			if(!pSede.getTelefones().isEmpty()){
+				List<Telefone> tTelefones = new ArrayList<Telefone>();
+				for(Telefone pTelefone : pSede.getTelefones()){
+					pTelefone = telefoneUtils.consistir(pTelefone);
 
-		for(Telefone pTelefone : pSede.getTelefones()){
-			pTelefone = telefoneUtils.consistir(pTelefone);
+					if(null == pTelefone || telefoneUtils.isEmpty(pTelefone)){
+						pSede.getTelefones().remove(pTelefone);
+					} else{
+						tTelefones.add(pTelefone);
+					}
+				}
+				if(!tTelefones.isEmpty()){
+					pSede.setTelefones(tTelefones);
+					tTelefones = new ArrayList<Telefone>();
+				}
 
-			if(telefoneUtils.isEmpty(pTelefone)){
-				pSede.getTelefones().remove(pTelefone);
+				if(pSede.getTelefones().isEmpty()){
+					pSede.setTelefones(null);
+				}
 			} else{
-				tTelefones.add(pTelefone);
+				pSede.setTelefones(null);
 			}
-		}
-
-		if(!tTelefones.isEmpty()){
-			pSede.setTelefones(tTelefones);
-			tTelefones = new ArrayList<Telefone>();
-		}
-
-		if(pSede.getTelefones().isEmpty()){
-		throw new Exception("Telefone! Cadastre pelo menos um contato!");
-		}
-
-		if(pSede.getComentarios().isEmpty()){
-			pSede.setComentarios(null);
-		} else{
-			pSede.setComentarios(pSede.getComentarios().trim());
 		}
 
 		return pSede;

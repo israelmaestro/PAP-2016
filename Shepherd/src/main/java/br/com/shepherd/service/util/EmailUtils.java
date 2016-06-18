@@ -5,14 +5,20 @@ import br.com.shepherd.entity.Email;
 public class EmailUtils{
 	/**
 	 * Consiste os campos de Email
+	 *
+	 * @return Email
 	 */
 	public Email consistir(Email pEmail){
-		if(!pEmail.getConta().isEmpty()){
-			pEmail.setConta(pEmail.getConta().trim());
-		}
+		if(null != pEmail){
+			if(!pEmail.getConta().isEmpty()){
+				pEmail.setConta(pEmail.getConta().trim());
 
-		if(!pEmail.getDescricao().isEmpty()){
-			pEmail.setDescricao(pEmail.getDescricao().trim());
+				if(!pEmail.getDescricao().isEmpty()){
+					pEmail.setDescricao(pEmail.getDescricao().trim());
+				}
+			} else if(!pEmail.getDescricao().isEmpty()){
+				pEmail.setDescricao(null);
+			}
 		}
 
 		return pEmail;

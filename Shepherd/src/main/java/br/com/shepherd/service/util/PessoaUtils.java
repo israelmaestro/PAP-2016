@@ -50,53 +50,66 @@ public class PessoaUtils{
 		}
 
 		// Consistir objeto Endereço
-		pPessoa.setEndereco(enderecoUtils.consistir(pPessoa.getEndereco()));
+		if(null != pPessoa.getEndereco()){
+			pPessoa.setEndereco(enderecoUtils.consistir(pPessoa.getEndereco()));
 
-		if(enderecoUtils.isEmpty(pPessoa.getEndereco())){
+			if(enderecoUtils.isEmpty(pPessoa.getEndereco())){
+				pPessoa.setEndereco(null);
+			}
+		} else{
 			pPessoa.setEndereco(null);
 		}
 
 		// Consistir lista de Emails
-		List<Email> tEmails = new ArrayList<Email>();
-		for(Email pEmail : pPessoa.getEmails()){
-			pEmail = emailUtils.consistir(pEmail);
+		if(null != pPessoa.getEmails()){
+			if(!pPessoa.getEmails().isEmpty()){
+				List<Email> tEmails = new ArrayList<Email>();
+				for(Email pEmail : pPessoa.getEmails()){
+					pEmail = emailUtils.consistir(pEmail);
 
-			if(emailUtils.isEmpty(pEmail)){
-				pPessoa.getEmails().remove(pEmail);
+					if(null == pEmail || emailUtils.isEmpty(pEmail)){
+						pPessoa.getEmails().remove(pEmail);
+					} else{
+						tEmails.add(pEmail);
+					}
+				}
+				if(!tEmails.isEmpty()){
+					pPessoa.setEmails(tEmails);
+					tEmails = new ArrayList<Email>();
+				}
+
+				if(pPessoa.getEmails().isEmpty()){
+					pPessoa.setEmails(null);
+				}
 			} else{
-				tEmails.add(pEmail);
+				pPessoa.setEmails(null);
 			}
-		}
-
-		if(!tEmails.isEmpty()){
-			pPessoa.setEmails(tEmails);
-			tEmails = new ArrayList<Email>();
-		}
-
-		if(pPessoa.getEmails().isEmpty()){
-			pPessoa.setEmails(null);
 		}
 
 		// Consistir lista de Telefones
-		List<Telefone> tTelefones = new ArrayList<Telefone>();
+		if(null != pPessoa.getTelefones()){
+			if(!pPessoa.getTelefones().isEmpty()){
+				List<Telefone> tTelefones = new ArrayList<Telefone>();
+				for(Telefone pTelefone : pPessoa.getTelefones()){
+					pTelefone = telefoneUtils.consistir(pTelefone);
 
-		for(Telefone pTelefone : pPessoa.getTelefones()){
-			pTelefone = telefoneUtils.consistir(pTelefone);
+					if(null == pTelefone || telefoneUtils.isEmpty(pTelefone)){
+						pPessoa.getTelefones().remove(pTelefone);
+					} else{
+						tTelefones.add(pTelefone);
+					}
+				}
+				if(!tTelefones.isEmpty()){
+					pPessoa.setTelefones(tTelefones);
+					tTelefones = new ArrayList<Telefone>();
+				}
 
-			if(telefoneUtils.isEmpty(pTelefone)){
-				pPessoa.getTelefones().remove(pTelefone);
+				if(pPessoa.getTelefones().isEmpty()){
+					pPessoa.setTelefones(null);
+				}
 			} else{
-				tTelefones.add(pTelefone);
+				pPessoa.setTelefones(null);
 			}
-		}
-
-		if(!tTelefones.isEmpty()){
-			pPessoa.setTelefones(tTelefones);
-			tTelefones = new ArrayList<Telefone>();
-		}
-
-		if(pPessoa.getTelefones().isEmpty()){
-			pPessoa.setTelefones(null);
 		}
 
 		return pPessoa;
