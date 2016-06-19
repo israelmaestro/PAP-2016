@@ -56,8 +56,6 @@ public class PessoaUtils{
 			if(enderecoUtils.isEmpty(pPessoa.getEndereco())){
 				pPessoa.setEndereco(null);
 			}
-		} else{
-			pPessoa.setEndereco(null);
 		}
 
 		// Consistir lista de Emails
