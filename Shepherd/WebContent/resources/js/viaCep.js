@@ -48,11 +48,12 @@ function pesquisaCep(valor){
 		if(validaCep.test(cep)){
 
 			// Preenche os campos com "..." enquanto consulta webservice.
-			document.getElementById('input_form:logradouro').value = "...";
-			document.getElementById('input_form:logradouro2').value = "...";
-			document.getElementById('input_form:bairro').value = "...";
-			document.getElementById('input_form:cidade').value = "...";
-			document.getElementById('input_form:uf').value = "...";
+			document.getElementById('input_form:logradouro').value = "…";
+			document.getElementById('input_form:logradouro2').value = "…";
+			document.getElementById('input_form:bairro').value = "…";
+			document.getElementById('input_form:cidade').value = "…";
+			document.getElementById('input_form:uf').value = "…";
+			document.getElementById('input_form:pais').value = "…";
 
 			// Cria um elemento javascript.
 			var script = document.createElement('script');

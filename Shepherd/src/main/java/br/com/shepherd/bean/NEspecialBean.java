@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 
 import javax.ejb.EJB;
-import javax.enterprise.context.RequestScoped;
+import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
 
 import br.com.shepherd.entity.NEspecial;
@@ -12,7 +12,7 @@ import br.com.shepherd.service.NEspecialService;
 import br.com.shepherd.service.util.JSFUtil;
 
 @Named
-@RequestScoped
+@SessionScoped
 public class NEspecialBean implements Serializable{
 	private static final long	serialVersionUID	= 4229014895384999619L;
 
@@ -25,14 +25,17 @@ public class NEspecialBean implements Serializable{
 
 	public NEspecialBean(){
 		nEspecial = new NEspecial();
+		nEspecialTemp = new NEspecial();
 	}
 
 	public String cadastrar(){
 		try{
 			nEspecialService.cadastrar(nEspecial);
-			nEspecial = new NEspecial();
 
-			JSFUtil.addInfoMessage("Cadastro de Necessiade Especial realizado com sucesso!");
+			JSFUtil.addInfoMessage("Necessiade Especial “"+ nEspecial.getNome()
+									+ "” cadastrada com sucesso!");
+
+			nEspecial = new NEspecial();
 
 			return "nEspecialListar";
 		} catch(Exception e){
@@ -42,16 +45,21 @@ public class NEspecialBean implements Serializable{
 	}
 
 	public String prepararAlteracao(NEspecial pNEspecial){
-		
 		setNEspecialTemp(pNEspecial);
-		
+
 		return "nEspecialAlterar";
 	}
-	
-	public void alterar(NEspecial pNEspecial){
-		nEspecialService.alterar(pNEspecial);
 
-		JSFUtil.addInfoMessage("Necessidade Especial alterada com sucesso.");
+	public String alterar(NEspecial pNEspecial) throws Exception{
+		try{
+			nEspecialService.alterar(pNEspecial);
+
+			JSFUtil.addInfoMessage("Necessidade Especial alterada com sucesso.");
+			return "nEspecialListar";
+		} catch(Exception e){
+			JSFUtil.addWarnMessage(e.getMessage());
+			return "nEspecialAlterar";
+		}
 	}
 
 	public List<NEspecial> listar(){

@@ -8,18 +8,28 @@ import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
-import br.com.shepherd.entity.NEspecial;;
+import br.com.shepherd.entity.NEspecial;
+import br.com.shepherd.service.util.NEspecialUtils;;
 
 @Stateless
 public class NEspecialService{
-
 	@PersistenceContext(name = "ShepherdDB")
 	private EntityManager entityManager;
+
+	private NEspecialUtils	nEspecialUtils	= new NEspecialUtils();
 
 	public NEspecialService(){
 	}
 
+	/**
+	 * Realiza o cadastro de uma necessidade especial
+	 *
+	 * @param pNEspecial
+	 * @return pNEspecial
+	 * @throws Exception
+	 */
 	public NEspecial cadastrar(NEspecial pNEspecial) throws Exception{
+		pNEspecial = nEspecialUtils.consistir(pNEspecial);
 
 		NEspecial existente = buscaNome(pNEspecial.getNome());
 
@@ -28,17 +38,43 @@ public class NEspecialService{
 
 			return pNEspecial;
 		} else{
-			throw new Exception("Necessidade especial '"
+			throw new Exception("Necessidade especial “"
 								+ pNEspecial.getNome()
-								+ "' já está cadastrada!");
+								+ "” já está cadastrada!");
 		}
 
 	}
 
-	public NEspecial alterar(NEspecial pNEspecial){
-		entityManager.merge(pNEspecial);
+	/**
+	 * Altera uma necessidade especial existente
+	 *
+	 * @param pNEspecial
+	 * @return pNEspecial
+	 * @throws Exception
+	 */
+	public NEspecial alterar(NEspecial pNEspecial) throws Exception{
+		pNEspecial = nEspecialUtils.consistir(pNEspecial);
 
-		return pNEspecial;
+		NEspecial existente = buscaNome(pNEspecial.getNome());
+
+		if(null != existente){
+			// Já existe uma NE com mesmo nome...
+
+			if(existente.getId().equals(pNEspecial.getId())){
+				// ... mas é com a mesma ID
+				entityManager.merge(pNEspecial);
+
+				return pNEspecial;
+			} else{
+				throw new Exception("Já existe uma Necessidade Especial com o nome “"
+									+ pNEspecial.getNome() + "”.");
+			}
+		} else{
+			// Ainda não existe. Pode gravar...
+			entityManager.merge(pNEspecial);
+
+			return pNEspecial;
+		}
 	}
 
 	@SuppressWarnings("unchecked")

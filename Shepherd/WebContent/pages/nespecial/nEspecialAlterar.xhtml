@@ -13,15 +13,15 @@
 	<ui:composition template='/META-INF/resources/bootsfaces/jsfTemplate.xhtml'>
 	
 			<ui:define name='mensagensCampos'>
-				<p:message for='nome'/>
-				<p:message for='tipo'/>
-				<p:message for='descricao'/>
+				<b:message for='nome'/>
+				<b:message for='tipo'/>
+				<b:message for='descricao'/>
 				<br/>
 			</ui:define>
 			<ui:define name='tituloPagina'>Shepherd > Alterar Necessidade Especial</ui:define>
 			<ui:define name='tituloPrincipal'>
 				<i class='fa fa-wheelchair fa-fw' />
-				Alterar Necessidade Especial
+				Alterar Necessidade Especial (ID: #{nEspecialBean.NEspecialTemp.id})
 			</ui:define>
 			<ui:define name='tituloSecundario'>
 				home > necessidades especiais > alterar
@@ -33,14 +33,14 @@
 								onclick='location.href = "./nEspecialListar.jsf"'
 								iconAwesome='fa fa-arrow-left fa-fw'
 								/>
-					<btr:commandLink	action='#{nEspecialBean.prepararAlteracao(nEspecialBean.NEspecialTemp)}'
+					<btr:commandLink	action='#{nEspecialBean.alterar(nEspecialBean.NEspecialTemp)}'
 										styleClass='btn btn-default'
 										>
 						<b:iconAwesome name='fa fa-check fa-fw'/>
 					</btr:commandLink>
-					<b:button	value=''
-								iconAwesome='fa fa-eraser fa-fw'
-								onclick='location.href = "./nEspecialAlterar.jsf"'/>
+					<b:commandButton	value=''
+										iconAwesome='fa fa-eraser fa-fw'
+										type='reset'/>
 				</b:buttonGroup>
 			</ui:define>
 			
@@ -50,19 +50,19 @@
 								col-md='12'
 								col-sm='12'
 								col-xs='12'
-								style='	margin: 0px;
-										padding: 0px;
-										'
 								>
-						<b:switch	value='#{nEspecialBean.NEspecialTemp.deficiencia}'
+						<br/>
+						<h:outputLabel	for='classificacao'
+										value='Classificação'
+										class='outputLabel'
+										/>
+						<b:switch	id='classificacao'
+									value='#{nEspecialBean.NEspecialTemp.deficiencia}'
 									offText='Outra'
 									onText='Deficiência'
 									onColor='danger'
 									offColor='primary'
 									switchsize='mini'
-									style='	margin-top: 0px;
-											margin-bottom: 0px;
-											'
 									/>
 					</b:column>
 				</b:row>
@@ -74,12 +74,15 @@
 								>
 						<br/>
 						<h:outputLabel	for='nome'
-										value='Nome'/>
+										value='Nome*'
+										class='outputLabel'
+										/>
 						<b:inputText	id='nome'
 										required='true'
 										requiredMessage='Nome: Campo obrigatório'
 										value='#{nEspecialBean.NEspecialTemp.nome}'
 										placeholder='Nome'
+										class='required'
 										/>
 					</b:column>
 					<b:column	col-lg='6'
@@ -89,12 +92,12 @@
 								>
 						<br/>
 						<h:outputLabel	for='tipo'
-										value='Tipo'/>
+										value='Tipo'
+										class='outputLabel'
+										/>
 						<b:inputText	id='tipo'
 										value='#{nEspecialBean.NEspecialTemp.tipo}'
-										autocomplete='true'
 										placeholder='Tipo'
-										label='Tipo'
 										/>
 					</b:column>
 				</b:row>
@@ -107,7 +110,9 @@
 								>
 						<br/>
 						<h:outputLabel	for='descricao'
-										value='Descrição'/>
+										value='Descrição'
+										class='outputLabel'
+										/>
 						<b:inputTextarea	id='descricao'
 											value='#{nEspecialBean.NEspecialTemp.descricao}'
 											maxlength='255'

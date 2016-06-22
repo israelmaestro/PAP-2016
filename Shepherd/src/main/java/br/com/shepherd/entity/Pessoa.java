@@ -54,6 +54,7 @@ public class Pessoa implements Serializable{
 	@Column(length = 9, unique = true)
 	private String								rg;
 
+	// @CPF
 	@Column(length = 11, unique = true)
 	private String								cpf;
 
@@ -351,7 +352,11 @@ public class Pessoa implements Serializable{
 	}
 
 	public Endereco getEndereco(){
-		return endereco;
+		if(null != endereco){
+			return endereco;
+		} else{
+			return new Endereco();
+		}
 	}
 
 	public void setEndereco(Endereco pEndereco){
@@ -359,15 +364,23 @@ public class Pessoa implements Serializable{
 	}
 
 	public List<Telefone> getTelefones(){
-		return telefones;
+		if(null != telefones){
+			return telefones;
+		} else{
+			return new ArrayList<Telefone>();
+		}
 	}
 
 	public void setTelefones(List<Telefone> pTelefones){
 		telefones = pTelefones;
 	}
 
-	public List<br.com.shepherd.entity.Email> getEmails(){
-		return emails;
+	public List<Email> getEmails(){
+		if(null != emails){
+			return emails;
+		} else{
+			return new ArrayList<Email>();
+		}
 	}
 
 	public void setEmails(List<br.com.shepherd.entity.Email> pEmails){

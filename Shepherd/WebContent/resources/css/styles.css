@@ -1,3 +1,42 @@
+.dropdown-menu.pull-right {
+	border: solid 1px #CCC;
+	background-color: #FFF;
+}
+
+.ui-selectonemenu .ui-selectonemenu-label {
+	font-family: sans-serif;
+	font-size: 1em;
+}
+
+.ui-selectonemenu .ui-selectonemenu-trigger .ui-icon {
+	margin-top: 6px;
+}
+
+.ui-selectonemenu {
+	width: 100%;
+	padding: 2px 12px;
+	box-shadow: none;
+}
+
+.ui-widget {
+	color: #000;
+	font-family: inherit;
+}
+
+.ui-selectonemenu .ui-selectonemenu-trigger {
+	background-color: transparent;
+	border: none;
+	padding: 0px;
+}
+
+.ui-inputfield {
+	width: 100%;
+	font-weight: normal;
+	background-color: transparent;
+	box-shadow: none;
+	font-weight: normal;
+}
+
 .nav>li>a:hover, .nav>li>a:focus {
 	background-color: #FFF;
 	color: #000;
@@ -192,7 +231,7 @@
 
 .ui-selectcheckboxmenu {
 	display: flex;
-	padding: 2.5px 12px;
+	padding: 3px 12px;
 	width: 100%;
 	border: solid 1px #CCC;
 	cursor: pointer;
