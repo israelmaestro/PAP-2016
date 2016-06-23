@@ -1,5 +1,9 @@
+function setFalse(x){
+	document.getElementById(x).value = false;
+}
+
 /*
- * Brazilian initialisation for the jQuery UI date picker plugin.
+ * Brazilian initialization for the jQuery UI date picker plugin.
  */
 jQuery(function($){
 	$.datepicker.regional['pt-BR'] = {
@@ -50,40 +54,43 @@ jQuery(function($){
 	$.datepicker.setDefaults($.datepicker.regional['pt-BR']);
 });
 
-function limparEndereco(){
-	document.getElementById("input_form:logradouro").value = null;
-	document.getElementById("input_form:numero").value = null;
-	document.getElementById("input_form:bairro").value = null;
-	document.getElementById("input_form:numero").value = null;
-	document.getElementById("input_form:cidade").value = null;
-	document.getElementById("input_form:uf").value = null;
-	document.getElementById("input_form:cep").value = null;
-	document.getElementById("input_form:pais").value = null;
-	document.getElementById("input_form:coordenadas").value = null;
+// TODO: ### URGENTE!!! ARRUMAR AS PÁGINAS QUE CONTÉM ESSE MÉTODO
+function limparEndereco(x){
+	document.getElementById("input_form:logradouro" + x).value = null;
+	document.getElementById("input_form:numero" + x).value = null;
+	document.getElementById("input_form:bairro" + x).value = null;
+	document.getElementById("input_form:numero" + x).value = null;
+	document.getElementById("input_form:cidade" + x).value = null;
+	document.getElementById("input_form:uf" + x).value = null;
+	document.getElementById("input_form:cep" + x).value = null;
+	document.getElementById("input_form:pais" + x).value = null;
+	document.getElementById("input_form:coordenadas" + x).value = null;
 }
 
-function localizaCoordenadas(){
-	PF("mapa").geocode(null);
+// TODO: ### URGENTE!!! ARRUMAR AS PÁGINAS QUE CONTÉM ESSE MÉTODO
+function localizaCoordenadas(x){
+	PF("mapa" + x).geocode(null);
 
-	var endereco = document.getElementById("input_form:logradouro").value + " "
-					+ document.getElementById("input_form:numero").value
+	var endereco = document.getElementById("input_form:logradouro" + x).value + " "
+					+ document.getElementById("input_form:numero" + x).value
 					+ " "
-					+ document.getElementById("input_form:bairro").value
+					+ document.getElementById("input_form:bairro" + x).value
 					+ " "
-					+ document.getElementById("input_form:cidade").value
+					+ document.getElementById("input_form:cidade" + x).value
 					+ " "
-					+ document.getElementById("input_form:uf").value
+					+ document.getElementById("input_form:uf" + x).value
 					+ " "
-					+ document.getElementById("input_form:cep").value
+					+ document.getElementById("input_form:cep" + x).value
 					+ " "
-					+ document.getElementById("input_form:pais").value;
+					+ document.getElementById("input_form:pais" + x).value;
 
-	PF("mapa").geocode(endereco);
+	PF("mapa" + x).geocode(endereco);
 }
 
-function setMapaCode(){
-	endereco = document.getElementById("input_form:gpsAddress").value;
-	PF("mapa").geocode(endereco);
+// TODO: ### URGENTE!!! ARRUMAR AS PÁGINAS QUE CONTÉM ESSE MÉTODO
+function setMapaCode(x){
+	endereco = document.getElementById("input_form:gps" + x + "Address").value;
+	PF("mapa" + x).geocode(endereco);
 }
 
 function requiredField(id){

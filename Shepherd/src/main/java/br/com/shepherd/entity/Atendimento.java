@@ -46,8 +46,8 @@ public class Atendimento implements Serializable{
 
 	// Construtor e afins
 	public Atendimento(){
-		endereco = new Endereco();
-		endereco.setAtendimento(this);
+		setEndereco(new Endereco());
+		getEndereco().setAtendimento(this);
 		pessoasAtendimentos = new ArrayList<PessoaAtendimento>();
 	}
 
@@ -107,6 +107,14 @@ public class Atendimento implements Serializable{
 
 	public void setDataHora(Date pDataHora){
 		dataHora = pDataHora;
+	}
+
+	public Endereco getEndereco(){
+		return endereco;
+	}
+
+	public void setEndereco(Endereco pEndereco){
+		endereco = pEndereco;
 	}
 
 	public String getStatus(){

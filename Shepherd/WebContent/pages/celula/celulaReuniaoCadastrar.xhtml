@@ -195,7 +195,7 @@
 										Endereço
 										<b:button	value='' size='xs'
 													iconAwesome='fa fa-eraser fa-fw'
-													onclick='limparEndereco()'
+													onclick='limparEndereco("")'
 													tooltip='Clique para limpar os campos de endereço'
 													/>
 									</h3>
@@ -261,7 +261,7 @@
 													class='required'
 													required='true'
 													requiredMessage='Coordenadas de GPS: Campo obrigatório!'
-													onblur='setMapaCode()'
+													onblur='setMapaCode("")'
 													>
 										<script type='text/javascript'>
 											document.getElementById("input_form:gpsAddress").value = document.getElementById("form:code").value;
@@ -291,7 +291,7 @@
 														onkeypress='return teclaNumerica(event.keyCode)'
 														value=''
 														placeholder='CEP'
-														onblur='if(this.value != "") pesquisaCep(this.value); localizaCoordenadas();'
+														onblur='if(this.value != "") pesquisaCep(this.value, ""); localizaCoordenadas("");'
 														class='halfPadding'
 														/>
 									</b:column>
@@ -307,7 +307,7 @@
 														value=''
 														placeholder='Rua / Avenida / Praça / etc.'
 														class='hidden-xs required'
-														onblur='document.getElementById("input_form:logradouro2").value = document.getElementById("input_form:logradouro").value; localizaCoordenadas();'
+														onblur='document.getElementById("input_form:logradouro2").value = document.getElementById("input_form:logradouro").value; localizaCoordenadas("");'
 														required='true'
 														requiredMessage='Endereço: Campo obrigatório!'
 														/>
@@ -316,7 +316,7 @@
 															value=''
 															placeholder='Digite o nome da rua, avenida, etc.'
 															class='visible-xs required'
-															onblur='document.getElementById("input_form:logradouro").value = document.getElementById("input_form:logradouro2").value; localizaCoordenadas();'
+															onblur='document.getElementById("input_form:logradouro").value = document.getElementById("input_form:logradouro2").value; localizaCoordenadas("");'
 															style='	margin-top: -8px;'
 															required='true'
 															requiredMessage='Endereço: Campo obrigatório!'
@@ -331,7 +331,7 @@
 										<br/>
 										<h:outputLabel class='outputLabel' value='№' for='numero'/>
 										<b:inputText	id='numero'
-														onblur='localizaCoordenadas()'
+														onblur='localizaCoordenadas("")'
 														value=''
 														onkeypress='return teclaNumerica(event.keyCode)'
 														maxlength='5'
@@ -363,7 +363,7 @@
 										<br/>
 										<h:outputLabel class='outputLabel' value='Bairro' for='bairro'/>
 										<b:inputText	id='bairro'
-														onblur='localizaCoordenadas()'
+														onblur='localizaCoordenadas("")'
 														value=''
 														placeholder='Bairro'
 														/>
@@ -377,7 +377,7 @@
 										<br/>
 										<h:outputLabel class='outputLabel' value='Cidade' for='cidade'/>
 										<b:inputText	id='cidade'
-														onblur='localizaCoordenadas()'
+														onblur='localizaCoordenadas("")'
 														value=''
 														placeholder='Cidade'
 														required='true'
@@ -394,7 +394,7 @@
 										<br/>
 										<h:outputLabel class='outputLabel' value='UF' for='uf'/>
 										<b:inputText	id='uf'
-														onblur='localizaCoordenadas()'
+														onblur='localizaCoordenadas("")'
 														maxlength='2'
 														value=''
 														placeholder='UF'
@@ -410,7 +410,7 @@
 										<br/>
 										<h:outputLabel class='outputLabel' value='País' for='pais'/>
 										<b:inputText	id='pais'
-														onblur='localizaCoordenadas()'
+														onblur='localizaCoordenadas("")'
 														value=''
 														placeholder='País'
 														/>

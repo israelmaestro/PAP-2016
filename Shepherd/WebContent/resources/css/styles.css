@@ -1,3 +1,31 @@
+.minHeight{
+	margin-top: 0px;
+	margin-bottom: 0px;
+	padding-top: 0px;
+	padding-bottom: 0px;
+}
+
+.grayBoldItalic{
+	font-style: italic;/*
+	font-weight: bold;*/
+	color: #666;
+}
+
+.dropdown-menu {
+	background-color: #FFF;
+	border: none;
+	position: static;
+	float: none;
+	width: auto;
+	margin-top: 0;
+}
+/*
+.dropdown-menu {
+	background-color: transparent;
+	border: 0;
+	box-shadow: none;
+}
+*/
 .dropdown-menu.pull-right {
 	border: solid 1px #CCC;
 	background-color: #FFF;
@@ -68,16 +96,6 @@
 	padding-bottom: 0px;
 }
 
-.dropdown-menu {
-	position: static;
-	float: none;
-	width: auto;
-	margin-top: 0;
-	background-color: transparent;
-	border: 0;
-	box-shadow: none;
-}
-
 .menuLabel {
 	text-align: center;
 	font-size: 0.8em;
@@ -103,7 +121,7 @@
 	margin: 0px;
 	text-align: center;
 	vertical-align: top;
-	background-color: #FFF;
+	background-color: transparent;
 	border-radius: 0px;
 	word-wrap: normal;
 }
@@ -148,6 +166,11 @@
 
 .splitRow {
 	border-top: solid;
+	border-color: #CCC;
+}
+
+.splitRowDashed {
+	border-top: dashed;
 	border-color: #CCC;
 }
 

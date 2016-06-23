@@ -257,7 +257,7 @@
 									Endereço
 									<b:button value=''
 											iconAwesome='fa fa-eraser fa-fw'
-											onclick='limparEndereco()'
+											onclick='limparEndereco("")'
 											size='xs'
 											tooltip='Clique para limpar os campos de endereço'
 											/>
@@ -310,7 +310,7 @@
 													class='required'
 													required='true'
 													requiredMessage='Coordenadas de GPS: Campo obrigatório!'
-													onblur='setMapaCode()'
+													onblur='setMapaCode("")'
 													>
 										<script type='text/javascript'>
 											document.getElementById("input_form:gpsAddress").value = document.getElementById("form:code").value;
@@ -340,7 +340,7 @@
 														onkeypress='return teclaNumerica(event.keyCode)'
 														value='#{sedeBean.sede.endereco.cep}'
 														placeholder='CEP'
-														onblur='if(this.value != "") pesquisaCep(this.value); localizaCoordenadas();'
+														onblur='if(this.value != "") pesquisaCep(this.value, ""); localizaCoordenadas("");'
 														class='halfPadding'
 														/>
 									</b:column>
@@ -357,7 +357,7 @@
 														value='#{sedeBean.sede.endereco.logradouro}'
 														placeholder='Rua / Avenida / Praça / etc.'
 														class='hidden-xs required'
-														onblur='document.getElementById("input_form:logradouro2").value = document.getElementById("input_form:logradouro").value; localizaCoordenadas();'
+														onblur='document.getElementById("input_form:logradouro2").value = document.getElementById("input_form:logradouro").value; localizaCoordenadas("");'
 														required='true'
 														requiredMessage='Endereço: Campo obrigatório!'
 														/>
@@ -366,7 +366,7 @@
 															value='#{sedeBean.sede.endereco.logradouro}'
 															placeholder='Digite o nome da rua, avenida, etc.'
 															class='visible-xs required'
-															onblur='document.getElementById("input_form:logradouro").value = document.getElementById("input_form:logradouro2").value; localizaCoordenadas();'
+															onblur='document.getElementById("input_form:logradouro").value = document.getElementById("input_form:logradouro2").value; localizaCoordenadas("");'
 															style='	margin-top: -8px;'
 															required='true'
 															requiredMessage='Endereço: Campo obrigatório!'
@@ -381,7 +381,7 @@
 										<br/>
 										<h:outputLabel class='outputLabel' value='№' for='numero'/>
 										<b:inputText	id='numero'
-														onblur='localizaCoordenadas()'
+														onblur='localizaCoordenadas("")'
 														value='#{sedeBean.sede.endereco.numero}'
 														onkeypress='return teclaNumerica(event.keyCode)'
 														maxlength='5'
@@ -413,7 +413,7 @@
 										<br/>
 										<h:outputLabel class='outputLabel' value='Bairro' for='bairro'/>
 										<b:inputText	id='bairro'
-														onblur='localizaCoordenadas()'
+														onblur='localizaCoordenadas("")'
 														value='#{sedeBean.sede.endereco.bairro}'
 														placeholder='Bairro'
 														/>
@@ -427,7 +427,7 @@
 										<br/>
 										<h:outputLabel class='outputLabel' value='Cidade' for='cidade'/>
 										<b:inputText	id='cidade'
-														onblur='localizaCoordenadas()'
+														onblur='localizaCoordenadas("")'
 														value='#{sedeBean.sede.endereco.cidade}'
 														placeholder='Cidade'
 														required='true'
@@ -444,7 +444,7 @@
 										<br/>
 										<h:outputLabel class='outputLabel' value='UF' for='uf'/>
 										<b:inputText	id='uf'
-														onblur='localizaCoordenadas()'
+														onblur='localizaCoordenadas("")'
 														maxlength='2'
 														value='#{sedeBean.sede.endereco.estado}'
 														placeholder='UF'
@@ -460,7 +460,7 @@
 										<br/>
 										<h:outputLabel class='outputLabel' value='País' for='pais'/>
 										<b:inputText	id='pais'
-														onblur='localizaCoordenadas()'
+														onblur='localizaCoordenadas("")'
 														value='#{sedeBean.sede.endereco.pais}'
 														placeholder='País'
 														/>
