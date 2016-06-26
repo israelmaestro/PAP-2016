@@ -8,6 +8,8 @@ import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
+import org.hibernate.Hibernate;
+
 import br.com.shepherd.entity.Sede;
 import br.com.shepherd.service.util.SedeUtils;
 
@@ -79,18 +81,69 @@ public class SedeService{
 
 	}
 
-	public Sede alterar(Sede pSede){
-		entityManager.merge(pSede);
+	public Sede alterar(Sede pSede) throws Exception{
+		pSede = sedeUtils.consistir(pSede);
 
-		return pSede;
+		Sede existente = null;
+
+		// TODO: Resolver: Assembleias Gerais, Correspondências
+
+		pSede = sedeUtils.consistir(pSede);
+
+		// Verificando chave única para CNPJ
+		if(null != pSede.getCnpj()){
+			existente = buscaCriterio("Sede", "cnpj", pSede.getCnpj());
+
+			if(existente != null){
+				// Validar chave única para CNPJ
+				throw new Exception("O CNPJ “" + pSede.getCnpj() + "” já existe no cadastro!");
+			}
+		} else{
+			pSede.setCnpj(null);
+		}
+
+		// Verificar se há mais de uma sede-mãe na mesma cidade
+		if(pSede.isMae()
+			&& !isUnicaMae(pSede.getEndereco()
+								.getCidade())){
+			throw new Exception("Não pode haver mais de uma sede-mãe na mesma cidade!");
+		}
+
+
+		// Verificar se a sede já existe
+		existente = buscaCriterio("Sede", "nome", pSede.getNome(), "cnpj", pSede.getCnpj());
+
+		if(null == existente){
+			entityManager.persist(pSede);
+
+			return pSede;
+		} else{
+			throw new Exception("Sede “"+ pSede.getNome()
+								+ (null != pSede.getCnpj()	? "” com o CNPJ “" + pSede.getCnpj()
+															: "")
+								+ "” já está cadastrada!");
+		}
 	}
+
+//	@SuppressWarnings("unchecked")
+//	public List<Sede> listar(){
+//		return entityManager.createQuery("FROM Sede dbSede " + "ORDER BY dbSede.nome")
+//							.getResultList();
+//	}
 
 	@SuppressWarnings("unchecked")
 	public List<Sede> listar(){
-		return entityManager.createQuery("FROM Sede dbSede " + "ORDER BY dbSede.nome")
+		List<Sede> tSedes = entityManager.createQuery("FROM Sede dbSede " + "ORDER BY dbSede.nome")
 							.getResultList();
+		
+		for (Sede pSede : tSedes) {
+			Hibernate.initialize(pSede.getCelulas());
+			Hibernate.initialize(pSede.getTelefones());
+			Hibernate.initialize(pSede.getEmails());
+		}		
+		return tSedes;
 	}
-
+	
 	@SuppressWarnings("unchecked")
 	public List<Sede> listarMaes(){
 		return entityManager.createQuery("FROM Sede dbSede"

@@ -14,23 +14,20 @@
 	
 			<ui:define name='mensagensCampos'>
 				<b:message for='nome'/>
-				<b:message for='frenteLideres' />
-				<b:message for='frenteCelulas' />
-				<b:message for='frenteParticipantes' />
 				<b:message for='idadeMinima' />
 				<b:message for='idadeMaxima' />
 				<b:message for='descricao' />
 				<br/>
 			</ui:define>
 	
-			<ui:define name='tituloPagina'>Shepherd > Nova Frente</ui:define>
+			<ui:define name='tituloPagina'>Shepherd > Alterar Frente</ui:define>
 			<ui:define name='tituloPrincipal'>
 				<b:iconAwesome name='fa fa-puzzle-piece fa-fw'/>
 				<br class='visible-xs'/>
-				Nova Frente
+				Alterar Frente
 			</ui:define>
 			<ui:define name='tituloSecundario'>
-				home > frentes > nova
+				home > frentes > alterar
 			</ui:define>
 			
 			<ui:define name='botoesAcao'>
@@ -44,34 +41,43 @@
 										>
 						<b:iconAwesome name='fa fa-check fa-fw'/>
 					</btr:commandLink>
-					<b:button	value=''
-								iconAwesome='fa fa-eraser fa-fw'
-								onclick='location.href = "./frenteCadastrar.jsf"'/>
+					<b:commandButton	value=''
+										iconAwesome='fa fa-eraser fa-fw'
+										type='reset'/>
 				</b:buttonGroup>
 			</ui:define>
 			
 			<ui:define name='conteudo'>
-				<b:row>
-					<b:column	col-lg='12'
-								col-md='12'
-								col-sm='12'
+				<b:row id='dados'>
+					<b:column	class='column'
+								col-lg='10'
+								col-md='9'
+								col-sm='9'
 								col-xs='12'
-								style='	margin: 0px;
-										padding: 0px;
-										'
 								>
+						<h3>
+							<b:iconAwesome name='fa fa-fw fa-info-circle'/>
+							Dados gerais
+						</h3>
+					</b:column>
+					<b:column	class='column'
+								col-lg='2'
+								col-md='3'
+								col-sm='3'
+								col-xs='12'
+								style='text-align: right'
+								>
+						<h:outputLabel	class='outputLabel'
+										value='Frente tipo'
+										/>
 						<b:switch	value='#{frenteBean.frenteTemp.cell}'
-									binding='#{showCellList}'
 									offText='Operacional'
 									onText='Célula'
 									onColor='danger'
 									offColor='primary'
 									switchsize='mini'
-									style='	margin-top: 0px;
-											margin-bottom: 0px;
-											'
 									>
-							<f:ajax event='change' render='@form' />
+							<f:ajax event='change' render='dados' />
 						</b:switch>
 					</b:column>
 				</b:row>
@@ -84,14 +90,15 @@
 						<br/>
 						<h:outputLabel	for='nome'
 										value='Nome*'
+										class='outputLabel'
 										/>
 						<b:inputText 	id='nome'
 										required='true'
 										requiredMessage='Nome: Campo obrigatório'
 										value='#{frenteBean.frenteTemp.nome}'
-										style='background-color: #FFFFCC'
 										placeholder='Nome'
-										></b:inputText>
+										class='required'
+										/>
 					</b:column>
 					<b:column	col-lg='3'
 								col-md='3'
@@ -99,81 +106,45 @@
 								col-xs='12'
 								>
 						<br/>
-						<b:selectMultiMenu 	id='frenteLideres'
-											label='Líderes'
-											value='#{frenteBean.frenteTemp.lideres}'
-											required='true'
-											requiredMessage='Líderes: Selecione pelo menos um líder'
+						<h:outputLabel	for='sede'
+										value='Sede*'
+										class='outputLabel'
+										/>
+						<h:selectOneMenu	id='sede'
+											value='#{frenteBean.frenteTemp.sede}'
 											converter='omnifaces.SelectItemsConverter'
-											enableFiltering='true'
-											filterPlaceholder='Procurar'
-											nonSelectedText='Selecione'
-											nSelectedText='Líderes Selecionados'
-											numberDisplayed='1'
-											disableIfEmpty='true'
-											allSelectedText='Todos os membros'
+											class='hSelectOneMenu required'
+											required='true'
+											requiredMessage='Sede: Campo obrigatório!'
 											>
-							<f:selectItems	value='#{membroBean.listarTodos()}'
-											var='frenteLideres'
-											itemLabel='#{frenteLideres.membro.pessoa.nome} #{frenteLideres.membro.pessoa.sobrenome}'
+							<f:selectItem itemLabel='Selecione' noSelectionOption='true'/>
+							<f:selectItems	value='#{sedeBean.listar()}' var='sede'
+											itemLabel='#{sedeBean.getProperty("convencaoAbrev")} #{sede.nome} #{sede.mae ? "(mãe)" : ""}'
 											/>
-						</b:selectMultiMenu>
+						</h:selectOneMenu>
+						<br class='visible-sm'/>
+						<br class='visible-sm'/>
 					</b:column>
 					<b:column	col-lg='3'
 								col-md='3'
 								col-sm='6'
 								col-xs='12'
-								rendered='#{showCellList.value}'
 								>
 						<br/>
-						<b:selectMultiMenu 	id='frenteCelulas'
-											label='Células'
-											value='#{frenteBean.frenteTemp.celulas}'
-											required='true'
-											requiredMessage='Células: Selecione pelo menos uma célula'
-											converter='omnifaces.SelectItemsConverter'
-											enableFiltering='true'
-											filterPlaceholder='Procurar'
-											nonSelectedText='Selecione'
-											nSelectedText='Células Selecionadas'
-											numberDisplayed='1'
-											disableIfEmpty='true'
-											allSelectedText='Todas as células'
-											fieldSize='lg'
-											>
-							<f:selectItems	value='#{celulaBean.listar()}'
-											var='frenteCelulas'
-											itemLabel='#{frenteCelulas.nome}'
-											/>
-						</b:selectMultiMenu>
-					</b:column>
-					<b:column	col-lg='3'
-								col-md='3'
-								col-sm='6'
-								col-xs='12'
-								rendered='#{!showCellList.value}'
-								>
-						<br/>
-						<b:selectMultiMenu 	id='frenteParticipantes'
-											label='Participantes'
-											value='#{frenteBean.frenteTemp.participantes}'
-											required='true'
-											requiredMessage='Participantes: Selecione pelo menos um participante'
-											converter='omnifaces.SelectItemsConverter'
-											enableFiltering='true'
-											filterPlaceholder='Procurar'
-											nonSelectedText='Selecione'
-											nSelectedText='Participantes Selecionados'
-											numberDisplayed='1'
-											disableIfEmpty='true'
-											allSelectedText='Todas os membros'
-											fieldSize='lg'
-											>
-							<f:selectItems	value='#{membroBean.listarTodos()}'
-											var='frenteParticipantes'
-											itemLabel='#{frenteParticipantes.nome} #{frenteParticipantes.sobrenome}'
-											/>
-						</b:selectMultiMenu>
+						<h:outputLabel	class='outputLabel' for='dataAtivacao' value='Data de Ativação*'/>
+						<b:datepicker 	id='dataAtivacao'
+										placeholder='DD/MM/AAAA'
+										value='#{frenteBean.frenteTemp.dataAtivacao}'
+										required='true'
+										requiredMessage='Data da Ativação: Campo obrigatório!'
+										showButtonPanel='true'
+										changeMonth='true'
+										changeYear='true'
+										>
+							<script>
+								requiredField("form:dataAtivacao");
+							</script>
+						</b:datepicker>
 					</b:column>
 					<b:column	col-lg='3'
 								col-md='3'
@@ -182,40 +153,34 @@
 								>
 						<br/>
 						<h:outputLabel	value='Faixa Etária'
+										class='outputLabel'
 										/>
 						<table	cellspacing='2'
 								style='	width: 100%;
 										'
 								>
 							<tr>
-								<td style='	width: 50%;
-											padding-right: 10px;
-											'
-									>
+								<td	style='padding-right: 2px;'>
 									<b:inputText	id='idadeMinima'
 													maxlength='2'
 													value='#{frenteBean.frenteTemp.idadeMinima}'
 													placeholder='Min.'
 													onkeypress='return teclaNumerica(event.keyCode)'
-													style='	text-align: center;
-															'
+													class='halfPadding margin-right'
 													>
 										<f:facet name='append'>
-											<h:outputText value='ano(s)' />
+											<h:outputText value='ano(s)' class='idade'/>
 										</f:facet>
 									</b:inputText>
 								</td>
-								<td style='	width: 50%;
-											padding-left: 10px;
-											'
+								<td style='padding-left: 2px;'
 									>
 									<b:inputText	id='idadeMaxima'
 													maxlength='2'
 													value='#{frenteBean.frenteTemp.idadeMaxima}'
 													placeholder='Máx.'
 													onkeypress='return teclaNumerica(event.keyCode)'
-													style='	text-align: center;
-															'
+													class='halfPadding'
 													>
 										<f:facet name='append'>
 											<h:outputText value='ano(s)' />
@@ -237,6 +202,7 @@
 						<br/>
 						<h:outputLabel	for='descricao'
 										value='Descrição*'
+										class='outputLabel'
 										/>
 						<b:inputTextarea	id='descricao'
 											required='true'

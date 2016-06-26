@@ -50,6 +50,12 @@ public class NEspecialBean implements Serializable{
 		return "nEspecialAlterar";
 	}
 
+	public String prepararVisualizacao(NEspecial pNEspecial){
+		setNEspecialTemp(pNEspecial);
+
+		return "nEspecialVisualizar";
+	}
+	
 	public String alterar(NEspecial pNEspecial) throws Exception{
 		try{
 			nEspecialService.alterar(pNEspecial);

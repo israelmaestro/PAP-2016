@@ -86,22 +86,22 @@
 							priority='1'
 							>
 					<center>
-						<p:commandButton	update='@form'
-											onclick='alert("Visualização AINDA NÃO IMPLEMENTADA!")'
+						<p:commandButton	ajax='false'
+											action='#{nEspecialBean.prepararVisualizacao(nEspecial)}'
 											icon='fa fa-fw fa-eye'
-											alt='Visualizar'
-											disabled='true'
+											style='	color: #009;
+													'
 											/>
 						<p:commandButton	ajax='false'
 											action='#{nEspecialBean.prepararAlteracao(nEspecial)}'
 											icon='fa fa-fw fa-pencil'
-											style='	color: #009900;
-													'
+											style='	color: #090;
+													'											
 											/>
 						<p:commandButton	update='@form'
 											action='#{nEspecialBean.excluir(nEspecial)}'
 											icon='fa fa-fw fa-trash'
-											style='	color: #cc0000;
+											style='	color: #c00;
 													'
 											>
 							<p:confirm	header='Excluir'

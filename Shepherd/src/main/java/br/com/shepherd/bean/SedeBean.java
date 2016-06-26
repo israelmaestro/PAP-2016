@@ -33,6 +33,7 @@ public class SedeBean implements Serializable{
 
 	public SedeBean(){
 		sede = new Sede();
+		sedeTemp = new Sede();
 	}
 
 	public void botaoRemoverTelefone(Telefone pTelefone){
@@ -68,16 +69,21 @@ public class SedeBean implements Serializable{
 	}
 
 	public String prepararAlteracao(Sede pSede){
-
 		setSedeTemp(pSede);
 
 		return "sedeAlterar";
 	}
 
-	public void alterar(Sede pSede){
-		sedeService.alterar(pSede);
-
-		JSFUtil.addInfoMessage("Sede alterada com sucesso.");
+	public String alterar(Sede pSede) throws Exception{
+		try {
+			sedeService.alterar(pSede);
+			
+			JSFUtil.addInfoMessage("Sede alterada com sucesso.");
+			return "sedeListar";
+		} catch (Exception e) {
+			JSFUtil.addWarnMessage(e.getMessage());
+			return "sedeAlterar";
+		}
 	}
 
 	public void limpar(){

@@ -8,6 +8,7 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
@@ -62,7 +63,7 @@ public class Frente implements Serializable{
 	private boolean				isCell				= false;
 
 	// TODO: Verificar se vai funcionar o casacade
-	@OneToMany(mappedBy = "frente", cascade = CascadeType.ALL)
+	@OneToMany(fetch=FetchType.EAGER, mappedBy = "frente", cascade = CascadeType.ALL)
 	private List<PessoaFrente>	pessoasFrentes;
 
 	// Construtor e afins

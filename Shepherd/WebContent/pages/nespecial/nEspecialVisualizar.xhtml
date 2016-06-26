@@ -18,13 +18,13 @@
 				<b:message for='descricao'/>
 				<br/>
 			</ui:define>
-			<ui:define name='tituloPagina'>Shepherd > Alterar Necessidade Especial</ui:define>
+			<ui:define name='tituloPagina'>Shepherd > Visualizar Necessidade Especial</ui:define>
 			<ui:define name='tituloPrincipal'>
 				<i class='fa fa-wheelchair fa-fw' />
-				Alterar Necessidade Especial 
+				Visualizar Necessidade Especial
 			</ui:define>
 			<ui:define name='tituloSecundario'>
-				home > necessidades especiais > alterar
+				home > necessidades especiais > visualizar
 			</ui:define>
 			
 			<ui:define name='botoesAcao'>
@@ -33,14 +33,10 @@
 								onclick='location.href = "./nEspecialListar.jsf"'
 								iconAwesome='fa fa-arrow-left fa-fw'
 								/>
-					<btr:commandLink	action='#{nEspecialBean.alterar(nEspecialBean.NEspecialTemp)}'
-										styleClass='btn btn-default'
-										>
-						<b:iconAwesome name='fa fa-check fa-fw'/>
-					</btr:commandLink>
-					<b:commandButton	value=''
-										iconAwesome='fa fa-eraser fa-fw'
-										type='reset'/>
+					<b:button	value=''
+								onclick='location.href = "./nEspecialAlterar.jsf"'
+								iconAwesome='fa fa-pencil'
+								/>							
 				</b:buttonGroup>
 			</ui:define>
 			
@@ -63,6 +59,7 @@
 									onColor='danger'
 									offColor='primary'
 									switchsize='mini'
+									disabled="true"
 									/>
 					</b:column>
 				</b:row>
@@ -78,11 +75,9 @@
 										class='outputLabel'
 										/>
 						<b:inputText	id='nome'
-										required='true'
-										requiredMessage='Nome: Campo obrigatório'
 										value='#{nEspecialBean.NEspecialTemp.nome}'
 										placeholder='Nome'
-										class='required'
+										disabled="true"
 										/>
 					</b:column>
 					<b:column	col-lg='6'
@@ -98,6 +93,7 @@
 						<b:inputText	id='tipo'
 										value='#{nEspecialBean.NEspecialTemp.tipo}'
 										placeholder='Tipo'
+										disabled="true"
 										/>
 					</b:column>
 				</b:row>
@@ -117,6 +113,7 @@
 											value='#{nEspecialBean.NEspecialTemp.descricao}'
 											maxlength='255'
 											placeholder='Descrição'
+											disabled="true"
 											/>
 					</b:column>
 				</b:row>

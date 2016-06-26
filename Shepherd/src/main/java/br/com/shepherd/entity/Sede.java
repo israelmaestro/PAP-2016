@@ -8,6 +8,7 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
@@ -43,7 +44,7 @@ public class Sede implements Serializable{
 	@OneToMany(mappedBy = "sede")
 	private List<Frente>		frentes;
 
-	@OneToMany(mappedBy = "sede")
+	@OneToMany(fetch=FetchType.LAZY, mappedBy = "sede", cascade = CascadeType.ALL)
 	private List<Celula>		celulas;
 
 	@OneToOne
@@ -53,11 +54,11 @@ public class Sede implements Serializable{
 	private Endereco			endereco;
 
 	// Informações de telefone
-	@OneToMany(mappedBy = "sede", cascade = CascadeType.ALL)
+	@OneToMany(fetch=FetchType.LAZY, mappedBy = "sede", cascade = CascadeType.ALL)
 	private List<Telefone>		telefones;
 
 	// Informações de email
-	@OneToMany(mappedBy = "sede", cascade = CascadeType.ALL)
+	@OneToMany(fetch=FetchType.LAZY, mappedBy = "sede", cascade = CascadeType.ALL)
 	private List<Email>			emails;
 
 	// @OneToMany(mappedBy = "sede")

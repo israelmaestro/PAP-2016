@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 
 import javax.ejb.EJB;
-import javax.enterprise.context.RequestScoped;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.bean.ManagedProperty;
 import javax.inject.Named;
 
@@ -13,7 +13,7 @@ import br.com.shepherd.service.FrenteService;
 import br.com.shepherd.service.util.JSFUtil;
 
 @Named
-@RequestScoped
+@SessionScoped
 public class FrenteBean implements Serializable{
 	private static final long	serialVersionUID	= 4229014895384999619L;
 
@@ -27,6 +27,7 @@ public class FrenteBean implements Serializable{
 
 	public FrenteBean(){
 		frente = new Frente();
+		frenteTemp = new Frente();
 	}
 
 	public String cadastrar(){
@@ -45,16 +46,21 @@ public class FrenteBean implements Serializable{
 	}
 
 	public String prepararAlteracao(Frente pFrente){
-
 		setFrenteTemp(pFrente);
 
 		return "frenteAlterar";
 	}
 
-	public void alterar(Frente pFrente){
-		frenteService.alterar(pFrente);
-
-		JSFUtil.addInfoMessage("Frente alterada com sucesso.");
+	public String alterar(Frente pFrente) throws Exception{
+		try {
+			frenteService.alterar(pFrente);
+			
+			JSFUtil.addInfoMessage("Frente alterada com sucesso.");
+			return "frenteListar";
+		} catch (Exception e) {
+			JSFUtil.addWarnMessage(e.getMessage());
+			return "frenteAlterar";
+		}
 	}
 
 	public List<Frente> listar(){
