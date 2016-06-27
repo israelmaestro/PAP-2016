@@ -51,6 +51,12 @@ public class FrenteBean implements Serializable{
 		return "frenteAlterar";
 	}
 
+	public String prepararVisualizacao(Frente pFrente){
+		setFrenteTemp(pFrente);
+
+		return "frenteVisualizar";
+	}
+	
 	public String alterar(Frente pFrente) throws Exception{
 		try {
 			frenteService.alterar(pFrente);

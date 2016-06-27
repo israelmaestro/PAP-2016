@@ -1,0 +1,637 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html	xmlns='http://www.w3.org/1999/xhtml'
+		xmlns:b='http://bootsfaces.net/ui'
+		xmlns:btr='http://butterfaces.larmic.de/components'
+		xmlns:f='http://java.sun.com/jsf/core'
+		xmlns:h='http://java.sun.com/jsf/html'
+		xmlns:p='http://primefaces.org/ui'
+		xmlns:pm='http://primefaces.org/mobile'
+		xmlns:pt='http://xmlns.jcp.org/jsf/passthrough'
+		xmlns:ui='http://java.sun.com/jsf/facelets'
+		>
+	<ui:composition template='/META-INF/resources/bootsfaces/jsfTemplate.xhtml'>
+		<ui:define name='mensagensCampos'>
+			<b:message for='nome'/>
+			<b:message for='cnpj'/>
+			<b:message for='dataFuncacao' />
+			<b:message for='celulas' />
+			<b:message for='sedeMae' />
+			<b:message for='paginaWeb'/>
+			<b:message for='perfilRedeSocial' />
+			<b:message for='gpsAddress'/>
+			<b:message for='cep' />
+			<b:message for='logradouro' />
+			<b:message for='numero' />
+			<b:message for='complemento' />
+			<b:message for='bairro' />
+			<b:message for='cidade' />
+			<b:message for='uf' />
+			<b:message for='pais' />
+			<b:message for='tbTelefones'/>
+			<b:message for='tbEmails' />
+			<b:message for='comentarios' />
+			<br/>
+		</ui:define>
+		<ui:define name='tituloPagina'>Shepherd > Visualizar Sede</ui:define>
+		<ui:define name='tituloPrincipal'>
+			<b:iconAwesome name='fa fa-university fa-fw'/>
+			<br class='visible-xs'/>
+			Visualizar Sede
+		</ui:define>
+		<ui:define name='tituloSecundario'>
+			home > sedes > visualizar
+		</ui:define>
+		
+		<ui:define name='botoesAcao'>
+			<b:buttonGroup>
+				<b:button	value=''
+							iconAwesome='fa fa-arrow-left fa-fw'
+							onclick='location.href = "./sedeListar.jsf"'
+							/>
+				<b:button	value=''
+							onclick='location.href = "./sedeAlterar.jsf"'
+							iconAwesome='fa fa-pencil'
+							/>	
+			</b:buttonGroup>
+		</ui:define>
+		
+		<ui:define name='conteudo'>
+			<div	style='	margin-left: 0px;
+							margin-right: 0px;
+							padding-left: 0px;
+							'
+					>
+				<b:row>
+								<b:row>
+					<b:column>
+						<h:outputLabel	for='mae'
+									value='Status' class='outputLabel'/>					
+							<b:switch	value='#{sedeBean.sedeTemp.ativa}'
+										offText='Inativa'
+										onText='Ativa'
+										onColor='danger'
+										offColor='primary'
+										switchsize='mini'
+										disabled="true"
+										/>				
+					</b:column>
+				</b:row>
+					<b:column class='column'>
+						<table style='width: 100%;'
+											>
+							<tr>
+								<td	style='	vertical-align: bottom;'>
+									<h3>
+										<b:iconAwesome name='fa fa-fw fa-info-circle'/>
+										<br class='visible-xs'/>
+										Dados gerais
+									</h3>
+								</td>
+								<td	style='	vertical-align: bottom;
+											text-align: right;
+											'
+									>
+									<h:outputLabel
+													value='Sede tipo' class='outputLabel'/>
+									<b:switch	id='mae'
+												value='#{sedeBean.sedeTemp.mae}'
+												binding='#{mae}'
+												offText='Filha'
+												onText='Mãe'
+												onColor='danger'
+												offColor='primary'
+												switchsize='mini'
+												disabled="true"
+												>
+										<f:ajax event='change' render='maeFilha' />
+									</b:switch>
+								</td>
+							</tr>
+						</table>
+					</b:column>
+				</b:row>
+			
+				<b:row	>
+					<b:row>
+						<b:column	col-lg='4'
+									col-md='4'
+									col-sm='5'
+									col-xs='12'
+									>
+							<br/>
+							
+							<h:outputLabel class='outputLabel'	for='nome'
+											value='Nome*'
+											/>
+							<b:inputText 	id='nome'
+											value='#{sedeBean.sedeTemp.nome}'
+											placeholder='Nome'
+											tooltip='#{sedeBean.sedeTemp.nome}'
+											disabled="true"
+											>
+								<f:ajax event='change' render='@this'/>
+								<f:facet name='prepend'>
+									<h:outputText value='#{sedeBean.getProperty("convencao")}'/>
+								</f:facet>
+							</b:inputText>
+						</b:column>
+						
+						<b:column	col-lg='4'
+									col-md='4'
+									col-sm='3'
+									col-xs='12'
+									>
+							<br/>
+							<h:outputLabel class='outputLabel'	for='cnpj'
+											value='CNPJ'
+											/>
+							<b:inputText 	id='cnpj'
+											value='#{sedeBean.sedeTemp.cnpj}'
+											maxlength='14'
+											placeholder='CNPJ'
+											onkeydown='return teclaNumerica(event.keyCode)'
+											disabled="true"
+											/>
+						</b:column>
+						<b:column	col-lg='4'
+									col-md='4'
+									col-sm='4'
+									col-xs='12'
+									>
+							<br/>
+							<h:outputLabel class='outputLabel'	for='dataFuncacao'
+											value='Data da Fundação'
+											/>
+							<b:datepicker 	id='dataFuncacao'
+											placeholder='DD/MM/AAAA'
+											value='#{sedeBean.sedeTemp.dataFundacao}'
+											showButtonPanel='true'
+											changeMonth='true'
+											changeYear='true'
+											disabled="true"
+											/>
+						</b:column>
+					</b:row>
+					<b:row id='maeFilha'>
+						<b:column	col-lg='3'
+									col-md='3'
+									col-sm='6'
+									col-xs='12'
+									>
+							<br/>
+							<h:outputLabel	class='outputLabel'	for='celulas'
+											value='Células'
+											/>
+<!-- 							<p:selectManyCheckbox	id='celulas' -->
+<!-- 													value='#{sedeBean.sedeTemp.celulas}' -->
+<!-- 													converter='omnifaces.SelectItemsConverter' -->
+<!-- 													disabled="true" -->
+<!-- 													> -->
+<!-- 								<f:selectItems	value='#{celulaBean.listar()}' -->
+<!-- 												var='celula' -->
+<!-- 												itemLabel='#{celula.nome}' -->
+<!-- 												itemDisabled="true" -->
+<!-- 												/>							 -->
+<!-- 							</p:selectManyCheckbox> -->
+							<p:selectCheckboxMenu 	id='celulas'
+													label='#{null == sedeBean.sedeTemp.celulas || sedeBean.sedeTemp.celulas.size() == 0 ? "Selecione" : sedeBean.sedeTemp.celulas.size()} #{null == sedeBean.sedeTemp.celulas || sedeBean.sedeTemp.celulas.size() == 0 ? "" : "célula(s)"}'
+													value='#{sedeBean.sedeTemp.celulas}'
+													converter='omnifaces.SelectItemsConverter'
+													filter='true'
+													filterMatchMode='contains'
+													showCheckbox='true'
+													>
+								<f:selectItems	value='#{celulaBean.listar()}'
+												var='celula'
+												itemLabel='#{celula.nome}'
+												itemDisabled="true"
+												/>
+							</p:selectCheckboxMenu>
+						</b:column>
+						
+						<b:column	col-lg='3'
+									col-md='3'
+									col-sm='6'
+									col-xs='12'
+									rendered='#{!mae.value}'
+									>
+							<br/>
+							<h:outputLabel class='outputLabel'	for='sedeMae'
+											value='Sede-Mãe'
+											/>
+							<h:selectOneMenu	id='sedeMae'
+												value='#{sedeBean.sedeTemp.sedeMae}'
+												converter='omnifaces.SelectItemsConverter'
+												class="hSelectOneMenu readonly"
+												disabled="true"
+												>
+								<f:selectItem itemLabel='Selecione' noSelectionOption='true'/>
+								<f:selectItems	value='#{sedeBean.listarMaes()}' var='sedeMae'
+												itemLabel='#{sedeMae.nome}'
+												itemDisabled="true"
+												/>
+							</h:selectOneMenu>
+						</b:column>
+						
+<!-- 						<b:container class='visible-sm' rendered='#{!mae.value}'/> -->
+						
+						<b:column	col-lg='3'
+									col-md='3'
+									col-sm='6'
+									col-xs='12'
+									>
+							<br/>
+							
+							<h:outputLabel class='outputLabel'	for='paginaWeb'
+											value='Página da Web'
+											/>
+							<b:inputText 	id='paginaWeb'
+											value='#{sedeBean.sedeTemp.paginaWeb}'
+											placeholder='Página da Web'
+											disabled="true"
+											/>
+						</b:column>
+						
+						<b:column	col-lg='3'
+									col-md='3'
+									col-sm='6'
+									col-xs='12'
+									>
+							<br/>
+							
+							<h:outputLabel class='outputLabel'	for='perfilRedeSocial'
+											value='Perfil de Rede Social'
+											/>
+							<b:inputText 	id='perfilRedeSocial'
+											value='#{sedeBean.sedeTemp.perfilRedeSocial}'
+											placeholder='Perfil de Rede Social'
+											disabled="true"
+											/>
+											<br/>
+						</b:column>
+					</b:row>	
+				</b:row>
+
+				<b:row	class='row splitRow fullWidth'>
+					<table class='fullWidth'>
+						<tr>
+							<td	style='	vertical-align: bottom;'>
+								<h3>
+									<b:iconAwesome name='fa fa-fw fa-map-marker'/>
+									Endereço
+								</h3>
+							</td>
+						</tr>
+					</table>
+				</b:row>
+				
+				<b:row id='endereco' class='row'>
+					<b:column	col-lg='9'
+								col-md='9'
+								col-sm='9'
+								col-xs='12'
+								class='column'
+								>
+						<b:row id='showEndereco'>
+							<b:row	rendered='#{showGpsForm.value}'
+									class='row'
+									>
+								<b:column	col-lg='12'
+											col-md='12'
+											col-sm='12'
+											col-xs='12'
+											>
+									<br/>
+									<h:outputLabel class='outputLabel'	for='gpsAddress'
+													value='Coordenadas de GPS*'
+													/>
+									<b:inputText	id='gpsAddress'
+													value='#{sedeBean.sedeTemp.endereco.coordenadas}'
+													placeholder='Formato: ±9.9*, ±9.9*'
+													onblur='setMapaCode("")'
+													disabled="true"
+													>
+										<script type='text/javascript'>
+											document.getElementById("input_form:gpsAddress").value = document.getElementById("form:code").value;
+										</script>
+									</b:inputText>
+								</b:column>
+							</b:row>
+							<b:row>
+								<b:row	rendered='#{!showGpsForm.value}'
+										class='row fullWidth'
+										>
+									<b:column	col-lg='2'
+												col-md='2'
+												col-sm='3'
+												col-xs='12'
+												>
+										<br/>
+										<h:outputLabel class='outputLabel' value='CEP' for='cep'/>
+										<b:iconAwesome	name='fa-question-circle'
+														tooltip='Caso o sistema encontre o CEP digitado, os campos de endereço serão preenchidos automaticamente.'
+														onclick='alert("Caso o sistema encontre o CEP digitado, os campos de endereço serão preenchidos automaticamente.")'
+														style='	margin-left: 4px;'
+														/>
+										<b:inputText	id='cep'
+														binding='#{cep}'
+														maxlength='8'
+														onkeypress='return teclaNumerica(event.keyCode)'
+														value='#{sedeBean.sedeTemp.endereco.cep}'
+														placeholder='CEP'
+														onblur='if(this.value != "") pesquisaCep(this.value, ""); localizaCoordenadas("");'
+														class='halfPadding'
+														disabled="true"
+														/>
+									</b:column>
+									
+									<b:column	col-lg='6'
+												col-md='5'
+												col-sm='9'
+												col-xs='12'
+												>
+										<br/>
+										<h:outputLabel class='outputLabel' value='Endereço' for='logradouro'/>
+										<b:inputText	id='logradouro'
+														name='logradouro'
+														value='#{sedeBean.sedeTemp.endereco.logradouro}'
+														placeholder='Rua / Avenida / Praça / etc.'
+														onblur='document.getElementById("input_form:logradouro2").value = document.getElementById("input_form:logradouro").value; localizaCoordenadas("");'
+														disabled="true"
+														/>
+									</b:column>
+									
+									<b:column	col-lg='2'
+												col-md='2'
+												col-sm='2'
+												col-xs='5'
+												>
+										<br/>
+										<h:outputLabel class='outputLabel' value='№' for='numero'/>
+										<b:inputText	id='numero'
+														onblur='localizaCoordenadas("")'
+														value='#{sedeBean.sedeTemp.endereco.numero}'
+														onkeypress='return teclaNumerica(event.keyCode)'
+														maxlength='5'
+														placeholder='№'
+														disabled="true"
+														/>
+									</b:column>
+									
+									<b:column	col-lg='2'
+												col-md='3'
+												col-sm='4'
+												col-xs='7'
+												>
+										<br/>
+										<h:outputLabel class='outputLabel' value='Complemento' for='complemento'/>
+										<b:inputText	id='complemento'
+														value='#{sedeBean.sedeTemp.endereco.complemento}'
+														placeholder='Complemento'
+														disabled="true"
+														/>
+									</b:column>
+									
+									<b:column	col-lg='3'
+												col-md='3'
+												col-sm='6'
+												col-xs='12'
+												>
+										<br/>
+										<h:outputLabel class='outputLabel' value='Bairro' for='bairro'/>
+										<b:inputText	id='bairro'
+														onblur='localizaCoordenadas("")'
+														value='#{sedeBean.sedeTemp.endereco.bairro}'
+														placeholder='Bairro'
+														disabled="true"
+														/>
+									</b:column>
+									
+									<b:column	col-lg='4'
+												col-md='4'
+												col-sm='6'
+												col-xs='12'
+												>
+										<br/>
+										<h:outputLabel class='outputLabel' value='Cidade' for='cidade'/>
+										<b:inputText	id='cidade'
+														onblur='localizaCoordenadas("")'
+														value='#{sedeBean.sedeTemp.endereco.cidade}'
+														placeholder='Cidade'
+														disabled="true"
+														/>
+									</b:column>
+									
+									<b:column	col-lg='1'
+												col-md='1'
+												col-sm='2'
+												col-xs='4'
+												>
+										<br/>
+										<h:outputLabel class='outputLabel' value='UF' for='uf'/>
+										<b:inputText	id='uf'
+														onblur='localizaCoordenadas("")'
+														maxlength='2'
+														value='#{sedeBean.sedeTemp.endereco.estado}'
+														placeholder='UF'
+														class='halfPaddingMono'
+														disabled="true"
+														/>
+									</b:column>
+									
+									<b:column	col-lg='4'
+												col-md='4'
+												col-sm='4'
+												col-xs='8'
+												>
+										<br/>
+										<h:outputLabel class='outputLabel' value='País' for='pais'/>
+										<b:inputText	id='pais'
+														onblur='localizaCoordenadas("")'
+														value='#{sedeBean.sedeTemp.endereco.pais}'
+														placeholder='País'
+														disabled="true"
+														/>
+									</b:column>
+								</b:row>
+							</b:row>
+						</b:row>
+					</b:column>
+					
+					
+					<b:column	col-lg='3'
+								col-md='3'
+								col-sm='3'
+								col-xs='12'
+								>
+						<br class='visible-sm visible-xs'/>
+						<br class='visible-sm'/>
+						#{gmapBean.marcarMapa(false, false, true)}
+						<p:gmap	id='mapaId'
+								widgetVar='mapa'
+								center='#{gmap.posicaoCentral}'
+								scrollWheel='false'
+								draggable='false'
+								zoom='16'
+								type='ROADMAP'
+								style='width:100%; height: 200px;'
+								model='#{gmap.mapModel}'
+								class='mapContainer'
+								>
+							<p:ajax event='geocode' listener='#{gmap.onGeocode}'  update='mapaId, code'/>
+						</p:gmap>
+						<center>
+							<h:inputText	id='code'
+											value='#{gmap.posicaoCentral}'
+											readonly='true'
+											class='mapCodeFooter'
+											/>
+						</center>
+					</b:column>
+				</b:row>
+
+				<br/>
+
+				<b:row	style='	border-top: solid;
+								width: 100%;
+								border-color: #CCCCCC;
+								margin: 0px;
+								padding: 0px;
+								'>
+					<h3>
+						<b:iconAwesome name='fa fa-fw fa-phone'/>
+						Telefone
+					</h3>
+				</b:row>
+				<b:row>
+					<h:dataTable	id='tbTelefones'
+									value='#{sedeBean.sedeTemp.telefones}'
+									var='telefone'
+									style='	width: 100%;'									
+									>
+						<h:column>
+							<b:column	col-lg='3'
+										col-md='3'
+										col-sm='6'
+										col-xs='12'
+										>
+								<br/>
+								<b:inputText	value='#{telefone.numero}'
+												placeholder='DDI + Código + Número'
+												maxlength='32'
+												onkeypress='return teclaNumerica(event.keyCode);'
+												disabled="true"
+												/>
+							</b:column>
+							<b:column	col-lg='3'
+										col-md='3'
+										col-sm='6'
+										col-xs='12'
+										>
+								<br class='hidden-xs'/>
+								<table	style='	width: 100%;
+												'
+										>
+									<tr>
+										<td>
+											<b:inputText	value='#{telefone.descricao}'
+															placeholder='Descrição'
+															disabled="true"
+															/>
+										</td>
+									</tr>
+								</table>
+							</b:column>
+						</h:column>
+					</h:dataTable>
+				</b:row>
+
+				<br/>
+				
+				<b:row	style='	border-top: solid;
+								width: 100%;
+								border-color: #CCCCCC;
+								margin: 0px;
+								padding: 0px;
+								'>
+					<h3>
+						<b:iconAwesome name='fa fa-fw fa-at'/>
+						E-mail
+					</h3>
+				</b:row>
+				
+				<b:row>
+					<h:dataTable	id='tbEmails'
+									value='#{sedeBean.sedeTemp.emails}'
+									var='email'
+									style='	width: 100%;'
+									>
+						<h:column>
+							<b:column	col-lg='3'
+										col-md='3'
+										col-sm='6'
+										col-xs='12'
+										>
+								<br/>
+								<b:inputText	value='#{email.conta}'
+												placeholder='E-Mail'
+												disabled="true"
+												/>
+							</b:column>
+							<b:column	col-lg='3'
+										col-md='3'
+										col-sm='6'
+										col-xs='12'
+										>
+								<br class='hidden-xs'/>
+								<table	style='	width: 100%;
+												'
+										>
+									<tr>
+										<td>
+											<b:inputText	value='#{email.descricao}'
+															placeholder='Descrição'
+															disabled="true"
+															/>
+										</td>
+									</tr>
+								</table>
+							</b:column>
+						</h:column>
+					</h:dataTable>
+				</b:row>
+
+				<br/>
+
+				<b:row	style='	border-top: solid;
+								width: 100%;
+								border-color: #CCCCCC;
+								margin: 0px;
+								padding: 0px;
+								'>
+						<h3>
+							<b:iconAwesome name='fa fa-fw fa-sticky-note-o'/>
+							Comentários
+						</h3>
+				</b:row>
+
+				<b:row>
+					<b:column	col-lg='12'
+								col-md='12'
+								col-sm='12'
+								col-xs='12'
+								style='	margin: 0px;'
+								>
+						<b:inputTextarea	id='comentarios'
+											value='#{sedeBean.sedeTemp.comentarios}'
+											maxlength='1000'
+											placeholder='Digite os comentários aqui.'
+											disabled="true"
+											/>
+					</b:column>
+				</b:row>
+			</div>
+		</ui:define>
+	</ui:composition>
+
+</html>

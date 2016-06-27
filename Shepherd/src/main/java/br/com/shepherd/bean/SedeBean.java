@@ -74,6 +74,12 @@ public class SedeBean implements Serializable{
 		return "sedeAlterar";
 	}
 
+	public String prepararVisualizacao(Sede pSede){
+		setSedeTemp(pSede);
+
+		return "sedeVisualizar";
+	}
+	
 	public String alterar(Sede pSede) throws Exception{
 		try {
 			sedeService.alterar(pSede);

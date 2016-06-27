@@ -71,22 +71,22 @@
 							priority='1'
 							>
 					<center>
-						<p:commandButton	update='@form'
-											onclick='alert("Visualização AINDA NÃO IMPLEMENTADA!")'
+						<p:commandButton	ajax='false'
+											action='#{sedeBean.prepararVisualizacao(sede)}'
 											icon='fa fa-fw fa-eye'
-											alt='Visualizar'
-											disabled='true'
+											style='	color: #009;
+													'
 											/>
 						<p:commandButton	ajax='false'
 											action='#{sedeBean.prepararAlteracao(sede)}'
 											icon='fa fa-fw fa-pencil'
-											style='	color: #009900;
+											style='	color: #090;
 													'
 											/>
 						<p:commandButton	update='@form'
 											action='#{sedeBean.excluir(sede)}'
 											icon='fa fa-fw fa-trash'
-											style='	color: #cc0000;
+											style='	color: #c00;
 													'
 											alt='Excluir'
 											>
