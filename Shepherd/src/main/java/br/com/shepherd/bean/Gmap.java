@@ -45,10 +45,34 @@ public class Gmap implements Serializable{
 	 * @throws IOException
 	 * @throws NumberFormatException
 	 */
-	public Gmap() throws NumberFormatException, IOException{
+	public Gmap(){
 		mapModel = new DefaultMapModel();
-		posicaoCentral = new LatLng(Float.parseFloat(JSFUtil.getProperty("enderecoPrincipalLatitude")),
-									Float.parseFloat(JSFUtil.getProperty("enderecoPrincipalLongitude")));
+		try{
+			posicaoCentral = new LatLng(Float.parseFloat(JSFUtil.getProperty("enderecoPrincipalLatitude")),
+										Float.parseFloat(JSFUtil.getProperty("enderecoPrincipalLongitude")));
+		} catch(Exception e){
+			posicaoCentral = new LatLng(0, 0);
+		}
+	}
+
+	/**
+	 * Converte a String de coordenadas para latitude e longitude
+	 *
+	 * @param pCode
+	 * @return
+	 */
+	public LatLng converterCoordenadas(String pCode){
+		try{
+			String[] codeSplit = pCode.split(",");
+			String latAux = codeSplit[0].trim();
+			String lngAux = codeSplit[1].trim();
+			Double lat = Double.parseDouble(latAux);
+			Double lng = Double.parseDouble(lngAux);
+			LatLng latLng = new LatLng(lat, lng);
+			return latLng;
+		} catch(Exception e){
+			throw new IllegalArgumentException("Coordenadas inválidas.");
+		}
 	}
 
 	/**
@@ -64,9 +88,7 @@ public class Gmap implements Serializable{
 		centrarMapa = pCentrarMapa;
 	}
 
-	public	void
-
-	onGeocode(GeocodeEvent event){
+	public void onGeocode(GeocodeEvent event){
 		if(!acumula){
 			mapModel = new DefaultMapModel();
 		}
@@ -133,6 +155,5 @@ public class Gmap implements Serializable{
 	public void setPosicaoCentralTxt(String pPosicaoCentralTxt){
 		posicaoCentralTxt = pPosicaoCentralTxt;
 	}
-
 
 }

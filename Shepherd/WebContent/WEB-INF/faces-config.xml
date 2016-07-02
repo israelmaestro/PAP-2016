@@ -2,6 +2,8 @@
 <application>
 	<locale-config>
 		<default-locale>pt_BR</default-locale>
+		<supported-locale>pt</supported-locale>
+		<supported-locale>en_US</supported-locale>
 	</locale-config> 
 	<faces-config 	version='2.2'
 					xmlns='http://xmlns.jcp.org/xml/ns/javaee'

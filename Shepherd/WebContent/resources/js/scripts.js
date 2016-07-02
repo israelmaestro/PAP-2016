@@ -1,8 +1,13 @@
+function changeAtendimentoAddressContainer(message, bgColor){
+	document.getElementById("form:enderecoAtendimentoContainer").style.background = bgColor;
+	document.getElementById("enderecoAtendimento").innerHTML = message;
+}
+
 function setFalse(x){
 	document.getElementById(x).value = false;
 }
 
-/*
+/**
  * Brazilian initialization for the jQuery UI date picker plugin.
  */
 jQuery(function($){
@@ -69,7 +74,9 @@ function limparEndereco(x){
 
 // TODO: ### URGENTE!!! ARRUMAR AS PÁGINAS QUE CONTÉM ESSE MÉTODO
 function localizaCoordenadas(x){
-	PF("mapa" + x).geocode(null);
+	var y = "mapa" + x;
+
+	PF(y).geocode(null);
 
 	var endereco = document.getElementById("input_form:logradouro" + x).value + " "
 					+ document.getElementById("input_form:numero" + x).value
@@ -84,13 +91,16 @@ function localizaCoordenadas(x){
 					+ " "
 					+ document.getElementById("input_form:pais" + x).value;
 
-	PF("mapa" + x).geocode(endereco);
+	PF(y).geocode(endereco);
 }
 
 // TODO: ### URGENTE!!! ARRUMAR AS PÁGINAS QUE CONTÉM ESSE MÉTODO
 function setMapaCode(x){
+	var y = "mapa" + x;
+
 	endereco = document.getElementById("input_form:gps" + x + "Address").value;
-	PF("mapa" + x).geocode(endereco);
+
+	PF(y).geocode(endereco);
 }
 
 function requiredField(id){

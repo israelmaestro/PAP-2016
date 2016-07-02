@@ -27,7 +27,7 @@ public class Atendimento implements Serializable{
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date				dataHora;
 
-	@OneToOne(mappedBy = "celula", cascade = CascadeType.ALL)
+	@OneToOne(mappedBy = "atendimento", cascade = CascadeType.ALL)
 	private Endereco				endereco;
 
 	/*
@@ -38,9 +38,6 @@ public class Atendimento implements Serializable{
 	@Column(length = 1000)
 	private String				comentarios;
 
-	// TODO: Colocar endereço
-
-	// TODO: Verificar se vai funcionar o casacade
 	@OneToMany(mappedBy = "atendimento", cascade = CascadeType.ALL)
 	private List<PessoaAtendimento>	pessoasAtendimentos;
 

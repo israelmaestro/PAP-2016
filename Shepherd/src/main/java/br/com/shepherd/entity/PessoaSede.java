@@ -68,7 +68,6 @@ public class PessoaSede implements Serializable{
 	 */
 	@Column(columnDefinition = "timestamp")
 	@Temporal(TemporalType.TIMESTAMP)
-	@NotNull
 	private Date				dataInicio;
 
 	@Column(columnDefinition = "timestamp")

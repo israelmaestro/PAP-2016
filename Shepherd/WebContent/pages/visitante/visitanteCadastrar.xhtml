@@ -9,30 +9,11 @@
 		xmlns:pt='http://xmlns.jcp.org/jsf/passthrough'
 		xmlns:ui='http://java.sun.com/jsf/facelets'
 		>
-
 	<ui:composition template='/META-INF/resources/bootsfaces/jsfTemplate.xhtml'>
-
 		<ui:define name='mensagensCampos'>
-			<b:message for='nome'/>
-			<b:message for='sobrenome'/>
-			<b:message for='dataNasc' />
-			<b:message for='sexo'/>
-			<b:message for='rg'/>
-			<b:message for='cpf'/>
-			<b:message for='gpsAddress'/>
-			<b:message for='cep' />
-			<b:message for='logradouro' />
-			<b:message for='numero' />
-			<b:message for='complemento' />
-			<b:message for='bairro' />
-			<b:message for='cidade' />
-			<b:message for='uf' />
-			<b:message for='pais' />
-			<b:message for='tbTelefones'/>
-			<b:message for='tbEmails' />
+			<b:messages globalOnly='false' />
 			<br/>
 		</ui:define>
-		
 		<ui:define name='tituloPagina'>Shepherd > Novo Membro</ui:define>
 		<ui:define name='tituloPrincipal'>
 			<b:iconAwesome name='fa fa-child fa-fw'/>
@@ -42,24 +23,27 @@
 		<ui:define name='tituloSecundario'>
 			home > visitantes > novo
 		</ui:define>
-			
 		<ui:define name='botoesAcao'>
 			<b:buttonGroup>
 				<b:button	value=''
 							onclick='location.href = "./visitanteListar.jsf"'
 							iconAwesome='fa fa-arrow-left fa-fw'
 							/>
-				<btr:commandLink	action='#{membroBean.cadastrar()}'
+				<btr:commandLink	action='#{visitanteBean.cadastrar()}'
 									styleClass='btn btn-default'
 									>
+					<f:setPropertyActionListener value='#{gmap.posicaoCentralTxt}' target="#{visitanteBean.visitante.endereco.coordenadas}"/>
+					<f:setPropertyActionListener	value='#{visitanteBean.getEnderecoAtendimento(selectEnderecoAtendimento.value)}'
+													target="#{visitanteBean.visitanteAtendimento.atendimento.endereco}"
+													/>
 					<b:iconAwesome name='fa fa-check fa-fw'/>
 				</btr:commandLink>
-				<b:button	value=''
-							iconAwesome='fa fa-eraser fa-fw'
-							onclick='location.href = "./visitanteCadastrar.jsf"'/>
+				<b:commandButton	value=''
+									iconAwesome='fa fa-eraser fa-fw'
+									type='reset'/>
 			</b:buttonGroup>
 		</ui:define>
-			
+
 		<ui:define name='conteudo'>
 			<div>
 				<b:row>
@@ -102,11 +86,12 @@
 																'
 														/>
 										<b:selectBooleanCheckbox	id='comAtendimento'
+																	value='#{visitanteBean.visitanteSede.comAtendimento}'
 																	binding='#{dadosAtendimento}'
 																	rendered='#{!visitando.value}'
 																	style='	margin-left: 0px;'
 																	>
-											<f:ajax event='change' render='' />
+											<f:ajax event='change' render='atendimentoForm, enderecoAtendimento' />
 										</b:selectBooleanCheckbox>
 									</div>
 								</td>
@@ -146,7 +131,7 @@
 														/>
 										<b:selectBooleanCheckbox	id='relationshipCheckBox'
 																	binding='#{showMateInfo}'
-																	value='#{membroBean.membro.casada}'
+																	value='#{visitanteBean.visitante.casada}'
 																	style='	margin-left: 0px;'
 																	>
 	<!-- 										<f:ajax event='change' render='familia' /> -->
@@ -157,7 +142,6 @@
 						</table>
 					</b:column>
 				</b:row>
-
 				<b:row>
 					<b:column	col-lg='3'
 								col-md='3'
@@ -171,7 +155,7 @@
 						<b:inputText 	id='nome'
 										required='true'
 										requiredMessage='Nome: Campo obrigatório'
-										value='#{membroBean.membro.nome}'
+										value='#{visitanteBean.visitante.nome}'
 										placeholder='Nome'
 										class='required'
 										/>
@@ -188,7 +172,7 @@
 						<b:inputText 	id='sobrenome'
 										required='true'
 										requiredMessage='Sobrenome: Campo obrigatório'
-										value='#{membroBean.membro.sobrenome}'
+										value='#{visitanteBean.visitante.sobrenome}'
 										placeholder='Sobrenome'
 										class='required'
 										/>
@@ -200,13 +184,18 @@
 								>
 						<br/>
 						<h:outputLabel	class='outputLabel' for='dataNasc' value='Data de Nascimento'/>
-						<b:datepicker 	id='dataNasc'
-										placeholder='DD/MM/AAAA'
-										value='#{membroBean.membro.dataNasc}'
-										showButtonPanel='true'
-										changeMonth='true'
-										changeYear='true'
-										/>
+						<p:calendar	id='dataNasc'
+									navigator='true'
+									pattern='dd/MM/yyyy'
+									mindate='1/1/1900'
+									maxdate='#{now}'
+									placeholder='DD/MM/AAAA'
+									value='#{visitanteBean.visitante.dataNasc}'
+									>
+							<script type='text/javascript'>
+								document.getElementById("form:dataNasc_input").style.padding = "6px 12px";
+							</script>
+						</p:calendar>
 					</b:column>
 					<b:column	col-lg='1'
 								col-md='1'
@@ -224,14 +213,13 @@
 							<b:iconAwesome	name='fa-question-circle'
 											for='sexo'
 											tooltip='Selecione o sexo: Masculino (♂) ou Feminino (♀)'
-											tooltipDelayHide='3000'
 											onclick='alert("Selecione o sexo:\n Masculino (♂)\n Feminino (♀)")'
 											style='	margin-left: 4px;'
 											/>
 						</h:outputLabel>
 						<b:switch	id='sexo'
 									binding='#{membroSexo}'
-									value='#{membroBean.membro.sexo}'
+									value='#{visitanteBean.visitante.sexo}'
 									offText='♀'
 									onText='♂'
 									onColor='primary'
@@ -256,24 +244,23 @@
 							<b:iconAwesome	name='fa-question-circle'
 											for='visitando'
 											tooltip='Selecione se está visitando a sede ou uma célula'
-											tooltipDelayHide='3000'
 											onclick='alert("Selecione se está visitando a sede ou uma célula")'
 											style='	margin-left: 4px;'
 											/>
 						</h:outputLabel>
 						<b:switch	id='visitando'
 									binding='#{visitando}'
-									value='#{membroBean.membro.sexo}'
+									value='#{visitanteBean.visitandoCelula}'
 									offText='Sede'
 									onText='Célula'
 									onColor='info'
 									offColor='warning'
 									>
-							<f:ajax event='change' render='nEspeciaisMostrar, checkAtendimento, mostrarDadosCelula' />
+							<f:ajax event='change' render='tipoVisita, checkAtendimento, mostrarDadosCelula, atendimentoForm' />
 						</b:switch>
 					</b:column>
 				</b:row>
-				<b:row id='nEspeciaisMostrar'>
+				<b:row id='tipoVisita'>
 					<b:column	col-lg='3'
 								col-md='3'
 								col-sm='6'
@@ -284,7 +271,7 @@
 										value='RG'
 										/>
 						<b:inputText 	id='rg'
-										value='#{membroBean.membro.rg}'
+										value='#{visitanteBean.visitante.rg}'
 										placeholder='RG'
 										maxlength='9'
 										/>
@@ -301,34 +288,11 @@
 						<b:inputText	id='cpf'
 										onkeypress='return teclaNumerica(event.keyCode)'
 										maxlength='11'
-										value='#{membroBean.membro.cpf}'
+										value='#{visitanteBean.visitante.cpf}'
 										placeholder='CPF'
 										/>
 					</b:column>
-					<b:column	col-lg='3'
-								col-md='3'
-								col-sm='6'
-								col-xs='12'
-								rendered='#{showNeMenu.value}'
-								>
-						<br/>
-						<h:outputLabel	class='outputLabel' for='nEspecial' value='Necessidades Especiais' />
-						<p:selectCheckboxMenu	id="nEspecial"
-												label='#{null == membroBean.membro.nEspeciais || membroBean.membro.nEspeciais.size() == 0 ? "Selecione" : membroBean.membro.nEspeciais.size()} #{null == membroBean.membro.nEspeciais || membroBean.membro.nEspeciais.size() == 0 ? "" : "necessidade(s) selecionada(s)"}'
-												value="#{membroBean.membro.nEspeciais}"
-												converter="omnifaces.SelectItemsConverter"
-												filter="true"
-												filterMatchMode="contains"
-												showCheckbox="true"
-												>
-							<f:ajax event='change' render='@this' />
-							<f:selectItems	value='#{nEspecialBean.listar()}'
-											var='nEspecial'
-											itemLabel='#{nEspecial.nome}'
-											itemValue='#{nEspecial}'
-											/>
-						</p:selectCheckboxMenu>
-					</b:column>
+					
 					<b:column	col-lg='3'
 								col-md='3'
 								col-sm='6'
@@ -340,20 +304,21 @@
 										value='Sede Visitada*'
 										/>
 						<h:selectOneMenu	id='sedeVisitada'
-											value='#{sedeBean.sede.sedeMae}'
+											value='#{visitanteBean.visitanteSede.sede}'
+											binding='#{sedeVisitada}'
 											converter='omnifaces.SelectItemsConverter'
 											class='hSelectOneMenu required'
 											required='true'
 											requiredMessage='Sede Visitada: Campo obrigatório!'
 											>
+							<f:ajax event='change' render='selectedAddress'/>
 							<f:selectItem itemLabel='Selecione' noSelectionOption='true'/>
-							<f:selectItems	value='#{sedeBean.listarMaes()}' var='sedeMae'
-											itemLabel='#{sedeMae.nome}'
+							<f:selectItems	value='#{sedeBean.listar()}' var='sede'
+											itemLabel='#{sedeBean.getProperty("convencaoAbrev")} #{sede.nome}#{sede.mae ? "*" : ""}'
 											/>
 						</h:selectOneMenu>
-						<b:container rendered='#{showNeMenu.value}' style='width: 0px'>
-							<br class='visible-lg visible-md'/>
-						</b:container>
+						<br class='visible-lg visible-md'/>
+						<br class='visible-lg visible-md'/>
 					</b:column>
 					<b:column	col-lg='3'
 								col-md='3'
@@ -364,22 +329,31 @@
 						<br/>
 						<h:outputLabel class='outputLabel'	for='eventoVisitado'
 										value='Evento Visitado*'
-										/>
-						<h:selectOneMenu	id='eventoVisitado'
-											value='#{sedeBean.sede.sedeMae}'
+										>
+							
+							<b:iconAwesome	name='fa-question-circle'
+											for='eventoVisitado'
+											tooltip='Este campo permite edição, caso o evento não esteja na lista'
+											onclick='alert("Este campo permite edição, caso o evento não esteja na lista.")'
+											style='	margin-left: 4px;'
+											/>
+						</h:outputLabel>
+						<p:selectOneMenu	id='eventoVisitado'
+											value='#{visitanteBean.visitanteSede.eventoVisitado}'
 											converter='omnifaces.SelectItemsConverter'
-											class='hSelectOneMenu required'
+											class=' required'
 											required='true'
 											requiredMessage='Evento Visitado: Campo obrigatório!'
+											editable='true'
+											effect='none'
 											>
-							<f:selectItem itemLabel='Selecione' noSelectionOption='true'/>
-							<f:selectItems	value='#{sedeBean.listarMaes()}' var='sedeMae'
-											itemLabel='#{sedeMae.nome}'
+							<f:selectItems	value='#{visitanteBean.eventosVisitados()}' var='evento'
+											itemLabel='#{evento}'
+											itemValue='#{evento}'
 											/>
-						</h:selectOneMenu>
-						<b:container rendered='#{!showNeMenu.value}' style='width:0px;'>
-							<br class='visible-lg visible-md'/>
-						</b:container>
+						</p:selectOneMenu>
+						<br class='visible-lg visible-md'/>
+						<br class='visible-lg visible-md'/>
 					</b:column>
 					<b:column	col-lg='3'
 								col-md='3'
@@ -392,15 +366,16 @@
 										value='Situação*'
 										/>
 						<h:selectOneMenu	id='situacao'
-											value='#{sedeBean.sede.sedeMae}'
+											value='#{visitanteBean.visitanteSede.situacao}'
 											converter='omnifaces.SelectItemsConverter'
 											class='hSelectOneMenu required'
 											required='true'
-											requiredMessage='Evento Visitado: Campo obrigatório!'
+											requiredMessage='Situação: Campo obrigatório!'
 											>
 							<f:selectItem itemLabel='Selecione' noSelectionOption='true'/>
-							<f:selectItems	value='#{sedeBean.listarMaes()}' var='sedeMae'
-											itemLabel='#{sedeMae.nome}'
+							<f:selectItems	value='#{visitanteBean.situacoes()}' var='situacao'
+											itemLabel='#{situacao}'
+											itemValue='#{situacao}'
 											/>
 						</h:selectOneMenu>
 					</b:column>
@@ -412,17 +387,17 @@
 								>
 						<br/>
 						<h:outputLabel	class='outputLabel' for='dataVisita' value='Data da visita*'/>
-						<b:datepicker 	id='dataVisita'
+						<p:calendar 	id='dataVisita'
+										widgetVar='dataVisita'
 										placeholder='DD/MM/AAAA'
-										value='#{membroBean.membro.dataNasc}'
-										showButtonPanel='true'
-										changeMonth='true'
-										changeYear='true'
+										value='#{visitanteBean.visitanteSede.dataVisita}'
+										required='true'
+										requiredMessage='Data da visita: Campo obrigatório!'
+										maxdate='#{now}'
+										pattern='dd/MM/yyyy'
+										class='required'
 										>
-							<script>
-								requiredField("form:dataVisita");
-							</script>
-						</b:datepicker>
+						</p:calendar>
 					</b:column>
 					<b:column	col-lg='3'
 								col-md='6'
@@ -438,284 +413,529 @@
 										>
 							<b:iconAwesome	name='fa-question-circle'
 											for='acompanhado'
-											tooltip='Selecione se o visitante veio acompanhado'
-											tooltipDelayHide='3000'
-											onclick='alert("Selecione se o visitante veio acompanhado")'
+											tooltip='Selecione se o visitante veio acompanhado por algum membro da igreja'
+											onclick='alert("Selecione se o visitante veio acompanhado por algum membro da igreja.")'
 											style='	margin-left: 4px;'
 											/>
 						</h:outputLabel>
 						<b:switch	id='acompanhado'
-									value='#{membroBean.membro.sexo}'
+									value='#{visitanteBean.visitanteSede.acompanhado}'
 									offText='Desacompanhado'
 									onText='Acompanhado'
 									onColor='primary'
 									offColor='danger'
 									/>
 					</b:column>
+					<b:column	id='nEspeciaisMostrar'
+								class='row'
+								col-lg='3'
+								col-md='3'
+								col-sm='6'
+								col-xs='12'
+								>
+						<b:column	span='12'
+									rendered='#{showNeMenu.value}'
+									>
+							<br/>
+							<h:outputLabel	class='outputLabel' for='nEspecial' value='Necessidades Especiais' />
+							<p:selectCheckboxMenu	id="nEspecial"
+													label='#{null == visitanteBean.visitante.nEspeciais || visitanteBean.visitante.nEspeciais.size() == 0 ? "Selecione" : visitanteBean.visitante.nEspeciais.size()} #{null == visitanteBean.visitante.nEspeciais || visitanteBean.visitante.nEspeciais.size() == 0 ? "" : "necessidade(s) selecionada(s)"}'
+													value="#{visitanteBean.visitante.nEspeciais}"
+													converter="omnifaces.SelectItemsConverter"
+													filter="true"
+													filterMatchMode="contains"
+													showCheckbox="true"
+													>
+								<f:ajax event='change' render='@this' />
+								<f:selectItems	value='#{nEspecialBean.listar()}'
+												var='nEspecial'
+												itemLabel='#{nEspecial.nome}'
+												itemValue='#{nEspecial}'
+												/>
+							</p:selectCheckboxMenu>
+						</b:column>
+					</b:column>
 				</b:row>
-
+				<b:row id='atendimentoForm' class='row'>
+					<br/>
+					<b:row	id='dadosAtendimento'
+							class='splitRow'
+							rendered='#{dadosAtendimento.value}'
+							>
+						<h3>
+							<b:iconAwesome name="fa fa-calendar-check-o"/>
+							Atendimento
+						</h3>
+						<b:row>
+							<b:column	col-lg='3'
+										col-md='3'
+										col-sm='6'
+										col-xs='12'
+										>
+								<br/>
+								<h:outputLabel	class='outputLabel' for='dataHora' value='Data e Hora*'/>
+								<p:calendar	id='dataHora'
+											pattern='dd/MM/yyyy HH:mm'
+											navigator='true'
+											required='true'
+											requiredMessage='Data e hora do atendimento: Campo obrigatório!'
+											placeholder='DD/MM/AAAA HH:MM'
+											class='required'
+											>
+									<script type='text/javascript'>
+										document.getElementById("form:dataHora_input").style.padding = "6px 12px";
+									</script>
+								</p:calendar>
+							</b:column>
+							<b:column	col-lg='3'
+										col-md='3'
+										col-sm='6'
+										col-xs='12'
+										>
+								<br/>
+								<h:outputLabel	class='outputLabel' for='status'
+												value='Status*'
+												/>
+								<b:inputText 	id='status'
+												value='Novo'
+												placeholder='Novo'
+												readonly='true'
+												style='background-color: #FFC'
+												/>
+							</b:column>
+						</b:row>
+					</b:row>
+				</b:row>
 				<br/>
 
-				<b:row	class='row splitRow fullWidth'>
-					<table class='fullWidth'>
-						<tr>
-							<td	style='	vertical-align: bottom;'>
-								<h3>
-									<b:iconAwesome name='fa fa-fw fa-map-marker'/>
-									Endereço
-									<b:button value=''
-											iconAwesome='fa fa-eraser fa-fw'
-											onclick='limparEndereco()'
-											size='xs'
-											tooltip='Clique para limpar os campos de endereço'
-											/>
-								</h3>
-							</td>
-							<td	style='	vertical-align: bottom;
-										text-align: right;
-										line-height: 1px;
-										 margin: 0px; padding: 0px;'
-								>
-								<b:switch	value='#{membroBean.membro.endereco.gps}'
-											label=''
-											offText='Postal'
-											onText='GPS'
-											onColor='danger'
-											offColor='primary'
-											switchsize='mini'
-											binding='#{showGpsForm}'
+				<b:row id='mostrarDadosCelula' class='row'>
+					<b:row	id='dadosVisitanteCelula'
+							class='splitRow'
+							rendered='#{visitando.value}'
+							>
+						<h3>
+							<b:iconAwesome name="fa fa-fw fa-sitemap"/>
+							Célula
+						</h3>
+						<b:row>
+							<h:dataTable	id='tbCelula'
+											value='#{visitanteBean.visitanteCelula}'
+											var='relCelula'
+											style='	width: 100%;'
 											>
-									<f:ajax event='change' render='showEndereco' />
-								</b:switch>
-							</td>
-						</tr>
-					</table>
-				</b:row>
-				
-				<b:row id='endereco' class='row'>
-					<b:column	col-lg='9'
-								col-md='9'
-								col-sm='9'
-								col-xs='12'
-								class='column'
-								>
-						<b:row id='showEndereco'>
-							<b:row	rendered='#{showGpsForm.value}'
-									class='row'
-									>
-								<b:column	col-lg='12'
-											col-md='12'
-											col-sm='12'
-											col-xs='12'
+								<h:column span='12'>
+									<div	class=' row addElemento required'
+											style='padding: 12px 0px;'
 											>
-									<br/>
-									<h:outputLabel class='outputLabel'	for='gpsAddress'
-													value='Coordenadas de GPS*'
-													/>
-									<b:inputText	id='gpsAddress'
-													value='#{membroBean.membro.endereco.coordenadas}'
-													placeholder='Formato: ±9.9*, ±9.9*'
-													class='required'
-													required='true'
-													requiredMessage='Coordenadas de GPS: Campo obrigatório!'
-													onblur='setMapaCode()'
+										<b:column	col-lg='4'
+													col-md='4'
+													col-sm='4'
+													col-xs='12'
 													>
-										<script type='text/javascript'>
-											document.getElementById("input_form:gpsAddress").value = document.getElementById("form:code").value;
-										</script>
-									</b:inputText>
-								</b:column>
-							</b:row>
-							<b:row>
-								<b:row	rendered='#{!showGpsForm.value}'
-										class='row fullWidth'
-										>
-									<b:column	col-lg='2'
-												col-md='2'
-												col-sm='3'
-												col-xs='12'
-												>
-										<br/>
-										<h:outputLabel class='outputLabel' value='CEP' for='cep'/>
-										<b:iconAwesome	name='fa-question-circle'
-														tooltip='Caso o sistema encontre o CEP digitado, os campos de endereço serão preenchidos automaticamente.'
-														onclick='alert("Caso o sistema encontre o CEP digitado, os campos de endereço serão preenchidos automaticamente.")'
-														style='	margin-left: 4px;'
-														/>
-										<b:inputText	id='cep'
-														binding='#{cep}'
-														maxlength='8'
-														onkeypress='return teclaNumerica(event.keyCode)'
-														value='#{membroBean.membro.endereco.cep}'
-														placeholder='CEP'
-														onblur='if(this.value != "") pesquisaCep(this.value); localizaCoordenadas();'
-														class='halfPadding'
-														/>
-									</b:column>
-									
-									<b:column	col-lg='6'
-												col-md='5'
-												col-sm='9'
-												col-xs='12'
-												>
-										<br/>
-										<h:outputLabel class='outputLabel' value='Endereço' for='logradouro'/>
-										<b:inputText	id='logradouro'
-														name='logradouro'
-														value='#{membroBean.membro.endereco.logradouro}'
-														placeholder='Rua / Avenida / Praça / etc.'
-														class='hidden-xs required'
-														onblur='document.getElementById("input_form:logradouro2").value = document.getElementById("input_form:logradouro").value; localizaCoordenadas();'
-														required='true'
-														requiredMessage='Endereço: Campo obrigatório!'
-														/>
-										<b:inputTextarea	id='logradouro2'
-															name='logradouro2'
-															value='#{membroBean.membro.endereco.logradouro}'
-															placeholder='Digite o nome da rua, avenida, etc.'
-															class='visible-xs required'
-															onblur='document.getElementById("input_form:logradouro").value = document.getElementById("input_form:logradouro2").value; localizaCoordenadas();'
-															style='	margin-top: -8px;'
-															required='true'
-															requiredMessage='Endereço: Campo obrigatório!'
+											<h:outputLabel	class='outputLabel' value='Célula*' />
+											<h:selectOneMenu	value='#{relCelula.celula}'
+																converter='omnifaces.SelectItemsConverter'
+																class='hSelectOneMenu'
+																>
+												<f:selectItem	itemLabel='Selecione'
+																noSelectionOption='true'
+																/>
+												<f:selectItems	value='#{celulaBean.listar()}'
+																var='celula'
+																itemLabel='#{celula.nome} (#{sedeBean.getProperty("convencaoAbrev")} #{celula.sede.nome}#{celula.sede.mae ? "*" : ""})'
+																itemValue='#{celula}'
+																/>
+											</h:selectOneMenu>
+											<br class='hidden-xs'/>
+										</b:column>
+										<b:column	col-lg='4'
+													col-md='4'
+													col-sm='4'
+													col-xs='12'
+													>
+											<h:outputLabel	value='Data inicial*'
+															class='outputLabel'
 															/>
-									</b:column>
-									
-									<b:column	col-lg='2'
-												col-md='2'
-												col-sm='2'
-												col-xs='5'
-												>
-										<br/>
-										<h:outputLabel class='outputLabel' value='№' for='numero'/>
-										<b:inputText	id='numero'
-														onblur='localizaCoordenadas()'
-														value='#{membroBean.membro.endereco.numero}'
-														onkeypress='return teclaNumerica(event.keyCode)'
-														maxlength='5'
-														placeholder='№'
-														required='true'
-														class='required halfPadding'
-														requiredMessage='№: Campo obrigatório!'
-														/>
-									</b:column>
-									
-									<b:column	col-lg='2'
-												col-md='3'
-												col-sm='4'
-												col-xs='7'
-												>
-										<br/>
-										<h:outputLabel class='outputLabel' value='Complemento' for='complemento'/>
-										<b:inputText	id='complemento'
-														value='#{membroBean.membro.endereco.complemento}'
-														placeholder='Complemento'
-														/>
-									</b:column>
-									
-									<b:column	col-lg='3'
-												col-md='3'
-												col-sm='6'
-												col-xs='12'
-												>
-										<br/>
-										<h:outputLabel class='outputLabel' value='Bairro' for='bairro'/>
-										<b:inputText	id='bairro'
-														onblur='localizaCoordenadas()'
-														value='#{membroBean.membro.endereco.bairro}'
-														placeholder='Bairro'
-														/>
-									</b:column>
-									
-									<b:column	col-lg='4'
-												col-md='4'
-												col-sm='6'
-												col-xs='12'
-												>
-										<br/>
-										<h:outputLabel class='outputLabel' value='Cidade' for='cidade'/>
-										<b:inputText	id='cidade'
-														onblur='localizaCoordenadas()'
-														value='#{membroBean.membro.endereco.cidade}'
-														placeholder='Cidade'
-														required='true'
-														class='required'
-														requiredMessage='Cidade: Campo obrigatório!'
-														/>
-									</b:column>
-									
-									<b:column	col-lg='1'
-												col-md='1'
-												col-sm='2'
-												col-xs='4'
-												>
-										<br/>
-										<h:outputLabel class='outputLabel' value='UF' for='uf'/>
-										<b:inputText	id='uf'
-														onblur='localizaCoordenadas()'
-														maxlength='2'
-														value='#{membroBean.membro.endereco.estado}'
-														placeholder='UF'
-														class='halfPaddingMono'
-														/>
-									</b:column>
-									
-									<b:column	col-lg='4'
-												col-md='4'
-												col-sm='4'
-												col-xs='8'
-												>
-										<br/>
-										<h:outputLabel class='outputLabel' value='País' for='pais'/>
-										<b:inputText	id='pais'
-														onblur='localizaCoordenadas()'
-														value='#{membroBean.membro.endereco.pais}'
-														placeholder='País'
-														/>
-									</b:column>
-								</b:row>
-							</b:row>
+											<p:calendar 	id='dataEntradaCelula'
+															placeholder='DD/MM/AAAA'
+															value='#{relCelula.dataInicio}'
+															style='background: #FFF;'
+															>
+												<script type='text/javascript'>
+													document.getElementById("form:dataEntradaCelula_input").style.padding = "6px 12px";
+												</script>
+											</p:calendar>
+										</b:column>
+										<b:column	col-lg='4'
+													col-md='4'
+													col-sm='4'
+													col-xs='12'
+													>
+											<h:outputLabel	value='Data final (prevista)*'
+															class='outputLabel'
+															/>
+											<p:calendar 	placeholder='DD/MM/AAAA'
+															value='#{relCelula.dataFim}'
+															style='background: #FFF;'
+															/>
+										</b:column>
+									</div>
+								</h:column>
+							</h:dataTable>
 						</b:row>
-					</b:column>
-					
-					
-					<b:column	col-lg='3'
-								col-md='3'
+						<br/>
+					</b:row>
+				</b:row>
+<!-- ENDEREÇO -->
+<b:row	class='row splitRow fullWidth'>
+	<table class='fullWidth'>
+		<tr>
+			<td	style='	vertical-align: bottom;'>
+				<h3>
+					<b:iconAwesome name='fa fa-fw fa-map-marker'/>
+					Endereço
+					<b:button value=''
+							iconAwesome='fa fa-eraser fa-fw'
+							onclick='limparEndereco("")'
+							size='xs'
+							tooltip='Clique para limpar os campos de endereço'
+							/>
+				</h3>
+			</td>
+			<td	style='	vertical-align: bottom;
+						text-align: right;
+						line-height: 1px;
+						margin: 0px;
+						padding: 0px;
+						'
+				>
+				<b:switch	value='#{visitanteBean.visitante.endereco.gps}'
+							label=''
+							offText='Postal'
+							onText='GPS'
+							onColor='danger'
+							offColor='primary'
+							switchsize='mini'
+							binding='#{showGpsForm}'
+							>
+					<f:ajax event='change' render='showEndereco, selectedAddress' />
+				</b:switch>
+			</td>
+		</tr>
+	</table>
+	<b:column>
+		<h4 class='grayBoldItalic minHeight'>
+			Endereço do visitante
+		</h4>
+	</b:column>
+</b:row>
+
+<b:row id='endereco' class='row'>
+	<b:column	col-lg='9'
+				col-md='9'
+				col-sm='9'
+				col-xs='12'
+				class='column'
+				>
+		<b:row id='showEndereco'>
+			<b:row	rendered='#{showGpsForm.value}'
+					class='row'
+					>
+				<b:column	col-lg='12'
+							col-md='12'
+							col-sm='12'
+							col-xs='12'
+							>
+					<br/>
+					<h:outputLabel class='outputLabel'	for='gpsAddress'
+									value='Coordenadas de GPS*'
+									/>
+					<b:inputText	id='gpsAddress'
+									value='#{visitanteBean.visitante.endereco.coordenadas}'
+									placeholder='Formato: ±9.9*, ±9.9*'
+									class='required'
+									required='true'
+									requiredMessage='Coordenadas de GPS: Campo obrigatório!'
+									onblur='setMapaCode(""); '
+									>
+						<f:ajax event='change' render='selectedAddress'/>
+						<script type='text/javascript'>
+							document.getElementById("input_form:gpsAddress").value = document.getElementById("form:code").value;
+						</script>
+					</b:inputText>
+				</b:column>
+			</b:row>
+			<b:row>
+				<b:row	rendered='#{!showGpsForm.value}'
+						class='row fullWidth'
+						>
+					<b:column	col-lg='2'
+								col-md='2'
 								col-sm='3'
 								col-xs='12'
 								>
-						<br class='visible-sm visible-xs'/>
-						<br class='visible-sm'/>
-						#{gmapBean.marcarMapa(false, false, true)}
-						<p:gmap	id='mapaId'
-								widgetVar='mapa'
-								center='#{gmap.posicaoCentral}'
-								scrollWheel='false'
-								draggable='false'
-								zoom='16'
-								type='ROADMAP'
-								style='width:100%; height: 200px;'
-								model='#{gmap.mapModel}'
-								class='mapContainer'
+						<br/>
+						<h:outputLabel class='outputLabel' value='CEP' for='cep'/>
+						<b:iconAwesome	name='fa-question-circle'
+										tooltip='Caso o sistema encontre o CEP digitado, os campos de endereço serão preenchidos automaticamente.'
+										onclick='alert("Caso o sistema encontre o CEP digitado, os campos de endereço serão preenchidos automaticamente.")'
+										style='	margin-left: 4px;'
+										/>
+						<b:inputText	id='cep'
+										binding='#{cep}'
+										maxlength='8'
+										onkeypress='return teclaNumerica(event.keyCode)'
+										value='#{visitanteBean.visitante.endereco.cep}'
+										placeholder='CEP'
+										onblur='if(this.value != "") pesquisaCep(this.value, ""); localizaCoordenadas("");'
+										class='halfPadding'
+										>
+							<f:ajax event='change' render='selectedAddress'/>
+						</b:inputText>
+					</b:column>
+					
+					<b:column	col-lg='6'
+								col-md='5'
+								col-sm='9'
+								col-xs='12'
 								>
-							<p:ajax event='geocode' listener='#{gmap.onGeocode}'  update='mapaId, code'/>
-						</p:gmap>
-						<center>
-							<h:inputText	id='code'
-											value='#{gmap.posicaoCentral}'
-											readonly='true'
-											class='mapCodeFooter'
-											/>
-						</center>
+						<br/>
+						<h:outputLabel class='outputLabel' value='Endereço' for='logradouro'/>
+						<b:inputText	id='logradouro'
+										name='logradouro'
+										value='#{visitanteBean.visitante.endereco.logradouro}'
+										placeholder='Rua / Avenida / Praça / etc.'
+										class='hidden-xs required'
+										onblur='document.getElementById("input_form:logradouro2").value =
+													document.getElementById("input_form:logradouro").value; localizaCoordenadas("");
+													'
+										required='true'
+										requiredMessage='Endereço: Campo obrigatório!'
+										>
+							<f:ajax event='change' render='selectedAddress'/>
+						</b:inputText>
+						<b:inputTextarea	id='logradouro2'
+											name='logradouro2'
+											value='#{visitanteBean.visitante.endereco.logradouro}'
+											placeholder='Digite o nome da rua, avenida, etc.'
+											class='visible-xs required'
+											onblur='document.getElementById("input_form:logradouro").value =
+														document.getElementById("input_form:logradouro2").value;
+														localizaCoordenadas("");
+														'
+											style='	margin-top: -8px;'
+											required='true'
+											requiredMessage='Endereço: Campo obrigatório!'
+											>
+							<f:ajax event='change' render='selectedAddress'/>
+						</b:inputTextarea>
+					</b:column>
+					
+					<b:column	col-lg='2'
+								col-md='2'
+								col-sm='2'
+								col-xs='5'
+								>
+						<br/>
+						<h:outputLabel class='outputLabel' value='№' for='numero'/>
+						<b:inputText	id='numero'
+										onblur='localizaCoordenadas(""); '
+										value='#{visitanteBean.visitante.endereco.numero}'
+										onkeypress='return teclaNumerica(event.keyCode)'
+										maxlength='5'
+										placeholder='№'
+										required='true'
+										class='required halfPadding'
+										requiredMessage='№: Campo obrigatório!'
+										>
+							<f:ajax event='change' render='selectedAddress'/>
+						</b:inputText>
+					</b:column>
+					
+					<b:column	col-lg='2'
+								col-md='3'
+								col-sm='4'
+								col-xs='7'
+								>
+						<br/>
+						<h:outputLabel class='outputLabel' value='Complemento' for='complemento'/>
+						<b:inputText	id='complemento'
+										value='#{visitanteBean.visitante.endereco.complemento}'
+										placeholder='Complemento'
+										onblur='getEnderecoAtendimento()'
+										>
+							<f:ajax event='change' render='selectedAddress'/>
+						</b:inputText>
+					</b:column>
+					
+					<b:column	col-lg='3'
+								col-md='3'
+								col-sm='6'
+								col-xs='12'
+								>
+						<br/>
+						<h:outputLabel class='outputLabel' value='Bairro' for='bairro'/>
+						<b:inputText	id='bairro'
+										onblur='localizaCoordenadas(""); '
+										value='#{visitanteBean.visitante.endereco.bairro}'
+										placeholder='Bairro'
+										>
+							<f:ajax event='change' render='selectedAddress'/>
+						</b:inputText>
+					</b:column>
+					
+					<b:column	col-lg='4'
+								col-md='4'
+								col-sm='6'
+								col-xs='12'
+								>
+						<br/>
+						<h:outputLabel class='outputLabel' value='Cidade' for='cidade'/>
+						<b:inputText	id='cidade'
+										onblur='localizaCoordenadas(""); '
+										value='#{visitanteBean.visitante.endereco.cidade}'
+										placeholder='Cidade'
+										required='true'
+										class='required'
+										requiredMessage='Cidade: Campo obrigatório!'
+										>
+							<f:ajax event='change' render='selectedAddress'/>
+						</b:inputText>
+					</b:column>
+					
+					<b:column	col-lg='1'
+								col-md='1'
+								col-sm='2'
+								col-xs='4'
+								>
+						<br/>
+						<h:outputLabel class='outputLabel' value='UF' for='uf'/>
+						<b:inputText	id='uf'
+										onblur='localizaCoordenadas(""); '
+										maxlength='2'
+										value='#{visitanteBean.visitante.endereco.estado}'
+										placeholder='UF'
+										class='halfPaddingMono'
+										>
+							<f:ajax event='change' render='selectedAddress'/>
+						</b:inputText>
+					</b:column>
+					
+					<b:column	col-lg='4'
+								col-md='4'
+								col-sm='4'
+								col-xs='8'
+								>
+						<br/>
+						<h:outputLabel class='outputLabel' value='País' for='pais'/>
+						<b:inputText	id='pais'
+										onblur='localizaCoordenadas(""); '
+										value='#{visitanteBean.visitante.endereco.pais}'
+										placeholder='País'
+										>
+							<f:ajax event='change' render='selectedAddress'/>
+						</b:inputText>
 					</b:column>
 				</b:row>
+			</b:row>
+		</b:row>
+	</b:column>
+	
+	
+	<b:column	col-lg='3'
+				col-md='3'
+				col-sm='3'
+				col-xs='12'
+				>
+		<br class='visible-sm visible-xs'/>
+		<br class='visible-sm'/>
+		#{gmapBean.marcarMapa(false, false, true)}
+		<p:gmap	id='mapaId'
+				widgetVar='mapa'
+				center='#{gmap.posicaoCentral}'
+				scrollWheel='false'
+				draggable='false'
+				zoom='16'
+				type='ROADMAP'
+				style='width:100%; height: 200px;'
+				model='#{gmap.mapModel}'
+				class='mapContainer'
+				>
+			<p:ajax event='geocode' listener='#{gmap.onGeocode}'  update='mapaId, code'/>
+		</p:gmap>
+		<center>
+			<h:inputText	id='code'
+							value='#{gmap.posicaoCentral}'
+							readonly='true'
+							class='mapCodeFooter'
+							/>
+		</center>
+	</b:column>
+</b:row>
 
+
+<b:row	id='enderecoAtendimento'
+		>
+	<b:row	id='selectedAddress'
+			rendered='#{dadosAtendimento.value}'
+			>
+		<br class='visible-xs'/>
+		<b:column	col-lg='3'
+					col-md='4'
+					col-sm='5'
+					col-xs='12'
+					style='padding-right: 0px;'
+					>
+			<h:outputLabel class='outputLabel' value='Endereço do atendimento'/>
+						<p:selectOneButton value='outro' id='selectEnderecoAtendimento'
+							widgetVar='selectEnderecoAtendimento' class='fullWidth bold'
+							binding='#{selectEnderecoAtendimento}' immediate='true'
+							onchange='this.value == "visitante"
+											? changeAtendimentoAddressContainer("O atendimento será no endereço do visitante", "#DDF")
+											: (this.value == "sede"
+												? changeAtendimentoAddressContainer("O atendimento será na sede", "#DFD")
+												: (this.value == "outro"
+													? changeAtendimentoAddressContainer("O endereço será cadastrado posteriormente", "#FDD")
+													: ""
+													)
+												)
+											'>
+<!-- 							<f:ajax event='change' render='selectedAddress' /> -->
+							<f:selectItem itemValue='visitante' itemLabel='Visitante' />
+							<f:selectItem itemValue='sede' itemLabel='Sede' />
+							<f:selectItem itemValue='outro' itemLabel='Outro' />
+						</p:selectOneButton>
+						<br class='visible-xs'/>
+			<br class='visible-xs'/>
+		</b:column>
+		<b:column	id='enderecoAtendimentoContainer'
+					col-lg='9'
+					col-md='8'
+					col-sm='7'
+					col-xs='12'
+					style='	background: #FDD;
+							border-radius: 4px;
+							text-align: center;
+							padding: 12px;
+							'
+					>
+			<p	id='enderecoAtendimento'
+				style='	font-weight: bold;
+						font-size: 1.5em;
+						padding: 0px;
+						margin: 0px;
+						'
+				>
+				O endereço será cadastrado posteriormente
+			</p>
+		</b:column>
+	</b:row>
+</b:row>
+
+<!-- ENDEREÇO FIM -->
 				<br/>
 
-				<b:row	style='	border-top: solid;
-								border-color: #CCCCCC;
-								'
-						>
+				<b:row	class='splitRow'>
 					<h3>
 						<b:iconAwesome name="fa fa-fw fa-phone"/>
 						Telefone
@@ -723,7 +943,7 @@
 				</b:row>
 				<b:row>
 					<h:dataTable	id='tbTelefones'
-									value='#{membroBean.membro.telefones}'
+									value='#{visitanteBean.visitante.telefones}'
 									var='telefone'
 									style='	width: 100%;'
 									>
@@ -765,7 +985,7 @@
 																	margin-bottom: 12px;
 																	'
 															>
-												<f:ajax	listener="#{membroBean.botaoRemoverTelefone(telefone)}"
+												<f:ajax	listener="#{visitanteBean.botaoRemoverTelefone(telefone)}"
 														immediate="true"
 														render="@form"
 														/>
@@ -782,7 +1002,7 @@
 										style='	color: #0C0;					
 												'
 										>
-							<f:ajax	listener="#{membroBean.botaoAdicionarTelefone}"
+							<f:ajax	listener="#{visitanteBean.botaoAdicionarTelefone}"
 									execute="tbTelefones"
 									render="tbTelefones"
 									/>
@@ -804,7 +1024,7 @@
 				
 				<b:row>
 					<h:dataTable	id='tbEmails'
-									value='#{membroBean.membro.emails}'
+									value='#{visitanteBean.visitante.emails}'
 									var='email'
 									style='	width: 100%;'
 									>
@@ -844,7 +1064,7 @@
 																	margin-bottom: 12px;
 																	'
 															>
-												<f:ajax	listener="#{membroBean.botaoRemoverEmail(email)}"
+												<f:ajax	listener="#{visitanteBean.botaoRemoverEmail(email)}"
 														immediate="true"
 														render="@form"
 														/>
@@ -861,7 +1081,7 @@
 										style='	color: #00CC00;					
 												'
 										>
-							<f:ajax	listener="#{membroBean.botaoAdicionarEmail}"
+							<f:ajax	listener="#{visitanteBean.botaoAdicionarEmail}"
 									execute="tbEmails"
 									render="tbEmails"
 									/>
@@ -871,145 +1091,30 @@
 				
 				<br/>
 
-				<b:row id='mostrarDadosCelula' class='row'>
-					<b:row	id='dadosVisitanteCelula'
-							class='splitRow'
-							rendered='#{visitando.value}'
-							>
-						<table style='width: 100%;'>
-							<tr>
-								<td	style='	vertical-align: bottom;'>
-									<h3>
-										<b:iconAwesome name="fa fa-fw fa-sitemap"/>
-										Célula
-									</h3>
-								</td>
-								<td	style='	line-height: 1px;
-											color: #FFF;
-											min-width: 16px;
-											max-width: 16px;
-											'
-									>
-									<div style='float: right;'>
-										<b:iconAwesome	name='fa-flash'
-															tooltip='Batizado'
-															onclick='alert("Selecione esta opção se o membro for batizado.")'
-															style='	border-radius: 100%;
-																	background-color: #33F;
-																	margin-left: -5px;
-																	padding: 3.5px 7px;
-																	'
-															/>
-										<b:selectBooleanCheckbox	id='baptized'
-																	binding='#{showBaptizmDate}'
-																	value='#{membroBean.membro.batizada}'
-																	style='	margin-left: 0px;'
-																	>
-											<f:ajax event='change' render='dadosVisitanteCelula' />
-										</b:selectBooleanCheckbox>
-									</div>
-								</td>
-							</tr>
-						</table>
-						<b:row>
-							<h:dataTable	id='tbMembresia'
-											value='#{membroBean.membro.pessoasCelulas}'
-											var='celula'
-											style='width: auto;'
-											>
-								<h:column>
-									<br/>
-									<div	class=' row addElemento required'
-											>
-										<b:column	col-lg='4'
-													col-md='4'
-													col-sm='4'
-													col-xs='12'
-													>
-											<br/>
-											<h:outputLabel	class='outputLabel' value='Célula*' />
-											<h:selectOneMenu	value='#{celula.celula}'
-																converter='omnifaces.SelectItemsConverter'
-																class='hSelectOneMenu'
-																>
-												<f:selectItem	itemLabel='Selecione'
-																noSelectionOption='true'
-																/>
-												<f:selectItems	value='#{celulaBean.listar()}'
-																var='membroCelula'
-																itemLabel='#{membroCelula.nome} (#{membroCelula.sede.nome}#{membroCelula.sede.mae ? "*" : ""})'
-																/>
-											</h:selectOneMenu>
-											<br class='hidden-xs'/>
-										</b:column>
-										<b:column	col-lg='4'
-													col-md='4'
-													col-sm='4'
-													col-xs='12'
-													>
-											<br/>
-											<h:outputLabel	value='Data da membresia*'
-															class='outputLabel'
-															/>
-											<b:datepicker 	placeholder='DD/MM/AAAA'
-															value='#{celula.dataInicio}'
-															showButtonPanel='true'
-															changeMonth='true'
-															changeYear='true'
-															/>
-											<br/>
-										</b:column>
-										<b:column	col-lg='4'
-													col-md='4'
-													col-sm='4'
-													col-xs='12'
-													rendered='#{showBaptizmDate.value}'
-													>
-											<br class='hidden-xs'/>
-											<h:outputLabel	for='dataBatismo'
-															value='Data do batismo'
-															class='outputLabel'
-															/>
-											<b:datepicker 	id='dataBatismo'
-															placeholder='DD/MM/AAAA'
-															value='#{membroBean.membro.dataBatismo}'
-															showButtonPanel='true'
-															changeMonth='true'
-															changeYear='true'
-															/>
-											<br/>
-										</b:column>
-									</div>
-								</h:column>
-							</h:dataTable>
-						</b:row>
-						<br/>
-					</b:row>
-					<b:row	style='	border-top: solid;
-									border-color: #CCCCCC;
-									'>
-							<h3>
-								<i class="fa fa-fw fa-sticky-note-o"/>
-								Comentários
-							</h3>
-					</b:row>
-					<b:row>
-						<b:column	col-lg='12'
-									col-md='12'
-									col-sm='12'
-									col-xs='12'
-									style='	margin: 0px;'
-									>
-							<b:inputTextarea	id='comentarios'
-												value='#{membroBean.membro.comentarios}'
-												maxlength='1000'
-												placeholder='Digite os comentários aqui.'
-												/>
-						</b:column>
-					</b:row>
+				
+				<b:row	style='	border-top: solid;
+								border-color: #CCCCCC;
+								'>
+						<h3>
+							<i class="fa fa-fw fa-sticky-note-o"/>
+							Comentários
+						</h3>
+				</b:row>
+				<b:row>
+					<b:column	col-lg='12'
+								col-md='12'
+								col-sm='12'
+								col-xs='12'
+								style='	margin: 0px;'
+								>
+						<b:inputTextarea	id='comentarios'
+											value='#{visitanteBean.visitante.comentarios}'
+											maxlength='1000'
+											placeholder='Digite os comentários aqui.'
+											/>
+					</b:column>
 				</b:row>
 			</div>
 		</ui:define>
 	</ui:composition>
-
 </html>

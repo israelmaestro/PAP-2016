@@ -2,6 +2,7 @@ package br.com.shepherd.entity;
 
 import java.io.Serializable;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -21,7 +22,7 @@ public class PessoaAtendimento implements Serializable{
 	@ManyToOne
 	private Pessoa				pessoa;
 
-	@ManyToOne
+	@ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
 	private Atendimento			atendimento;
 
 	// Participação: Atendente / Atendido
@@ -32,6 +33,9 @@ public class PessoaAtendimento implements Serializable{
 	 * Construtor e afins
 	 */
 	public PessoaAtendimento(){
+		if(null == atendimento){
+			atendimento = new Atendimento();
+		}
 	}
 
 	@Override

@@ -10,6 +10,9 @@ import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
+import org.primefaces.model.map.LatLng;
+
+import br.com.shepherd.bean.Gmap;
 import br.com.shepherd.entity.Pessoa;
 import br.com.shepherd.entity.PessoaCelula;
 import br.com.shepherd.service.util.PessoaUtils;
@@ -17,9 +20,9 @@ import br.com.shepherd.service.util.PessoaUtils;
 @Stateless
 public class MembroService{
 	@PersistenceContext(name = "ShepherdDB")
-	private EntityManager entityManager;
+	private EntityManager	entityManager;
 
-	PessoaUtils				pessoaUtils = new PessoaUtils();
+	PessoaUtils				pessoaUtils	= new PessoaUtils();
 
 	public MembroService(){
 
@@ -50,7 +53,7 @@ public class MembroService{
 
 	@SuppressWarnings("unchecked")
 	public List<PessoaCelula> listar(){
-		List<PessoaCelula> MembrosCelulas = new ArrayList<PessoaCelula>();
+		List<PessoaCelula> membrosCelulas = new ArrayList<PessoaCelula>();
 
 		try{
 			Query query = entityManager.createQuery("FROM PessoaCelula dbPessoaCelula "
@@ -58,9 +61,46 @@ public class MembroService{
 													+ "ORDER BY dbPessoaCelula.pessoa.nome, dbPessoaCelula.pessoa.sobrenome");
 			query.setParameter("p1", "MEMBRO");
 
-			MembrosCelulas = query.getResultList();
+			membrosCelulas = query.getResultList();
 
-			return MembrosCelulas;
+			return membrosCelulas;
+		} catch(NoResultException n){
+			return null;
+		}
+	}
+
+	/**
+	 * Lista todas as coordenadas de endereço dos membros para popular o mapa
+	 *
+	 * @return
+	 */
+	@SuppressWarnings("unchecked")
+	public List<LatLng> listarCoordenadas(){
+		List<PessoaCelula> membrosCelulas = new ArrayList<PessoaCelula>();
+		List<LatLng> listaCoordenadas = new ArrayList<LatLng>();
+		Gmap gmap = new Gmap();
+
+		try{
+			Query query = entityManager.createQuery("FROM PessoaCelula dbPessoaCelula "
+													+ "WHERE UPPER(dbPessoaCelula.participacao) = UPPER(:p1) "
+													+ "ORDER BY dbPessoaCelula.pessoa.nome, dbPessoaCelula.pessoa.sobrenome");
+			query.setParameter("p1", "MEMBRO");
+
+			membrosCelulas = query.getResultList();
+
+			for(PessoaCelula mb : membrosCelulas){
+				if(null != mb.getPessoa().getEndereco()){
+					try{
+						LatLng latLng = gmap.converterCoordenadas(mb.getPessoa().getEndereco()
+																.getCoordenadas());
+						listaCoordenadas.add(latLng);
+					} catch(Exception e){
+						// nada a fazer. sem corrdenadas validas
+					}
+				}
+			}
+
+			return listaCoordenadas;
 		} catch(NoResultException n){
 			return null;
 		}

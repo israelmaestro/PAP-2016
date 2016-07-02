@@ -13,23 +13,7 @@
 	<ui:composition template='/META-INF/resources/bootsfaces/jsfTemplate.xhtml'>
 
 		<ui:define name='mensagensCampos'>
-			<b:message for='nome'/>
-			<b:message for='sobrenome'/>
-			<b:message for='dataNasc' />
-			<b:message for='sexo'/>
-			<b:message for='rg'/>
-			<b:message for='cpf'/>
-			<b:message for='gpsAddress'/>
-			<b:message for='cep' />
-			<b:message for='logradouro' />
-			<b:message for='numero' />
-			<b:message for='complemento' />
-			<b:message for='bairro' />
-			<b:message for='cidade' />
-			<b:message for='uf' />
-			<b:message for='pais' />
-			<b:message for='tbTelefones'/>
-			<b:message for='tbEmails' />
+			<b:messages globalOnly='false'/>
 			<br/>
 		</ui:define>
 		
@@ -754,7 +738,7 @@
 															/>
 											<f:selectItems	value='#{celulaBean.listar()}'
 															var='membroCelula'
-															itemLabel='#{membroCelula.nome} (#{membroCelula.sede.nome}#{membroCelula.sede.mae ? "*" : ""})'
+															itemLabel='#{membroCelula.nome} - #{membroCelula.frente.nome} (#{membroCelula.sede.nome}#{membroCelula.sede.mae ? "*" : ""})'
 															/>
 										</h:selectOneMenu>
 										<br class='hidden-xs'/>
