@@ -1,12 +1,19 @@
-.minHeight{
+.aviso {
+	color: #C00;
+	font-weight: bold;
+	font-style: italic;
+	text-align: center;
+}
+
+.minHeight {
 	margin-top: 0px;
 	margin-bottom: 0px;
 	padding-top: 0px;
 	padding-bottom: 0px;
 }
 
-.grayBoldItalic{
-	font-style: italic;/*
+.grayBoldItalic {
+	font-style: italic; /*
 	font-weight: bold;*/
 	color: #666;
 }

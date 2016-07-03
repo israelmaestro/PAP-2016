@@ -58,32 +58,6 @@ public class PessoaUtils{
 			}
 		}
 
-		// Consistir lista de Emails
-		if(null != pPessoa.getEmails()){
-			if(!pPessoa.getEmails().isEmpty()){
-				List<Email> tEmails = new ArrayList<Email>();
-				for(Email pEmail : pPessoa.getEmails()){
-					pEmail = emailUtils.consistir(pEmail);
-
-					if(null == pEmail || emailUtils.isEmpty(pEmail)){
-						pPessoa.getEmails().remove(pEmail);
-					} else{
-						tEmails.add(pEmail);
-					}
-				}
-				if(!tEmails.isEmpty()){
-					pPessoa.setEmails(tEmails);
-					tEmails = new ArrayList<Email>();
-				}
-
-				if(pPessoa.getEmails().isEmpty()){
-					pPessoa.setEmails(null);
-				}
-			} else{
-				pPessoa.setEmails(null);
-			}
-		}
-
 		// Consistir lista de Telefones
 		if(null != pPessoa.getTelefones()){
 			if(!pPessoa.getTelefones().isEmpty()){
@@ -107,6 +81,32 @@ public class PessoaUtils{
 				}
 			} else{
 				pPessoa.setTelefones(null);
+			}
+		}
+
+		// Consistir lista de Emails
+		if(null != pPessoa.getEmails()){
+			if(!pPessoa.getEmails().isEmpty()){
+				List<Email> tEmails = new ArrayList<Email>();
+				for(Email pEmail : pPessoa.getEmails()){
+					pEmail = emailUtils.consistir(pEmail);
+
+					if(null == pEmail || emailUtils.isEmpty(pEmail)){
+						pPessoa.getEmails().remove(pEmail);
+					} else{
+						tEmails.add(pEmail);
+					}
+				}
+				if(!tEmails.isEmpty()){
+					pPessoa.setEmails(tEmails);
+					tEmails = new ArrayList<Email>();
+				}
+
+				if(pPessoa.getEmails().isEmpty()){
+					pPessoa.setEmails(null);
+				}
+			} else{
+				pPessoa.setEmails(null);
 			}
 		}
 

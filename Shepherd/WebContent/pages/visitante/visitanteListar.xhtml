@@ -11,7 +11,6 @@
 		>
 
 	<ui:composition template='/META-INF/resources/bootsfaces/jsfTemplate.xhtml'>
-		<ui:define name='mensagensCampos'/>
 		<ui:define name='tituloPagina'>Shepherd > Lista de Visitantes</ui:define>
 		<ui:define name='tituloPrincipal'>
 			<b:iconAwesome name='fa fa-users fa-fw'/>
@@ -30,7 +29,7 @@
 		</ui:define>
 		
 		<ui:define name='conteudo'>
-			<b:container	rendered='#{membroBean.listar().size() == 0}'
+			<b:container	rendered='#{visitanteBean.listarVisitantesCelulas().size() == 0 and visitanteBean.listarVisitantesSedes().size() == 0}'
 							class='emptyTableWarining'
 							>
 				<center>
@@ -38,9 +37,9 @@
 				</center>
 			</b:container>
 
-			<b:container	id='mostrarMembros'
+			<b:container	id='mostrarVisitantes'
 							class='row fullWidth'
-							rendered='#{membroBean.listar().size() != 0}'
+							rendered='#{visitanteBean.listarVisitantesCelulas().size() != 0 or visitanteBean.listarVisitantesSedes().size() != 0}'
 							>
 				<b:row style='text-align: center;'>
 					<p:selectOneButton	value='lista'
@@ -48,7 +47,7 @@
 										binding='#{showItems}'
 										immediate='true'
 										>
-						<f:ajax event='change' render='mostrarMembros'/>
+						<f:ajax event='change' render='mostrarVisitantes'/>
 						<f:selectItem itemValue='lista' itemLabel='Lista'/>
 						<f:selectItem itemValue='mapa' itemLabel='Mapa'/>
 						<f:selectItem itemValue='grafico' itemLabel='Gráficos'/>
@@ -58,13 +57,44 @@
 				<br/>
 
 				<b:row>
+					<b:row	rendered='#{showItems.value == "mapa"}'
+							class='row'
+							>
+						<b:column	class='column'
+									col-lg='2'
+									col-sm='3'
+									col-xs='12'
+									>
+							<h5 class='bold'>
+								<b:image	value='#{visitanteBean.getProperty("mapaVisitanteCelula")}'
+											height='24px'
+											width='auto'
+											/>
+								= Visitante de célula
+							</h5>
+						</b:column>
+						<b:column	class='column'
+									col-lg='2'
+									col-md='3'
+									col-sm='3'
+									col-xs='12'
+									>
+							<h5 class='bold'>
+								<b:image	value='#{visitanteBean.getProperty("mapaVisitanteSede")}'
+											height='24px'
+											width='auto'
+											/>
+								= Visitante de sede
+							</h5>
+						</b:column>
+					</b:row>
 					<p:gmap	id="geoMap"
 							rendered='#{showItems.value == "mapa"}'
 							widgetVar="geoMap"
 							center='-25.0936322,-50.1524482'
 							zoom="15"
 							type="ROADMAP"
-							model="#{geocodeView.geoModel}"
+							model="#{visitanteMapBean.mapModel}"
 							fitBounds="true"
 							class='map'
 							>
@@ -73,33 +103,36 @@
 								update="@this" />
 					</p:gmap>
 				</b:row>
-				<b:row>
-					<p:dataTable	id='membroLista'
-									value='#{membroBean.listar()}'
-									var='membro'
+				<b:row rendered='#{visitanteBean.listarVisitantesCelulas().size() !=0}'>
+					<p:dataTable	id='visitanteLista'
+									value='#{visitanteBean.listarVisitantesCelulas()}'
+									var='visitante'
 									update='@form'
-									emptyMessage='Nenhum membro encontrado.'
+									emptyMessage='Nenhum visitante encontrado.'
 									class='pDataTable'
-									rendered='#{showItems.value == "lista"}'
+									rendered='#{showItems.value == "lista" and visitanteBean.listarVisitantesCelulas().size() !=0}'
 									paginator='true'
-									widgetVar='membroLista'
+									widgetVar='visitanteLista'
 									filteredValue=''
 									rows='10'
 									paginatorAlwaysVisible='false'
 									rowsPerPageTemplate='10, 50, 100, 200'
 									>
+						<f:facet name='header'>
+							<h:outputText value='Visitantes das Células' style='font-size: 1.5em;'/>
+						</f:facet>
 						<p:column	headerText='Nome'
 									priority='1'
 									>
 							<center>
-								<h:outputText value='#{membro.pessoa.nome} #{membro.pessoa.sobrenome}'/>
+								<h:outputText value='#{visitante.pessoa.nome} #{visitante.pessoa.sobrenome}'/>
 							</center>
 						</p:column>
 						<p:column	headerText='Célula'
 									priority='2'
 									>
 							<center>
-								<h:outputText value='#{membro.celula.nome}'/>
+								<h:outputText value='#{visitante.celula.nome}'/>
 							</center>
 						</p:column>
 						
@@ -107,18 +140,30 @@
 									priority='3'
 									>
 							<center>
-								<h:outputText value='#{membro.celula.frente.nome}'/>
+								<h:outputText value='#{visitante.celula.frente.nome} (#{sedeBean.getProperty("convencaoAbrev")} #{visitante.celula.sede.nome}#{visitante.celula.sede.mae ? "*" : ""})'/>
 							</center>
 						</p:column>
-		
-						<p:column	headerText='Sede'
+
+						<p:column	headerText='Entrada'
 									priority='4'
 									>
 							<center>
-								<h:outputText value='#{sedeBean.getProperty("convencaoAbrev")} #{membro.celula.sede.nome}#{membro.celula.sede.mae ? "*" : ""}'/>
+								<h:outputText value='#{visitante.dataInicio}'>
+									<f:convertDateTime type='date' pattern='dd/MM/yyyy'/>
+								</h:outputText>
 							</center>
 						</p:column>
-						
+
+						<p:column	headerText='Saída Prevista'
+									priority='4'
+									>
+							<center>
+								<h:outputText value='#{visitante.dataFim}'>
+									<f:convertDateTime type='date' pattern='dd/MM/yyyy'/>
+								</h:outputText>
+							</center>
+						</p:column>
+
 						<p:column	headerText='Opções'
 									priority='1'
 									>
@@ -137,14 +182,13 @@
 													disabled='true'
 													/>
 								<p:commandButton	update='@form'
-													action='#{pessoaBean.excluirMembro(membro.pessoa)}'
+													action='#{visitanteBean.excluir(visitante.pessoa)}'
 													icon='fa fa-fw fa-trash'
 													style='	color: #cc0000;
 															'
-													disabled='true'
 													>
 									<p:confirm	header='Excluir'
-												message='Excluir o membro “#{membro.pessoa.nome} #{membro.pessoa.sobrenome}”?'
+												message='Excluir o visitante “#{visitante.pessoa.nome} #{visitante.pessoa.sobrenome}”?'
 												icon='ui-icon-blank'
 												/>
 								</p:commandButton>
@@ -156,13 +200,124 @@
 								<center>
 									<p:commandButton	styleClass='ui-confirmdialog-yes'
 														icon='fa fa-fw fa-check'
-														update='membroLista'
+														update='visitanteLista'
 														style='	color: #900;
 																'
 														/>
 									<p:commandButton	styleClass='ui-confirmdialog-no'
 														icon='fa fa-fw fa-close'
-														update='membroLista'
+														update='visitanteLista'
+														style='	color: #009;
+																'
+														/>
+								</center>
+							</p:confirmDialog>
+						</p:column>
+					</p:dataTable>
+					<br/>
+				</b:row>
+				<b:row>
+					<p:dataTable	id='visitanteListaSede'
+									value='#{visitanteBean.listarVisitantesSedes()}'
+									var='visitante'
+									update='@form'
+									emptyMessage='Nenhum visitante encontrado.'
+									class='pDataTable'
+									rendered='#{showItems.value == "lista" and visitanteBean.listarVisitantesSedes().size() !=0}'
+									paginator='true'
+									widgetVar='visitanteListaSede'
+									filteredValue=''
+									rows='10'
+									paginatorAlwaysVisible='false'
+									rowsPerPageTemplate='10, 50, 100, 200'
+									>
+						<f:facet name='header'>
+							<h:outputText value='Visitantes das Sedes' style='font-size: 1.5em;'/>
+						</f:facet>
+						<p:column	headerText='Nome'
+									priority='1'
+									>
+							<center>
+								<h:outputText	value='#{visitante.pessoa.nome} #{visitante.pessoa.sobrenome}'
+												style='#{comAtendimento.value != "Finalizado(s)" and comAtendimento.value != "Não" ? "font-weight: bold; color: #900;" : ""}'
+												/>
+							</center>
+						</p:column>
+						<p:column	headerText='Data da Visita'
+									priority='4'
+									>
+							<center>
+								<h:outputText	value='#{visitante.dataVisita}'
+												style='#{comAtendimento.value != "Finalizado(s)" and comAtendimento.value != "Não" ? "font-weight: bold; color: #900;" : ""}'
+												>
+									<f:convertDateTime type='date' pattern='dd/MM/yyyy'/>
+								</h:outputText>
+							</center>
+						</p:column>
+						<p:column	headerText='Sede'
+									priority='3'
+									>
+							<center>
+								<h:outputText	value='#{sedeBean.getProperty("convencaoAbrev")} #{visitante.sede.nome}#{visitante.sede.mae ? "*" : ""}'
+												style='#{comAtendimento.value != "Finalizado(s)" and comAtendimento.value != "Não" ? "font-weight: bold; color: #900;" : ""}'
+												/>
+							</center>
+						</p:column>
+
+						<p:column	headerText='Com Atendimento'
+									priority='4'
+									>
+							<center>
+								<h:outputText	binding='#{comAtendimento}'
+												value='#{visitante.comAtendimento ? visitanteBean.getStatusAtendimento(visitante.pessoa) : "Não"}'
+												style='#{comAtendimento.value != "Finalizado(s)" and comAtendimento.value != "Não" ? "font-weight: bold; color: #900;" : ""}'
+												/>
+							</center>
+						</p:column>
+
+						<p:column	headerText='Opções'
+									priority='1'
+									>
+							<center>
+								<p:commandButton	update='@form'
+													onclick='alert("Visualização AINDA NÃO IMPLEMENTADA!")'
+													icon='fa fa-fw fa-eye'
+													alt='Visualizar'
+													disabled='true'
+													/>
+								<p:commandButton	update='@form'
+													onclick='alert("ALTERAÇÃO AINDA NÃO IMPLEMENTADA!")'
+													icon='fa fa-fw fa-pencil'
+													style='	color: #009900;
+															'
+													disabled='true'
+													/>
+								<p:commandButton	update='@form'
+													action='#{visitanteBean.excluir(visitante.pessoa)}'
+													icon='fa fa-fw fa-trash'
+													style='	color: #cc0000;
+															'
+													>
+									<p:confirm	header='Excluir'
+												message='Excluir o visitante “#{visitante.pessoa.nome} #{visitante.pessoa.sobrenome}”?'
+												icon='ui-icon-blank'
+												/>
+								</p:commandButton>
+							</center>
+							
+							<p:confirmDialog	global='true'
+												closable='false'
+												>
+								<center>
+									<p:commandButton	styleClass='ui-confirmdialog-yes'
+														icon='fa fa-fw fa-check'
+														update='visitanteListaSede'
+														style='	color: #900;
+																'
+														/>
+									<p:commandButton	styleClass='ui-confirmdialog-no'
+														icon='fa fa-fw fa-close'
+														update='visitanteListaSede'
 														style='	color: #009;
 																'
 														/>

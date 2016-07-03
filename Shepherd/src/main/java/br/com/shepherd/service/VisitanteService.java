@@ -1,5 +1,6 @@
 package br.com.shepherd.service;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -10,8 +11,16 @@ import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
+import org.hibernate.Hibernate;
+
+import br.com.shepherd.entity.Email;
 import br.com.shepherd.entity.Pessoa;
+import br.com.shepherd.entity.PessoaAtendimento;
 import br.com.shepherd.entity.PessoaCelula;
+import br.com.shepherd.entity.PessoaSede;
+import br.com.shepherd.entity.Telefone;
+import br.com.shepherd.service.util.EnderecoUtils;
+import br.com.shepherd.service.util.JSFUtil;
 import br.com.shepherd.service.util.PessoaUtils;
 
 @Stateless
@@ -20,36 +29,89 @@ public class VisitanteService{
 	private EntityManager	entityManager;
 
 	PessoaUtils				pessoaUtils	= new PessoaUtils();
+	EnderecoUtils			enderecoUtils	= new EnderecoUtils();
 
 	public VisitanteService(){
 
 	}
 
+	/**
+	 * Realiza o cadastro do visitante da Célula ou da Sede
+	 *
+	 * @param pVisitante
+	 * @return
+	 * @throws Exception
+	 */
 	public Pessoa cadastrar(Pessoa pVisitante) throws Exception{
-		// Ativar novo membro
+		// Ativar novo visitante
 		pVisitante.setAtiva(true);
 
 		pVisitante = pessoaUtils.consistir(pVisitante);
 
-		entityManager.persist(pVisitante);
+		if(null == pVisitante.getEndereco()
+			|| enderecoUtils.isEmpty(pVisitante.getEndereco())){
+			throw new Exception("Endereço: Preencha os campos obrigatórios!");
+		}
+
+		if(null == pVisitante.getTelefones()
+			|| pVisitante	.getTelefones()
+							.isEmpty()){
+			pVisitante.setTelefones(new ArrayList<Telefone>());
+			throw new Exception("O cadastro precisa ter pelo menos 1 telefone.");
+		}
+
+		if(null == pVisitante.getEmails()
+			|| pVisitante	.getEmails()
+							.isEmpty()){
+			pVisitante.setEmails(new ArrayList<Email>());
+			throw new Exception("O cadastro precisa ter pelo menos 1 email.");
+		}
+
+		Pessoa existente = buscaPessoaUnica(pVisitante.getNome(), pVisitante.getSobrenome(),
+											pVisitante.getDataNasc(), pVisitante.getRg(),
+											pVisitante.getCpf(), pVisitante.isSexo());
+
+		if(null == existente){
+			entityManager.persist(pVisitante);
+		} else{
+			throw new Exception("Pessoa já existente no sistema.\nO conjunto dos campos Nome, Sobrenome, "
+								+ "Data de Nascimento, RG, CPF e Sexo não pode coincidir.");
+		}
 
 		return pVisitante;
 	}
 
+	/**
+	 * Realiza a alteração de um Visitante
+	 *
+	 * @param pVisitante
+	 * @return
+	 */
 	public Pessoa alterar(Pessoa pVisitante){
 		entityManager.merge(pVisitante);
 
 		return pVisitante;
 	}
 
+	/**
+	 * Lista todas as pessoas do sistema
+	 *
+	 * @return
+	 */
 	@SuppressWarnings("unchecked")
 	public List<Pessoa> listarTodos(){
-		return entityManager.createQuery("FROM Pessoa dbPessoa " + "ORDER BY dbPessoa.nome")
+		return entityManager.createQuery("FROM Pessoa dbPessoa "
+											+ "ORDER BY dbPessoa.nome, dbPessoa.sobrenome")
 							.getResultList();
 	}
 
+	/**
+	 * Lista os visitantes das células
+	 *
+	 * @return
+	 */
 	@SuppressWarnings("unchecked")
-	public List<PessoaCelula> listar(){
+	public List<PessoaCelula> listarVisitantesCelulas(){
 		List<PessoaCelula> VisitantesCelulas = new ArrayList<PessoaCelula>();
 
 		try{
@@ -64,6 +126,68 @@ public class VisitanteService{
 		} catch(NoResultException n){
 			return null;
 		}
+	}
+
+	/**
+	 * Lista os visitantes das sedes
+	 *
+	 * @return
+	 */
+	@SuppressWarnings("unchecked")
+	public List<PessoaSede> listarVisitantesSedes(){
+		List<PessoaSede> VisitantesSedes = new ArrayList<PessoaSede>();
+
+		try{
+			Query query = entityManager.createQuery("FROM PessoaSede dbPessoaSede "
+													+ "WHERE UPPER(dbPessoaSede.participacao) = UPPER(:p1) "
+													+ "ORDER BY dbPessoaSede.pessoa.nome, dbPessoaSede.pessoa.sobrenome");
+			query.setParameter("p1", "VISITANTE");
+
+			VisitantesSedes = query.getResultList();
+
+			for(PessoaSede pessoaSede : VisitantesSedes){
+				Hibernate.initialize(pessoaSede.getPessoa().getPessoasAtendimentos());
+			}
+
+			return VisitantesSedes;
+		} catch(NoResultException n){
+			return null;
+		}
+	}
+
+	/**
+	 * Retorna o status do atendimento
+	 *
+	 * @param pPessoa
+	 * @return
+	 */
+	public String getStatusAtendimento(Pessoa pPessoa){
+		String status = "";
+
+		try{
+			for(PessoaAtendimento pessoaAtendimento : pPessoa.getPessoasAtendimentos()){
+				if(pPessoa.getPessoasAtendimentos().size() < 2){
+					if(pPessoa.getPessoasAtendimentos().isEmpty()){
+						status = "Não";
+					} else{
+						status = pessoaAtendimento.getAtendimento().getStatus();
+					}
+				} else{
+					if(!pessoaAtendimento	.getAtendimento().getStatus()
+							.equals(JSFUtil.getProperty("countAtendimentoStatus"))){
+						status = pessoaAtendimento.getAtendimento().getStatus();
+					} else{
+						status = "Finalizado(s)";
+					}
+
+				}
+			}
+
+		} catch(IOException e){
+			// Nada a fazer
+			status = "Não";
+		}
+		return status;
 	}
 
 	// @SuppressWarnings("unchecked")
@@ -158,7 +282,7 @@ public class VisitanteService{
 																: "AND dbPessoa.rg = :p4 ")
 												+ (null == pCpf	? "AND dbPessoa.cpf IS NULL "
 																: "AND dbPessoa.cpf = :p5 ")
-												+ "AND UPPER(dbPessoa.sexo) = UPPER(:p6) ");
+												+ "AND dbPessoa.sexo = :p6");
 		query.setParameter("p1", pNome);
 		query.setParameter("p2", pSobrenome);
 

@@ -10,10 +10,6 @@
 		xmlns:ui='http://java.sun.com/jsf/facelets'
 		>
 	<ui:composition template='/META-INF/resources/bootsfaces/jsfTemplate.xhtml'>
-		<ui:define name='mensagensCampos'>
-			<b:messages globalOnly='false' />
-			<br/>
-		</ui:define>
 		<ui:define name='tituloPagina'>Shepherd > Novo Membro</ui:define>
 		<ui:define name='tituloPrincipal'>
 			<b:iconAwesome name='fa fa-child fa-fw'/>
@@ -70,7 +66,7 @@
 						<table	class='fullWidth row'
 								>
 							<tr>
-								<td	style='	line-height: 0px;
+								<td style='	line-height: 0px;
 											color: #960;'
 									>
 									<div style='float: right;'>
@@ -256,7 +252,7 @@
 									onColor='info'
 									offColor='warning'
 									>
-							<f:ajax event='change' render='tipoVisita, checkAtendimento, mostrarDadosCelula, atendimentoForm' />
+							<f:ajax event='change' render='tipoVisita, checkAtendimento, mostrarDadosCelula, atendimentoForm, enderecoAtendimento, comAtendimento' />
 						</b:switch>
 					</b:column>
 				</b:row>
@@ -460,7 +456,7 @@
 					<br/>
 					<b:row	id='dadosAtendimento'
 							class='splitRow'
-							rendered='#{dadosAtendimento.value}'
+							rendered='#{visitando.value ? false : dadosAtendimento.value}'
 							>
 						<h3>
 							<b:iconAwesome name="fa fa-calendar-check-o"/>
@@ -475,6 +471,7 @@
 								<br/>
 								<h:outputLabel	class='outputLabel' for='dataHora' value='Data e Hora*'/>
 								<p:calendar	id='dataHora'
+											value='#{visitanteBean.visitanteSede.dataVisita}'
 											pattern='dd/MM/yyyy HH:mm'
 											navigator='true'
 											required='true'
@@ -504,11 +501,11 @@
 												/>
 							</b:column>
 						</b:row>
+						<br/>
 					</b:row>
 				</b:row>
-				<br/>
 
-				<b:row id='mostrarDadosCelula' class='row'>
+				<b:row id='mostrarDadosCelula' class='row' style='background: #FEE;'>
 					<b:row	id='dadosVisitanteCelula'
 							class='splitRow'
 							rendered='#{visitando.value}'
@@ -517,6 +514,9 @@
 							<b:iconAwesome name="fa fa-fw fa-sitemap"/>
 							Célula
 						</h3>
+						<h4 class='aviso'>
+							Utilize a opção “Célula” somente se o visitante for participar de uma célula por um tempo determinado.
+						</h4>
 						<b:row>
 							<h:dataTable	id='tbCelula'
 											value='#{visitanteBean.visitanteCelula}'
@@ -553,6 +553,7 @@
 													col-sm='4'
 													col-xs='12'
 													>
+											<br class='visible-xs'/>
 											<h:outputLabel	value='Data inicial*'
 															class='outputLabel'
 															/>
@@ -571,6 +572,7 @@
 													col-sm='4'
 													col-xs='12'
 													>
+											<br class='visible-xs'/>
 											<h:outputLabel	value='Data final (prevista)*'
 															class='outputLabel'
 															/>
@@ -877,7 +879,7 @@
 <b:row	id='enderecoAtendimento'
 		>
 	<b:row	id='selectedAddress'
-			rendered='#{dadosAtendimento.value}'
+			rendered='#{visitando.value ? false : dadosAtendimento.value}'
 			>
 		<br class='visible-xs'/>
 		<b:column	col-lg='3'
@@ -891,11 +893,11 @@
 							widgetVar='selectEnderecoAtendimento' class='fullWidth bold'
 							binding='#{selectEnderecoAtendimento}' immediate='true'
 							onchange='this.value == "visitante"
-											? changeAtendimentoAddressContainer("O atendimento será no endereço do visitante", "#DDF")
+											? changeAtendimentoAddressContainer("O atendimento será no endereço do visitante", "#6CF")
 											: (this.value == "sede"
-												? changeAtendimentoAddressContainer("O atendimento será na sede", "#DFD")
+												? changeAtendimentoAddressContainer("O atendimento será na sede", "#9F9")
 												: (this.value == "outro"
-													? changeAtendimentoAddressContainer("O endereço será cadastrado posteriormente", "#FDD")
+													? changeAtendimentoAddressContainer("O endereço será cadastrado posteriormente", "#FCC")
 													: ""
 													)
 												)
@@ -913,7 +915,7 @@
 					col-md='8'
 					col-sm='7'
 					col-xs='12'
-					style='	background: #FDD;
+					style='	background: #FCC;
 							border-radius: 4px;
 							text-align: center;
 							padding: 12px;
@@ -941,7 +943,7 @@
 						Telefone
 					</h3>
 				</b:row>
-				<b:row>
+				<b:row id='telefones'>
 					<h:dataTable	id='tbTelefones'
 									value='#{visitanteBean.visitante.telefones}'
 									var='telefone'
@@ -986,7 +988,7 @@
 																	'
 															>
 												<f:ajax	listener="#{visitanteBean.botaoRemoverTelefone(telefone)}"
-														immediate="true"
+														
 														render="@form"
 														/>
 											</b:iconAwesome>
@@ -1022,7 +1024,7 @@
 					</h3>
 				</b:row>
 				
-				<b:row>
+				<b:row id='emails'>
 					<h:dataTable	id='tbEmails'
 									value='#{visitanteBean.visitante.emails}'
 									var='email'

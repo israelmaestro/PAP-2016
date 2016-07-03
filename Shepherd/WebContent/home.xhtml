@@ -21,15 +21,14 @@
 			</a>
 		</ui:define>
 		<ui:define name='conteudo'>
-			<h:selectOneMenu	class='hSelectOneMenu'
-								value=''
-								converter='omnifaces.SelectItemsConverter'
-								var='ministerio'
-								>
-				<f:selectItems	value='#{ministerioBean.listar()}'
-								var='ministerio'
-								itemLabel='#{ministerio.nome}'/>
-			</h:selectOneMenu>
+			<center>
+				<p:graphicImage	width="480px"
+								height="auto"
+								value="/resources/genericImages/Sheep-Transparente.svg"
+								style='	max-width: 90%;
+										'
+								/>
+			</center>
 		</ui:define>
 	</ui:composition>
 </html>

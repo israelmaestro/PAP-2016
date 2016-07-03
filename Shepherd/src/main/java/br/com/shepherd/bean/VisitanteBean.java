@@ -36,8 +36,9 @@ public class VisitanteBean implements Serializable{
 	private Pessoa				visitante;
 
 	private List<PessoaCelula>	visitantesCelulasFiltro;
-
 	private List<PessoaCelula>	visitantesCelulas;
+	private List<PessoaSede>	visitantesSedes;
+	// private List<PessoaSede> visitantesSedesFiltro;
 
 	private PessoaCelula		visitanteCelula;
 	private PessoaSede			visitanteSede;
@@ -157,6 +158,7 @@ public class VisitanteBean implements Serializable{
 	public String cadastrar(){
 		try{
 			if(visitandoCelula){
+				visitanteSede.setComAtendimento(false);
 				visitante.addRelacionamentoCelula(	visitanteCelula,
 													JSFUtil.getProperty("funcaoVisitante"));
 			} else{
@@ -207,10 +209,27 @@ public class VisitanteBean implements Serializable{
 	}
 
 	/**
-	 * Lista apenas as pessoas classificadas como membros
+	 * Retorna o status do atendimento
+	 *
+	 * @param pPessoa
+	 * @return
 	 */
-	public List<PessoaCelula> listar(){
-		return visitanteService.listar();
+	public String getStatusAtendimento(Pessoa pPessoa){
+		return visitanteService.getStatusAtendimento(pPessoa);
+	}
+
+	/**
+	 * Lista apenas as pessoas classificadas como visitantes das células
+	 */
+	public List<PessoaCelula> listarVisitantesCelulas(){
+		return visitanteService.listarVisitantesCelulas();
+	}
+
+	/**
+	 * Lista apenas as pessoas classificadas como visitantes das sedes
+	 */
+	public List<PessoaSede> listarVisitantesSedes(){
+		return visitanteService.listarVisitantesSedes();
 	}
 
 	/**
@@ -258,7 +277,7 @@ public class VisitanteBean implements Serializable{
 	public void excluir(Pessoa pPessoa){
 		visitanteService.excluir(pPessoa);
 
-		JSFUtil.addInfoMessage("Membro excuído com sucesso.");
+		JSFUtil.addInfoMessage("Visitante excuído com sucesso.");
 	}
 
 	/*
@@ -281,12 +300,21 @@ public class VisitanteBean implements Serializable{
 	}
 
 	public List<PessoaCelula> getVisitantesCelulas(){
-		visitantesCelulas = visitanteService.listar();
+		visitantesCelulas = visitanteService.listarVisitantesCelulas();
 		return visitantesCelulas;
 	}
 
 	public void setVisitantesCelulas(List<PessoaCelula> pVisitantesCelulas){
 		visitantesCelulas = pVisitantesCelulas;
+	}
+
+	public List<PessoaSede> getVisitantesSedes(){
+		visitantesSedes = visitanteService.listarVisitantesSedes();
+		return visitantesSedes;
+	}
+
+	public void setVisitantesSedes(List<PessoaSede> pVisitantesSedes){
+		visitantesSedes = pVisitantesSedes;
 	}
 
 	public PessoaCelula getVisitanteCelula(){
@@ -320,4 +348,14 @@ public class VisitanteBean implements Serializable{
 	public void setVisitandoCelula(boolean pVisitandoCelula){
 		visitandoCelula = pVisitandoCelula;
 	}
+
+	public String getProperty(String pKey){
+		try{
+			return JSFUtil.getProperty(pKey);
+		} catch(IOException e){
+			e.printStackTrace();
+			return null;
+		}
+	}
+
 }

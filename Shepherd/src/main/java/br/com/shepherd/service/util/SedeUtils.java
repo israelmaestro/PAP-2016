@@ -50,34 +50,7 @@ public class SedeUtils{
 		pSede.setEndereco(enderecoUtils.consistir(pSede.getEndereco()));
 
 		if(enderecoUtils.isEmpty(pSede.getEndereco())){
-
 			throw new Exception("O cadastro possui campos obrigatórios não preenchidos!");
-		}
-
-		// Consistir lista de Emails
-		if(null != pSede.getEmails()){
-			if(!pSede.getEmails().isEmpty()){
-				List<Email> tEmails = new ArrayList<Email>();
-				for(Email pEmail : pSede.getEmails()){
-					pEmail = emailUtils.consistir(pEmail);
-
-					if(null == pEmail || emailUtils.isEmpty(pEmail)){
-						pSede.getEmails().remove(pEmail);
-					} else{
-						tEmails.add(pEmail);
-					}
-				}
-				if(!tEmails.isEmpty()){
-					pSede.setEmails(tEmails);
-					tEmails = new ArrayList<Email>();
-				}
-
-				if(pSede.getEmails().isEmpty()){
-					pSede.setEmails(null);
-				}
-			} else{
-				pSede.setEmails(null);
-			}
 		}
 
 		// Consistir lista de Telefones
@@ -96,14 +69,40 @@ public class SedeUtils{
 				if(!tTelefones.isEmpty()){
 					pSede.setTelefones(tTelefones);
 					tTelefones = new ArrayList<Telefone>();
-				}
-
-				if(pSede.getTelefones().isEmpty()){
-					pSede.setTelefones(null);
+				} else{
+					throw new Exception("O cadastro precisa ter pelo menos 1 telefone.");
 				}
 			} else{
-				pSede.setTelefones(null);
+				throw new Exception("O cadastro precisa ter pelo menos 1 telefone.");
 			}
+		} else{
+			throw new Exception("O cadastro precisa ter pelo menos 1 telefone.");
+		}
+
+		// Consistir lista de Emails
+		if(null != pSede.getEmails()){
+			if(!pSede.getEmails().isEmpty()){
+				List<Email> tEmails = new ArrayList<Email>();
+				for(Email pEmail : pSede.getEmails()){
+					pEmail = emailUtils.consistir(pEmail);
+
+					if(null == pEmail || emailUtils.isEmpty(pEmail)){
+						pSede.getEmails().remove(pEmail);
+					} else{
+						tEmails.add(pEmail);
+					}
+				}
+				if(!tEmails.isEmpty()){
+					pSede.setEmails(tEmails);
+					tEmails = new ArrayList<Email>();
+				} else{
+					throw new Exception("O cadastro precisa ter pelo menos 1 email.");
+				}
+			} else{
+				throw new Exception("O cadastro precisa ter pelo menos 1 email.");
+			}
+		} else{
+			throw new Exception("O cadastro precisa ter pelo menos 1 email.");
 		}
 
 		return pSede;

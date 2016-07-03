@@ -50,6 +50,25 @@ public class MembroMapBean implements Serializable{
 		sedes = sedeService.listar();
 		LatLng latLng;
 
+		for(PessoaCelula membroCelula : membrosCelulas){
+			if(null != membroCelula.getPessoa().getEndereco()){
+				latLng = gmap.converterCoordenadas(membroCelula	.getPessoa().getEndereco()
+																.getCoordenadas());
+				try{
+					mapModel.addOverlay(new Marker(	latLng,
+													membroCelula.getPessoa().getNome()+ " "
+															+ membroCelula	.getPessoa()
+																			.getSobrenome(),
+													membroCelula.getPessoa().getNome()			+ " "
+																								+ membroCelula	.getPessoa()
+																												.getSobrenome(),
+													"/Shepherd" + JSFUtil.getProperty("mapaMembro")));
+				} catch(IOException e){
+					// Nada a fazer
+				}
+			}
+		}
+
 		for(Sede sede : sedes){
 			if(null != sede.getEndereco()){
 				latLng = gmap.converterCoordenadas(sede.getEndereco().getCoordenadas());
@@ -61,29 +80,11 @@ public class MembroMapBean implements Serializable{
 													+ (sede.isMae() ? " (mãe)" : ""),
 													sede.getNome()
 													+ (sede.isMae() ? " (mãe)" : ""),
-													JSFUtil.getProperty(sede.isMae() ? "sedeMae" : "sede")
+													"/Shepherd"
+													+ JSFUtil.getProperty(sede.isMae()	? "mapaSedeMae"
+																						: "mapaSede")
 													));
 				} catch(Exception e){
-					// Nada a fazer
-				}
-			}
-		}
-
-		for(PessoaCelula membroCelula : membrosCelulas){
-			if(null != membroCelula.getPessoa().getEndereco()){
-				latLng = gmap.converterCoordenadas(membroCelula	.getPessoa().getEndereco()
-																		.getCoordenadas());
-				try{
-					mapModel.addOverlay(new Marker(	latLng,
-													membroCelula.getPessoa().getNome()
-															+ " "
-															+ membroCelula	.getPessoa()
-																			.getSobrenome(),
-													membroCelula.getPessoa().getNome()			+ " "
-																								+ membroCelula	.getPessoa()
-																												.getSobrenome(),
-													JSFUtil.getProperty("mapaMembro")));
-				} catch(IOException e){
 					// Nada a fazer
 				}
 			}

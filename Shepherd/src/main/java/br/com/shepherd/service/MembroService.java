@@ -28,13 +28,29 @@ public class MembroService{
 
 	}
 
+	/**
+	 * Realisa o cadastro de membro no sistema
+	 *
+	 * @param pPessoa
+	 * @return
+	 * @throws Exception
+	 */
 	public Pessoa cadastrar(Pessoa pPessoa) throws Exception{
 		// Ativar novo membro
 		pPessoa.setAtiva(true);
 
 		pPessoa = pessoaUtils.consistir(pPessoa);
 
-		entityManager.persist(pPessoa);
+		Pessoa existente = buscaPessoaUnica(pPessoa.getNome(), pPessoa.getSobrenome(),
+											pPessoa.getDataNasc(), pPessoa.getRg(),
+											pPessoa.getCpf(), pPessoa.isSexo());
+
+		if(null == existente){
+			entityManager.persist(pPessoa);
+		} else{
+			throw new Exception("Pessoa já existente no sistema.\nO conjunto dos campos Nome, Sobrenome, "
+					+ "Data de Nascimento, RG, CPF e Sexo não pode coincidir.");
+		}
 
 		return pPessoa;
 	}
@@ -106,34 +122,6 @@ public class MembroService{
 		}
 	}
 
-	// @SuppressWarnings("unchecked")
-	// public List<Pessoa> listarExcluindo(Pessoa pPai, Pessoa pMae){
-	// Query query = entityManager.createQuery("FROM Pessoa dbPessoa"
-	// + (null != pPai
-	// ? " WHERE dbPessoa.id <> :p1"
-	// + (null != pMae
-	// ? " AND dbPessoa.id <> :p2"
-	// : "")
-	// : null != pMae
-	// ? " WHERE dbPessoa.id <> :p2"
-	// : ""
-	// )
-	// + " ORDER BY dbPessoa.nome");
-	// if(null != pPai){
-	// query.setParameter("p1", pPai.getId());
-	// }
-	//
-	// if(null != pMae){
-	// query.setParameter("p2", pMae.getId());
-	// }
-	//
-	// try{
-	// return query.getResultList();
-	// } catch(NoResultException n){
-	// return null;
-	// }
-	// }
-
 	@SuppressWarnings("unchecked")
 	public List<Pessoa> listarHomens(){
 		return entityManager.createQuery("FROM Pessoa dbPessoa "+ "AND dbPessoa.sexo = true "
@@ -164,24 +152,6 @@ public class MembroService{
 							.getResultList();
 	}
 
-	// @SuppressWarnings("unchecked")
-	// public List<Lider> listarLideres(){
-	// return entityManager.createQuery("FROM Lider dbLider ").getResultList();
-	// }
-
-	// @SuppressWarnings("unchecked")
-	// public List<Coordenador> listarCoordenadores(){
-	// return entityManager.createQuery("FROM Coordenador dbCoordenador
-	// ").getResultList();
-	// }
-
-	// @SuppressWarnings("unchecked")
-	// public List<Ministro> listarPresidentes(){
-	// return entityManager.createQuery("FROM Ministro dbMinistro WHERE
-	// dbMinistro.isPresident = true")
-	// .getResultList();
-	// }
-
 	public void excluir(Pessoa pPessoa){
 		pPessoa = entityManager.merge(pPessoa);
 		entityManager.remove(pPessoa);
@@ -198,7 +168,7 @@ public class MembroService{
 																: "AND dbPessoa.rg = :p4 ")
 												+ (null == pCpf	? "AND dbPessoa.cpf IS NULL "
 																: "AND dbPessoa.cpf = :p5 ")
-												+ "AND UPPER(dbPessoa.sexo) = UPPER(:p6) ");
+												+ "AND dbPessoa.sexo = :p6 ");
 		query.setParameter("p1", pNome);
 		query.setParameter("p2", pSobrenome);
 
