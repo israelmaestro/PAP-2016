@@ -216,6 +216,10 @@
 	padding: 0px;
 }
 
+.default {
+	background-color: #FFF;
+}
+
 .required {
 	background-color: #FFC;
 }

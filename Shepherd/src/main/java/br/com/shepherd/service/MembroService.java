@@ -13,6 +13,7 @@ import javax.persistence.Query;
 import org.primefaces.model.map.LatLng;
 
 import br.com.shepherd.bean.Gmap;
+import br.com.shepherd.entity.Celula;
 import br.com.shepherd.entity.Pessoa;
 import br.com.shepherd.entity.PessoaCelula;
 import br.com.shepherd.service.util.PessoaUtils;
@@ -216,5 +217,26 @@ public class MembroService{
 		} catch(NoResultException n){
 			return null;
 		}
+	}
+
+	public Number countPessoasCelulas(Celula pCelula){
+		Number count = 0;
+
+		Query query = entityManager.createQuery("SELECT COUNT(dbPessoaCelula.participacao) "
+												+ "FROM PessoaCelula dbPessoaCelula "
+												+ "WHERE dbPessoaCelula.celula = :p1 "
+												+ "AND UPPER(dbPessoaCelula.participacao) = UPPER(:p2)"
+														);
+
+		query.setParameter("p1", pCelula);
+		query.setParameter("p2", "MEMBRO");
+
+		try{
+			count = (Number) query.getSingleResult();
+		} catch(Exception e){
+			// TODO: handle excepnada a fazer
+		}
+
+		return count;
 	}
 }
