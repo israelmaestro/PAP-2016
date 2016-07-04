@@ -1,5 +1,6 @@
 package br.com.shepherd.bean;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;
 
@@ -12,9 +13,10 @@ import org.primefaces.model.chart.PieChartModel;
 import br.com.shepherd.entity.Celula;
 import br.com.shepherd.service.CelulaService;
 import br.com.shepherd.service.MembroService;
+import br.com.shepherd.service.util.JSFUtil;
 
 @ManagedBean
-public class MembroChartBean implements Serializable{
+public class MembroGraphicsBean implements Serializable{
 	private PieChartModel	pieGraphic;
 
 	@EJB
@@ -37,7 +39,11 @@ public class MembroChartBean implements Serializable{
 		}
 
 		pieGraphic.setTitle("Membros nas Células");
-		pieGraphic.setLegendPosition("w");
+		try{
+			pieGraphic.setLegendPosition(JSFUtil.getProperty("anyPosition"));
+		} catch(IOException e){
+			// Nada a fazer...
+		}
 
 		return pieGraphic;
 	}

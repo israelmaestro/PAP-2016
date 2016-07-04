@@ -50,7 +50,7 @@ public class MembroService{
 			entityManager.persist(pPessoa);
 		} else{
 			throw new Exception("Pessoa já existente no sistema.\nO conjunto dos campos Nome, Sobrenome, "
-					+ "Data de Nascimento, RG, CPF e Sexo não pode coincidir.");
+								+ "Data de Nascimento, RG, CPF e Sexo não pode coincidir.");
 		}
 
 		return pPessoa;
@@ -109,7 +109,7 @@ public class MembroService{
 				if(null != mb.getPessoa().getEndereco()){
 					try{
 						LatLng latLng = gmap.converterCoordenadas(mb.getPessoa().getEndereco()
-																.getCoordenadas());
+																	.getCoordenadas());
 						listaCoordenadas.add(latLng);
 					} catch(Exception e){
 						// nada a fazer. sem corrdenadas validas
@@ -225,8 +225,7 @@ public class MembroService{
 		Query query = entityManager.createQuery("SELECT COUNT(dbPessoaCelula.participacao) "
 												+ "FROM PessoaCelula dbPessoaCelula "
 												+ "WHERE dbPessoaCelula.celula = :p1 "
-												+ "AND UPPER(dbPessoaCelula.participacao) = UPPER(:p2)"
-														);
+												+ "AND UPPER(dbPessoaCelula.participacao) = UPPER(:p2)");
 
 		query.setParameter("p1", pCelula);
 		query.setParameter("p2", "MEMBRO");

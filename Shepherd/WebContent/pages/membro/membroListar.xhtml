@@ -54,21 +54,45 @@
 				</b:row>
 				<br/>
 <b:row id='graphics'>
-	<b:column	span='4'
-				class='column'
+	<b:column	col-lg='4'
+				col-md='4'
+				col-sm='6'
+				col-xs='12'
 				>
 		<p:chart	type="pie"
 					rendered='#{showItems.value == "grafico"}'
-					model="#{membroChartBean.graficoMembrosCelulas}"
-					style="	width: 100%;
-							height: 320px;
-							color: #000;
-							background: #CCC;
-							border-radius: 8px;
-							font-family: inherit;
-							font-size: 1.25em;
-							font-weight: bold;
-							"
+					model="#{membroGraphicsBean.graficoMembrosCelulas}"
+					class='graphics'
+					responsive='true'
+					style='background: #CCC;'
+					/>
+	</b:column>
+	<b:column	col-lg='4'
+				col-md='4'
+				col-sm='6'
+				col-xs='12'
+				>
+		<br class='visible-xs'/>
+		<p:chart	type="pie"
+					rendered='#{showItems.value == "grafico"}'
+					model="#{membroGraphicsBean.graficoMembrosCelulas}"
+					class='graphics'
+					responsive='true'
+					style='background: #CCF;'
+					/>
+	</b:column>
+	<b:column	col-lg='4'
+				col-md='4'
+				col-sm='6'
+				col-xs='12'
+				>
+		<br class='visible-xs'/>
+		<p:chart	type="pie"
+					rendered='#{showItems.value == "grafico"}'
+					model="#{membroGraphicsBean.graficoMembrosCelulas}"
+					class='graphics'
+					responsive='true'
+					style='background: #CFF;'
 					/>
 	</b:column>
 </b:row>
