@@ -23,7 +23,8 @@ public class FrenteService {
 
 	public Frente cadastrar(Frente pFrente) throws Exception {
 
-		//Frente existente = buscaCriterio("Frente", "nome", pFrente.getNome());
+		pFrente.setAtiva(true);
+		
 		Frente existente = buscaCriterio(pFrente.getNome());
 		
 		if (existente == null) {

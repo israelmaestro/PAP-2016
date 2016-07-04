@@ -37,84 +37,166 @@
 						Lista vazia!
 				</center>
 			</b:container>
-			<p:dataTable	rendered='#{sedeBean.listar().size() != 0}'
-							id='sedeLista'
-							value='#{sedeBean.listar()}'
-							var='sede'
-							update='sedeLista'
-							emptyMessage='Nenhuma sede encontrada.'
-							class='pDataTable'
-							paginator='true'
-							widgetVar='sedeLista'
-							filteredValue=''
-							rows='10'
-							paginatorAlwaysVisible='false'
-							rowsPerPageTemplate='10, 50, 100, 200'
+			
+			<b:container	id='mostrarMembros'
+							class='row fullWidth'
+							rendered='#{sedeBean.listar().size() != 0}'
 							>
-				<p:column	headerText='Nome'
-							priority='1'
-							>
-					<center>
-						<h:outputText value='#{sedeBean.getProperty("convencaoAbrev")} #{sede.nome}'/>
-					</center>
-				</p:column>
-				
-				<p:column	headerText='Tipo de Sede'
-							priority='2'
-							>
-					<center>
-						<h:outputText value='#{sede.mae == true ? "Mãe" : "Filha"}'/>
-					</center>
-				</p:column>
-				
-				<p:column	headerText='Opções'
-							priority='1'
-							>
-					<center>
-						<p:commandButton	ajax='false'
-											action='#{sedeBean.prepararVisualizacao(sede)}'
-											icon='fa fa-fw fa-eye'
-											style='	color: #009;
-													'
-											/>
-						<p:commandButton	ajax='false'
-											action='#{sedeBean.prepararAlteracao(sede)}'
-											icon='fa fa-fw fa-pencil'
-											style='	color: #090;
-													'
-											/>
-						<p:commandButton	update='@form'
-											action='#{sedeBean.excluir(sede)}'
-											icon='fa fa-fw fa-trash'
-											style='	color: #c00;
-													'
-											alt='Excluir'
-											>
-							<p:confirm	header='Excluir'
-										message='Excluir a sede “#{sede.nome}”?'
-										icon='ui-icon-blank'
-										/>
-						</p:commandButton>
-					</center>
-					
-					<p:confirmDialog	global='true'
-										closable='false'
+				<b:row style='text-align: center;'>
+					<p:selectOneButton	value='lista'
+										class='fullWidth bold'
+										binding='#{showItems}'
+										immediate='true'
 										>
-						<center>
-							<p:commandButton	styleClass='ui-confirmdialog-yes'
-												icon='fa fa-fw fa-check'
-												style='	color: #900;
-														'
+						<f:ajax event='change' render='mostrarMembros'/>
+						<f:selectItem itemValue='lista' itemLabel='Lista'/>
+						<f:selectItem itemValue='mapa' itemLabel='Mapa'/>
+						<f:selectItem itemValue='grafico' itemLabel='Gráficos'/>
+					</p:selectOneButton>
+				</b:row>
+				<br/>
+<b:row id='graphics'>
+	<b:column	col-lg='4'
+				col-md='4'
+				col-sm='6'
+				col-xs='12'
+				>
+		<p:chart	type="pie"
+					rendered='#{showItems.value == "grafico"}'
+					model="#{sedeGraphicsBean.graficoMembrosCelulas}"
+					class='graphics'
+					responsive='true'
+					style='background: #CCC;'
+					/>
+	</b:column>
+	<b:column	col-lg='4'
+				col-md='4'
+				col-sm='6'
+				col-xs='12'
+				>
+		<br class='visible-xs'/>
+		<p:chart	type="pie"
+					rendered='#{showItems.value == "grafico"}'
+					model="#{sedeGraphicsBean.graficoMembrosCelulas}"
+					class='graphics'
+					responsive='true'
+					style='background: #CCF;'
+					/>
+	</b:column>
+	<b:column	col-lg='4'
+				col-md='4'
+				col-sm='6'
+				col-xs='12'
+				>
+		<br class='visible-xs'/>
+		<p:chart	type="pie"
+					rendered='#{showItems.value == "grafico"}'
+					model="#{sedeGraphicsBean.graficoMembrosCelulas}"
+					class='graphics'
+					responsive='true'
+					style='background: #CFF;'
+					/>
+	</b:column>
+</b:row>
+
+
+				<b:row>
+					<p:gmap	id="geoMap"
+							rendered='#{showItems.value == "mapa"}'
+							widgetVar="geoMap"
+							center='-25.0936322,-50.1524482'
+							zoom="15"
+							type="ROADMAP"
+							model="#{sedeMapBean.mapModel}"
+							fitBounds="true"
+							class='map'
+							>
+						<p:ajax	event="geocode"
+								listener="#{geocodeView.onGeocode}"
+								update="@this" />
+					</p:gmap>
+				</b:row>
+				<b:row>			
+					<p:dataTable	rendered='#{sedeBean.listar().size() != 0}'
+									id='sedeLista'
+									value='#{sedeBean.listar()}'
+									var='sede'
+									update='sedeLista'
+									emptyMessage='Nenhuma sede encontrada.'
+									class='pDataTable'
+									paginator='true'
+									widgetVar='sedeLista'
+									filteredValue=''
+									rows='10'
+									paginatorAlwaysVisible='false'
+									rowsPerPageTemplate='10, 50, 100, 200'
+									>
+						<p:column	headerText='Nome'
+									priority='1'
+									>
+							<center>
+								<h:outputText value='#{sedeBean.getProperty("convencaoAbrev")} #{sede.nome}'/>
+							</center>
+						</p:column>
+						
+						<p:column	headerText='Tipo de Sede'
+									priority='2'
+									>
+							<center>
+								<h:outputText value='#{sede.mae == true ? "Mãe" : "Filha"}'/>
+							</center>
+						</p:column>
+						
+						<p:column	headerText='Opções'
+									priority='1'
+									>
+							<center>
+								<p:commandButton	ajax='false'
+													action='#{sedeBean.prepararVisualizacao(sede)}'
+													icon='fa fa-fw fa-eye'
+													style='	color: #009;
+															'
+													/>
+								<p:commandButton	ajax='false'
+													action='#{sedeBean.prepararAlteracao(sede)}'
+													icon='fa fa-fw fa-pencil'
+													style='	color: #090;
+															'
+													/>
+								<p:commandButton	update='@form'
+													action='#{sedeBean.excluir(sede)}'
+													icon='fa fa-fw fa-trash'
+													style='	color: #c00;
+															'
+													alt='Excluir'
+													>
+									<p:confirm	header='Excluir'
+												message='Excluir a sede “#{sede.nome}”?'
+												icon='ui-icon-blank'
 												/>
-							<p:commandButton	styleClass='ui-confirmdialog-no'
-												icon='fa fa-fw fa-close'
-												style='	color: #009;
-														'
-												/>
-						</center>
-					</p:confirmDialog>
-				</p:column>
-			</p:dataTable>
+								</p:commandButton>
+							</center>
+							
+							<p:confirmDialog	global='true'
+												closable='false'
+												>
+								<center>
+									<p:commandButton	styleClass='ui-confirmdialog-yes'
+														icon='fa fa-fw fa-check'
+														style='	color: #900;
+																'
+														/>
+									<p:commandButton	styleClass='ui-confirmdialog-no'
+														icon='fa fa-fw fa-close'
+														style='	color: #009;
+																'
+														/>
+								</center>
+							</p:confirmDialog>
+						</p:column>
+					</p:dataTable>
+				</b:row>
+			</b:container>					
 		</ui:define>
 	</ui:composition>
 </html>
