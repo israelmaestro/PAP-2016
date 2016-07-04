@@ -15,7 +15,7 @@ import org.primefaces.model.map.LatLng;
 import org.primefaces.model.map.MapModel;
 import org.primefaces.model.map.Marker;
 
-import br.com.shepherd.entity.PessoaCelula;
+import br.com.shepherd.entity.PessoaSede;
 import br.com.shepherd.entity.Sede;
 import br.com.shepherd.service.MembroService;
 import br.com.shepherd.service.SedeService;
@@ -35,7 +35,7 @@ public class SedeMapBean implements Serializable{
 	
 	private MapModel			mapModel;
 	
-	private List<PessoaCelula>	membrosCelulas		= new ArrayList<PessoaCelula>();
+	private List<PessoaSede>	membrosSedes		= new ArrayList<PessoaSede>();
 	private List<Sede>			sedes = new ArrayList<Sede>();
 	
 	Gmap	gmap	= new Gmap();
@@ -48,21 +48,21 @@ public class SedeMapBean implements Serializable{
 	public void postConstruct(){
 		
 		mapModel = new DefaultMapModel();
-		membrosCelulas = membroService.listar();
+		membrosSedes = membroService.listarSede();
 		sedes = sedeService.listar();
 		LatLng latLng;
 		
-		for(PessoaCelula membroCelula : membrosCelulas){
-			if(null != membroCelula.getPessoa().getEndereco()){
-				latLng = gmap.converterCoordenadas(membroCelula	.getPessoa().getEndereco()
+		for(PessoaSede membroSede : membrosSedes){
+			if(null != membroSede.getPessoa().getEndereco()){
+				latLng = gmap.converterCoordenadas(membroSede	.getPessoa().getEndereco()
 																.getCoordenadas());
 				try{
 					mapModel.addOverlay(new Marker(	latLng,
-													membroCelula.getPessoa().getNome()+ " "
-															+ membroCelula	.getPessoa()
+													membroSede.getPessoa().getNome()+ " "
+															+ membroSede	.getPessoa()
 																			.getSobrenome(),
-													membroCelula.getPessoa().getNome()			+ " "
-																								+ membroCelula	.getPessoa()
+													membroSede.getPessoa().getNome()			+ " "
+																								+ membroSede	.getPessoa()
 																												.getSobrenome(),
 													"/Shepherd" + JSFUtil.getProperty("mapaMembro")));
 				} catch(IOException e){

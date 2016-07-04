@@ -16,6 +16,8 @@ import br.com.shepherd.bean.Gmap;
 import br.com.shepherd.entity.Celula;
 import br.com.shepherd.entity.Pessoa;
 import br.com.shepherd.entity.PessoaCelula;
+import br.com.shepherd.entity.PessoaSede;
+import br.com.shepherd.entity.Sede;
 import br.com.shepherd.service.util.PessoaUtils;
 
 @Stateless
@@ -86,6 +88,22 @@ public class MembroService{
 		}
 	}
 
+	public List<PessoaSede> listarSede(){
+		List<PessoaSede> membrosSedes = new ArrayList<PessoaSede>();
+
+		try{
+			Query query = entityManager.createQuery("FROM PessoaSede dbPessoaSede "
+													+ "WHERE UPPER(dbPessoaSede.participacao) = UPPER(:p1) "
+													+ "ORDER BY dbPessoaSede.pessoa.nome, dbPessoaSede.pessoa.sobrenome");
+			query.setParameter("p1", "MEMBRO");
+
+			membrosSedes = query.getResultList();
+
+			return membrosSedes;
+		} catch(NoResultException n){
+			return null;
+		}
+	}
 	/**
 	 * Lista todas as coordenadas de endereço dos membros para popular o mapa
 	 *
@@ -228,6 +246,26 @@ public class MembroService{
 												+ "AND UPPER(dbPessoaCelula.participacao) = UPPER(:p2)");
 
 		query.setParameter("p1", pCelula);
+		query.setParameter("p2", "MEMBRO");
+
+		try{
+			count = (Number) query.getSingleResult();
+		} catch(Exception e){
+			// TODO: handle excepnada a fazer
+		}
+
+		return count;
+	}
+	
+	public Number countPessoasSedes(Sede pSede){
+		Number count = 0;
+
+		Query query = entityManager.createQuery("SELECT COUNT(dbPessoaSede.participacao) "
+												+ "FROM PessoaSede dbPessoaSede "
+												+ "WHERE dbPessoaSede.sede = :p1 "
+												+ "AND UPPER(dbPessoaSede.participacao) = UPPER(:p2)");
+
+		query.setParameter("p1", pSede);
 		query.setParameter("p2", "MEMBRO");
 
 		try{
